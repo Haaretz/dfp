@@ -39,7 +39,7 @@ rollup.rollup({
                 return write('dist/' + pack.name + '.js', bundle.generate({
                     format: 'umd',
                     banner: banner,
-                    moduleName: 'redric'
+                    moduleName: 'boily'
                 }).code)
             })
     })
