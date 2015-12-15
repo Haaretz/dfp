@@ -34,10 +34,7 @@ module.exports = function (config) {
           exclude: /node_modules\/dist/,
           loader: 'babel-loader',
           query: {
-            presets: ['es2015'],
-            plugins: [
-              ['babel-plugin-espower']
-            ]
+            presets: ['es2015']
           }
         }],
         postLoaders: [{
