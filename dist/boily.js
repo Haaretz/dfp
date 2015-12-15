@@ -1,5 +1,5 @@
 /*!
- * boily v0.0.10
+ * boily v0.0.11
  * (c) 2015 KFlash
  * Released under the MIT License.
  */
@@ -12,7 +12,7 @@
 	var boily = {};
 
 	// correct 'version' will be retrieved from package.json
-	boily.version = '0.0.10';
+	boily.version = '0.0.11';
 
 	module.exports = boily;
 
