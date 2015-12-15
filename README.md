@@ -39,6 +39,7 @@ $ cd boily
 $ npm install                   # Install Node modules listed in ./package.json
 $ npm run build                 # Build a minified and a non-minified version of the library
 ```
+## Workflow
 
 * `npm run build` - Build task that generate a minified and non-minified script
 * `npm run eslint:source` - Lint the source
