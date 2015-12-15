@@ -60,7 +60,7 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run package:upgrade` - Automaticly upgrade all devDependencies & dependencies, and update package.json
 * `npm run package:dev` - Automaticly upgrade all devDependencies and update package.json
 * `npm run package:prod` - Automaticly upgrade all dependencies and update package.json
-* `npm run browser` - starts a asset server with hot module replacement (WDS) on port 8800
+* `npm run browser` - starts browser unit tests in the browser with hot module replacement (WDS) on port 8080
 
 ## Unit tests
 
@@ -76,7 +76,7 @@ To keep watching the common test suites that you are working on, simply do `npm 
 
 ## Browser tests
 
-To run your unit tests in the browser, do `npm run browser`, and open `port 8088` in your browser.
+To run your unit tests in the browser, do `npm run browser`, and open `port 8080` in your browser.
 
 ## Coveralls
 
