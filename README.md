@@ -1,12 +1,10 @@
-# Boilerplate for creating libraries with rollup written in ES2015 for Node and the browser.
+# Boilerplate for creating libraries with rollup.
 
 [![Build Status](https://travis-ci.org/Kflash/boily.svg?branch=master)](https://travis-ci.org/Kflash/boily)
 [![devDependency Status](https://david-dm.org/kflash/boily/dev-status.svg)](https://david-dm.org/kflash/boily#info=devDependencies)
 [![Dependency Status](https://david-dm.org/kflash/boily.svg)](https://david-dm.org/kflash/boily)
 
 > A starter kit to get you up and running with a bunch of awesome new front-end technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLint without any framework dependencies.
-
-# WARNING!! This boilerplate is not for use as it is now, because of Rollup issues!! And this repo will probably be removed shortly. Use Webpack or Browserify!
 
 ## Requirements
 
@@ -45,16 +43,11 @@ $ npm run build                 # Build a minified and a non-minified version of
 
 * `npm run build` - Build task that generate a minified and non-minified script
 * `npm run eslint:source` - Lint the source
-* `npm run eslint:common` - Lint the unit tests shared by Karma and Mocha
-* `npm run eslint:server` - Lint the unit tests for server
-* `npm run eslint:browser` - Lint the unit tests for browser
+* `npm run eslint:specs` - Lint the unit tests
 * `npm run eslint:fix` - ESLint will try to fix as many issues as possible in your source files
 * `npm run clean` - Remove the coverage report and the *dist* folder
-* `npm run test` - Runs unit tests for both server and the browser
-* `npm run test:browser` - Runs the unit tests for browser / client
-* `npm run test:server` - Runs the unit tests on the server
-* `npm run watch:server` - Run all unit tests for server & watch files for changes
-* `npm run watch:browser` - Run all unit tests for browser & watch files for changes
+* `npm run test` - Runs the unit tests
+* `npm run watch` - Run all unit tests & watch files for changes
 * `npm run packages` - List installed packages
 * `npm run package:purge` - Remove all dependencies
 * `npm run package:reinstall` - Reinstall all dependencies
@@ -68,13 +61,9 @@ $ npm run build                 # Build a minified and a non-minified version of
 
 This project uses Mocha to run your unit tests, it uses Karma as the test runner, it enables the feature that you are able to render your tests to the browser (e.g: Firefox, Chrome etc.).
 
-To add a unit test, simply create `.js` file inside the `~/test/shared` folder. Karma will pick up on these files automatically, and Mocha and Chai will be available within your unit tests without the need to import them.
+To add a unit test, simply create `.js` file inside the `~/test/specs` folder. Karma will pick up on these files automatically, and Mocha and Chai will be available within your unit tests without the need to import them.
 
-To run unit tests only for the browser ( *client*), or for the server, add a unit test inside either the `~/test/node` or `~/test/browser` folder.
-
-To run the tests in the project, just simply `npm run test` for both server and client unit tests, or `npm run test:server`. for server or `npm run test:browser`. for browser tests.
-
-To keep watching the common test suites that you are working on, simply do `npm run watch:browser` or `npm run watch:server`.
+To keep watching the test suites that you are working on, simply do `npm run watch`.
 
 ## Browser tests
 

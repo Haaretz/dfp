@@ -1,19 +1,17 @@
-const fs = require('fs');
-const rollup = require('rollup');
-const uglify = require('uglify-js');
+const fs = require('fs')
+const zlib = require('zlib')
+const rollup = require('rollup')
+const uglify = require('uglify-js')
 const npm = require('rollup-plugin-npm');
-const replace = require('rollup-plugin-replace');
-const pack = require('../package.json');
-const banner = require('./banner');
-
+const babel = require('rollup-plugin-babel')
+const replace = require('rollup-plugin-replace')
+const pack = require('../package.json')
+const banner = require('./banner')
 const main = fs.readFileSync('src/index.js', 'utf-8')
     // NOTE! replace 'boily' with current name on the library
     .replace(/boily\.version = '[\d\.]+'/, "boily.version = '" + pack.version + "'")
-fs.writeFileSync('src/index.js', main)
-
-function getSize(code) {
-    return (code.length / 1024).toFixed(2) + 'kb'
-}
+	
+    fs.writeFileSync('src/index.js', main)
 
 function write(dest, code) {
     return new Promise(function(resolve, reject) {
@@ -25,6 +23,22 @@ function write(dest, code) {
     })
 }
 
+function zip() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile('dist/' + pack.name + '.min.js', function(err, buf) {
+            if (err) return reject(err)
+            zlib.gzip(buf, function(err, buf) {
+                if (err) return reject(err)
+                write('dist/' + pack.name + '.min.js.gz', buf).then(resolve)
+            })
+        })
+    })
+}
+
+function getSize(code) {
+    return (code.length / 1024).toFixed(2) + 'kb'
+}
+
 function logError(e) {
     console.log(e)
 }
@@ -33,10 +47,13 @@ function blue(str) {
     return '\x1b[1m\x1b[34m' + str + '\x1b[39m\x1b[22m'
 }
 
-// Rollup
+// rollup
 rollup.rollup({
         entry: 'src/index.js',
-        plugins: [,
+        plugins: [
+            babel({
+                presets: ['es2015-rollup']
+            }),
             npm({
                 main: true,
                 jsnext: true
@@ -51,18 +68,20 @@ rollup.rollup({
                     replace({
                         'process.env.NODE_ENV': "'development'"
                     }),
+                    babel({
+                        presets: ['es2015-rollup']
+                    }),
                     npm({
                         main: true,
                         jsnext: true
                     })
-
                 ]
             })
             .then(function(bundle) {
                 return write('dist/' + pack.name + '.js', bundle.generate({
                     format: 'umd',
                     banner: banner,
-                    moduleName: 'boily'
+                    moduleName: pack.name
                 }).code)
             })
     })
@@ -74,20 +93,25 @@ rollup.rollup({
                     replace({
                         'process.env.NODE_ENV': "'production'"
                     }),
+                    babel({
+                        presets: ['es2015-rollup']
+                    }),
+                    npm({
+                        main: true,
+                        jsnext: true
+                    })
                 ]
             })
             .then(function(bundle) {
                 var code = bundle.generate({
                     format: 'umd',
-                    moduleName: 'boily'
+                    moduleName: pack.name
                 }).code
                 var minified = banner + '\n' + uglify.minify(code, {
-                    fromString: true,
-                    dead_code: true,
-                    warnings: false,
-                    screw_ie8: true
+                    fromString: true
                 }).code
                 return write('dist/' + pack.name + '.min.js', minified)
             })
+            .then(zip)
     })
     .catch(logError)
