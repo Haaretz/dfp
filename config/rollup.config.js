@@ -16,9 +16,7 @@ fs.writeFileSync('src/index.js', main)
 rollup.rollup({
         entry: 'src/index.js',
         plugins: [
-            babel({
-                presets: ['es2015-rollup']
-            })
+            babel()
         ]
     })
     // Standalone Dev Build
@@ -34,9 +32,7 @@ rollup.rollup({
                         //	  main: true,
                         //	  builtins: false
                     }),
-                    babel({
-                        presets: ['es2015-rollup']
-                    })
+                    babel()
                 ]
             })
             .then(function(bundle) {
@@ -55,9 +51,7 @@ rollup.rollup({
                     replace({
                         'process.env.NODE_ENV': "'production'"
                     }),
-                    babel({
-                        presets: ['es2015-rollup']
-                    })
+                    babel()
                 ]
             })
             .then(function(bundle) {

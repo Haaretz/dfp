@@ -1,4 +1,4 @@
-var webpack = require('webpack')
+const webpack = require('webpack')
 
 module.exports = {
   entry: 'mocha!./test/shared/index.js',
@@ -16,15 +16,8 @@ module.exports = {
     }],
     loaders: [{
       test: /\.js$/,
-      exclude: /node_modules|vue\/dist/,
-      loader: 'babel',
-      query: {
-        presets: ['es2015']
-      }
-    }],
-    postLoaders: [{
-      test: /\.json$/,
-      loader: 'json'
+      exclude: /node_modules|\/dist/,
+      loader: 'babel'
     }]
   },
   devServer: {
