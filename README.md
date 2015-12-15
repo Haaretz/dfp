@@ -6,6 +6,8 @@
 
 > A starter kit to get you up and running with a bunch of awesome new front-end technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLint without any framework dependencies.
 
+# WARNING!! This boilerplate is not for use as it is now, because of Rollup issues!! And this repo will probably be removed shortly. Use Webpack or Browserify!
+
 ## Requirements
 
 Node `>= 5`.
