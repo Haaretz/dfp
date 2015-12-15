@@ -1,38 +1,80 @@
-module.exports = function(config) {
-    config.set({
-        // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
-        // list of files to exclude
-        exclude: [],
-        // list of files / patterns to load in the browser
-        // list of files / patterns to load in the browser
-        files: [
-            '../test/browser/**/*.js',
-            '../test/shared/**/*.js'
-        ],
+// Karma configuration
+// Generated on Tue Sep 08 2015 19:27:24 GMT+0900 (JST)
 
-        // frameworks to use
-        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['mocha', 'sinon-chai'],
-        // preprocess matching files before serving them to the browser
-        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-        preprocessors: {
-            '../test/browser/**/*.js': ['webpack'],
-            '../test/shared/**/*.js': ['webpack']
-        },
-        // test results reporter to use
-        reporters: ['progress', 'coverage'],
-        coverageReporter: {
+module.exports = function (config) {
+  config.set({
+
+    // base path that will be used to resolve all patterns (eg. files, exclude)
+    basePath: '',
+
+    // frameworks to use
+    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+     frameworks: ['mocha', 'sinon-chai'],
+
+    // list of files / patterns to load in the browser
+    files: [
+      '../test/specs/**/*.js'
+    ],
+
+    // list of files to exclude
+    exclude: [
+    ],
+
+    // preprocess matching files before serving them to the browser
+    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    preprocessors: {
+      '../test/specs/**/*.js': ['webpack']
+    },
+
+    webpack: {
+      devtool: 'source-map',
+      module: {
+        loaders: [{
+          test: /\.js$/,
+          exclude: /node_modules\/dist/,
+          loader: 'babel-loader',
+          query: {
+            presets: ['es2015'],
+            plugins: [
+              ['babel-plugin-espower']
+            ]
+          }
+        }],
+        postLoaders: [{
+          test: /\.json$/,
+          loader: 'json'
+        }, {
+          test: /\.js$/,
+          exclude: /test|node_modules\/dist/,
+          loader: 'istanbul-instrumenter'
+        }]
+      }
+    },
+
+    webpackMiddleware: {
+      noInfo: true
+    },
+
+    // test results reporter to use
+    // possible values: 'dots', 'progress'
+    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+    reporters: [
+      'mocha', 'coverage'
+    ],
+
+    coverageReporter: {
             // specify a common output directory 
             dir: 'build/reports/coverage',
             reporters: [
                 // reporters not supporting the `file` property 
                 {
                     type: 'text',
-                    subdir: 'report-text'
+                    subdir: 'report-text',
+					dir: '../coverage'
                 }, {
                     type: 'lcov',
-                    subdir: 'report-lcov'
+                    subdir: 'report-lcov',
+					dir: '../coverage'
                 },
                 // reporters supporting the `file` property, use `subdir` to directly 
                 // output them in the `dir` directory 
@@ -59,32 +101,8 @@ module.exports = function(config) {
                 },
             ]
         },
-        webpack: {
-            devtool: 'source-map',
-            module: {
-                loaders: [{
-                    test: /\.js$/,
-                    exclude: /node_modules\/dist/,
-                    loader: 'babel-loader',
-                    query: {
-                        presets: ['es2015']
-                    }
-                }],
-                postLoaders: [{
-                    test: /\.json$/,
-                    loader: 'json'
-                }, {
-                    test: /\.js$/,
-                    exclude: /test|node_modules\/dist/,
-                    loader: 'istanbul-instrumenter'
-                }]
-            }
-        },
 
-        webpackMiddleware: {
-            noInfo: true
-        },
-        browsers: ['Chrome'],
+      browsers: ['Chrome'],
         // custom launchers
         customLaunchers: {
             Chrome_for_Travis_CI: {
@@ -111,8 +129,7 @@ module.exports = function(config) {
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: true
     });
-
-    if (process.env.TRAVIS) {
+  if (process.env.TRAVIS) {
 
         // Use Chrome as default browser for Travis CI         
         config.browsers = ['Chrome_for_Travis_CI'];

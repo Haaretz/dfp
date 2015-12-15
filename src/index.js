@@ -1,6 +1,6 @@
-const boily = {};
+import boily from './foo';
 
-// correct 'version' will be retrieved from package.json
-boily.version = '0.0.12'
+// Correct version will be set by 'rollup'
+boily.version = 'xxx'
 
-module.exports = boily;
+export default boily
