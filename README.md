@@ -1,4 +1,18 @@
+<<<<<<< HEAD
 # Boilerplate for creating libraries with rollup.
+=======
+
+# WARNING!! This boilerplate is not for use as it is now, because of Rollup issues!! This repo will probably be removed shortly. Use Webpack or Browserify!
+
+
+
+
+
+
+
+
+## Boilerplate for creating libraries with rollup written in ES2015 for Node and the browser.
+>>>>>>> origin/master
 
 [![Build Status](https://travis-ci.org/Kflash/boily.svg?branch=master)](https://travis-ci.org/Kflash/boily)
 [![devDependency Status](https://david-dm.org/kflash/boily/dev-status.svg)](https://david-dm.org/kflash/boily#info=devDependencies)
