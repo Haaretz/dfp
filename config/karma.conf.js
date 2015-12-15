@@ -8,7 +8,8 @@ module.exports = function(config) {
         files: [
             '../src/index.js',
             '../test/browser/**/*.js',
-            '../test/shared/index.js'
+            '../test/shared/**/*.js',
+            '../test/node/**/*.js',
         ],
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -17,8 +18,11 @@ module.exports = function(config) {
             '../src/index.js': ['webpack'],
             // browser unit tests
             '../test/browser/**/*.js': ['webpack'],
-            // browser shared unit tests
-            '../test/shared/index.js': ['webpack']
+            // shared unit tests
+            '../test/shared/*/*.js': ['webpack'],
+            // node unit tests
+            '../test/node/*/*.js': ['webpack']
+
         },
         // test results reporter to use
         reporters: ['progress', 'coverage'],

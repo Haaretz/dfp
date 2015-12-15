@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 
 module.exports = {
-  entry: 'mocha!./test/shared/index.js',
+  entry: 'mocha!./test/bootstrap.js',
   output: {
     path: './test/shared',
     filename: 'specs.js',

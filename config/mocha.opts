@@ -1,4 +1,4 @@
-./test/server/**/*.js
+./test/node/**/*.js
 ./test/shared/**/*.js
 
 --require ./config/mocha.conf.js
