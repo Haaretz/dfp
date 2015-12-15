@@ -1,6 +1,6 @@
 # Universal (isomorphic) boilerplate written in ES2015 for Node and the browser.
 
-[![Travis Status][trav_img]][trav_site]
+[![Build Status](https://travis-ci.org/Kflash/boily.svg?branch=master)](https://travis-ci.org/Kflash/boily)
 [![devDependency Status](https://david-dm.org/kflash/boily/dev-status.svg)](https://david-dm.org/kflash/boily#info=devDependencies)
 [![Dependency Status](https://david-dm.org/kflash/boily.svg)](https://david-dm.org/kflash/boily)
 
@@ -112,6 +112,3 @@ npm install
 
 ## License
 MIT © [KFlash](https://github.com/kflash)
-
-[trav_img]: https://api.travis-ci.com/kflash/boily.svg?branch=master
-[trav_site]: https://travis-ci.com/kflash/boily.svg?branch=master
