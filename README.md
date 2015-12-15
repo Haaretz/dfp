@@ -1,3 +1,13 @@
+
+# WARNING!! This boilerplate is not for use as it is now, because of Rollup issues!! And this repo will probably be removed shortly. Use Webpack or Browserify!
+
+
+
+
+
+
+
+
 # Boilerplate for creating libraries with rollup written in ES2015 for Node and the browser.
 
 [![Build Status](https://travis-ci.org/Kflash/boily.svg?branch=master)](https://travis-ci.org/Kflash/boily)
@@ -5,8 +15,6 @@
 [![Dependency Status](https://david-dm.org/kflash/boily.svg)](https://david-dm.org/kflash/boily)
 
 > A starter kit to get you up and running with a bunch of awesome new front-end technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLint without any framework dependencies.
-
-# WARNING!! This boilerplate is not for use as it is now, because of Rollup issues!! And this repo will probably be removed shortly. Use Webpack or Browserify!
 
 ## Requirements
 
