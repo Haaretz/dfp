@@ -1,4 +1,7 @@
-  describe('should be a object', function () {
-      it('should be replace with object value', function() {
+import boily from '../../src/index';
+
+describe('should be a object', function() {
+    it('should be a object', function() {
+        expect(boily).to.be.a.object;
     })
-    })
+})

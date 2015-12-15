@@ -41,6 +41,11 @@
     "dist",
     "src"
   ],
+  "babel": {
+	"ignore": [
+      "packages/babel-cli/src/babel-plugin/templates"
+    ]
+  },
   "author": {
     "name": "KFlash",
     "email": "kflash123@gmail.com"
