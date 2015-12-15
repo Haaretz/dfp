@@ -52,7 +52,7 @@ module.exports = function(config) {
         webpackMiddleware: {
             noInfo: true
         },
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
         browserDisconnectTimeout: 10000,
         browserDisconnectTolerance: 2,
         // concurrency level how many browser should be started simultaneously
@@ -79,9 +79,5 @@ module.exports = function(config) {
         config.browserNoActivityTimeout = 120000;
 
         // Debug logging into a file, that we print out at the end of the build.
-        config.loggers.push({
-            type: 'file',
-            filename: 'logs/karma.log'
-        });
     }
 };
