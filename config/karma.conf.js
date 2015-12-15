@@ -30,7 +30,8 @@ module.exports = function(config) {
             reporters: [{
                 type: 'text'
             }, {
-                type: 'lcovonly',
+                type: 'lcov',
+				dir: '../coverage', 
                 subdir: '.'
             }]
         },
