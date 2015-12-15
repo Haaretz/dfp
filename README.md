@@ -1,5 +1,5 @@
 
-# WARNING!! This boilerplate is not for use as it is now, because of Rollup issues!! And this repo will probably be removed shortly. Use Webpack or Browserify!
+# WARNING!! This boilerplate is not for use as it is now, because of Rollup issues!! This repo will probably be removed shortly. Use Webpack or Browserify!
 
 
 
