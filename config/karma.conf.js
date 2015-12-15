@@ -1,27 +1,27 @@
 module.exports = function(config) {
     config.set({
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
+        basePath: '..',
         // list of files to exclude
         exclude: [],
         // list of files / patterns to load in the browser
         files: [
-            '../src/index.js',
-            '../test/browser/**/*.js',
-            '../test/shared/**/*.js',
-            '../test/node/**/*.js',
+            './src/index.js',
+            './test/browser/**/*.js',
+            './test/shared/**/*.js',
+            './test/node/**/*.js',
         ],
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: ['mocha', 'sinon-chai'],
         preprocessors: {
-            '../src/index.js': ['webpack'],
+            './src/index.js': ['webpack'],
             // browser unit tests
-            '../test/browser/**/*.js': ['webpack'],
+            './test/browser/**/*.js': ['webpack'],
             // shared unit tests
-            '../test/shared/*/*.js': ['webpack'],
+            './test/shared/*/*.js': ['webpack'],
             // node unit tests
-            '../test/node/*/*.js': ['webpack']
+            './test/node/*/*.js': ['webpack']
 
         },
         // test results reporter to use
@@ -57,7 +57,7 @@ module.exports = function(config) {
         webpackMiddleware: {
             noInfo: true
         },
-        browsers: ['PhantomJS'],
+        browsers: ['Chrome'],
 		// custom launchers
 		customLaunchers: {
         Chrome_for_Travis_CI: {
