@@ -3,9 +3,7 @@
 node_modules
 coverage
 .coverage
-zipped
 tmp
-dist
 *.dist
 *.dist*
 npm-debug.log
