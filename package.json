@@ -1,6 +1,6 @@
 {
     "name": "boily",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "",
     "main": "dist/boily.min.js",
     "scripts": {
@@ -9,7 +9,6 @@
         "test:server": "mocha --opts config/mocha.opts",
         "test:browser": "karma start config/karma.conf.js --single-run",
         "test": "npm run test:server & npm run test:browser",
-        "cover": "karma start config/karma.cover.config.js",
         "clean": "rimraf dist",
         "eslint:source": "eslint ./src/**/*.js",
         "eslint:fix": "eslint --fix ./src/**/*.js",
