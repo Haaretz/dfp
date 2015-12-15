@@ -2,7 +2,7 @@
   "name": "boily",
   "version": "0.0.9",
   "description": "",
-  "main": "dist/boily.min.js",
+  "main": "index.js",
   "scripts": {
     "build": "node config/rollup.config.js",
     "browser": "webpack-dev-server --quiet --config config/webpack.test.conf.js",
