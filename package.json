@@ -1,10 +1,10 @@
 {
     "name": "boily",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "",
     "main": "dist/boily.min.js",
     "scripts": {
-        "build": "node config/build.js",
+        "build": "node config/rollup.config.js",
         "browser": "webpack-dev-server --quiet --config config/webpack.test.conf.js",
         "test:server": "mocha --opts config/mocha.opts",
         "test:browser": "karma start config/karma.conf.js --single-run",
@@ -79,7 +79,8 @@
         "rollup": "^0.21.2",
         "rollup-plugin-babel": "^2.2.0",
         "rollup-plugin-replace": "^1.1.0",
-        "npm-check-updates": "^2.5.4",
+        "rollup-plugin-npm": "^1.1.0",
+	    "npm-check-updates": "^2.5.4",
         "webpack": "^1.12.9",
         "webpack-dev-server": "^1.14.0"
     },
