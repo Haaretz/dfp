@@ -1,7 +1,6 @@
 const fs = require('fs');
 const rollup = require('rollup');
 const uglify = require('uglify-js');
-const babel = require('rollup-plugin-babel');
 const npm = require('rollup-plugin-npm');
 const replace = require('rollup-plugin-replace');
 const pack = require('../package.json');
@@ -37,8 +36,7 @@ function blue(str) {
 // Rollup
 rollup.rollup({
         entry: 'src/index.js',
-        plugins: [
-            babel(),
+        plugins: [,
             npm({
                 main: true,
                 jsnext: true
@@ -53,7 +51,6 @@ rollup.rollup({
                     replace({
                         'process.env.NODE_ENV': "'development'"
                     }),
-                    babel(),
                     npm({
                         main: true,
                         jsnext: true
@@ -77,12 +74,6 @@ rollup.rollup({
                     replace({
                         'process.env.NODE_ENV': "'production'"
                     }),
-                    babel(),
-                    npm({
-                        main: true,
-                        jsnext: true
-                    })
-
                 ]
             })
             .then(function(bundle) {

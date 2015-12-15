@@ -17,10 +17,7 @@ module.exports = {
         loaders: [{
             test: /\.js$/,
             exclude: /node_modules|\/dist/,
-            loader: 'babel-loader',
-            query: {
-                presets: ['es2015']
-            }
+            loader: 'babel-loader'
         }]
     },
     devServer: {
