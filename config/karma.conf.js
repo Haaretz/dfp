@@ -53,6 +53,14 @@ module.exports = function(config) {
             noInfo: true
         },
         browsers: ['PhantomJS'],
+		
+		customLaunchers: {
+        Chrome_for_Travis_CI: {
+            base: 'Chrome',
+            flags: ['--no-sandbox']
+        }
+    },
+		
         browserDisconnectTimeout: 10000,
         browserDisconnectTolerance: 2,
         // concurrency level how many browser should be started simultaneously
@@ -73,6 +81,8 @@ module.exports = function(config) {
     });
 
     if (process.env.TRAVIS) {
+         
+		config.browsers = ['Chrome_for_Travis_CI'];
 
         config.logLevel = config.LOG_DEBUG;
         // Karma (with socket.io 1.x) buffers by 50 and 50 tests can take a long time on IEs;-)
