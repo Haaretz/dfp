@@ -113,5 +113,5 @@ npm install
 ## License
 MIT © [KFlash](https://github.com/kflash)
 
-[trav_img]: https://api.travis-ci.com/kflash/boily.svg?token=ZkMP4NE1KS1Wy8GgaANB&branch=master
-[trav_site]: https://travis-ci.com/kflash/boily.svg?token=ZkMP4NE1KS1Wy8GgaANB&branch=master
+[trav_img]: https://api.travis-ci.com/kflash/boily.svg?branch=master
+[trav_site]: https://travis-ci.com/kflash/boily.svg?branch=master
