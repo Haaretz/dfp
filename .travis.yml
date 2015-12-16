@@ -30,7 +30,7 @@ branches:
     - "/^v\\d+\\.\\d+\\.\\d+$/"
 
   after_script:
-  - npm run coveralls
+  - npm run test:browser
   
 # Upload to coveralls, but don't _fail_ if coveralls is down.
   - cat coverage/lcov.info | node_modules/.bin/coveralls || echo "Coveralls upload failed"
