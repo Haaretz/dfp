@@ -119,5 +119,14 @@ Download the package, and run this from the command line:
 npm install 
 ```
 
+## Known issues
+
+Rollup to be honest. Various Rollup plugins that overwrite native Babel 6.x behaviour. Without this plugins Rollup will not work. With this plugins you screw up Mocha unit tests on nodejs if you forget to set environment variables in `.babelrc  `. And avoid setting Babel environment variables in `package.json ` as described on Babel webpage. Mocha get issues and so does Rollup.
+
+
+Uglify also seems to have a Rollup sickness if you use the Rollup babel plugin.
+
+All known issues solved with this boilerplate.
+
 ## License
 MIT Â© [KFlash](https://github.com/kflash)
