@@ -85,6 +85,12 @@ To run your unit tests in the browser, do `npm run browser`, and open `port 8080
 
 This library is set up to integrate with Coveralls, and will automaticly publish your coverage report if you have created an account for your repo at **coveralls.io**
 
+##Rollup 
+
+Rollup are used as the library bundler. It produces a cleaner and more lightweight source code then what you get with for example webpack and browserify.
+
+It's not easy at all to get Rollup working and therefor this boilerplate are set up to use different environments variables.
+
 ## Package management
 
 Boily has build-in some nice features to always make sure your dependency tree are up to date. 
