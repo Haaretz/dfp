@@ -1,7 +1,7 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "0.0.20",
+  "version": "0.0.22",
   "license": "MIT",
   "author": {
     "name": "KFlash",
@@ -69,9 +69,11 @@
   "scripts": {
     "clean": "rm -rf coverage && rm -rf dist",
 	"build": "set NODE_ENV=production && npm run lint:source && npm run clean && mkdirp dist && node config/rollup.config.js",
-    "browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
-    "test:browser": "set NODE_ENV=development && karma start config/karma.conf.js --single-run",
-    "test:server": "set NODE_ENV=development && mocha --opts config/mocha.opts",
+	"build:win": "set NODE_ENV=production && npm run lint:source && npm run clean && mkdirp dist && node config/rollup.config.js",
+    "build:mac": "NODE_ENV=production && npm run lint:source && npm run clean && mkdirp dist && node config/rollup.config.js",
+	"browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
+    "test:browser": "karma start config/karma.conf.js --single-run",
+    "test:server": "mocha --opts config/mocha.opts",
     "test:browser": "karma start config/karma.conf.js --single-run",
     "test": "npm run test:browser && npm run test:server",
 	"lint:source": "eslint ./src/**/*.js",

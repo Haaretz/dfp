@@ -28,7 +28,7 @@ Node `>= 5`.
 If you migrate from `Babel >= 5.x` to `Babel >= 6.x`, your code will probably break because 
 Babel now have killed the `CommonJS` default export behaviour. 
 
-As a workaround, replace `export default { â€¦ }` with  `module.exports = { â€¦ }`
+As a workaround, replace `export default { }` with  `module.exports = { }`
 
 ## Getting Started
 
@@ -42,7 +42,8 @@ $ npm run build                 # Build a minified and a non-minified version of
 ```
 ## Workflow
 
-* `npm run build` - Build task that generate a minified and non-minified script
+* `npm run build:win` - Build task that generate a minified and non-minified script for Windows environment
+* `npm run build:mac` - Build task that generate a minified and non-minified script for Mac environment
 * `npm run eslint:source` - Lint the source
 * `npm run eslint:common` - Lint the unit tests shared by Karma and Mocha
 * `npm run eslint:server` - Lint the unit tests for server
