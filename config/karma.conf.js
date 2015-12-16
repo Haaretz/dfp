@@ -64,6 +64,7 @@ module.exports = function(config) {
         },
 
         browsers: ['Chrome'],
+		
         // custom launchers
         customLaunchers: {
             Chrome_for_Travis_CI: {
@@ -94,6 +95,7 @@ module.exports = function(config) {
 
         // Use Chrome as default browser for Travis CI         
         config.browsers = ['Chrome_for_Travis_CI'];
+		config.reporters: ['mocha', 'coverage', 'coveralls'],
         // Karma (with socket.io 1.x) buffers by 50 and 50 tests can take a long time on IEs;-)
         config.browserNoActivityTimeout = 120000;
     }
