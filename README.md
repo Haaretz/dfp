@@ -10,7 +10,7 @@
 
 ## Requirements
 
-Node `>= 5`.
+Node `>= 5`
 
 ## Features
 
@@ -79,11 +79,11 @@ To keep watching the common test suites that you are working on, simply do `npm 
 
 ## Browser tests
 
-To run your unit tests in the browser, do `npm run browser`, and open `port 8080` in your browser.
+To run your unit tests in the browser, do `npm run browser`, and open `port 8080`.
 
 ## Coveralls
 
-This library is set up to integrate with Coveralls, and will automaticly publish your coverage report if you have created an account for your repo at **coveralls.io**
+This library is set up to integrate with Coveralls, and will automaticly publish your coverage report to **coveralls.io** if you have created an account there.
 
 ##Rollup 
 
@@ -121,10 +121,11 @@ npm install
 
 ## Known issues
 
-Rollup to be honest. Various Rollup plugins that overwrite native Babel 6.x behaviour. Without this plugins Rollup will not work. With this plugins you screw up Mocha unit tests on nodejs if you forget to set environment variables in `.babelrc  `. And avoid setting Babel environment variables in `package.json ` as described on Babel webpage. Mocha get issues and so does Rollup.
+Rollup to be honest. Various Rollup plugins that overwrite native Babel 6.x behaviour. Without this plugins Rollup will not work. 
+With mentioned plugins you will screw up the Mocha unit tests on nodejs if you forget to define different environments in `.babelrc`. 
+There will also be issues if you set Babel environment variables in `package.json ` as described on Babel webpage. Both Mocha and Rollup will get big time issues.
 
-
-Uglify also seems to have a Rollup sickness if you use the Rollup babel plugin.
+`uglifyJS` seems to have a Rollup sickness if you use the Rollup babel plugin.
 
 All known issues solved with this boilerplate.
 
