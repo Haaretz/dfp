@@ -99,17 +99,20 @@ rollup.rollup({
                 ]
             })
             .then(function(bundle) {
-                var code = bundle.generate({
+
+                const code = bundle.generate({
                     format: 'umd',
                     moduleName: pack.name
                 }).code
-                var minified = banner + '\n' + uglify.minify(code, {
+                
+				const minified = banner + '\n' + uglify.minify(code, {
                     fromString: true,
                     unused: true,
                     dead_code: true,
                     warnings: false,
                     screw_ie8: true
                 }).code
+
                 return write('dist/' + pack.name + '.min.js', minified)
             })
             .then(zip)
