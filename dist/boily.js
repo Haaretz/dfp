@@ -1,5 +1,5 @@
 /*!
- * boily v0.0.14
+ * boily v0.0.15
  * (c) 2015 KFlash
  * Released under the MIT License.
  */
@@ -9,13 +9,14 @@
 	global.boily = factory();
 }(this, function () { 'use strict';
 
-	var plugin = {
+	var boily = {
 
 		foo: 123
 	};
 
-	plugin.version = '1.3.0';
+	// Correct version will be set by 'rollup'
+	boily.version = 'xxx';
 
-	return plugin;
+	return boily;
 
 }));

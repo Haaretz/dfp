@@ -1,1 +1,2 @@
-require('./specs/boily')
+require('./shared/boily')
+require('./browser/boily')
