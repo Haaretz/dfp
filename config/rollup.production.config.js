@@ -37,38 +37,7 @@ function zip() {
 
 
 // rollup
-rollup.rollup({
-        entry: 'src/index.js',
-        plugins: [
-            babel(),
-            npm({
-                main: true,
-                jsnext: true
-            })
-        ]
-    })
-    // Dev Build
-    .then(function() {
-        return rollup.rollup({
-                format: 'es6',
-                entry: 'src/index.js',
-                plugins: [
-                    babel(),
-                    npm({
-                        main: true,
-                        jsnext: true
-                    })
-                ]
-            })
-            .then(function(bundle) {
-                return write('dist/' + pack.name + '.js', bundle.generate({
-                    format: 'umd',
-                    banner: banner,
-                    moduleName: pack.name
-                }).code)
-            })
-    })
-    .then(function() {
+
         // Production Build
         return rollup.rollup({
                 entry: 'src/index.js',
@@ -98,7 +67,6 @@ rollup.rollup({
                 return write('dist/' + pack.name + '.min.js', minified)
             })
             .then(zip)
-    })
     .catch(function(e) {
         console.log(e)
     })

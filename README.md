@@ -43,8 +43,10 @@ $ npm run build                 # Build a minified and a non-minified version of
 ```
 ## Workflow
 
-* `npm run build:win` - Build task that generate a minified and non-minified script for Windows environment
-* `npm run build:mac` - Build task that generate a minified and non-minified script for Mac environment
+* `npm run build:win` - Build task that generate a non-minified script for Windows environment
+* `npm run build:mac` - Build task that generate a non-minified script for Mac environment
+* `npm run prod:win`  - Build task that generate a minified script for Windows environment
+* `npm run prod:mac`  - Build task that generate a minified script for Mac environment
 * `npm run eslint:source` - Lint the source
 * `npm run eslint:common` - Lint the unit tests shared by Karma and Mocha
 * `npm run eslint:server` - Lint the unit tests for server
