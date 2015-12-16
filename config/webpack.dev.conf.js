@@ -1,4 +1,4 @@
-var webpack = require('webpack')
+const webpack = require('webpack')
 
 module.exports = {
   entry: 'mocha!./test/bootstrap.js',
@@ -17,14 +17,7 @@ module.exports = {
     loaders: [{
       test: /\.js$/,
       exclude: /node_modules\/dist/,
-      loader: 'babel-loader',
-      query: {
-        presets: ['es2015']
-      }
-    }],
-    postLoaders: [{
-      test: /\.json$/,
-      loader: 'json'
+      loader: 'babel-loader'
     }]
   },
   devServer: {

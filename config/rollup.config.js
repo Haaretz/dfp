@@ -10,8 +10,8 @@ const banner = require('./banner')
 const main = fs.readFileSync('src/index.js', 'utf-8')
     // NOTE! replace 'boily' with current name on the library
     .replace(/boily\.version = '[\d\.]+'/, "boily.version = '" + pack.version + "'")
-	
-    fs.writeFileSync('src/index.js', main)
+
+fs.writeFileSync('src/index.js', main)
 
 function write(dest, code) {
     return new Promise(function(resolve, reject) {
@@ -51,7 +51,7 @@ function blue(str) {
 rollup.rollup({
         entry: 'src/index.js',
         plugins: [
-          babel(),
+            babel(),
             npm({
                 main: true,
                 jsnext: true
@@ -66,7 +66,7 @@ rollup.rollup({
                     replace({
                         'process.env.NODE_ENV': "'development'"
                     }),
-                   babel(),
+                    babel(),
                     npm({
                         main: true,
                         jsnext: true
@@ -102,7 +102,11 @@ rollup.rollup({
                     moduleName: pack.name
                 }).code
                 var minified = banner + '\n' + uglify.minify(code, {
-                    fromString: true
+                    fromString: true,
+                    unused: true,
+                    dead_code: true,
+                    warnings: false,
+                    screw_ie8: true
                 }).code
                 return write('dist/' + pack.name + '.min.js', minified)
             })
