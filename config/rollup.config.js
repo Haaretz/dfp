@@ -51,16 +51,14 @@ function blue(str) {
 rollup.rollup({
         entry: 'src/index.js',
         plugins: [
-            babel({
-                presets: ['es2015-rollup']
-            }),
+          babel(),
             npm({
                 main: true,
                 jsnext: true
             })
         ]
     })
-    // Standalone Dev Build
+    // Dev Build
     .then(function() {
         return rollup.rollup({
                 entry: 'src/index.js',
@@ -68,9 +66,7 @@ rollup.rollup({
                     replace({
                         'process.env.NODE_ENV': "'development'"
                     }),
-                    babel({
-                        presets: ['es2015-rollup']
-                    }),
+                   babel(),
                     npm({
                         main: true,
                         jsnext: true
@@ -86,16 +82,14 @@ rollup.rollup({
             })
     })
     .then(function() {
-        // Standalone Production Build
+        // Production Build
         return rollup.rollup({
                 entry: 'src/index.js',
                 plugins: [
                     replace({
                         'process.env.NODE_ENV': "'production'"
                     }),
-                    babel({
-                        presets: ['es2015-rollup']
-                    }),
+                    babel(),
                     npm({
                         main: true,
                         jsnext: true
