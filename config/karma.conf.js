@@ -1,5 +1,4 @@
 // Karma configuration
-// Generated on Tue Sep 08 2015 19:27:24 GMT+0900 (JST)
 module.exports = function(config) {
     config.set({
 
@@ -15,7 +14,6 @@ module.exports = function(config) {
             '../test/browser/**/*.js',
             '../test/shared/**/*.js'
         ],
-
         // list of files to exclude
         exclude: [],
 
@@ -25,7 +23,6 @@ module.exports = function(config) {
             '../test/shared/**/*.js': ['webpack'],
             '../test/browser/**/*.js': ['webpack'],
         },
-
         webpack: {
             devtool: 'source-map',
             module: {
@@ -35,9 +32,6 @@ module.exports = function(config) {
                     loader: 'babel-loader'
                 }],
                 postLoaders: [{
-                    test: /\.json$/,
-                    loader: 'json'
-                }, {
                     test: /\.js$/,
                     exclude: /test|node_modules\/dist/,
                     loader: 'istanbul-instrumenter'
@@ -56,11 +50,15 @@ module.exports = function(config) {
 
         coverageReporter: {
             reporters: [{
-          type: 'html', dir: '../coverage'
-        }, {
-          type: 'text-summary', dir: '../coverage'
-        },
-		{ type: 'lcov', dir: '../coverage' }]
+                type: 'html',
+                dir: '../coverage'
+            }, {
+                type: 'text',
+                dir: '../coverage'
+            }, {
+                type: 'lcov',
+                dir: '../coverage'
+            }]
         },
 
         browsers: ['Chrome'],
@@ -94,7 +92,8 @@ module.exports = function(config) {
 
         // Use Chrome as default browser for Travis CI         
         config.browsers = ['Chrome_for_Travis_CI'];
-		config.reporters = ['mocha', 'coverage', 'coveralls'];
+        // Used by Travis to push coveralls info corretly to example coveralls.io
+        config.reporters = ['mocha', 'coverage', 'coveralls'];
         // Karma (with socket.io 1.x) buffers by 50 and 50 tests can take a long time on IEs;-)
         config.browserNoActivityTimeout = 120000;
     }

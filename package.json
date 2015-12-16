@@ -1,7 +1,7 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "license": "MIT",
   "author": {
     "name": "KFlash",
@@ -44,7 +44,8 @@
     "babel-plugin-syntax-jsx": "^6.3.13",
     "karma-chrome-launcher": "^0.2.2",
     "pre-commit": "^1.1.2",
-    "rimraf": "^2.4.4"
+    "rimraf": "^2.4.4",
+    "mkdir": "^0.5.1"
   },
 "files": [
     "dist",
@@ -66,17 +67,17 @@
   },
   "scripts": {
     "clean": "rm -rf coverage && rm -rf dist",
-    "build": "set NODE_ENV=production && node config/rollup.config.js",
+	"build": "set NODE_ENV=production && npm run lint:source && npm run clean && mkdirp dist && node config/rollup.config.js",
     "browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
     "test:browser": "set NODE_ENV=development && karma start config/karma.conf.js --single-run",
     "test:server": "set NODE_ENV=development && mocha --opts config/mocha.opts",
     "test:browser": "karma start config/karma.conf.js --single-run",
     "test": "npm run test:browser && npm run test:server",
-	"eslint:source": "eslint ./src/**/*.js",
-    "eslint:fix": "eslint --fix ./src/**/*.js",
-    "eslint:shared": "eslint ./test/shared/**/*.js",
-    "eslint:server": "eslint ./test/server/**/*.js",
-    "eslint:browser": "eslint ./test/browser/**/*.js",
+	"lint:source": "eslint ./src/**/*.js",
+    "lint:fix": "eslint --fix ./src/**/*.js",
+    "lint:shared": "eslint ./test/shared/**/*.js",
+    "lint:server": "eslint ./test/server/**/*.js",
+    "lint:browser": "eslint ./test/browser/**/*.js",
     "watch:server": "npm run test:server -- --watch",
     "watch:browser": "./node_modules/.bin/karma start --auto-watch --no-single-run",
     "packages": "npm list --depth=0",

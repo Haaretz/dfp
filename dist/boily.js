@@ -4,19 +4,19 @@
  * Released under the MIT License.
  */
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	global.boily = factory();
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define(factory) :
+    global.boily = factory();
 }(this, function () { 'use strict';
 
-	var boily = {
+    var boily = {
 
-		foo: 123
-	};
+        foo: 123
+    };
 
-	// Correct version will be set by 'rollup'
-	boily.version = 'xxx';
+    // Correct version will be set by 'rollup'
+    boily.version = 'xxx';
 
-	return boily;
+    return boily;
 
 }));
