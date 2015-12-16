@@ -34,10 +34,7 @@ module.exports = function (config) {
         loaders: [{
           test: /\.js$/,
           exclude: /node_modules\/dist/,
-          loader: 'babel-loader',
-          query: {
-            presets: ['es2015']
-          }
+          loader: 'babel-loader'
         }],
         postLoaders: [{
           test: /\.json$/,
@@ -57,9 +54,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: [
-      'mocha', 'coverage'
-    ],
+    reporters: ['mocha', 'coverage'],
 
    coverageReporter: {
       reporters: [{
