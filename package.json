@@ -1,7 +1,7 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "license": "MIT",
   "author": {
     "name": "KFlash",
@@ -37,15 +37,13 @@
     "uglify-js": "^2.6.1",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
-	"npm-check-updates": "^2.5.4",
-	"env-variable": "^0.0.3"
+	"npm-check-updates": "^2.5.4"
   },
   "dependencies": {
     "babel-core": "^6.3.17",
     "babel-plugin-syntax-jsx": "^6.3.13",
     "karma-chrome-launcher": "^0.2.2",
     "pre-commit": "^1.1.2",
-    "rimraf": "^2.4.4",
     "mkdirp": "^0.5.1"
   },
 "files": [

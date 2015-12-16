@@ -5,7 +5,7 @@ module.exports = {
   output: {
     path: './test',
     filename: 'specs.js',
-    publicPath: '/'
+    publicPath: 'http://localhost:8080/'
   },
   devtool: 'source-map',
   module: {
@@ -18,7 +18,8 @@ module.exports = {
   devServer: {
     contentBase: './test',
     port: 8080,
-    hot: true,
+    noInfo: true,
+	hot: true,
     inline: true
   },
   plugins: [
