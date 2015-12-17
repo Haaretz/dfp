@@ -1,7 +1,7 @@
 {
     "name": "boily",
     "description": "Boilerplate for creating libraries with rollup",
-    "version": "0.0.31",
+    "version": "0.0.33",
     "license": "MIT",
     "author": {
         "name": "KFlash",
@@ -74,11 +74,9 @@
     },
     "scripts": {
         "clean": "rm -rf coverage && rm -rf dist",
-        "build": "set NODE_ENV=production && npm run lint:source && mkdirp dist && node config/rollup.development.config.js",
-        "build:win": "set NODE_ENV=production && npm run lint:source && mkdirp dist && node config/rollup.development.config.js",
-        "build:mac": "NODE_ENV=production && npm run lint:source && mkdirp dist && node config/rollup.development.config.js",
-        "prod:win": "set NODE_ENV=production && npm run lint:source && mkdirp dist && node config/rollup.production.config.js",
-        "prod:mac": "NODE_ENV=production && npm run lint:source && mkdirp dist && node config/rollup.production.config.js",
+        "build": "set NODE_ENV=production && npm run lint:source && mkdirp dist && node config/rollup.config.js",
+        "build:win": "set NODE_ENV=production && npm run lint:source && mkdirp dist && node config/rollup.config.js",
+        "build:mac": "NODE_ENV=production && npm run lint:source && mkdirp dist && node config/rollup.config.js",
         "browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
         "test:browser": "karma start config/karma.conf.js --single-run",
         "test:server": "mocha --opts config/mocha.opts",
@@ -99,6 +97,7 @@
         "package:prod": "./node_modules/.bin/ncu -u",
         "package:dev": "./node_modules/.bin/ncu -p -u",
         "preversion": "[[ -z $(git status --porcelain) ]] && npm run build && git add -A dist && git commit -m 'Build lib'",
-        "postpublish": "git push origin master --follow-tags"
+        "postpublish": "git push origin master --follow-tags",
+        "f": "rollup -c -f es6 -o dist/gurgle.es6.js && rollup -c -f umd -o dist/gurgle.umd.js -n gurgle"
     }
 }
