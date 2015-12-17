@@ -1,6 +1,17 @@
 #Rollup killed this repo!
 
-## This repo ar eno longer maintained due to HUGE Rollup issues that can't be solved
+## This repo are no longer maintained due to HUGE Rollup issues that can't be solved
+
+
+
+
+
+
+
+
+
+
+
 
 
 
