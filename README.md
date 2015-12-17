@@ -45,11 +45,11 @@ $ npm run build                 # Build a minified and a non-minified version of
 
 * `npm run build:win` - Build task that generate a minified and a non-minified script for Windows environment
 * `npm run build:mac` - Build task that generate a minified and a non-minified for Mac environment
-* `npm run eslint:source` - Lint the source
-* `npm run eslint:common` - Lint the unit tests shared by Karma and Mocha
-* `npm run eslint:server` - Lint the unit tests for server
-* `npm run eslint:browser` - Lint the unit tests for browser
-* `npm run eslint:fix` - ESLint will try to fix as many issues as possible in your source files
+* `npm run lint:source` - Lint the source
+* `npm run lint:browser` - Lint the unit tests for browser
+* `npm run lint:shared` - Lint the unit tests for browser and nodejs
+* `npm run lint:server` - Lint the unit tests for server
+* `npm run lint:fix` - ESLint will try to fix as many issues as possible in your source files
 * `npm run clean` - Remove the coverage report and the *dist* folder
 * `npm run test` - Runs unit tests for both server and the browser
 * `npm run test:browser` - Runs the unit tests for browser / client
@@ -109,7 +109,7 @@ This boilerplate uses a [pre-commit hook](https://www.npmjs.com/package/pre-comm
 
 ## Linting
 
-This boilerplate project uses ESLint and the [Airbnb styleguide](https://github.com/airbnb/javascript#ecmascript-6-styles) to lint your source. To change the rules, edit the .eslintrc file in the root directory, respectively.
+This boilerplate project uses ESLint to lint your source. To change the rules, edit the .eslintrc file in the root directory, respectively.
 
 ## Installation
 

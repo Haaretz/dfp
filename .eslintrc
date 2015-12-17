@@ -25,7 +25,6 @@
 
     },
     "rules": {
-        /* airbnb javascript style guide rules */
         "strict": [2, "never"],
         // es6
         "no-var": 2,

@@ -1,5 +1,5 @@
 /*!
- * boily v0.0.32
+ * boily v0.1.1
  * (c) 2015 KFlash
  * Released under the MIT License.
  */
@@ -15,7 +15,7 @@
     };
 
     // Correct version will be corrected by 'rollup'
-    boily.version = '0.0.32';
+    boily.version = '0.1.0';
 
     return boily;
 
