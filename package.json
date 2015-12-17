@@ -97,7 +97,6 @@
         "package:prod": "./node_modules/.bin/ncu -u",
         "package:dev": "./node_modules/.bin/ncu -p -u",
         "preversion": "[[ -z $(git status --porcelain) ]] && npm run build && git add -A dist && git commit -m 'Build lib'",
-        "postpublish": "git push origin master --follow-tags",
-        "f": "rollup -c -f es6 -o dist/gurgle.es6.js && rollup -c -f umd -o dist/gurgle.umd.js -n gurgle"
+        "postpublish": "git push origin master --follow-tags"
     }
 }
