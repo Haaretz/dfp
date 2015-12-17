@@ -1,21 +1,4 @@
-#Rollup killed this repo!
-
-## This repo are no longer maintained due to HUGE Rollup issues that can't be solved
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Boilerplate for creating libraries with Rollup written in ES2015 for Node and the browser.
+# Boilerplate for creating libraries with Rollup written in ES2015 for Node and the browser.
 
 [![Build Status](https://travis-ci.org/Kflash/boily.svg?branch=master)](https://travis-ci.org/Kflash/boily)
 [![Coverage Status](https://coveralls.io/repos/Kflash/boily/badge.svg?branch=master&service=github)](https://coveralls.io/github/Kflash/boily?branch=master)
@@ -60,8 +43,7 @@ $ npm run build                 # Build a minified and a non-minified version of
 ```
 ## Workflow
 
-* `npm run build:win` - Build task that generate a minified and a non-minified script for Windows environment
-* `npm run build:mac` - Build task that generate a minified and a non-minified for Mac environment
+* `npm run build` - Build task that generate a minified and a non-minified script
 * `npm run lint:source` - Lint the source
 * `npm run lint:browser` - Lint the unit tests for browser
 * `npm run lint:shared` - Lint the unit tests for browser and nodejs

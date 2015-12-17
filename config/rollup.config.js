@@ -6,6 +6,8 @@ const babel = require('rollup-plugin-babel')
 const npm = require('rollup-plugin-npm');
 const pack = require('../package.json')
 
+process.env.NODE_ENV = 'production';
+
 const version = process.env.VERSION || pack.version
 
 const banner =
