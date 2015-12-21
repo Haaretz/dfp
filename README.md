@@ -62,6 +62,8 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run package:upgrade` - Automaticly upgrade all devDependencies & dependencies, and update package.json
 * `npm run package:dev` - Automaticly upgrade all devDependencies and update package.json
 * `npm run package:prod` - Automaticly upgrade all dependencies and update package.json
+* `npm run release` - The enhanced npm version script (it requires jq to be installed). Usage: `$ BUMP="minor" npm run release`. 
+                      `BUMP` accepts the same arguments as npm version does (`patch`, `minor`, `major`, and explicit version number);
 * `npm run browser` - starts browser unit tests in the browser with hot module replacement (WDS) on port 8080
 
 ## Unit tests
