@@ -66,6 +66,7 @@ $ npm run build                 # Build a minified and a non-minified version of
                       `BUMP` accepts the same arguments as npm version does (`patch`, `minor`, `major`, and explicit version number);
 * `check_env:mac` - checks your environment variable settings for Mac
 * `check_env:win` - checks your environment variable settings for Windows
+* `npm run coverage:node` - shows coverage report for the unit tests run on nodeJs
 * `npm run browser` - starts browser unit tests in the browser with hot module replacement (WDS) on port 8080
 
 ## Unit tests

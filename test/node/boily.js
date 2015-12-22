@@ -1,4 +1,7 @@
 import boily from '../../src';
+import chai from 'chai';
+
+const expect = chai.expect;
 
 describe('Boily - unit tests for nodeJS', () => {
 
