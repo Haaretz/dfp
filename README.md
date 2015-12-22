@@ -64,6 +64,8 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run package:prod` - Automaticly upgrade all dependencies and update package.json
 * `npm run release` - The enhanced npm version script (it requires jq to be installed). Usage: `$ BUMP="minor" npm run release`. 
                       `BUMP` accepts the same arguments as npm version does (`patch`, `minor`, `major`, and explicit version number);
+* `check_env:mac` - checks your environment variable settings for Mac
+* `check_env:win` - checks your environment variable settings for Windows
 * `npm run browser` - starts browser unit tests in the browser with hot module replacement (WDS) on port 8080
 
 ## Unit tests
@@ -119,6 +121,45 @@ Download the package, and run this from the command line:
 ```
 npm install 
 ```
+
+## Production vs development
+
+Machintosh
+
+You can set `NODE_ENV` like this:
+
+```js
+NODE_ENV=production
+
+```
+###Windows
+
+You can set `NODE_ENV` on windows as well:
+
+```js
+set NODE_ENV=production
+npm run env:windows
+```
+
+Or using npm scripts (don't put space before &&):
+
+'env:windows': 'set NODE_ENV=development&& node env.js',
+
+###Windows cmd.exe
+
+Source it using script env.bat from this repository:
+
+```js
+.\env.bat
+```
+###Config format 
+
+.env
+
+```js
+NODE_ENV=development
+```
+
 
 ## Known issues
 
