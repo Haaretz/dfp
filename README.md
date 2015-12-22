@@ -143,7 +143,7 @@ npm run env:windows
 
 Or using npm scripts (don't put space before &&):
 
-'env:windows': 'set NODE_ENV=development&& node env.js',
+`'env:windows': 'set NODE_ENV=development&& node env.js'`,
 
 ###Windows cmd.exe
 
