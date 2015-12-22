@@ -1,12 +1,12 @@
 /*!
- * boily v0.2.1
+ * boily v0.2.7
  * (c) 2015 KFlash
  * Released under the MIT License.
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
-    global.boily = factory();
+    global.Inferno = factory();
 }(this, function () { 'use strict';
 
     var boily = {
@@ -20,3 +20,4 @@
     return boily;
 
 }));
+//# sourceMappingURL=boily.js.map

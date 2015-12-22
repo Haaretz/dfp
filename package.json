@@ -57,6 +57,12 @@
         "dist",
         "README.md"
     ],
+    "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "dist"
+    ]
+  },
     "homepage": "https://github.com/kflash/boily#readme",
     "jsnext:main": "src/index.js",
     "keywords": [

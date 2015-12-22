@@ -1,0 +1,1 @@
+{"version":3,"file":"boily.js","sources":["../src/foo.js","../src/index.js"],"sourcesContent":["export default {\r\n\r\n    foo: 123\r\n};","import boily from './foo';\r\n\r\n// Correct version will be corrected by 'rollup'\r\nboily.version = '0.1.0';\r\n\r\nexport default boily;\r\n"],"names":[],"mappings":";;;;;;;;;;;gBAAe;;WAER,EAAE;KACR;;;ICHyB,KAGrB,CAAC,OAAO,GAAG,OAAO;;;;"}
