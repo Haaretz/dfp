@@ -27,7 +27,7 @@ function createBundle() {
                 ],
                 plugins: [
                     'transform-object-rest-spread',
-                ],
+                ]
             }),
             npm({
                 jsnext: true,
@@ -122,5 +122,5 @@ createBundle().then((bundle) => {
         minify: true
     }); // Production
 	
-	zip(); // gZip
+//	zip(); // gZip
 })
