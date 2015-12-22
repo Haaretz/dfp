@@ -1,7 +1,7 @@
 {
     "name": "boily",
     "description": "Boilerplate for creating libraries with rollup",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "license": "MIT",
     "author": {
         "name": "KFlash",
@@ -79,7 +79,7 @@
     },
     "scripts": {
         "clean": "rimraf coverage/ dist/",
-        "build": "npm run lint:source && npm run clean && mkdirp dist && node config/rollup.config.js",
+        "build": "npm run lint:source && npm run clean && mkdirp dist && babel-node config/rollup.config.js",
         "browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
         "test:browser": "karma start config/karma.conf.js --single-run",
         "test:server": "mocha --opts config/mocha.opts",
@@ -102,8 +102,7 @@
         "package:dev": "./node_modules/.bin/ncu -p -u",
         "preversion": "[[ -z $(git status --porcelain) ]] && npm run build && git add -A dist && git commit -m 'Build lib'",
         "postpublish": "git push origin master --follow-tags",
-		"release": "npm version ${BUMP:-\"patch\"} --no-git-tag-version && git add package.json && git commit -m \":octocat: Bump to $(cat package.json | jq -r .version)\" && git tag $(cat package.json | jq -r .version) && git push && git push --tags && npm publish",
-		"build:dist:dev": "set NODE_ENV=development babel-node rollup.config"
+		"release": "npm version ${BUMP:-\"patch\"} --no-git-tag-version && git add package.json && git commit -m \":octocat: Bump to $(cat package.json | jq -r .version)\" && git tag $(cat package.json | jq -r .version) && git push && git push --tags && npm publish"
     },
     "pre-commit": [
         "test"
