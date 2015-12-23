@@ -36,7 +36,7 @@ As a workaround, replace `export default { }` with  `module.exports = { }`
 Just clone the repo and install the necessary node modules.
 
 ```js
-$ git clone https://github.com/kflash/boily.git gulps
+$ git clone https://github.com/kflash/boily.git boily
 $ cd boily
 $ npm install                   # Install Node modules listed in ./package.json
 $ npm run build                 # Build a minified and a non-minified version of the library
