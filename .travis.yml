@@ -10,7 +10,9 @@ env:
   global:
     - BIN="node" ISTANBUL=false OPTION=""
     - NPM_VERSION="^2.0.0""
-
+    - PATTERN1="s|\s*if\s*\(isHostObject\b[\s\S]+?\}(?=\n)||"
+    - PATTERN2="s|\s*if\s*\(enumerate\b[\s\S]+?\};\s*\}||"
+    - PATTERN3="s|\s*while\s*\([^)]+\)\s*\{\s*iteratee\(index\);\s*\}||"
 cache:
   directories:
     - node_modules
@@ -29,7 +31,12 @@ before_install:
   - sudo apt-get install -y libappindicator1 fonts-liberation
   - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   - sudo dpkg -i google-chrome*.deb
-
+  - "npm config set loglevel error"
+  - "npm i -g npm@\"$NPM_VERSION\""
+  - "[ $ISTANBUL == false ]   || perl -0pi -e \"$PATTERN1\" ./boily.js"
+  - "[ $ISTANBUL == false ]   || perl -0pi -e \"$PATTERN2\" ./boily.js"
+  - "[ $ISTANBUL == false ]   || perl -0pi -e \"$PATTERN3\" ./boily.js"
+  
 install:
   # Log HTTP requests
   - npm config set loglevel http
@@ -43,8 +50,6 @@ branches:
   except:
     - "/^v\\d+\\.\\d+\\.\\d+$/"
 
-  after_script:
-# Upload to coveralls, but don't _fail_ if coveralls is down.
-  - ./node_modules/karma/bin/karma start
-  - cat coverage/lcov.info | node_modules/.bin/coveralls || echo "Coveralls upload failed"
-  - node node_modules/lcov-filter/index.js lcov.info config | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+script:
+  - "[ $ISTANBUL == false ]   || istanbul cover -x \"**/vendor/**\" --report lcovonly ./test/test.js -- ./dist/boily.js"
+  - "[ $ISTANBUL == false ]   || [ $TRAVIS_SECURE_ENV_VARS == false ] || (cat ./coverage/lcov.info | coveralls) || true"
