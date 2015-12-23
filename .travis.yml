@@ -20,12 +20,6 @@ matrix:
     - node_js: "4"
       env:
 
-git:
-  depth: 10
-branches:
-  only:
-    - master
-	
 before_install:
   - "nvm use $TRAVIS_NODE_VERSION"
   - export CHROME_BIN=/usr/bin/google-chrome
