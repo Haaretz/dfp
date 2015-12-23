@@ -10,6 +10,7 @@ env:
   global:
     - BIN="node" ISTANBUL=false OPTION=""
     - NPM_VERSION="^2.0.0""
+
 cache:
   directories:
     - node_modules
