@@ -133,7 +133,7 @@ You can set `NODE_ENV` like this:
 NODE_ENV=production
 
 ```
-###Windows
+### Windows
 
 You can set `NODE_ENV` on windows as well:
 
@@ -146,14 +146,14 @@ Or using npm scripts (don't put space before &&):
 
 `'env:windows': 'set NODE_ENV=development&& node env.js'`,
 
-###Windows cmd.exe
+### Windows cmd.exe
 
 Source it using script env.bat from this repository:
 
 ```js
 .\env.bat
 ```
-###Config format 
+## #Config format 
 
 .env
 
