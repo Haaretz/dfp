@@ -1,3 +1,5 @@
+const path = require('path');
+
 // Karma configuration
 module.exports = function(config) {
     config.set({
@@ -27,13 +29,14 @@ module.exports = function(config) {
             devtool: 'source-map',
             module: {
                 postLoaders: [{
-                    test: /\.js$/,
+                    test: /(\.jsx)|(\.js)$/,
                     exclude: /test|node_modules\/dist/,
-                    loader: 'isparta-instrumenter-loader'
+                    loader: 'isparta',
+					include: path.join(__dirname, '../src')
                 }],
                 loaders: [{
                     test: /\.js$/,
-                    exclude: /node_modules\/dist/,
+                    exclude: /(src|bower_components|node_modules)/,
                     loader: 'babel-loader'
                 }]
             }

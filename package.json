@@ -1,7 +1,7 @@
 {
     "name": "boily",
     "description": "Boilerplate for creating libraries with rollup",
-    "version": "0.3.7",
+    "version": "0.3.8",
     "license": "MIT",
     "author": {
         "name": "KFlash",
@@ -22,7 +22,7 @@
         "babel-plugin-transform-object-rest-spread": "^6.3.13",
         "eslint": "^1.10.3",
         "eslint-loader": "^1.1.1",
-        "isparta-instrumenter-loader": "^1.0.0",
+        "isparta-loader": "^2.0.0",
         "karma": "^0.13.16",
         "karma-coverage": "^0.5.3",
         "karma-coveralls": "^1.1.2",
