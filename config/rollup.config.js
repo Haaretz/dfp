@@ -80,7 +80,7 @@ function writeBundle(bundle, {
 
     let result = bundle.generate({
         format: 'umd',
-        moduleName: 'Inferno',
+        moduleName: 'Boily',
         banner: copyright,
         sourceMap: true,
         sourceMapFile: dest,
