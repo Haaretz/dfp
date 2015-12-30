@@ -4,10 +4,10 @@
 	"globals": {
 		"document": true,
 		"window": true,
-		"spy",
-		"mocha",
-		"stub",
-		"beforeEach",
+		"spy": true,
+		"mocha": true,
+		"stub": true,
+		"beforeEach": true,
 		"useFakeTimers": true,
 		"useFakeXMLHttpRequest": true,
 		"useFakeServer": true
@@ -22,7 +22,6 @@
 		"es6": true,
 		"mocha": true,
 		"node": true
-
 	},
 	"rules": {
 		"comma-dangle": 2,
