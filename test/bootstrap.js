@@ -1,5 +1,5 @@
 // inlcude the files you want to run in the browser here
 
-require('./boily.spec.browser'); // browser
-require('./boily.spec'); // shared
-require('./boily.spec.server'); // node
+require('./specs/boily.spec.browser'); // browser
+require('./specs/boily.spec'); // shared
+require('./specs/boily.spec.server'); // node
