@@ -22,6 +22,7 @@ Node `>= 4.1`
 * [Universal Module Definition (UMD) API](https://github.com/umdjs/umd), which provides compatibility with the most popular script loaders, to the output.
 * Unit tests written with ES2015 get transpiled on the fly
 * Browser tests in the browser
+* Various testing environments ( AT and UT )
 * Node >= 4.x
 
 ## Babel >= 6.x design changes
@@ -71,7 +72,9 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run coverage:node` - shows coverage report for the unit tests run on nodeJs
 * `npm run browser` - starts browser unit tests in the browser with hot module replacement (WDS) on port 8080
 
-## Unit tests
+## Testing environment
+
+### AT
 
 This project uses Mocha to run your unit tests, it uses Karma as the test runner, it enables the feature that you are able to render your tests to the browser (e.g: Firefox, Chrome etc.).
 
@@ -82,6 +85,10 @@ To run unit tests only for the browser ( *client*), or for the server, add a uni
 To run the tests in the project, just simply `npm run test` for both server and client unit tests, or `npm run test:server`. for server or `npm run test:browser`. for browser tests.
 
 To keep watching the common test suites that you are working on, simply do `npm run watch:browser` or `npm run watch:server`.
+
+### UT
+
+UT are supported. Just add a `__tests__` folder inside your source directory, and simply create `.js` file inside that folder. It will be picked up by Karma.
 
 ## Browser tests
 
@@ -123,44 +130,6 @@ Download the package, and run this from the command line:
 
 ```
 npm install 
-```
-
-## Production vs development
-
-Machintosh
-
-You can set `NODE_ENV` like this:
-
-```js
-NODE_ENV=production
-
-```
-### Windows
-
-You can set `NODE_ENV` on windows as well:
-
-```js
-set NODE_ENV=production
-npm run env:windows
-```
-
-Or using npm scripts (don't put space before &&):
-
-`'env:windows': 'set NODE_ENV=development&& node env.js'`,
-
-### Windows cmd.exe
-
-Source it using script env.bat from this repository:
-
-```js
-.\env.bat
-```
-## #Config format 
-
-.env
-
-```js
-NODE_ENV=development
 ```
 
 

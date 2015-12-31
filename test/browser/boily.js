@@ -1,6 +1,6 @@
 import boily from '../../src';
 
-describe( 'Boily - unit tests for browser', () => {
+describe( 'Boily - AT for browser', () => {
 
 	it( 'should be a object', () => {
 		expect( boily ).to.be.a.object;
