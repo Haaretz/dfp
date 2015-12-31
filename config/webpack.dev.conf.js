@@ -10,7 +10,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      //exclude: /(dist|.git|node_modules)/,
+      exclude: /(dist|.git)/,
       loader: 'babel-loader'
     }]
   },
