@@ -24,10 +24,10 @@ module.exports = function(config) {
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'../src/**/*__tests__*/**/*spec.ut.js': ['webpack'], // UT
+			'../src/**/*__tests__*/**/*.js': ['webpack'], // UT
 			'../test/specs/**/*spec.server.js': ['webpack'], // AT
+			'../test/specs/**/*spec.browser.js': ['webpack'], // AT
 			'../test/specs/**/*spec.js': ['webpack'], // AT
-			'../test/specs/**/*.spec.browser.js': ['webpack'], // AT
 		},
 		webpack: {
 			module: {
@@ -39,7 +39,7 @@ module.exports = function(config) {
 				}],
 				loaders: [{
 					test: /\.js$/,
-					exclude: /(src|dist|.git|node_modules)/,
+					exclude: /(dist|.git|node_modules)/,
 					loader: 'babel-loader'
 				}]
 			}
