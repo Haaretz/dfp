@@ -108,8 +108,7 @@
     "release": "npm version ${BUMP:-\"patch\"} --no-git-tag-version && git add package.json && git commit -m \":octocat: Bump to $(cat package.json | jq -r .version)\" && git tag $(cat package.json | jq -r .version) && git push && git push --tags && npm publish",
     "check_env:mac": "node check_env.js",
     "check_env:win": "set NODE_ENV=development && node check_env.js",
-    "test:unit:cov": "babel-node ./node_modules/.bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha --recursive ./test/browser/**/*.js",
-    "coverage:node": "babel-node node_modules/isparta/bin/isparta cover node_modules/mocha/bin/_mocha --report lcovonly -- -R spec ./test/node/**/*.js"
+        "coverage:node": "babel-node node_modules/isparta/bin/isparta cover node_modules/mocha/bin/_mocha --report lcovonly -- -R spec ./test/specs/**/*spec.server.js"
 
   },
   "pre-commit": [
