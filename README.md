@@ -48,9 +48,7 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run build:prod` - Build task that generate a production bundle
 * `npm run build:dev` - Build task that generate a development bundle
 * `npm run lint:source` - Lint the source
-* `npm run lint:browser` - Lint the unit tests for browser
-* `npm run lint:shared` - Lint the unit tests for browser and nodejs
-* `npm run lint:server` - Lint the unit tests for server
+* `npm run lint:tests` - Lint the AT tests
 * `npm run lint:fix` - ESLint will try to fix as many issues as possible in your source files
 * `npm run clean` - Remove the coverage report and the *dist* folder
 * `npm run test` - Runs unit tests for both server and the browser
@@ -78,9 +76,9 @@ $ npm run build                 # Build a minified and a non-minified version of
 
 This project uses Mocha to run your unit tests, it uses Karma as the test runner, it enables the feature that you are able to render your tests to the browser (e.g: Firefox, Chrome etc.).
 
-To add a unit test, simply create `.js` file inside the `~/test/shared` folder. Karma will pick up on these files automatically, and Mocha and Chai will be available within your unit tests without the need to import them.
+To add a unit test, simply create a `.spec.js` file inside the `~/test` folder. Karma will pick up on these files automatically, and Mocha and Chai will be available within your unit tests without the need to import them.
 
-To run unit tests only for the browser ( *client*), or for the server, add a unit test inside either the `~/test/node` or `~/test/browser` folder.
+To run unit tests only for the browser ( *client*), or for the server, create either a `~/.spec.browser.js` or `~/spec.server` file inside the same folder.
 
 To run the tests in the project, just simply `npm run test` for both server and client unit tests, or `npm run test:server`. for server or `npm run test:browser`. for browser tests.
 
