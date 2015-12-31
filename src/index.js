@@ -4,7 +4,7 @@ import boily from './foo';
 boily.version = 'VERSION';
 
 // Only for development mode
-if(process.env.NODE_ENV !== 'production') {
+if( process.env.NODE_ENV !== 'production' ) {
 	boily.dev = '123';
 }
 
