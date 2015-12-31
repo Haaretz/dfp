@@ -25,13 +25,6 @@ Node `>= 4.1`
 * Various testing environments ( AT and UT )
 * Node >= 4.x
 
-## Babel >= 6.x design changes
-
-If you migrate from `Babel >= 5.x` to `Babel >= 6.x`, your code will probably break because 
-Babel now have killed the `CommonJS` default export behaviour. 
-
-As a workaround, replace `export default { }` with  `module.exports = { }`
-
 ## Getting Started
 
 Just clone the repo and install the necessary node modules.
