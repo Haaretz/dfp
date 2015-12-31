@@ -16,6 +16,7 @@ module.exports = function(config) {
 		files: [
 			'../src/**/*__tests__*/**/*.js', // UT
 			'../test/**/*spec.browser.js', // AT
+			'../test/**/*spec.server.js', // AT
 			'../test/**/*spec.js' // AT
 		],
 		// list of files to exclude
@@ -24,6 +25,7 @@ module.exports = function(config) {
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
 			'../src/**/*__tests__*/**/*spec.ut.js': ['webpack'], // UT
+			'../test/specs/**/*spec.server.js': ['webpack'], // AT
 			'../test/specs/**/*spec.js': ['webpack'], // AT
 			'../test/specs/**/*.spec.browser.js': ['webpack'], // AT
 		},

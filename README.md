@@ -56,7 +56,6 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run package:upgrade` - Automaticly upgrade all devDependencies & dependencies, and update package.json
 * `npm run package:dev` - Automaticly upgrade all devDependencies and update package.json
 * `npm run package:prod` - Automaticly upgrade all dependencies and update package.json
-* `npm run coverage:server` - shows coverage report for the unit tests run on nodeJs
 * `npm run browser` - starts browser unit tests in the browser. All your AT tests get bundled automatically.
 
 ## Testing environment

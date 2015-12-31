@@ -1,7 +1,7 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "license": "MIT",
   "author": {
     "name": "KFlash",
@@ -112,8 +112,7 @@
     "package:dev": "./node_modules/.bin/ncu -p -u",
     "preversion": "[[ -z $(git status --porcelain) ]] && npm run build && git add -A dist && git commit -m 'Build lib'",
     "prepublish": "npm run lint && npm run clean && npm run build && npm test",
-    "postpublish": "git push origin master --follow-tags",
-    "coverage:server": "babel-node node_modules/isparta/bin/isparta cover node_modules/mocha/bin/_mocha --report lcovonly -- -R spec ./test/specs/**/*spec.server.js"
+    "postpublish": "git push origin master --follow-tags"
   },
   "pre-commit": [
     "test",
