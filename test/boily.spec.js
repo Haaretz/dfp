@@ -1,4 +1,4 @@
-import boily from '../../src';
+import boily from '../src';
 
 describe( 'Boily - AT both for browser and nodeJS', () => {
 

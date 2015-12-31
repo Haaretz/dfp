@@ -14,8 +14,8 @@ module.exports = function(config) {
         // list of files / patterns to load in the browser
         files: [
 	        '../src/**/*__tests__*/**/*.js', // UT
-	        '../test/browser/**/*.js',
-            '../test/shared/**/*.js'
+	        '../test/**/*spec.browser.js',
+            '../test/**/*spec.js'
         ],
         // list of files to exclude
         exclude: [],
@@ -23,9 +23,9 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-	        '../src/**/*__tests__*/**/*.js': ['webpack'],  // UT
-	        '../test/shared/**/*.js': ['webpack'],
-            '../test/browser/**/*.js': ['webpack'],
+	        '../src/**/*__tests__*/**/*spec.ut.js': ['webpack'],  // UT
+	        '../test/**/*spec.js': ['webpack'],
+            '../test/**/*.spec.browser.js': ['webpack'],
         },
         webpack: {
             devtool: 'source-map',

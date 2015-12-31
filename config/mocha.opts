@@ -1,5 +1,5 @@
-./test/node/**/*.js
-./test/shared/**/*.js
+./test/**/*spec.server.js
+./test/**/*spec.js
 
 --require ./config/mocha.conf.js
 --reporter spec
