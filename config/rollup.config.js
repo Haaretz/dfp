@@ -13,9 +13,9 @@ const development = process.argv[2] === 'dev';
 const production = process.argv[2] === 'prod';
 
 if ( development ) {
-	process.env.NODE_ENV = 'development;'
+	process.env.NODE_ENV = 'development'
 } else {
-	process.env.NODE_ENV = 'production;'
+	process.env.NODE_ENV = 'production'
 }
 
 const copyright =

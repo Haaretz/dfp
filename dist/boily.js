@@ -17,6 +17,11 @@
 	// Correct version will be set by 'rollup'
 	boily.version = '0.4.4';
 
+	// Only for development mode
+	if ("development" !== 'production') {
+		boily.dev = '123';
+	}
+
 	return boily;
 
 }));
