@@ -49,7 +49,16 @@ module.exports = function(config) {
 		// possible values: 'dots', 'progress'
 		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
 		reporters: ['mocha', 'coverage'],
-
+		// reporter options
+		mochaReporter: {
+			colors: {
+				success: 'green',
+				info: 'bgYellow',
+				warning: 'cyan',
+				error: 'bgRed'
+			},
+			divider: ''
+		},
 		coverageReporter: {
 			reporters: [{
 				type: 'html',
