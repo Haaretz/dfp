@@ -69,7 +69,7 @@ function zip() {
 	})
 }
 
-function writeBundle(bundle) {
+function writeBundle( bundle ) {
 	const filename = production ? pack.name + '.min.js' : pack.name + '.js';
 	const dest = p.resolve(`dist/${filename}`);
 
@@ -83,7 +83,7 @@ function writeBundle(bundle) {
 		},
 	});
 
-	if (production) {
+	if ( production ) {
 		result = uglify.minify(result.code, {
 			fromString: true,
 			inSourceMap: result.map,
@@ -111,20 +111,15 @@ function writeBundle(bundle) {
 
 	fs.writeFile(dest, code, throwIfError);
 	fs.writeFile(`${dest}.map`, JSON.stringify(map), throwIfError);
-
 }
 
 // -----------------------------------------------------------------------------
 
-process.on('unhandledRejection', (reason) => {
-	throw reason;
-});
+createBundle().then( ( bundle ) => {
 
-createBundle().then((bundle) => {
-
-	writeBundle(bundle);
+	writeBundle( bundle );
 
 	if ( production ) {
-	//	zip(); // gZip
+		zip(); // gZip
 	}
 })
