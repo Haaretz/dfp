@@ -1,5 +1,5 @@
 /*!
- * boily v0.5.3
+ * boily v0.6.0
  * (c) 2015 KFlash
  * Released under the MIT License.
  */
@@ -15,7 +15,7 @@
 	};
 
 	// Correct version will be set by 'rollup'
-	boily.version = '0.5.3';
+	boily.version = '0.6.0';
 
 	// Only for development mode
 	if ("development" !== 'production') {

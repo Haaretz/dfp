@@ -103,7 +103,7 @@
 			"allowObjectStart": true,
 			"allowObjectEnd": true
 		}],
-		"linebreak-style": [2, "unix"],
+		"linebreak-style": [0, "unix"],
 		"new-cap": [2, {
 			"newIsCap": true,
 			"capIsNew":true
