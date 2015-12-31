@@ -10,7 +10,7 @@
 
 ## Requirements
 
-Node `>= 5`
+Node `>= 4.1`
 
 ## Features
 
@@ -22,7 +22,7 @@ Node `>= 5`
 * [Universal Module Definition (UMD) API](https://github.com/umdjs/umd), which provides compatibility with the most popular script loaders, to the output.
 * Unit tests written with ES2015 get transpiled on the fly
 * Browser tests in the browser
-* Node >= 5.x
+* Node >= 4.x
 
 ## Babel >= 6.x design changes
 
@@ -44,6 +44,8 @@ $ npm run build                 # Build a minified and a non-minified version of
 ## Workflow
 
 * `npm run build` - Build task that generate a minified and a non-minified script
+* `npm run build:prod` - Build task that generate a production bundle
+* `npm run build:dev` - Build task that generate a development bundle
 * `npm run lint:source` - Lint the source
 * `npm run lint:browser` - Lint the unit tests for browser
 * `npm run lint:shared` - Lint the unit tests for browser and nodejs
