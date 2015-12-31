@@ -57,7 +57,7 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run package:dev` - Automaticly upgrade all devDependencies and update package.json
 * `npm run package:prod` - Automaticly upgrade all dependencies and update package.json
 * `npm run coverage:server` - shows coverage report for the unit tests run on nodeJs
-* `npm run browser` - starts browser unit tests in the browser with hot module replacement (WDS) on port 8080. All yoour AT tests get bundled automatically.
+* `npm run browser` - starts browser unit tests in the browser. All your AT tests get bundled automatically.
 
 ## Testing environment
 
@@ -75,11 +75,11 @@ To keep watching the common test suites that you are working on, simply do `npm 
 
 ### UT
 
-UT are supported. Just add a `__tests__` folder inside your source directory, and simply create `.js` file inside that folder. It will be picked up by Karma.
+UT are supported. Just add a `__tests__` folder inside your source directory, and simply create `spec.ut.js` file inside that folder. It will be picked up by Karma.
 
 ## Browser tests
-
-To run your unit tests in the browser, do `npm run browser`, and open `port 8080`.
+ 
+To run your unit tests in the browser, do `npm run browser`, and open `port 8080`. Hot module replacement (WDS) are supported.
 
 ## Coveralls
 
