@@ -1,6 +1,6 @@
-describe('Boily - AT for nodeJS', () => {
+describe( 'Boily - AT for nodeJS', () => {
 
-    it('should contain 123', () => {
-        expect(123).to.equal(123);
-    })
-});
+	it( 'should contain 123', () => {
+		expect( 123 ).to.equal( 123 );
+	} );
+} );
