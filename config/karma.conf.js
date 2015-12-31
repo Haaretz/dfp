@@ -14,10 +14,10 @@ module.exports = function(config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			'../src/**/*__tests__*/**/*.js', // UT
-			'../test/specs/**/*spec.browser.js', // AT
-			'../test/specs/**/*spec.server.js', // AT
-			'../test/specs/**/*spec.js' // AT
+			'src/**/*__tests__*/**/*.js', // UT
+			'test/specs/**/*spec.browser.js', // AT
+			'test/specs/**/*spec.server.js', // AT
+			'test/specs/**/*spec.js' // AT
 		],
 		// list of files to exclude
 		exclude: [],
