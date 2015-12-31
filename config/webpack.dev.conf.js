@@ -7,11 +7,10 @@ module.exports = {
     filename: 'specs.js',
     publicPath: 'http://localhost:8080/'
   },
-  devtool: 'source-map',
   module: {
     loaders: [{
       test: /\.js$/,
-      exclude: /node_modules\/dist/,
+      //exclude: /(dist|.git|node_modules)/,
       loader: 'babel-loader'
     }]
   },
