@@ -1,7 +1,7 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "license": "MIT",
   "author": {
     "name": "KFlash",
@@ -20,7 +20,7 @@
     "babel-preset-es2015-rollup": "^1.0.0",
     "babel-preset-stage-0": "^6.3.13",
     "babel-register": "^6.3.13",
-    "karma": "0.13.17",
+    "karma": "0.13.18",
     "karma-coverage": "^0.5.3",
     "karma-coveralls": "^1.1.2",
     "karma-mocha": "^0.2.1",
