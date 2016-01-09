@@ -1,7 +1,7 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "0.6.8",
+  "version": "0.6.9",
   "license": "MIT",
   "author": {
     "name": "KFlash",
@@ -31,7 +31,7 @@
     "mocha": "^2.3.4",
     "mocha-lcov-reporter": "^1.0.0",
     "mocha-loader": "^0.7.1",
-    "rollup": "^0.24.0",
+    "rollup": "^0.24.1",
     "rollup-plugin-babel": "^2.3.3",
     "rollup-plugin-commonjs": "^2.1.0",
     "rollup-plugin-npm": "^1.2.1",
@@ -46,7 +46,9 @@
     "webpack": "^1.12.10",
     "webpack-dev-server": "^1.14.0",
     "karma-expect": "1.1.1",
-    "expect": "1.13.4"
+    "expect": "1.13.4",
+    "glob": "^6.0.4"
+
   },
   "dependencies": {
     "babel-core": "^6.4.0",
