@@ -1,13 +1,17 @@
 const webpack = require('webpack');
 const glob = require('glob');
-
-const entries = glob.sync('./test/specs/**/*.spec.js')
+// Our testing bundle is made up of our unit tests, which
+// should individually load up pieces of our application.
+// We also include the browser setup file.
+const testFiles  = glob.sync('./test/specs/**/*.spec.js')
 	.concat(glob.sync('./test/specs/**/*.spec.browser.js'))
-	.concat(glob.sync('./test/specs/**/*.spec.server.js'))
-	.map(function(file) { return 'mocha!' + file; });
+	.concat(glob.sync('./test/specs/**/*.spec.server.js'));
+const allFiles = ['./config/browser.js'].concat(testFiles);
+
+	//.map(function(file) { return 'mocha!' + file; });
 
 module.exports = {
-	entry: entries,
+	entry: allFiles,
 	output: {
 		path: './test',
 		filename: 'specs.js',

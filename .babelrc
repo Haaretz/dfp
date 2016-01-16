@@ -3,6 +3,7 @@
         "es2015"
     ],
     "plugins": [
+"babel-plugin-syntax-jsx",
         "transform-object-rest-spread"
     ]
 }
