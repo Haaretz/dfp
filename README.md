@@ -8,10 +8,6 @@
 
 > A starter kit to get you up and running with a bunch of awesome new front-end technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLint without any framework dependencies.
 
-## Requirements
-
-Node `>= 4.1`
-
 ## Features
 
 * [ES6 with Babel](http://babeljs.io/) for ES6 and ES7
@@ -22,8 +18,7 @@ Node `>= 4.1`
 * [Universal Module Definition (UMD) API](https://github.com/umdjs/umd), which provides compatibility with the most popular script loaders, to the output.
 * Unit tests written with ES2015 get transpiled on the fly
 * Browser tests in the browser
-* Various testing environments ( AT and UT )
-* Node >= 4.x
+* Node >= 4.1
 
 ## Getting Started
 
@@ -61,11 +56,9 @@ $ npm run build                 # Build a minified and a non-minified version of
 
 ## Testing environment
 
-### AT
-
 This project uses Mocha to run your unit tests, it uses Karma as the test runner, it enables the feature that you are able to render your tests to the browser (e.g: Firefox, Chrome etc.).
 
-To add a unit test, simply create a `.spec.js` file inside the `~/test` folder. Karma will pick up on these files automatically, and Mocha and Chai will be available within your unit tests without the need to import them.
+To add a unit test, simply create a `.spec.browser.js` or a `.spec.server.js` file inside the `~../src/**/*__tests__*/**/` folder. Karma will pick up on these files automatically, and Mocha and Chai will be available within your unit tests without the need to import them.
 
 To run unit tests only for the browser ( *client*), or for the server, create either a `~/.spec.browser.js` or `~/spec.server` file inside the same folder.
 
@@ -73,9 +66,11 @@ To run the tests in the project, just simply `npm run test` for both server and 
 
 To keep watching the common test suites that you are working on, simply do `npm run watch:browser` or `npm run watch:server`.
 
-### UT
+### Adding other test files
 
-UT are supported. Just add a `__tests__` folder inside your source directory, and simply create `spec.ut.js` file inside that folder. It will be picked up by Karma.
+- *Browser:*, simply open up the `karma.conf.js` file in the  `~/config__` folder and add your files to the `files:` and `preprocessors:` section.
+- *NodejS:* open up the `mocha.opts` file in the  `~/config__` folder and add your files to the top of the file.
+
 
 ## Browser tests
  
@@ -122,13 +117,7 @@ npm install
 
 ## Known issues
 
-Rollup to be honest. Various Rollup plugins that overwrite native Babel 6.x behaviour. Without this plugins Rollup will not work. 
-With mentioned plugins you will screw up the Mocha unit tests on nodejs if you forget to define different environments in `.babelrc`. 
-There will also be issues if you set Babel environment variables in `package.json ` as described on Babel webpage. Both Mocha and Rollup will get big time issues.
-
-`uglifyJS` seems to have a Rollup sickness if you use the Rollup babel plugin.
-
-All known issues solved with this boilerplate.
+Various Rollup plugins overwrite native Babel 6.x behaviour.  
 
 ## License
 MIT Â© [KFlash](https://github.com/kflash)
