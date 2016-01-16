@@ -54,6 +54,7 @@
     "expect": "1.13.4",
     "glob": "^6.0.4",
     "pre-commit": "^1.1.2",
+    "phantomjs": "^1.9.19",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.5.0",
     "npm-check-updates": "^2.5.6"
