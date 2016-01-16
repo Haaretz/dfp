@@ -50,6 +50,7 @@
     "pre-commit": "^1.1.2",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.5.0",
+    "npmlog": "^2.0.0",
     "npm-check-updates": "^2.5.6"
 
   },
