@@ -1,7 +1,7 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "license": "MIT",
   "author": {
     "name": "KFlash",
@@ -44,8 +44,7 @@
     "isparta": "^4.0.0",
     "isparta-loader": "^2.0.0",
     "chai": "^3.4.1",
-    "eslint": "^1.10.3",
-    "uglify-js": "^2.6.1",
+    "eslint": "^2.0.0-beta.1",
     "webpack": "^1.12.11",
     "webpack-dev-server": "^1.14.1",
     "karma-expect": "1.1.1",
@@ -80,13 +79,12 @@
     "webpack",
     "eslint",
     "bundle",
-    "browser",
-    "inferno"
+    "browser"
   ],
   "main": "dist/boily.min.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kflash/boily"
+    "url": "git@github.com:kflash/boily"
   },
   "scripts": {
     "clean": "rimraf coverage/ dist/",
