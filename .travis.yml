@@ -11,10 +11,6 @@ env:
   global:
     - BIN="node" ISTANBUL=false OPTION=""
     - NPM_VERSION="^2.0.0""
-    #- secure:  # Addv SauseLab secret token here
-
-#addons:
-    #sauce_connect: true
 
 cache:
   directories:
@@ -26,7 +22,6 @@ matrix:
       env:
 
 before_install:
- # - npm install -g karma-cli
   - "nvm use $TRAVIS_NODE_VERSION"
   - export CHROME_BIN=/usr/bin/google-chrome
   - export DISPLAY=:99.0
@@ -42,16 +37,12 @@ install:
   - npm install -g npm@3.5.2
    # Instal npm dependecies and ensure that npm cache is not stale
   - npm install
-   
+
 notifications:
   email: true
 
-#script:
-#  - ./node_modules/karma/bin/karma start ./config/karma.conf-ci.js - #uncomment to get sauceLabs to work
-
-after_script:
+  after_script:
 # Upload to coveralls, but don't _fail_ if coveralls is down.
   - ./node_modules/karma/bin/karma start
   - cat coverage/lcov.info | node_modules/.bin/coveralls || echo "Coveralls upload failed"
   - node node_modules/lcov-filter/index.js lcov.info config | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
-
