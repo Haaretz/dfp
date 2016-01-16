@@ -116,7 +116,7 @@ This boilerplate project uses ESLint to lint your source. To change the rules, e
 SauceLabs works as soon as you create a `sauce.json` file with your credentials based on the `sauce-sample.json` file and add it to the `config folder` or another folder of your choise.
 
 Most common browsers to use together with SauceLabs is located inside this configuration file `./config/karma-config.ci.js`.
-
+Uncomment the sauceLabs settings in the `travis.yml` file.
 
 ## Installation
 
