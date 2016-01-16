@@ -14,20 +14,16 @@ module.exports = function(config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			'../src/**/*__tests__*/**/*.js', // UT
-			'../test/specs/**/*spec.browser.js', // AT
-			'../test/specs/**/*spec.server.js', // AT
-			'../test/specs/**/*spec.js' // AT
+			'../src/**/*__tests__*/**/*spec.browser.js',
+			'../src/**/*__tests__*/**/*spec.server.js',
 		],
 		// list of files to exclude
 		exclude: [],
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'../src/**/*__tests__*/**/*.js': ['webpack'], // UT
-			'../test/specs/**/*spec.server.js': ['webpack'], // AT
-			'../test/specs/**/*spec.browser.js': ['webpack'], // AT
-			'../test/specs/**/*spec.js': ['webpack'], // AT
+			'../src/**/*__tests__*/**/*spec.server.js': ['webpack'],
+			'../src/**/*__tests__*/**/*spec.browser.js': ['webpack'],
 		},
 		webpack: {
 			module: {

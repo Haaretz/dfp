@@ -1,7 +1,7 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "license": "MIT",
   "author": {
     "name": "KFlash",
@@ -52,7 +52,6 @@
     "rimraf": "^2.5.0",
     "npmlog": "^2.0.0",
     "npm-check-updates": "^2.5.6"
-
   },
   "dependencies": {},
   "files": ["src"],
@@ -77,6 +76,7 @@
     "webpack",
     "eslint",
     "bundle",
+    "github",
     "browser"
   ],
   "main": "dist/boily.min.js",
