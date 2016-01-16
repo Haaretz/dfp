@@ -26,7 +26,7 @@ matrix:
       env:
 
 before_install:
-  - npm install -g karma-cli
+ # - npm install -g karma-cli
   - "nvm use $TRAVIS_NODE_VERSION"
   - export CHROME_BIN=/usr/bin/google-chrome
   - export DISPLAY=:99.0
@@ -46,7 +46,7 @@ install:
 notifications:
   email: true
 
-script:
+#script:
 #  - ./node_modules/karma/bin/karma start ./config/karma.conf-ci.js - #uncomment to get sauceLabs to work
 
 after_script:
