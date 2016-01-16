@@ -23,7 +23,6 @@ Node `>= 4.1`
 * Unit tests written with ES2015 get transpiled on the fly
 * Browser tests in the browser
 * Various testing environments ( AT and UT )
-* SauceLabs (pre-setup)
 * Node >= 4.x
 
 ## Getting Started
@@ -110,13 +109,6 @@ This boilerplate uses a [pre-commit hook](https://www.npmjs.com/package/pre-comm
 ## Linting
 
 This boilerplate project uses ESLint to lint your source. To change the rules, edit the .eslintrc file in the root directory, respectively.
-
-## SauceLabs 
-
-SauceLabs works as soon as you create a `sauce.json` file with your credentials based on the `sauce-sample.json` file and add it to the `config folder` or another folder of your choise.
-
-Most common browsers to use together with SauceLabs is located inside this configuration file `./config/karma-config.ci.js`.
-Uncomment the sauceLabs settings in the `travis.yml` file.
 
 ## Installation
 
