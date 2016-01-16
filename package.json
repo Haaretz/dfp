@@ -1,7 +1,7 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "0.7.2",
+  "version": "0.7.4",
   "license": "MIT",
   "author": {
     "name": "KFlash",
@@ -31,6 +31,9 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "karma-chrome-launcher": "^0.2.2",
+    "karma-phantomjs-launcher": "^0.2.3",
+    "karma-expect": "1.1.1", 
+    "karma-sauce-launcher": "^0.3.0",
     "mocha": "^2.3.4",
     "mocha-lcov-reporter": "^1.0.0",
     "mocha-loader": "^0.7.1",
@@ -48,7 +51,6 @@
     "uglify-js": "^2.6.1",
     "webpack": "^1.12.11",
     "webpack-dev-server": "^1.14.1",
-    "karma-expect": "1.1.1",
     "expect": "1.13.4",
     "glob": "^6.0.4",
     "pre-commit": "^1.1.2",
