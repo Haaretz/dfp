@@ -1,7 +1,7 @@
 const path = require('path');
 
 // Karma configuration
-module.exports = function(config) {
+module.exports = function(config, specificOptions) {
 
 	config.set({
 
@@ -70,9 +70,118 @@ module.exports = function(config) {
 			}]
 		},
 
+		// SauceLabs config for local development.
+	/*	sauceLabs: {
+			testName: specificOptions.testName || 'Boily',
+			startConnect: true,
+			options: {
+				// We need selenium version +2.46 for Firefox 39 and the last selenium version for OS X is 2.45.
+				// TODO: Uncomment when there is a selenium 2.46 available for OS X.
+				// 'selenium-version': '2.46.0'
+			}
+		},*/
+		// BrowserStack config for local development.
+	/*	browserStack: {
+			project: 'Boily',
+			name: specificOptions.testName,
+			startTunnel: true,
+			timeout: 600 // 10min
+		},
+*/
 		browsers: ['Chrome'],
-		// custom launchers
+
+		// For more browsers on Sauce Labs see:
+		// https://saucelabs.com/docs/platforms/webdriver
 		customLaunchers: {
+/*
+			'SL_Chrome': {
+				base: 'SauceLabs',
+				browserName: 'chrome',
+				version: '45'
+			},
+			'SL_Firefox': {
+				base: 'SauceLabs',
+				browserName: 'firefox',
+				version: '39'
+			},
+			'SL_Safari': {
+				base: 'SauceLabs',
+				browserName: 'safari',
+				platform: 'OS X 10.10',
+				version: '8'
+			},
+			'SL_IE_9': {
+				base: 'SauceLabs',
+				browserName: 'internet explorer',
+				platform: 'Windows 2008',
+				version: '9'
+			},
+			'SL_IE_10': {
+				base: 'SauceLabs',
+				browserName: 'internet explorer',
+				platform: 'Windows 2012',
+				version: '10'
+			},
+			'SL_IE_11': {
+				base: 'SauceLabs',
+				browserName: 'internet explorer',
+				platform: 'Windows 8.1',
+				version: '11'
+			},
+			'SL_iOS': {
+				base: "SauceLabs",
+				browserName: "iphone",
+				platform: "OS X 10.10",
+				version: "8.1"
+			},
+
+			'BS_Chrome': {
+				base: 'BrowserStack',
+				browser: 'chrome',
+				os: 'OS X',
+				os_version: 'Yosemite'
+			},
+			'BS_Safari': {
+				base: 'BrowserStack',
+				browser: 'safari',
+				os: 'OS X',
+				os_version: 'Yosemite'
+			},
+			'BS_Firefox': {
+				base: 'BrowserStack',
+				browser: 'firefox',
+				os: 'Windows',
+				os_version: '8'
+			},
+			'BS_IE_9': {
+				base: 'BrowserStack',
+				browser: 'ie',
+				browser_version: '9.0',
+				os: 'Windows',
+				os_version: '7'
+			},
+			'BS_IE_10': {
+				base: 'BrowserStack',
+				browser: 'ie',
+				browser_version: '10.0',
+				os: 'Windows',
+				os_version: '8'
+			},
+			'BS_IE_11': {
+				base: 'BrowserStack',
+				browser: 'ie',
+				browser_version: '11.0',
+				os: 'Windows',
+				os_version: '8.1'
+			},
+			'BS_iOS': {
+				base: 'BrowserStack',
+				device: 'iPhone 6',
+				os: 'ios',
+				os_version: '8.0'
+			}
+
+*/
 			Chrome_for_Travis_CI: {
 				base: 'Chrome',
 				flags: ['--no-sandbox']
@@ -100,11 +209,28 @@ module.exports = function(config) {
 
 	if (process.env.TRAVIS) {
 
+		/*
+		config.browserStack.build = buildLabel;
+		config.browserStack.startTunnel = false;
+		config.browserStack.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+
+		config.sauceLabs.build = buildLabel;
+		config.sauceLabs.startConnect = false;
+		config.sauceLabs.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+		config.sauceLabs.recordScreenshots = true; */
+
 		// Use Chrome as default browser for Travis CI
 		config.browsers = ['Chrome_for_Travis_CI'];
 		// Used by Travis to push coveralls info corretly to example coveralls.io
 		config.reporters = ['mocha', 'coverage', 'coveralls'];
 		// Karma (with socket.io 1.x) buffers by 50 and 50 tests can take a long time on IEs;-)
 		config.browserNoActivityTimeout = 120000;
+
+		if (process.env.BROWSER_PROVIDER === 'saucelabs' || !process.env.BROWSER_PROVIDER) {
+			// Allocating a browser can take pretty long (eg. if we are out of capacity and need to wait
+			// for another build to finish) and so the `captureTimeout` typically kills
+			// an in-queue-pending request, which makes no sense.
+			config.captureTimeout = 0;
+		}
 	}
 };

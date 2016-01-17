@@ -1,8 +1,9 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "0.8.8",
+  "version": "0.9.1",
   "license": "MIT",
+
   "author": {
     "name": "KFlash",
     "email": "kflash123@gmail.com"
@@ -31,6 +32,8 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "karma-chrome-launcher": "^0.2.2",
+    "karma-browserstack-launcher": "^0.1.8",
+    "karma-sauce-launcher": "^0.3.0",
     "mocha": "^2.3.4",
     "mocha-lcov-reporter": "^1.0.0",
     "rollup": "^0.24.1",
@@ -50,8 +53,9 @@
     "pre-commit": "^1.1.2",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.5.0",
-    "npmlog": "^2.0.0",
-    "npm-check-updates": "^2.5.6"
+    "npm-check-updates": "^2.5.6",
+    "commitizen": "^2.3.0",
+    "cz-conventional-changelog": "1.1.4"
   },
   "dependencies": {},
   "files": ["src"],
@@ -108,10 +112,21 @@
     "package:prod": "./node_modules/.bin/ncu -u",
     "package:dev": "./node_modules/.bin/ncu -p -u",
     "preversion": "[[ -z $(git status --porcelain) ]] && npm run build && git add -A dist && git commit -m 'Build lib'",
-    "postpublish": "git push origin master --follow-tags"
+    "postpublish": "git push origin master --follow-tags",
+    "commit": "git-cz"
   },
   "pre-commit": [
     "test",
     "lint:source"
-  ]
+  ],
+  "engines": {
+    "node": "<6",
+    "npm": "~2.5"
+  },
+  "engineStrict": true,
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  }
 }
