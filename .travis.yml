@@ -22,6 +22,7 @@ matrix:
       env:
 
 before_install:
+  - ./scripts/travis/before_build.sh
   - "nvm use $TRAVIS_NODE_VERSION"
   - export CHROME_BIN=/usr/bin/google-chrome
   - export DISPLAY=:99.0
