@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/Kflash/boily.svg?branch=master)](https://travis-ci.org/Kflash/boily)
 [![Coverage Status](https://coveralls.io/repos/Kflash/boily/badge.svg?branch=master&service=github)](https://coveralls.io/github/Kflash/boily?branch=master)
 [![npm version](https://badge.fury.io/js/boily.svg)](https://badge.fury.io/js/boily)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 > A starter kit to get you up and running with a bunch of awesome new front-end technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLint without any framework dependencies.
 
