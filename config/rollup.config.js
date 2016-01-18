@@ -10,6 +10,7 @@ import pack from '../package.json';
 const development = process.argv[2] === 'dev';
 const production = process.argv[2] === 'prod';
 const es6 = process.argv[3] === 'es6';
+const cjs = process.argv[3] === 'cjs';
 
 if ( development ) {
 	process.env.NODE_ENV = 'development'
@@ -28,11 +29,11 @@ const copyright =
 	' */'
 
 const entry = p.resolve('src/index.js');
-const dest  = p.resolve(`dist/boily.${production ? 'min.js' : es6 ? 'es6.js' : 'js'}`);
+const dest  = p.resolve(`dist/boily.${production ? 'min.js' : es6 ? 'es6.js' : cjs ? 'cjs.js' : 'js'}`);
 
 const bundleConfig = {
 	dest,
-	format: es6 ? 'es6' : 'umd',
+	format: es6 ? 'es6' : cjs ? 'cjs' : 'umd',
 	moduleName: 'Boily',
 	banner: copyright,
 	sourceMap: false // set to false to generate sourceMap

@@ -3,6 +3,8 @@
  * (c) 2016 KFlash
  * Released under the MIT License.
  */
+'use strict';
+
 var boily = {
 
 	foo: 123
@@ -16,4 +18,4 @@ if ("development" !== 'production') {
 	boily.dev = '123';
 }
 
-export default boily;
+module.exports = boily;
