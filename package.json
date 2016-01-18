@@ -8,6 +8,12 @@
     "name": "KFlash",
     "email": "kflash123@gmail.com"
   },
+  "contributors": [
+    {
+      "name": "Jon Doe",
+      "web": "https://github.com/xxx"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/kflash/boily/issues"
   },
