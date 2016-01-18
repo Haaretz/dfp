@@ -26,7 +26,7 @@ Pull Requests. Here's the CLA's human-readable summary:
 > source license to such code in your contribution so we'll know about it. You are not promising that this code works well, or that you
 > will support it, and we're OK with that.
 
-2. *Fork* the repository.
+2. [Fork](https://github.com/kflash/boily/fork/) the repository.
 
 3. Ensure that all tests are passing prior to submitting.
 
