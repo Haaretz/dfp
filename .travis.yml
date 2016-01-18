@@ -21,8 +21,17 @@ matrix:
     - node_js: "4"
       env:
 
+
+#if [ "$BROWSER_PROVIDER" == "browserstack" ]; then
+#  echo "Using BrowserStack"
+#elif [ "$BROWSER_PROVIDER" == "saucelabs" ]; then
+#  echo "Using SauceLabs"
+#else
+#  echo "Invalid BROWSER_PROVIDER. Please set env var BROWSER_PROVIDER to 'saucelabs' or 'browserstack'."
+#  exit 1
+#fi
+
 before_install:
-  - ./scripts/travis/before_build.sh
   - "nvm use $TRAVIS_NODE_VERSION"
   - export CHROME_BIN=/usr/bin/google-chrome
   - export DISPLAY=:99.0
@@ -50,3 +59,4 @@ notifications:
   - ./node_modules/karma/bin/karma start
   - cat coverage/lcov.info | node_modules/.bin/coveralls || echo "Coveralls upload failed"
   - node node_modules/lcov-filter/index.js lcov.info config | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+
