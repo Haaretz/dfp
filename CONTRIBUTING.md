@@ -15,7 +15,7 @@ pull request, it's always good to file an issue, so we can discuss the details o
 4. The best way to demonstrate a bug is to build a failing test. This is not required, however, it will generally speed up the development process.
 
 
-## Submitting a pull request
+## Pull Requests
 
 1. At Boily, we have a single Boily Open Source Contributor License Agreement that we ask contributors to electronically sign before merging in their
 Pull Requests. Here's the CLA's human-readable summary:
@@ -26,15 +26,48 @@ Pull Requests. Here's the CLA's human-readable summary:
 > source license to such code in your contribution so we'll know about it. You are not promising that this code works well, or that you
 > will support it, and we're OK with that.
 
-2. [Fork](https://github.com/kflash/boily/fork/) the repository.
+2. [Fork](https://github.com/kflash/boily/fork/) the repository and create your branch from master.
 
 3. Ensure that all tests are passing prior to submitting.
 
 4. If you are adding new functionality, or fixing a bug, provide test coverage.
 
-5. Follow syntax guidelines detailed below.
+5. Ensure the test suite passes
 
-6. Push the changes to your fork and submit a pull request. If this resolves any issues, please mark in the body resolve #ID within the body of your pull request.
+6. Make sure your code lints - we've done our best to make sure these rules match our internal linting guidelines.
+
+7. If you've changed APIs, update the documentation.
+
+8. Follow syntax guidelines detailed below.
+
+9. Push the changes to your fork and submit a pull request. If this resolves any issues, please mark in the body resolve #ID within the body of your pull request.
    This allows for github to automatically close the related issue once the pull request is merged.
 
-7. Last step, submit the pull request!
+10. Last step, submit the pull request!
+
+## Style Guide
+
+Our linter will catch most styling issues that may exist in your code. You can check the status of your code styling by simply running: `npm run lint`
+
+However, there are still some styles that the linter cannot pick up. If you are unsure about something, looking at [Airbnb's Style Guide](https://github.com/airbnb/javascript)
+will guide you in the right direction.
+
+### Code Conventions
+
+* Use semicolons ;
+* 2 spaces for indentation (no tabs)
+* Prefer ' over "
+* 80 character line length
+* Write "attractive" code
+* Do not use the optional parameters of setTimeout and setInterval
+* Documentation
+* Comments
+* Unit tests
+
+### Documentation
+
+* Do not wrap lines at 80 characters
+
+## License
+
+By contributing to Boily, you agree that your contributions will be licensed under its MIT license.
