@@ -37,7 +37,7 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run build:dev` - Build task that generate a development bundle
 * `npm run build:es6` - Build task that generate and preserves ES6 imports and exports into a ES2015 development bundle
 * `npm run lint:source` - Lint the source
-* `npm run lint:tests` - Lint the AT tests
+* `npm run lint:tests` - Lint the unit tests
 * `npm run lint:fix` - ESLint will try to fix as many issues as possible in your source files
 * `npm run clean` - Remove the coverage report and the *dist* folder
 * `npm run test` - Runs unit tests for both server and the browser
@@ -52,7 +52,7 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run package:upgrade` - Automaticly upgrade all devDependencies & dependencies, and update package.json
 * `npm run package:dev` - Automaticly upgrade all devDependencies and update package.json
 * `npm run package:prod` - Automaticly upgrade all dependencies and update package.json
-* `npm run browser` - starts browser unit tests in the browser. All your AT tests get bundled automatically.
+* `npm run browser` - starts browser unit tests in the browser. All of your unit tests get bundled automatically.
 
 ## Testing environment
 
@@ -68,9 +68,10 @@ To keep watching the common test suites that you are working on, simply do `npm 
 
 ### Adding other test files
 
-- *Browser:*, simply open up the `karma.conf.js` file in the  `~/config__` folder and add your files to the `files:` and `preprocessors:` section.
-- *NodejS:* open up the `mocha.opts` file in the  `~/config__` folder and add your files to the top of the file.
+- *Browser:*, simply open up the `karma.conf.js` file in the  `~/config` folder and add your files to the `files:` and `preprocessors:` section.
+- *NodejS:* open up the `mocha.opts` file in the  `~/config` folder and add your files to the top of the file.
 
+*Note!* Karma runs both browser and nodejs unit tests by default. 
 
 ## Browser tests
  
@@ -78,8 +79,9 @@ To run your unit tests in the browser, do `npm run browser`, and open `port 8080
 
 ## SauceLab and BrowserStack integration
 
-To get either `SauceLab` or `BrowserStack` to work, uncomment what you need inside the `karma.config.js` file, and follow the instructions on how
-to set this up on either `SauceLab` or `BrowserStack` homepage. All browsers, and settings are already setup to work right out of the box.
+All major browsers, and their OS are already setup to work right out of the box.
+
+You only need to uncomment what you need inside the `karma.config.js` file, and follow the instructions on how to set this up on either `SauceLab` or `BrowserStack` homepage to get this up and running.
 
 ## Coveralls
 
@@ -88,8 +90,6 @@ This library is set up to integrate with Coveralls, and will automaticly publish
 ##Rollup 
 
 Rollup are used as the library bundler. It produces a cleaner and more lightweight source code then what you get with for example webpack and browserify.
-
-It's not easy at all to get Rollup working and therefor this boilerplate are set up to use different environments variables.
 
 ## Package management
 
