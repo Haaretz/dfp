@@ -38,7 +38,6 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run build:prod` - Build task that generate a production bundle
 * `npm run build:dev` - Build task that generate a development bundle
 * `npm run build:es6` - Build task that generate and preserves ES6 imports and exports into a ES2015 development bundle
-* `npm run build:cjs` - Build task that generate a `cjs` bundle
 * `npm run lint:source` - Lint the source
 * `npm run lint:tests` - Lint the unit tests
 * `npm run lint:fix` - ESLint will try to fix as many issues as possible in your source files

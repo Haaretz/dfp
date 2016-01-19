@@ -3,6 +3,7 @@
   "description": "Boilerplate for creating libraries with rollup",
   "version": "1.0.6",
   "license": "MIT",
+
   "author": {
     "name": "KFlash",
     "email": "kflash123@gmail.com"
@@ -64,9 +65,7 @@
     "semver": "~5.1.0"
   },
   "dependencies": {},
-  "files": [
-    "src"
-  ],
+  "files": ["src"],
   "homepage": "https://github.com/kflash/boily#readme",
   "jsnext:main": "src/index.js",
   "keywords": [
@@ -101,8 +100,7 @@
     "build:dev": "babel-node config/rollup.config.js dev",
     "build:prod": "babel-node config/rollup.config.js prod",
     "build:es6": "babel-node config/rollup.config.js dev es6",
-    "build:cjs": "babel-node config/rollup.config.js dev cjs",
-    "build": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es6 && npm run build:cjs",
+    "build": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es6",
     "browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
     "test:server": "mocha --opts config/mocha.opts",
     "test:browser": "karma start config/karma.conf.js --single-run",
