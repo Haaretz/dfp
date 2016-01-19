@@ -1,7 +1,7 @@
 {
   "name": "boily",
   "description": "Boilerplate for creating libraries with rollup",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "license": "MIT",
 
   "author": {
@@ -62,7 +62,8 @@
     "npm-check-updates": "^2.5.6",
     "commitizen": "^2.3.0",
     "cz-conventional-changelog": "1.1.5",
-    "semver": "~5.1.0"
+    "semver": "^5.1.0",
+    "documentation": "^3.0.4"
   },
   "dependencies": {},
   "files": ["src"],

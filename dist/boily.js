@@ -1,5 +1,5 @@
 /*!
- * boily v1.0.6
+ * boily v1.0.8
  * (c) 2016 KFlash
  * Released under the MIT License.
  */
@@ -15,7 +15,7 @@
 	};
 
 	// Correct version will be set with the 'rollup-replace plugin'
-	boily.version = '1.0.6';
+	boily.version = '1.0.8';
 
 	// Only for development mode
 	if ("development" !== 'production') {
