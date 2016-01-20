@@ -99,6 +99,18 @@ module.exports = function(config, specificOptions) {
 		 timeout: 600 // 10min
 		 },
 		 */
+		 	// TestingBot config for local development.
+		/*	testingbot: {
+		 project: 'Boily',
+		 testName: specificOptions.testName || 'Boily',
+		 connectOptions: {
+        verbose: true,
+        'se-port': 4445,
+        logfile: 'testingbot_tunnel.log'
+      },
+		 timeout: 600 // 10min
+		 },
+		 */
 		browsers: ['Chrome'],
 
 		customLaunchers: {
@@ -209,7 +221,15 @@ module.exports = function(config, specificOptions) {
 			 device: 'iPhone 6',
 			 os: 'ios',
 			 os_version: '8.0'
-			 }
+			 },
+			 'TB_Chrome': {
+        base: 'TestingBot',
+        browserName: 'chrome'
+      },
+      'TB_Firefox': {
+        base: 'TestingBot',
+        browserName: 'firefox'
+      }
 
 			 */
 			Chrome_for_Travis_CI: {
