@@ -20,6 +20,7 @@
 * [Easier way of commiting your changes](https://github.com/commitizen/cz-cli), with command line tool
 * Browser tests in the browser
 * [SauceLab](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/) ready
+* [TestingBot](https://testingbot.com/) ready
 * Node >= 4.1
 
 ## Getting Started
