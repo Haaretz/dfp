@@ -3,16 +3,16 @@ const path = require('path');
 // Karma configuration
 module.exports = function(config, specificOptions) {
 	/*
-	// Use ENV vars on Travis and sauce.json locally to get credentials
-	if (!process.env.SAUCE_USERNAME) {
-		if (!fs.existsSync("sauce.json")) {
-			console.log("Create a sauce.json with your credentials based on the https://github.com/saucelabs/karma-sauce-example/blob/master/sauce-sample.json file.");
-			process.exit(1);
-		} else {
-			process.env.SAUCE_USERNAME = require("./sauce").username;
-			process.env.SAUCE_ACCESS_KEY = require("./sauce").accessKey;
-		}
-	}*/
+	 // Use ENV vars on Travis and sauce.json locally to get credentials
+	 if (!process.env.SAUCE_USERNAME) {
+	 if (!fs.existsSync("sauce.json")) {
+	 console.log("Create a sauce.json with your credentials based on the https://github.com/saucelabs/karma-sauce-example/blob/master/sauce-sample.json file.");
+	 process.exit(1);
+	 } else {
+	 process.env.SAUCE_USERNAME = require("./sauce").username;
+	 process.env.SAUCE_ACCESS_KEY = require("./sauce").accessKey;
+	 }
+	 }*/
 
 	config.set({
 
@@ -99,15 +99,15 @@ module.exports = function(config, specificOptions) {
 		 timeout: 600 // 10min
 		 },
 		 */
-		 	// TestingBot config for local development.
+		// TestingBot config for local development.
 		/*	testingbot: {
 		 project: 'Boily',
 		 testName: specificOptions.testName || 'Boily',
 		 connectOptions: {
-        verbose: true,
-        'se-port': 4445,
-        logfile: 'testingbot_tunnel.log'
-      },
+		 verbose: true,
+		 'se-port': 4445,
+		 logfile: 'testingbot_tunnel.log'
+		 },
 		 timeout: 600 // 10min
 		 },
 		 */
@@ -115,8 +115,8 @@ module.exports = function(config, specificOptions) {
 
 		customLaunchers: {
 
-		// For more browsers on Sauce Labs see:
-		// https://saucelabs.com/docs/platforms/webdriver
+			// For more browsers on Sauce Labs see:
+			// https://saucelabs.com/docs/platforms/webdriver
 
 			/*
 			 'SL_Chrome': {
@@ -165,7 +165,7 @@ module.exports = function(config, specificOptions) {
 			 platform: "OS X 10.10",
 			 version: "8.1"
 			 },
-			'SL_iOS_SAFARI_9': {
+			 'SL_iOS_SAFARI_9': {
 			 base: "SauceLabs",
 			 browserName: "iphone",
 			 platform: "OS X 10.10",
@@ -223,13 +223,13 @@ module.exports = function(config, specificOptions) {
 			 os_version: '8.0'
 			 },
 			 'TB_Chrome': {
-        base: 'TestingBot',
-        browserName: 'chrome'
-      },
-      'TB_Firefox': {
-        base: 'TestingBot',
-        browserName: 'firefox'
-      }
+			 base: 'TestingBot',
+			 browserName: 'chrome'
+			 },
+			 'TB_Firefox': {
+			 base: 'TestingBot',
+			 browserName: 'firefox'
+			 }
 
 			 */
 			Chrome_for_Travis_CI: {
