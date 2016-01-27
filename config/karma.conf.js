@@ -40,7 +40,7 @@ module.exports = function(config, specificOptions) {
 			module: {
 				postLoaders: [{
 					test: /(\.jsx)|(\.js)$/,
-					exclude: /test|.git|node_modules\/dist/,
+          exclude: /(src\/dist|packages|.git|node_modules|__tests__)/,
 					loader: 'isparta',
 					include: path.join(__dirname, '../src')
 				}],
