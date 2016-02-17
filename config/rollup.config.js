@@ -49,7 +49,7 @@ babelConfig.presets = babelConfig.presets.map((preset) => {
 
 const plugins = [
 	babel(babelConfig),
-	npm({
+	nodeResolve({
 		jsnext: true,
 		main: true
 	}),
