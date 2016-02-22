@@ -1,11 +1,11 @@
-import boily from './foo';
+import DFP from './dfp';
 
 // Correct version will be set with the 'rollup-replace plugin'
-boily.version = 'VERSION';
+DFP.version = 'VERSION';
 
 // Only for development mode
 if ( process.env.NODE_ENV !== 'production' ) {
-	boily.dev = '123';
+  DFP.dev = '123';
 }
 
-export default boily;
+export default DFP;
