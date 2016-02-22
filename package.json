@@ -50,6 +50,7 @@
     "mkdirp": "^0.5.1",
     "mocha": "^2.4.4",
     "mocha-lcov-reporter": "^1.1.0",
+    "mock-browser": "^0.92.10",
     "npm-check-updates": "^2.5.8",
     "pre-commit": "^1.1.2",
     "rimraf": "^2.5.2",
