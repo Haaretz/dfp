@@ -1,4 +1,4 @@
-import adUnitModule from '../../Objects/adUnit';
+import adUnitModule from '../../objects/adUnit';
 describe( 'adUnit', () => {
   let adUnit;
   before(() => {

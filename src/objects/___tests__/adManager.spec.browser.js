@@ -1,4 +1,4 @@
-import adManagerModule from '../../Objects/adManager';
+import adManagerModule from '../../objects/adManager';
 describe( 'adManager', () => {
   let adManager;
   before(() => {
