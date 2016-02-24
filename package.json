@@ -1,7 +1,7 @@
 {
   "name": "DFP",
   "description": "An abstract DoubleClick for Publishers Implementation",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "author": {
     "name": "Elia Grady",
@@ -44,11 +44,11 @@
     "karma-mocha": "^0.2.2",
     "karma-mocha-reporter": "^1.1.5",
     "karma-sauce-launcher": "^0.3.0",
-    "karma-sinon-chai": "^1.1.0",
+    "karma-sinon-chai": "^1.2.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^2.4.4",
+    "mocha": "^2.4.5",
     "mocha-lcov-reporter": "^1.1.0",
     "mock-browser": "^0.92.10",
     "npm-check-updates": "^2.5.8",
@@ -63,7 +63,7 @@
     "semver": "^5.1.0",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
-    "webpack": "^2.0.7-beta",
+    "webpack": "^2.1.0-beta.1",
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {},

@@ -28,14 +28,15 @@ function stringToMap(string,
   }
   return map;
 }
-
-const ssoKey = 'tmsso';
+export const ssoKey = window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : 'tmsso';
 
 // Translates Cookie string into a convenient map.
-export default function getCookieAsMap() {
+export default function getCookieAsMap(ssoKeyOverride) {
+  const ssoKey = ssoKeyOverride || ssoKey;
   const map = stringToMap(document.cookie, { separator: /;\s?/ });
   if (map[ssoKey]) {
     map[ssoKey] = stringToMap(map[ssoKey], { separator: ':' });
   }
   return map;
 }
+

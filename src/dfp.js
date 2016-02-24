@@ -1,8 +1,13 @@
+import { ssoKey } from '../src/utils/cookieUtils'
 /* globals googletag */
+let defaultConfig = {
+  sso: ssoKey
+};
+
 class DFP {
 
   constructor(config) {
-    this.config = config;
+    this.config = Object.assign({}, defaultConfig, config);
     this.wasInitialized = false;
   }
 

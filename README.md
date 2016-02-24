@@ -1,35 +1,41 @@
-# Boilerplate for creating libraries with Rollup written in ES2015 for Node and the browser.
+# A DoubleClick For Publishers implementation 
+ "Google's [DoubleClick for Publishers (DFP)](https://developers.google.com/doubleclick-publishers/) ad management solution is designed to meet the 
+ growing needs of publishers."
 
-[![Build Status](https://travis-ci.org/Kflash/boily.svg?branch=master)](https://travis-ci.org/Kflash/boily)
-[![Coverage Status](https://coveralls.io/repos/Kflash/boily/badge.svg?branch=master&service=github)](https://coveralls.io/github/Kflash/boily?branch=master)
+## Based on the excellent Boilerplate 'boily' created by Kflash: https://github.com/kflash/boily
+
+> Boily is a starter kit to get you up and running with a bunch of awesome new front-end 
+technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLint without any framework dependencies.
+[![Build Status](https://travis-ci.org/eliagrady/dfp.svg?branch=master)](https://travis-ci.org/eliagrady/dfp)
+[![Coverage Status](https://coveralls.io/repos/github/eliagrady/dfp/badge.svg?branch=master)](https://coveralls.io/github/eliagrady/dfp?branch=master)
 [![npm version](https://badge.fury.io/js/boily.svg)](https://badge.fury.io/js/boily)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![npm](https://img.shields.io/npm/l/express.svg?style=flat-square)](https://github.com/kflash/boily/blob/master/LICENSE.md)
 
-> A starter kit to get you up and running with a bunch of awesome new front-end technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLint without any framework dependencies.
+
 
 ## Features
 
 * [ES6 with Babel](http://babeljs.io/) for ES6 and ES7
 * [Webpack](https://webpack.github.io/) for unit tests
 * [Rollup](http://rollupjs.org/) for bundling
-* [Eslint](http://eslint.org/) to maintain a consistent code style
+* [ESLint](http://eslint.org/) to maintain a consistent code style
 * [Karma](http://karma-runner.github.io/0.13/index.html) as the test runner
 * [Universal Module Definition (UMD) API](https://github.com/umdjs/umd), which provides compatibility with the most popular script loaders, to the output.
 * Unit tests written with ES2015 get transpiled on the fly
-* [Easier way of commiting your changes](https://github.com/commitizen/cz-cli), with command line tool
+* [Easier way of committing your changes](https://github.com/commitizen/cz-cli), with command line tool
 * Browser tests in the browser
 * [SauceLab](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/) ready
 * [TestingBot](https://testingbot.com/) ready
-* Node >= 4.1
+* Node >= 4.2
 
 ## Getting Started
 
 Just clone the repo and install the necessary node modules.
 
 ```js
-$ git clone https://github.com/kflash/boily.git boily
-$ cd boily
+$ git clone https://github.com/eliagrady/dfp.git dfp
+$ cd dfp
 $ npm install                   # Install Node modules listed in ./package.json
 $ npm run build                 # Build a minified and a non-minified version of the library
 ```
@@ -72,9 +78,9 @@ To keep watching the common test suites that you are working on, simply do `npm 
 ### Adding other test files
 
 - *Browser:*, simply open up the `karma.conf.js` file in the  `~/config` folder and add your files to the `files:` and `preprocessors:` section.
-- *NodejS:* open up the `mocha.opts` file in the  `~/config` folder and add your files to the top of the file.
+- *NodeJS:* open up the `mocha.opts` file in the  `~/config` folder and add your files to the top of the file.
 
-*Note!* Karma runs both browser and nodejs unit tests by default. 
+*Note!* Karma runs both browser and NodeJS unit tests by default. 
 
 ## Browser tests
  
@@ -88,7 +94,7 @@ You only need to uncomment what you need inside the `karma.config.js` file, and 
 
 ## Coveralls
 
-This library is set up to integrate with Coveralls, and will automaticly publish your coverage report to **coveralls.io** if you have created an account there.
+This library is set up to integrate with Coveralls, and will automatically publish your coverage report to **coveralls.io** if you have created an account there.
 
 ##Rollup 
 
@@ -128,4 +134,4 @@ npm install
 Various Rollup plugins overwrite native Babel 6.x behaviour.
 
 ## License
-MIT Â© [KFlash](https://github.com/kflash)
+MIT © [KFlash](https://github.com/kflash)
