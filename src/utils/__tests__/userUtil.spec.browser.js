@@ -17,7 +17,7 @@ describe( 'a user', () => {
     expect( user.userType ).to.be.a.string;
   } );
 
-  it( 'should have an impression map initialized ', () => {
-    expect( user.impressionMap ).to.be.a.object;
+  it( 'should have an impression manager initialized ', () => {
+    expect( user.impressionManager ).to.be.a.object;
   } );
 } );

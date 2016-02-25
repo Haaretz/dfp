@@ -62,7 +62,7 @@ describe( 'impressionsManager', () => {
           expect( impressionsManager.impressions[key]['frequency'] ).to.be.a.number;
         } );
       });
-    })
+    });
     it( 'should have initial configuration for each slot ', () => {
       expect( impressionsManager.impressions ).to.be.a.object;
     } );

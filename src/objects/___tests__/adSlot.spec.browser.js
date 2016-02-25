@@ -2,10 +2,15 @@ import adSlotModule from '../../objects/adSlot';
 describe( 'adSlot', () => {
   let adSlot;
   before(() => {
-    adSlot = new adSlotModule({configLine: 'somevalue'});
+    window.isHomepage = true;
+    adSlot = new adSlotModule({id: 'haaretz.co.il.Web.plazma',configLine: 'somevalue'});
   });
 
-  it( 'should not throw an error', () => {
+  it( 'should throw an error if no id param is passed', () => {
+    expect(() => { new adSlotModule({configLine: 'somevalue'})}).to.throw;
+  } );
+
+  it( 'should not throw an error on a well defined adSlot', () => {
     expect( adSlot ).to.not.throw;
   } );
 
