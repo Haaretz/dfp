@@ -1,9 +1,13 @@
 .git
 lib
 coverage
-node_modules
 .DS_Store
+.idea/workspace.xml
+/node_modules/
 *.log
 *.swp
 *~
 .idea
+.iml
+npm-debug.log
+/tmp/

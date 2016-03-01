@@ -1,9 +1,11 @@
 import DFP from '../../src';
-import { ssoKey } from '../utils/cookieUtils'
+import { ssoKey } from '../utils/cookieUtils';
+import globalConfig from './globalConfig.mock';
+
 describe( 'DFP - unit tests for browser', () => {
   let dfp;
   before(() => {
-    dfp = new DFP({configLine: 'somevalue'});
+    dfp = new DFP(globalConfig); //DFP is now a singleton
   });
 
   it( 'should not throw an error', () => {
@@ -38,14 +40,18 @@ describe( 'DFP - unit tests for browser', () => {
     it(' should load the google tag script correctly ', () => {
       promise.then(() => {
         expect( window.googletag && window.googletag.apiReady == true ).to.be.true;
-        console.log("window.googletag.apiReady",window.googletag, window.googletag.apiReady)
       })
-    })
+    });
 
     it(' should not break on multiple calls to initGoogleTag', () => {
       dfp.initGoogleTag().then(() => {
         expect( window.googletag && window.googletag.apiReady == true ).to.be.true;
-        console.log("window.googletag.apiReady",window.googletag, window.googletag.apiReady)
+      })
+    });
+
+    it(' should have a single adManager', () => {
+      dfp.initGoogleTag().then(() => {
+        expect( dfp.adManager ).to.be.a.object;
       })
     })
 

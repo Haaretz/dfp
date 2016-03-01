@@ -1,86 +1,62 @@
-class ConflictResolver {
+/*global conflicManagementJson, conflictManagementJson*/
+export default class ConflictResolver {
+  constructor() {
+    this.blockingQueue = this.initQueueFromJson();
+  }
+  initQueueFromJson() {
+    let queue = [];
+    const conflictManagementJson = window.conflicManagementJson || window.conflictManagementJson || {};
+    //Typo in original code. //TODO fix typo
 
-  constructor(config) {
-    this.config = config;
-    this.rootNode = new ConflictNode({id: null}, null, new Map());
-    this.registery = new Map();
-  }
-
-  registerNode(conflictNode) {
-    if(this.wasNodeRegistered(conflictNode) === false) {
-      this.registery.add(conflictNode.id, conflictNode);
-      this.findNode(conflictNode.parent).addChildNode()
-      return true;
-    }
-    return false;
-  }
-  wasNodeRegistered(conflictNode) {
-    return this.registery.has(conflictNode.id);
-  }
-  findNode(conflictNode) {
-
-  }
-}
-
-
-class ConflictNode {
-  constructor(nodeConfig, parent, children) {
-    this.parent = parent;
-    this.children = children;
-    this.id = nodeConfig.id;
-    this.resolved = false;
-  }
-  addChildNode(nodeConfig, children) {
-    if(!this.children.has(nodeConfig.id)) {
-      const child = new ConflictNode(nodeConfig, this, new Map());
-      this.children.set(child.id,child);
-      return true;
-    }
-    return false;
-  }
-  hasAncestor(conflictNodeId) {
-    if(conflictNodeId) {
-      return this.parent && (this.parent.id == conflictNodeId || this.parent.hasAncestor(conflictNodeId));
-    }
-    else {
-      throw new Error(`conflictNode ${this.id} failed on 'hasAncestor' call: param conflictNodeId must be defined!`);
-    }
-  }
-  hasDescendant(conflictNodeId) {
-    let hasDescendant = false;
-    if(conflictNodeId) {
-      for(let conflictNode of this.children) {
-        if(conflictNode.id === conflictNodeId) {
-          //Match found, hasDescendant = true
-          hasDescendant = true;
-          break;
-        }
+    Object.keys(conflictManagementJson).map(function(key, value) {
+      let rules = conflictManagementJson[key];
+      if(rules) {
+       rules = rules.filter((item) => item.onsize && item.avoid);
       }
-      // Check recursively on children
-      if(hasDescendant === false) {
-        for(let conflictNode of this.children) {
-          if(conflictNode.hasDescendant(conflictNodeId)) {
-            hasDescendant = true;
-            break;
+      queue.push({
+        id: key,
+        rules: rules,
+        resolvedWith: null
+      })
+    });
+    return queue;
+  }
+
+  updateResolvedSlot(adSlotId,resolvedSize) {
+    if(!adSlotId) {
+      throw new Error("updateResolvedSlot must be called with an adSlotId!");
+    }
+    if(!resolvedSize) {
+      throw new Error("updateResolvedSlot must be called with a resolved size!");
+    }
+    for(const adSlot of this.blockingQueue) {
+      if(adSlot.id = adSlotId) {
+        adSlot.resolvedWith = resolvedSize; //Size, i.e. 1280x200
+      }
+    }
+  }
+
+  isBlocked(adSlotId) {
+    if(!adSlotId) {
+      throw new Error("isBlocked must be called with an adSlotId!");
+    }
+    let isBlocked = false;
+    for(const adSlot of this.blockingQueue) {
+      for(const adSlotRule of adSlot.rules) {
+        //Found rule specific to our target
+        if(adSlotRule.avoid === adSlotId) {
+          const parentResolvedWith = adSlot.resolvedWith;
+          // Fail fast: parent is not resolved yet - unknown returned size.
+          if(!parentResolvedWith) {
+            isBlocked = true;
+          }
+          if(adSlotRule.onsize.split(',').find(size => size === parentResolvedWith)) {
+            //Block found
+            isBlocked = true;
           }
         }
       }
-      // Answer
-      return hasDescendant;
     }
-    else {
-      throw new Error(`conflictNode ${this.id} failed on hasAncestor
-       call: param conflictNodeId must be defined!`);
-    }
-  }
-  find(ConflictNode) {
-    if(ConflictNode) {
-
-    }
-    else {
-      throw new Error(`conflictNode ${this.id} failed on 'find' call: param ConflictNode must be defined!`);
-    }
+    return isBlocked;
   }
 }
-
-export default ConflictResolver;

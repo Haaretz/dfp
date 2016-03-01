@@ -1,14 +1,13 @@
-import { ssoKey } from '../src/utils/cookieUtils'
 /* globals googletag */
-let defaultConfig = {
-  sso: ssoKey
-};
-
-class DFP {
+import AdManager  from '../src/objects/adManager';
+import globalConfig from './globalConfig';
+const defaultConfig = globalConfig || {};
+export default class DFP {
 
   constructor(config) {
     this.config = Object.assign({}, defaultConfig, config);
     this.wasInitialized = false;
+    this.adManager = new AdManager(config.adManagerConfig);
   }
 
   /*
@@ -28,7 +27,7 @@ class DFP {
         // executed when GPT code is available, if GPT is already available they
         // will be executed immediately
         window.googletag.cmd = window.googletag.cmd || [];
-        //load googletagservices JS
+        //load google tag services JavaScript
         (function() {
           var tag = document.createElement('script');
           tag.async = true;
@@ -50,7 +49,8 @@ class DFP {
     });
     return promise;
     }
+  initGoogleGlobalSettings() {
+    googletag.pubads().enableAsyncRendering();
+    googletag.enableServices();
+  }
 }
-
-
-export default DFP;

@@ -2,10 +2,11 @@ import * as p from 'path';
 import * as fs from 'fs';
 import { rollup } from 'rollup';
 import babel from 'rollup-plugin-babel';
-import npm from 'rollup-plugin-npm';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import uglify from 'rollup-plugin-uglify';
+import filesize from 'rollup-plugin-filesize';
+import eslint from 'rollup-plugin-eslint';
 import pack from '../package.json';
 
 const development = process.argv[2] === 'dev';
@@ -26,7 +27,7 @@ const copyright =
 	' * ' + pack.name + ' v' + pack.version + '\n' +
 	' * (c) ' + new Date().getFullYear() + ' ' + pack.author.name + '\n' +
 	' * Released under the ' + pack.license + ' License.\n' +
-	' */';
+	' */'
 
 const entry = p.resolve('src/index.js');
 const dest  = p.resolve(`dist/dpf.${production ? 'min.js' : es6 ? 'es6.js' : 'js'}`);
@@ -54,9 +55,12 @@ const plugins = [
 		jsnext: true,
 		main: true
 	}),
+	//eslint({ rules: {
+		/* your options */
+	//} }),
+	filesize(),
 	replace({
-		'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-		exclude: 'node_modules/**',
+		'process.env.NODE_ENV': JSON.stringify('production'),
 		VERSION: pack.version
 	})
 ];

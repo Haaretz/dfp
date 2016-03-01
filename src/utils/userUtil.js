@@ -1,5 +1,10 @@
 import getCookieAsMap, { ssoKey } from '../utils/cookieUtils'
 import ImpressionManager from '../objects/impressionsManager'
+export const userTypes = {
+  payer: 'payer',
+  registered: 'registered',
+  anonymous: 'anonymous'
+};
 export default class User {
   constructor() {
     this.type = this.getUserType();
@@ -10,10 +15,10 @@ export default class User {
     let cookieMap = getCookieAsMap();
     if(cookieMap && cookieMap[ssoKey]) {
       const payerProp = ssoKey.indexOf("haaretz.com") > -1 ? 'HdcPusr' : 'HtzPusr';
-      return cookieMap[payerProp] ? "payer" : "registered"
+      return cookieMap[payerProp] ? userTypes.payer : userTypes.registered
     }
     else {
-      return "anonymous";
+      return userTypes.anonymous;
     }
   }
 

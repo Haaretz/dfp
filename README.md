@@ -1,18 +1,17 @@
-# A DoubleClick For Publishers implementation 
- "Google's [DoubleClick for Publishers (DFP)](https://developers.google.com/doubleclick-publishers/) ad management solution is designed to meet the 
+# A DoubleClick For Publishers implementation
+ "Google's [DoubleClick for Publishers (DFP)](https://developers.google.com/doubleclick-publishers/) ad management solution is designed to meet the
  growing needs of publishers."
 
-## Based on the excellent Boilerplate 'boily' created by Kflash: https://github.com/kflash/boily
-
-> Boily is a starter kit to get you up and running with a bunch of awesome new front-end 
-technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLint without any framework dependencies.
 [![Build Status](https://travis-ci.org/eliagrady/dfp.svg?branch=master)](https://travis-ci.org/eliagrady/dfp)
 [![Coverage Status](https://coveralls.io/repos/github/eliagrady/dfp/badge.svg?branch=master)](https://coveralls.io/github/eliagrady/dfp?branch=master)
 [![npm version](https://badge.fury.io/js/boily.svg)](https://badge.fury.io/js/boily)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![npm](https://img.shields.io/npm/l/express.svg?style=flat-square)](https://github.com/kflash/boily/blob/master/LICENSE.md)
 
+### Based on the excellent Boilerplate 'boily' created by Kflash: https://github.com/kflash/boily
 
+> Boily is a starter kit to get you up and running with a bunch of awesome new front-end
+technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLint without any framework dependencies.
 
 ## Features
 
@@ -29,7 +28,7 @@ technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLin
 * [TestingBot](https://testingbot.com/) ready
 * Node >= 4.2
 
-## Getting Started
+## Installation
 
 Just clone the repo and install the necessary node modules.
 
@@ -47,21 +46,25 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run build:es6` - Build task that generate and preserves ES6 imports and exports into a ES2015 development bundle
 * `npm run lint:source` - Lint the source
 * `npm run lint:tests` - Lint the unit tests
-* `npm run lint:fix` - ESLint will try to fix as many issues as possible in your source files
-* `npm run clean` - Remove the coverage report and the *dist* folder
+* `npm run clean` - Remove the coverage report - and the *dist* folder
 * `npm run test` - Runs unit tests for both server and the browser
-* `npm run test:browser` - Runs the unit tests for browser / client
+* `npm run test:browser` - Runs the unit tests for browser
 * `npm run test:server` - Runs the unit tests on the server
+* `npm run karma:chrome` - Runs the unit tests for browser with Chrome
+* `npm run karma:phantom` - Runs the unit tests for browser with PhantomJS
+* `npm run karma:ie` - Runs the unit tests for browser with Internet Explorer
+* `npm run karma:firefox` - Runs the unit tests for browser with Firefox
 * `npm run watch:server` - Run all unit tests for server & watch files for changes
 * `npm run watch:browser` - Run all unit tests for browser & watch files for changes
 * `npm run packages` - List installed packages
 * `npm run package:purge` - Remove all dependencies
 * `npm run package:reinstall` - Reinstall all dependencies
-* `npm run package:check` - shows a list over dependencies with a higher version number then the current one - if any 
+* `npm run package:check` - shows a list over dependencies with a higher version number then the current one - if any
 * `npm run package:upgrade` - Automaticly upgrade all devDependencies & dependencies, and update package.json
 * `npm run package:dev` - Automaticly upgrade all devDependencies and update package.json
 * `npm run package:prod` - Automaticly upgrade all dependencies and update package.json
-* `npm run browser` - starts browser unit tests in the browser. All of your unit tests get bundled automatically.
+* `npm run browser` - runs browser unit tests in the browser. All of your unit tests get bundled automatically.
+* `npm run commit` - commit latest changes to the Master branch on Github.
 
 ## Testing environment
 
@@ -80,31 +83,25 @@ To keep watching the common test suites that you are working on, simply do `npm 
 - *Browser:*, simply open up the `karma.conf.js` file in the  `~/config` folder and add your files to the `files:` and `preprocessors:` section.
 - *NodeJS:* open up the `mocha.opts` file in the  `~/config` folder and add your files to the top of the file.
 
-*Note!* Karma runs both browser and NodeJS unit tests by default. 
+*Note!* Karma runs both browser and NodeJS unit tests by default.
 
 ## Browser tests
- 
+
 To run your unit tests in the browser, do `npm run browser`, and open `port 8080`. Hot module replacement (WDS) are supported.
-
-## SauceLab and BrowserStack integration
-
-All major browsers, and their OS are already setup to work right out of the box.
-
-You only need to uncomment what you need inside the `karma.config.js` file, and follow the instructions on how to set this up on either `SauceLab` or `BrowserStack` homepage to get this up and running.
 
 ## Coveralls
 
 This library is set up to integrate with Coveralls, and will automatically publish your coverage report to **coveralls.io** if you have created an account there.
 
-##Rollup 
+##Rollup
 
 Rollup are used as the library bundler. It produces a cleaner and more lightweight source code then what you get with for example webpack and browserify.
 
 ## Package management
 
-Boily has build-in some nice features to always make sure your dependency tree are up to date. 
+Boily has build-in some nice features to always make sure your dependency tree are up to date.
 
-To check for the latest dependencies, simply run `npm run package:check`. 
+To check for the latest dependencies, simply run `npm run package:check`.
 
 If you want to update your packages, you can simply do `npm run package:upgrade`.
 
@@ -125,13 +122,8 @@ This boilerplate project uses ESLint to lint your source. To change the rules, e
 Download the package, and run this from the command line:
 
 ```
-npm install 
+npm install
 ```
 
-
-## Known issues
-
-Various Rollup plugins overwrite native Babel 6.x behaviour.
-
 ## License
-MIT © [KFlash](https://github.com/kflash)
+MIT Â© [KFlash](https://github.com/kflash)

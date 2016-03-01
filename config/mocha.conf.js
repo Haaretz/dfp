@@ -27,3 +27,4 @@ var mock = new MockBrowser();
 global.window = mock.getWindow();
 global.document = mock.getDocument();
 global.localStorage = mock.getLocalStorage();
+global.isHomepage = true;

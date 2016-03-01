@@ -1,9 +1,11 @@
-# Contributing
+# Contributing to Boily
 
 Pull requests are very welcome, but should be within the scope of the project, and follow the repository's code conventions. Before submitting a
 pull request, it's always good to file an issue, so we can discuss the details of the PR.
 
-## Reporting a Bug
+## Found an issue?
+
+If you find a bug in the source code or a mistake in the documentation, you can help us by submitting an issue after going through this steps:
 
 1. Ensure you've replicated the issue against master. There is a chance the issue may have already been fixed.
 
@@ -14,6 +16,14 @@ pull request, it's always good to file an issue, so we can discuss the details o
 
 4. The best way to demonstrate a bug is to build a failing test. This is not required, however, it will generally speed up the development process.
 
+## Want a feature?
+
+You can request a new feature by submitting an issue . If you would like to implement a new feature then consider what kind of change it is:
+
+**Major Changes** that you wish to contribute to the project should be discussed first on our dev mailing list or IRC so that we can better coordinate our efforts, prevent duplication of work, and help you to craft the change so that it is successfully accepted into the project.
+**Small Changes** can be crafted and submitted to the GitHub Repository as a Pull Request.
+
+*Please see the Pull Requests below.*
 
 ## Pull Requests
 

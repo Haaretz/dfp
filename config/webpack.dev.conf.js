@@ -5,23 +5,26 @@ const glob = require('glob');
 // We also include the browser setup file.
 const testFiles  = glob.sync('./src/**/*__tests__*/**/*spec.browser.js')
 	.concat(glob.sync('./src/**/*__tests__*/**/*spec.server.js'));
+const allFiles = ['./config/browser.js'].concat(testFiles);
 
 module.exports = {
-	entry:  ['./config/browser.js'].concat(testFiles),
+	watch:true,
+	entry: allFiles,
 	output: {
-		filename: '__specs.js',
+		filename:  '__spec-build.js',
 	},
 	devtool: 'inline-source-map',
 	module: {
-		loaders: [{
-			test: /\.js$/,
-			exclude: /node_modules\/dist/,
-			loader: 'babel-loader'
-		}]
+		loaders: [
+			// This is what allows us to author in future JavaScript
+			{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+			// This allows the test setup scripts to load `package.json`
+			{ test: /\.json$/, exclude: /node_modules/, loader: 'json-loader' }
+		]
 	},
 	devServer: {
 		contentBase: './',
-		port: 8086,
+		port: 8080,
 		noInfo: false,
 		hot: true,
 		inline: true,

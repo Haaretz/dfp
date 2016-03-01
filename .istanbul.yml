@@ -1,3 +1,4 @@
 instrumentation:
     excludes:
         - node-modules/*
+    root: src

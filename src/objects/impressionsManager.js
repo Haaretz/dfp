@@ -10,18 +10,23 @@ const keys = {
   frequencyRegex: /(\d+)\/(\d+)(day|hour)/,
   expires : 'expires',
   exposed : 'exposed',
+  maxImpressions : 'maxImpressions',
   hours : 'hour',
   days : 'day',
 };
 
 
-class ImpressionsManager {
+export default class ImpressionsManager {
 
   constructor(config) {
     this.now = (new Date).getTime(); //this date is used for comparisons only
     this.config = config;
     this.impressions = JSON.parse(localStorage.getItem(keys.impressions) || "{}");
     this.initImpressionMap();
+  }
+
+  saveImpressionsToLocalStorage() {
+    localStorage.setItem(keys.impressions, JSON.stringify(this.impressions));
   }
 
   initImpressionMap() {
@@ -48,32 +53,6 @@ class ImpressionsManager {
         this.updateExpiryDate(slotName);
       }
     });
-
-    //Array.prototype.forEach.call(this.config, (slotName => {
-    //  let slot, shouldUpdateExpiryDate = false;
-    //  if(slot = this.impressions[slotName]) { //Existing slotName (update)
-    //    if( this.config[slotName] =!  slot[keys.frequency]) {
-    //      // Updating the frequency will trigger a new expiry date
-    //      shouldUpdateExpiryDate = true;
-    //      this.impressions[keys.frequency] = this.config[slotName];
-    //    }
-    //    else if(this.now >  slot[keys.expires]) {
-    //      // Old value that should trigger a new expiry date
-    //      shouldUpdateExpiryDate = true;
-    //    }
-    //  }
-    //  else { //Non-existing slotName (create)
-    //    this.initSlotFromConfig(slotName);
-    //    //this.impressions[slotName] = this.impressions[slotName] || {};
-    //    //this.impressions[slotName][keys.frequency] = this.config[slotName];
-    //  }
-    //  if(shouldUpdateExpiryDate) {
-    //    this.updateExpiryDate(slotName);
-    //  }
-    //}));
-    //forEach(slotName => {
-    //  this.impressions[slotName]
-    //})
   }
 
   /**
@@ -92,6 +71,8 @@ class ImpressionsManager {
     this.impressions[slotName][keys.expires] = (frequencyMap.indexOf(keys.days) > -1 ?
       addDays(now, frequencyMap[2]) : addHours(now, frequencyMap[2])).getTime();
 
+    //Set max impressions:
+    this.impressions[slotName][keys.maxImpressions] = frequencyMap[1];
     function addHours(date, hours) {
       const result = new Date(date);
       result.setHours(result.getHours() + hours);
@@ -122,8 +103,13 @@ class ImpressionsManager {
     return true;
   }
 
-
+  reachedQuota(slotName) {
+    let now = (new Date()).getTime();
+    //Second element of 2/4day matches '2'
+    const maxImpressions = this.impressions[slotName][keys.maxImpressions];
+    //Not expired, and reached max impressions
+    return this.impressions[slotName][keys.expires] < now &&
+    this.impressions[slotName][keys.exposed] <= maxImpressions;
+  }
 
 }
-
-export default ImpressionsManager;

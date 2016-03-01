@@ -15,9 +15,10 @@
  * @returns {object} a map object, with key-value mapping according to the passed configuration.
  */
 function stringToMap(string,
-  { separator: separator = ';', operator: operator = '=' } = {}) {
+  { separator = ';', operator = '=' } = {}) {
   const map = {};
   const itemsArr = string.split(separator);
+  //console.log(`called stringToMap with separator:`, separator, `therefore, itemsArr is now:`,itemsArr);
   for (const key in itemsArr) {
     if (itemsArr.hasOwnProperty(key)) {
       const keyValue = itemsArr[key].split(operator);
@@ -32,9 +33,11 @@ export const ssoKey = window.location.hostname.indexOf('haaretz.com') > -1 ? 'en
 
 // Translates Cookie string into a convenient map.
 export default function getCookieAsMap(ssoKeyOverride) {
-  const ssoKey = ssoKeyOverride || ssoKey;
+  const ssoKey = ssoKeyOverride || window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : 'tmsso';;
   const map = stringToMap(document.cookie, { separator: /;\s?/ });
-  if (map[ssoKey]) {
+  //console.log(map[ssoKey])
+  //console.log("map[ssoKey]:",typeof map[ssoKey]);
+  if (typeof map[ssoKey] === 'string') {
     map[ssoKey] = stringToMap(map[ssoKey], { separator: ':' });
   }
   return map;

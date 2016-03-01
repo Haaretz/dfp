@@ -1,10 +1,9 @@
-import adManagerModule from '../../objects/adManager';
-import { userTypes, adTargets } from '../../objects/adManager';
+import  AdManager, {userTypes, adTargets } from '../../objects/adManager';
 
-describe( 'adManager', () => {
+describe( 'AdManager', () => {
   let adManager;
   before(() => {
-    adManager = new adManagerModule({configLine: 'somevalue'});
+    adManager = new AdManager({configLine: 'somevalue'});
   });
 
   it( 'should not throw an error', () => {
@@ -45,10 +44,6 @@ describe( 'adManager', () => {
   //    });
   //  });
   //});
-
-
-
-
 
 
 } );

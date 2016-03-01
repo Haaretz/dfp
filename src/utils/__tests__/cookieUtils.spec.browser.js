@@ -35,9 +35,10 @@ describe( 'cookieUtilModule', () => {
       let map, ssoMap, ssoKey = 'tmsso'; //TODO mock proper test environment
       before(() => {
         deleteAllCookies();
-        CookieData.htzRegisteredCookie.split(';').map(cookie => document.cookie = cookie)
+        CookieData.htzRegisteredCookie.split(';').map(cookie => document.cookie = cookie);
         map = getCookieAsMap();
         ssoMap = map[ssoKey];
+        console.log("TOMER: ", ssoKey, map)
       });
 
       it( 'should not throw an error', () => {
@@ -53,12 +54,13 @@ describe( 'cookieUtilModule', () => {
       } );
 
       it( 'parsed map should contain a valid cookie correctly', () => {
-        expect( map[ssoKey] ).to.be.a.object;
+        expect( map[ssoKey] ).to.not.be.a.string && expect( map[ssoKey] ).to.be.a.object;
       } );
       describe( `'${ssoKey}' map`, () => {
         let ssoMap;
         before(() => {
-          ssoMap = getCookieAsMap(ssoKey)[ssoKey];
+          map = getCookieAsMap();
+          ssoMap = map[ssoKey];
         });
         it( 'should have a userId', () => {
           expect( ssoMap.userId).to.equal('8738500615');
@@ -75,7 +77,7 @@ describe( 'cookieUtilModule', () => {
         deleteAllCookies();
         CookieData.htzPayingCookie.split(';').map(cookie => document.cookie = cookie);
         map = getCookieAsMap();
-        ssoMap = getCookieAsMap(ssoKey)[ssoKey];
+        ssoMap = map[ssoKey];
       });
 
       it( 'should not throw an error', () => {
@@ -109,15 +111,14 @@ describe( 'cookieUtilModule', () => {
     });
 
   });
-
-  describe(' HDC tests ', () => {
+  describe('HDC tests', () => {
     let map, ssoMap, ssoKey = 'engsso'; //TODO mock proper test environment
     describe( 'Anonymous user cookie', () => {
       before(() => {
         deleteAllCookies();
-        CookieData.hdcAnonCookie.split(';').map(cookie => document.cookie = cookie)
-        map = getCookieAsMap(ssoKey);
-        ssoMap = getCookieAsMap(ssoKey)[ssoKey];
+        CookieData.hdcAnonCookie.split(';').map(cookie => document.cookie = cookie);
+        map = getCookieAsMap();
+        ssoMap = map[ssoKey];
       });
       it( 'should not throw an error', () => {
         expect( getCookieAsMap ).to.not.throw;
@@ -141,8 +142,8 @@ describe( 'cookieUtilModule', () => {
       before(() => {
         deleteAllCookies();
         CookieData.hdcRegisteredCookie.split(';').map(cookie => document.cookie = cookie)
-        map = getCookieAsMap(ssoKey);
-        ssoMap = getCookieAsMap(ssoKey)[ssoKey];
+        map = getCookieAsMap();
+        ssoMap = map[ssoKey];
       });
 
       it( 'should not throw an error', () => {
