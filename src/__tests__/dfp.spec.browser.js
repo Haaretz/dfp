@@ -1,4 +1,4 @@
-import DFP from '../../src';
+import DFP from '../../src/index';
 import { ssoKey } from '../utils/cookieUtils';
 import globalConfig from './globalConfig.mock';
 

@@ -1,11 +1,12 @@
 import getCookieAsMap, { ssoKey } from '../../utils/cookieUtils';
 import CookieData from './cookieData.mock'
 
-describe( 'cookieUtilModule', () => {
+describe( 'cookieUtilModule', function() {
+  this.timeout(1000);
   describe('HTZ & TM tests', () => {
     let ssoKey;
     before(() => {
-      ssoKey = 'tmsso'; //TODO mock proper test environment
+      ssoKey = 'tmsso';
     });
     describe( 'Anonymous user cookie', () => {
       before(() => {
@@ -32,13 +33,12 @@ describe( 'cookieUtilModule', () => {
     });
 
     describe( 'Registered user cookie', () => {
-      let map, ssoMap, ssoKey = 'tmsso'; //TODO mock proper test environment
+      let map, ssoMap, ssoKey = 'tmsso';
       before(() => {
         deleteAllCookies();
         CookieData.htzRegisteredCookie.split(';').map(cookie => document.cookie = cookie);
         map = getCookieAsMap();
         ssoMap = map[ssoKey];
-        console.log("TOMER: ", ssoKey, map)
       });
 
       it( 'should not throw an error', () => {
@@ -72,7 +72,7 @@ describe( 'cookieUtilModule', () => {
     });
 
     describe( 'Paying user cookie', () => {
-      let map, ssoMap, ssoKey = 'tmsso'; //TODO mock proper test environment
+      let map, ssoMap, ssoKey = 'tmsso';
       before(() => {
         deleteAllCookies();
         CookieData.htzPayingCookie.split(';').map(cookie => document.cookie = cookie);
@@ -112,7 +112,7 @@ describe( 'cookieUtilModule', () => {
 
   });
   describe('HDC tests', () => {
-    let map, ssoMap, ssoKey = 'engsso'; //TODO mock proper test environment
+    let map, ssoMap, ssoKey = 'engsso';
     describe( 'Anonymous user cookie', () => {
       before(() => {
         deleteAllCookies();
@@ -138,7 +138,7 @@ describe( 'cookieUtilModule', () => {
     });
 
     describe( 'Registered user cookie', () => {
-      let map, ssoMap, ssoKey = 'engsso'; //TODO mock proper test environment
+      let map, ssoMap, ssoKey = 'engsso';
       before(() => {
         deleteAllCookies();
         CookieData.hdcRegisteredCookie.split(';').map(cookie => document.cookie = cookie)
@@ -164,10 +164,10 @@ describe( 'cookieUtilModule', () => {
         expect( map[ssoKey] ).to.be.a.object;
       } );
       describe( `'${ssoKey}' map`, () => {
-        let map, ssoMap, ssoKey = 'engsso'; //TODO mock proper test environment
+        let map, ssoMap, ssoKey = 'engsso';
         before(() => {
-          map = getCookieAsMap(ssoKey);
-          ssoMap = getCookieAsMap(ssoKey)[ssoKey];
+          map = getCookieAsMap();
+          ssoMap = getCookieAsMap()[ssoKey];
         });
         it( 'should have a userId', () => {
           expect( ssoMap.userId).to.equal('8738500615');
@@ -179,12 +179,12 @@ describe( 'cookieUtilModule', () => {
     });
 
     describe( 'Paying user cookie', () => {
-      let map, ssoMap, ssoKey = 'engsso'; //TODO mock proper test environment
+      let map, ssoMap, ssoKey = 'engsso';
       before(() => {
         deleteAllCookies();
         CookieData.hdcPayingCookie.split(';').map(cookie => document.cookie = cookie);
-        map = getCookieAsMap(ssoKey);
-        ssoMap = getCookieAsMap(ssoKey)[ssoKey];
+        map = getCookieAsMap();
+        ssoMap = getCookieAsMap()[ssoKey];
       });
 
       it( 'should not throw an error', () => {
@@ -217,12 +217,14 @@ describe( 'cookieUtilModule', () => {
       });
     });
   });
-
+  after(() => {
+    deleteAllCookies();
+  })
 } );
 
 
 //Delete all cookies helper for testing purposes
-function deleteAllCookies() {
+export function deleteAllCookies() {
   document.cookie.split(";").forEach((c) => {
       document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" +
         new Date().toUTCString() + ";path=/"); });

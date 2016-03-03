@@ -8,16 +8,33 @@ const dfpConfig = {
   /**
    * Returns a homepage
    * @returns {boolean}
-     */
+   */
   get isHomepage() {
     return window.location.pathname === "/";
   },
   /**
    * returns the domain the page was loaded to. i.e: 'haaretz.co.il', 'haaretz.com'
    * @returns {string} the domain name from the windows's location hostname property
-     */
+   */
   get domain() {
     return window.location.hostname.replace(/([\w|\d]+.)/, "");
+  },
+  /**
+   * Returns an array of concatenated paths, separated by a dot.
+   * For example, for the URL:
+   * http://www.haaretz.co.il/news/world/america/us-election-2016/LIVE-1.2869045
+   * the path is '/news/world/america/us-election-2016/LIVE-1.2869045'.
+   * This function takes the directories ['news', 'world', 'america', 'us-election-2016']
+   * and converts it to the following format:
+   * ['.news', '.news.world', '.news.world.america', '.news.world.america.us-election-2016']
+   * This denotes the path configuration for the given adSlot
+   * @returns {Array.<T>} an array of path names
+     */
+  get path() {
+    return location.pathname.split('/').slice(1,-1)
+      .map(section => `.${section}`)
+      .map((section, index, arr) => arr.slice(0,index+1)
+        .reduce((last, current) => last.concat(current)));
   },
   /**
    * Returns the articleIf if on an article page, or null otherwise
@@ -25,27 +42,86 @@ const dfpConfig = {
    */
   get articleId() {
     const articleIdMatch = /\d\.\d+/g.exec(window.location.pathname);
-    let articleId = null;
+    let articleId;
     if(articleIdMatch) {
       articleId = articleIdMatch.pop(); //Converts ["1.23145"] to "1.23145"
     }
     return articleId;
   },
-  utm : {
-    utm_content : '',
-    utm_source : '',
-    utm_medium : '',
-    utm_campaign : '',
+  utm_ : {
+    get content() {
+      return this.getUrlParam('utm_content');
+    },
+    get source() {
+      return this.getUrlParam('utm_source');
+    },
+    get medium() {
+      return this.getUrlParam('utm_medium');
+    },
+    get campaign() {
+      return this.getUrlParam('utm_campaign');
+    },
+    getUrlParam(key) {
+      let results = RegExp(`(${key})(=)([^&"]+)`).exec(window.location.search);
+      return results && results[3] ? results[3] : undefined;
+    },
+  },
+  get gStatCampaignNumber() {
+    const gstatCampign = localStorage.GstatCampaign ?
+      JSON.parse(localStorage.GstatCampaign) : undefined;
+    return gstatCampign ? gstatCampign['CampaignNumber'] : undefined;
   },
   adSlotConfig: {
-
+    "haaretz.co.il.example.slot" : {
+      id: "slotId",
+      path : "/network/base/slotId/slotId_subsection",
+      responsiveAdSizeMapping : {
+        xxs: [['width1','height1'],...['widthN','heightN'],],
+        xs: [['width1','height1'],...['widthN','heightN'],],
+        s: [['width1','height1'],...['widthN','heightN'],],
+        m: [['width1','height1'],...['widthN','heightN'],],
+        l: [['width1','height1'],...['widthN','heightN'],],
+        xl: [['width1','height1'],...['widthN','heightN'],],
+        xxl: [['width1','height1'],...['widthN','heightN'],],
+      },
+      blackListReferrers: "comma, delimited, blacklisted, referrer, list",
+      onlyFromReferrers: "comma, delimited, referrer, list",
+    }
   },
   adManagerConfig : {
 
   },
+  breakpointsConfig : {
+    get breakpoints() {
+      const isType1 = true; //Override in VM from backend to control this toggle.
+      return isType1 ? this.breakpoints1 : this.breakpoints2;
+    },
+
+    // Type 1
+    breakpoints1 : {
+      xxs: 600,
+      xs: 761,
+      s: 993,
+      m: 1009,
+      l: 1291,
+      xl: 1600,
+      xxl: 1900,
+    },
+    // Type 2
+    breakpoints2 : {
+      xxs: 600,
+      xs: 1000,
+      s: 1150,
+      m: 1281,
+      l: 1600,
+      xl: 1920,
+      xxl: 1920,
+    }
+  },
   userConfig: {
-    age: "none",
-    gender: "none",
+    type : undefined,
+    age: undefined,
+    gender: undefined,
   },
   sso: ssoKey,
 

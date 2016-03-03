@@ -32,13 +32,13 @@ function stringToMap(string,
 export const ssoKey = window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : 'tmsso';
 
 // Translates Cookie string into a convenient map.
-export default function getCookieAsMap(ssoKeyOverride) {
-  const ssoKey = ssoKeyOverride || window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : 'tmsso';;
+export default function getCookieAsMap() {
   const map = stringToMap(document.cookie, { separator: /;\s?/ });
-  //console.log(map[ssoKey])
-  //console.log("map[ssoKey]:",typeof map[ssoKey]);
-  if (typeof map[ssoKey] === 'string') {
-    map[ssoKey] = stringToMap(map[ssoKey], { separator: ':' });
+  if (typeof map['tmsso'] === 'string') {
+    map['tmsso'] = stringToMap(map['tmsso'], { separator: ':' });
+  }
+  if (typeof map['engsso'] === 'string') {
+    map['engsso'] = stringToMap(map['engsso'], { separator: ':' });
   }
   return map;
 }

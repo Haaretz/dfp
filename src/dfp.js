@@ -7,7 +7,7 @@ export default class DFP {
   constructor(config) {
     this.config = Object.assign({}, defaultConfig, config);
     this.wasInitialized = false;
-    this.adManager = new AdManager(config.adManagerConfig);
+    this.adManager = new AdManager(config);
   }
 
   /*

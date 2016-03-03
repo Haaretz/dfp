@@ -59,7 +59,7 @@ module.exports = function(config, specificOptions) {
 				success: 'green',
 				info: 'bgYellow',
 				warning: 'cyan',
-				error: 'bgRed'
+				error: 'bPink'
 			},
 			divider: ''
 		},

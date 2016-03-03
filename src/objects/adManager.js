@@ -1,4 +1,4 @@
-import User from '../utils/userUtil'
+import User from '../objects/user'
 import ConflictResolver from '../objects/conflictResolver'
 
 // There are a total of 7 adTargets:
@@ -123,8 +123,10 @@ export default class AdManager {
   initAdSlotDefinitions() {
     //for each adSlot
     //adSlot mapping config
-    //let slotMapping = googletag.sizeMapping().addSize([width, height],[width,
-    // height])(...).build();
+    //let slotMapping = googletag.sizeMapping().addSize([breakPointWidth, breakPointHeight],
+    // [ [width1, height1],...,[widthN, heightN] ])(...).build();
+    //const slotPath = `/${network}/${base}/${adSlotId}/${adSlotId}_${homepage|department}`
+    //googletag.defineOutOfPageSlot case
     //const slotDefinition = googletag.defineSlot(slotPath,[[defaultWidth,
     // defaultHeight]],adSlot.id).defineSizeMapping(slotMapping).addService(googletag.pubads()).setCollapseEmptyDiv(true);
     //this.adSlotDefinitions[adSlot.id] = slotDefinition;

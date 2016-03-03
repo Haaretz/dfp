@@ -23,4 +23,25 @@ describe( 'globalConfig - unit tests for browser', () => {
 
   });
 
+
+
+  describe( 'gStat campaign property' , () => {
+    before(() =>{
+      window.localStorage.clear();
+    });
+
+
+    it( 'should not have a gStat campaign by default', () => {
+      expect( config.gStatCampaignNumber ).to.be.undefined;
+    });
+
+    it( 'should have properly read the Campaign property from localStorage', () => {
+      const item = {
+        "lastModifiedDateTime": 1456977600000,
+        "CampaignNumber": 6310
+      };
+      window.localStorage.setItem("GstatCampaign",JSON.stringify(item));
+      expect( config.gStatCampaignNumber ).to.be.a.number;
+    })
+  })
 } );

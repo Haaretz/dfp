@@ -4,11 +4,6 @@
  * Released under the MIT License.
  */
 var babelHelpers = {};
-babelHelpers.typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
 
 babelHelpers.classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -78,14 +73,13 @@ var ssoKey = window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : '
 
 // Translates Cookie string into a convenient map.
 function getCookieAsMap(ssoKeyOverride) {
-  var ssoKey = ssoKeyOverride || ssoKey;
+  var ssoKey = ssoKeyOverride || window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : 'tmsso';;
   var map = stringToMap(document.cookie, { separator: /;\s?/ });
   //console.log(map[ssoKey])
   //console.log("map[ssoKey]:",typeof map[ssoKey]);
   if (typeof map[ssoKey] === 'string') {
     map[ssoKey] = stringToMap(map[ssoKey], { separator: ':' });
   }
-  console.log("map[ssoKey]:", babelHelpers.typeof(map[ssoKey]));
   return map;
 }
 
@@ -561,8 +555,9 @@ var AdManager = function () {
     value: function initAdSlotDefinitions() {
       //for each adSlot
       //adSlot mapping config
-      //let slotMapping = googletag.sizeMapping().addSize([width, height],[width,
-      // height])(...).build();
+      //let slotMapping = googletag.sizeMapping().addSize([breakPointWidth, breakPointHeight],
+      // [ [width1, height1],...,[widthN, heightN] ])(...).build();
+      //const slotPath = `/${network}/${base}/${adSlotId}/${adSlotId}_${homepage|department}`
       //const slotDefinition = googletag.defineSlot(slotPath,[[defaultWidth,
       // defaultHeight]],adSlot.id).defineSizeMapping(slotMapping).addService(googletag.pubads()).setCollapseEmptyDiv(true);
       //this.adSlotDefinitions[adSlot.id] = slotDefinition;
@@ -608,14 +603,14 @@ var dfpConfig = {
   /**
    * Returns a homepage
    * @returns {boolean}
-     */
+   */
   get isHomepage() {
     return window.location.pathname === "/";
   },
   /**
    * returns the domain the page was loaded to. i.e: 'haaretz.co.il', 'haaretz.com'
    * @returns {string} the domain name from the windows's location hostname property
-     */
+   */
   get domain() {
     return window.location.hostname.replace(/([\w|\d]+.)/, "");
   },
@@ -631,14 +626,66 @@ var dfpConfig = {
     }
     return articleId;
   },
-  utm: {
-    utm_content: '',
-    utm_source: '',
-    utm_medium: '',
-    utm_campaign: ''
+  utm_: {
+    get content() {
+      return this.getUrlParam('utm_content');
+    },
+    get source() {
+      return this.getUrlParam('utm_source');
+    },
+    get medium() {
+      return this.getUrlParam('utm_medium');
+    },
+    get campaign() {
+      return this.getUrlParam('utm_campaign');
+    },
+    getUrlParam: function getUrlParam(key) {
+      var results = RegExp("(" + key + ")(=)([^&\"]+)").exec(window.location.search);
+      return results && results[3] ? results[3] : null;
+    }
   },
-  adSlotConfig: {},
+  get gStatCampaignNumber() {
+    var gstatCampign = JSON.parse(localStorage.GstatCampaign);
+    return gstatCampign ? gstatCampign['CampaignNumber'] : null;
+  },
+  adSlotConfig: {
+    "haaretz.co.il.example.slot": {
+      id: "slotId",
+      path: "/network/base/slotId/slotId_subsection",
+      responsiveAdSizeMapping: {
+        xxs: [['width1', 'height1']].concat(['widthN', 'heightN']),
+        xs: [],
+        s: [],
+        m: [],
+        l: [],
+        xl: [],
+        xxl: []
+      }
+    }
+  },
   adManagerConfig: {},
+  breakpointsConfig: {
+    // Type 1
+    breakpoints: {
+      xxs: 600,
+      xs: 761,
+      s: 993,
+      m: 1009,
+      l: 1291,
+      xl: 1600,
+      xxl: 1900
+    },
+    // Type 2
+    altBreakpoints: {
+      xxs: 600,
+      xs: 1000,
+      s: 1150,
+      m: 1281,
+      l: 1600,
+      xl: 1920,
+      xxl: 1920
+    }
+  },
   userConfig: {
     age: "none",
     gender: "none"
@@ -655,7 +702,7 @@ var DFP = function () {
 
     this.config = Object.assign({}, defaultConfig, config);
     this.wasInitialized = false;
-    this.adManager = new AdManager(config.adManagerConfig);
+    this.adManager = new AdManager(config);
   }
 
   /*
