@@ -3,8 +3,8 @@ const glob = require('glob');
 // Our testing bundle is made up of our unit tests, which
 // should individually load up pieces of our application.
 // We also include the browser setup file.
-const testFiles  = glob.sync('./src/**/*__tests__*/**/*spec.browser.js')
-	.concat(glob.sync('./src/**/*__tests__*/**/*spec.server.js'));
+const testFiles  = glob.sync('./src/**/*__tests__*/**/*.spec.browser.js');
+	//.concat(glob.sync('./src/**/*__tests__*/**/*spec.server.js'));
 const allFiles = ['./config/browser.js'].concat(testFiles);
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
 	},
 	devServer: {
 		contentBase: './',
-		port: 8080,
+		port: 8086,
 		noInfo: false,
 		hot: true,
 		inline: true,
@@ -40,6 +40,6 @@ module.exports = {
 		// By default, webpack does `n=>n` compilation with entry files. This concatenates
 		// them into a single chunk.
 		new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
-		new webpack.HotModuleReplacementPlugin()
+		new webpack.HotModuleReplacementPlugin(),
 	]
 };

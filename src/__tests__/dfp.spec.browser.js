@@ -1,11 +1,14 @@
-import DFP from '../../src/index';
-import { ssoKey } from '../utils/cookieUtils';
+import DFP from '../index';
 import globalConfig from './globalConfig.mock';
 
 describe( 'DFP - unit tests for browser', () => {
-  let dfp;
+  let dfp, spy;
   before(() => {
-    dfp = new DFP(globalConfig); //DFP is now a singleton
+    dfp = new DFP(globalConfig);
+    //Bind Global
+    spy = sinon.spy(dfp,"resumeInit");
+
+    //window.dfp = dfp;
   });
 
   it( 'should not throw an error', () => {
@@ -13,46 +16,69 @@ describe( 'DFP - unit tests for browser', () => {
   } );
 
   it( 'should be a object', () => {
-    expect( dfp ).to.be.a.object;
+    expect( dfp ).to.be.an('object');
   } );
 
 
   describe( 'configuration' , () => {
     it( 'should have a configuration ', () => {
-      expect( dfp.config ).to.be.a.object;
+      expect( dfp.config ).to.be.an('object');
     } );
 
-    it( 'should have an sso declaration inside of the configuration ', () => {
-      expect( dfp.config.sso ).to.be.a.string;
-    } );
-
-    it( `should have an sso value of '${ssoKey}' `, () => {
-      expect( dfp.config.sso ).to.equal(ssoKey);
-    } );
+    //it( 'should have an sso declaration inside of the configuration ', () => {
+    //  expect( dfp.config.sso ).to.be.a('string');
+    //} );
+    //
+    //it( `should have an sso value of '${ssoKey}' `, () => {
+    //  expect( dfp.config.sso ).to.equal(ssoKey);
+    //} );
   });
 
   describe('dfp init', () => {
-    let promise;
-    before(() => {
-      promise = dfp.initGoogleTag();
-    });
-
-    it(' should load the google tag script correctly ', () => {
-      promise.then(() => {
-        expect( window.googletag && window.googletag.apiReady == true ).to.be.true;
-      })
-    });
-
-    it(' should not break on multiple calls to initGoogleTag', () => {
+    it(' should load the google tag script correctly ', function(done) {
+      this.timeout(4000);
       dfp.initGoogleTag().then(() => {
-        expect( window.googletag && window.googletag.apiReady == true ).to.be.true;
-      })
+        expect( window.googletag).to.not.be.undefined;
+        done();
+      });
+      //promise.then(() => {
+      //  expect( window.googletag).to.not.be.undefined;
+      //  done();
+      //})
+      //.catch(reason => {
+      //  console.log(reason);
+      //  expect( window.googletag).to.not.be.undefined;
+      //  done();
+      //})
     });
 
-    it(' should have a single adManager', () => {
+    it(' should not break on multiple calls to initGoogleTag', function(done) {
       dfp.initGoogleTag().then(() => {
-        expect( dfp.adManager ).to.be.a.object;
-      })
+        expect( window.googletag).to.not.be.undefined;
+        done();
+      });
+    });
+
+    it(` should call the 'resumeInit()' function only once. `, function(done) {
+      expect( spy.calledOnce).to.be.true
+      done();
+    });
+
+    it(` should not call the 'resumeInit()' function twice. `, function(done) {
+      expect( spy.calledTwice).to.be.false;
+      done();
+    });
+    it(' should have a single adManager', function(done) {
+      this.timeout(4000);
+      dfp.initGoogleTag().then(() => {
+        console.log(`DFP`,dfp.adManager);
+        expect( dfp.adManager ).to.be.an('object');
+        console.log(`spy call count: ${spy.callCount}`);
+        done();
+      });
+    });
+    after(() => {
+      window.dfp = dfp;
     })
 
   });

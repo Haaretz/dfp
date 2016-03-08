@@ -27,44 +27,44 @@ describe( 'impressionsManager', () => {
   } );
 
   it( 'should be a object', () => {
-    expect( impressionsManager ).to.be.a.object;
+    expect( impressionsManager ).to.be.an('object');
   } );
 
   it( 'should have a configuration ', () => {
-    expect( impressionsManager.config ).to.be.a.object;
+    expect( impressionsManager.config ).to.be.an('object');
   } );
 
   it( 'should have initialized the impressions object', () => {
-    expect( impressionsManager.impressions ).to.be.a.object;
+    expect( impressionsManager.impressions ).to.be.an('object');
   } );
 
   //it( 'should have initialized the impressions object for each slot ', () => {
-  //  expect( impressionsManager.impressions ).to.be.a.object;
+  //  expect( impressionsManager.impressions ).to.be.an('object');
   //} );
 
   describe( 'impressionsManager.impressions', () => {
     it( 'should have initial configuration for each slot ', () => {
-      expect( impressionsManager.impressions ).to.be.a.object;
+      expect( impressionsManager.impressions ).to.be.an('object');
     } );
 
     Object.keys( globalConfig ).map(function(key, index) {
       describe( `slot configuration for slot: ${key}` , () => {
         it( `should have initial configuration for slot`, () => {
-          expect( impressionsManager.impressions[key] ).to.be.a.object;
+          expect( impressionsManager.impressions[key] ).to.be.an('object');
         } );
         it( `should have a frequency`, () => {
-          expect( impressionsManager.impressions[key]['frequency'] ).to.be.a.string;
+          expect( impressionsManager.impressions[key]['frequency'] ).to.be.a('string');
         } );
         it( `should have an expiry date`, () => {
-          expect( impressionsManager.impressions[key]['expires'] ).to.be.a.number;
+          expect( impressionsManager.impressions[key]['expires'] ).to.be.a('number');
         } );
         it( `should have an 'exposed' counter `, () => {
-          expect( impressionsManager.impressions[key]['frequency'] ).to.be.a.number;
+          expect( impressionsManager.impressions[key]['exposed'] ).to.be.a('number');
         } );
       });
     });
     it( 'should have initial configuration for each slot ', () => {
-      expect( impressionsManager.impressions ).to.be.a.object;
+      expect( impressionsManager.impressions ).to.be.an('object');
     } );
   })
 } );

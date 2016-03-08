@@ -1,52 +1,106 @@
 //GlobalConfig Mock data
-const dfpConfig = {
-  get isMobile() {
-    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-      .test(window.navigator.userAgent || ""));
+const dfpConfigMock = {
+  referrer : "",
+  isMobile: false,
+  isHomepage: true,
+  department: '_homepage',
+  domain: 'haaretz.co.il',
+  path: [],
+  environment: 1,
+  articleId: null,
+  utm_ : {
+    content: undefined,
+    source: undefined,
+    medium: undefined,
+    campaign: undefined,
   },
-  /**
-   * Returns a homepage
-   * @returns {boolean}
-     */
-  get isHomepage() {
-    return window.location.pathname === "/";
-  },
-  /**
-   * returns the domain the page was loaded to. i.e: 'haaretz.co.il', 'haaretz.com'
-   * @returns {string} the domain name from the windows's location hostname property
-     */
-  get domain() {
-    return window.location.hostname.replace(/([\w|\d]+.)/, "");
-  },
-  /**
-   * Returns the articleIf if on an article page, or null otherwise
-   * @returns {string} an articleId string from the pathname, or null if none is found
-   */
-  get articleId() {
-    const articleIdMatch = /\d\.\d+/g.exec(window.location.pathname);
-    let articleId = null;
-    if(articleIdMatch) {
-      articleId = articleIdMatch.pop(); //Converts ["1.23145"] to "1.23145"
-    }
-    return articleId;
-  },
-  utm : {
-    utm_content : '',
-    utm_source : '',
-    utm_medium : '',
-    utm_campaign : '',
-  },
+  gStatCampaignNumber: undefined,
   adSlotConfig: {
-
+    "haaretz.co.il.web.plazma" : {
+      id: "haaretz.co.il.web.plazma",
+      responsive: true,
+      adSizeMapping: [[970, 90]],
+      responsiveAdSizeMapping : {
+        xxs: [[468, 60]],
+        xs: [[728, 90]],
+        s: [[970, 250],[980, 190],[970, 90],[960, 150]],
+        m: [[970, 250],[980, 190],[960, 150],[970, 90],[3, 3]],
+        l: [[970, 250],[980, 190],[960, 150],[970, 90],[1280, 200],[3, 3]],
+        xl: [[970, 250],[980, 190],[960, 150],[970, 90],[1280, 200],[3, 3]],
+        xxl: [[970, 250],[980, 190],[960, 150],[970, 90],[1280, 200],[3, 3]],
+      },
+      blacklistReferrers: "",
+      whitelistReferrers: "",
+    },
+    "haaretz.co.il.web.marketing.promotional_madrid.left_text3" : {
+      id: "haaretz.co.il.web.marketing.promotional_madrid.left_text3",
+      responsive: false,
+      adSizeMapping: [[375, 102]],
+      responsiveAdSizeMapping : {
+        xxs: [],
+        xs: [],
+        s: [],
+        m: [],
+        l: [],
+        xl: [],
+        xxl: [],
+      },
+      blacklistReferrers: "",
+      whitelistReferrers: "",
+    },
+    "haaretz.co.il.web.popunder" : {
+      id: "haaretz.co.il.web.popunder",
+      responsive: false,
+      adSizeMapping: [],
+      responsiveAdSizeMapping : {
+        xxs: [],
+        xs: [],
+        s: [],
+        m: [],
+        l: [],
+        xl: [],
+        xxl: [],
+      },
+      blacklistReferrers: "",
+      whitelistReferrers: "",
+    },
   },
   adManagerConfig : {
+    network: '9401',
+    adUnitBase: 'haaretz.co.il_Web',
+  },
+  breakpointsConfig : {
+    get breakpoints() {
+      const isType1 = true; //Override in VM from backend to control this toggle.
+      return isType1 ? this.breakpoints1 : this.breakpoints2;
+    },
 
+    // Type 1
+    breakpoints1 : {
+      xxs: 600,
+      xs: 761,
+      s: 993,
+      m: 1009,
+      l: 1291,
+      xl: 1600,
+      xxl: 1900,
+    },
+    // Type 2
+    breakpoints2 : {
+      xxs: 600,
+      xs: 1000,
+      s: 1150,
+      m: 1281,
+      l: 1600,
+      xl: 1920,
+      xxl: 1920,
+    }
   },
   userConfig: {
-    age: "none",
-    gender: "none",
-  }
-
+    type : undefined,
+    age: undefined,
+    gender: undefined,
+  },
 };
 
-export default dfpConfig;
+export default dfpConfigMock;

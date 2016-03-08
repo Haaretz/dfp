@@ -1,23 +1,31 @@
 import { ssoKey } from '../src/utils/cookieUtils';
 //globalConfig for DFP
 const dfpConfig = {
+  get referrer() {
+    return document.referrer ? document.referrer : "";
+  },
   get isMobile() {
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
       .test(window.navigator.userAgent || ""));
   },
   /**
-   * Returns a homepage
+   * Returns true iff the loaded page is the homepage (no inner path)
    * @returns {boolean}
    */
   get isHomepage() {
-    return window.location.pathname === "/";
+    return window.location.pathname === "/" || this.environment === 3; //'prod'
+  },
+  get department() {
+    return this.isHomepage ? '_homepage' : '_section'
   },
   /**
    * returns the domain the page was loaded to. i.e: 'haaretz.co.il', 'haaretz.com'
    * @returns {string} the domain name from the windows's location hostname property
    */
   get domain() {
-    return window.location.hostname.replace(/([\w|\d]+.)/, "");
+    const regexMatch = /([\d|\w]+)(\.co\.il|\.com)(.*)?/.exec(location.hostname);
+    const result = regexMatch ? regexMatch[0] : location.hostname;
+    return result;
   },
   /**
    * Returns an array of concatenated paths, separated by a dot.
@@ -31,10 +39,27 @@ const dfpConfig = {
    * @returns {Array.<T>} an array of path names
      */
   get path() {
-    return location.pathname.split('/').slice(1,-1)
+    return window.location.pathname.split('/').slice(1,-1)
       .map(section => `.${section}`)
       .map((section, index, arr) => arr.slice(0,index+1)
         .reduce((last, current) => last.concat(current)));
+  },
+  /**
+   * Returns the current environment targeting param, if such is defined.
+   * @returns {number} targeting param, 1 for local development, 2 for test servers and 3 for prod.
+   * May return undefined if no targeting is specified.
+     */
+  get environment() {
+    const env = {
+      dev: 1,
+      test: 2,
+      prod: 3,
+    };
+    return window.location.port === '8080' ? env.dev :
+      (window.location.hostname.indexOf('pre.haaretz.co.il') > -1
+      || window.location.hostname.indexOf('tmtest.haaretz.com') > -1) ? env.test :
+        (window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1
+        || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1) ? env.prod : undefined;
   },
   /**
    * Returns the articleIf if on an article page, or null otherwise
@@ -67,14 +92,16 @@ const dfpConfig = {
     },
   },
   get gStatCampaignNumber() {
-    const gstatCampign = localStorage.GstatCampaign ?
-      JSON.parse(localStorage.GstatCampaign) : undefined;
-    return gstatCampign ? gstatCampign['CampaignNumber'] : undefined;
+    const GstatCampaign = window.localStorage.getItem('GstatCampaign') ?
+      JSON.parse(window.localStorage.getItem('GstatCampaign')) : undefined;
+    return GstatCampaign ? GstatCampaign['CampaignNumber'] : undefined;
   },
   adSlotConfig: {
     "haaretz.co.il.example.slot" : {
       id: "slotId",
-      path : "/network/base/slotId/slotId_subsection",
+      //path : "/network/base/slotId/slotId_subsection", Will be calculated from AdManager
+      responsive: true,
+      adSizeMapping: [['width1','height1'],...['widthN','heightN']],
       responsiveAdSizeMapping : {
         xxs: [['width1','height1'],...['widthN','heightN'],],
         xs: [['width1','height1'],...['widthN','heightN'],],
@@ -84,12 +111,13 @@ const dfpConfig = {
         xl: [['width1','height1'],...['widthN','heightN'],],
         xxl: [['width1','height1'],...['widthN','heightN'],],
       },
-      blackListReferrers: "comma, delimited, blacklisted, referrer, list",
-      onlyFromReferrers: "comma, delimited, referrer, list",
+      blacklistReferrers: "comma, delimited, blacklisted, referrer, list",
+      whitelistReferrers: "comma, delimited, referrer, list",
     }
   },
   adManagerConfig : {
-
+    network: '9401',
+    adUnitBase: 'haaretz.co.il_Web',
   },
   breakpointsConfig : {
     get breakpoints() {

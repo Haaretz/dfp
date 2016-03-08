@@ -13,19 +13,22 @@ module.exports = function(config, specificOptions) {
 
 		// list of files / patterns to load in the browser
 		files: [
+			'../node_modules/babel-polyfill/dist/polyfill.js',
 			'../src/**/*__tests__*/**/*spec.browser.js',
-			'../src/**/*__tests__*/**/*spec.server.js',
+			//'../src/**/*__tests__*/**/*spec.server.js',
 		],
 		// list of files to exclude
 		exclude: [],
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'../src/**/*__tests__*/**/*spec.server.js': ['webpack'],
+			'../src/**/*.js': ['sourcemap'],
+			//'../src/**/*__tests__*/**/*spec.server.js': ['webpack'],
 			'../src/**/*__tests__*/**/*spec.browser.js': ['webpack'],
 		},
 		webpack: {
 			cache: true,
+      devtool: 'inline-source-map',
 			module: {
 				postLoaders: [{
 					test: /\.js?$/,
@@ -47,7 +50,7 @@ module.exports = function(config, specificOptions) {
 			}
 		},
 		webpackMiddleware: {
-			noInfo: true
+			noInfo: true,
 		},
 		// test results reporter to use
 		// possible values: 'dots', 'progress'
@@ -59,7 +62,7 @@ module.exports = function(config, specificOptions) {
 				success: 'green',
 				info: 'bgYellow',
 				warning: 'cyan',
-				error: 'bPink'
+				error: 'bgRed'
 			},
 			divider: ''
 		},
@@ -91,6 +94,10 @@ module.exports = function(config, specificOptions) {
 		concurrency: 4,
 		// If browser does not capture in given timeout [ms], kill it
 		captureTimeout: 100000,
+    client: {
+      useIframe: true,
+      clearContext: false
+    },
 		browserNoActivityTimeout: 30000,
 		// enable / disable colors in the output (reporters and logs)
 		colors: true,

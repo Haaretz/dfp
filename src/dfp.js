@@ -7,17 +7,36 @@ export default class DFP {
   constructor(config) {
     this.config = Object.assign({}, defaultConfig, config);
     this.wasInitialized = false;
-    this.adManager = new AdManager(config);
   }
+
+  /**
+   * This part of the object's construction is dependent on the call to 'init'
+   */
+  resumeInit() {
+    let adManager;
+    try{
+      adManager = new AdManager(this.config);
+      this.adManager = adManager;
+    }
+    catch (err) {
+      console.log(err);
+    }
+    return this.adManager;
+  }
+
+  //get wasInitialized() {
+  //  return (window.googletag && window.googletag.cmd);
+  //}
 
   /*
    * initializes the 'googletag' global namespace and add the
     * google publish tags library to the page
    */
   initGoogleTag() {
+    const dfpThis = this;
     let promise = new Promise((resolve,reject) => {
-      if (this.wasInitialized == true) {
-        resolve();
+      if (dfpThis.wasInitialized == true) {
+        resolve(true);
       }
       else {
         // set up a place holder for the gpt code downloaded from google
@@ -28,22 +47,23 @@ export default class DFP {
         // will be executed immediately
         window.googletag.cmd = window.googletag.cmd || [];
         //load google tag services JavaScript
-        (function() {
-          var tag = document.createElement('script');
+        (() => {
+          const tag = window.document.createElement('script');
           tag.async = true;
           tag.type = 'text/javascript';
           //var useSSL = 'https:' == document.location.protocol;
           tag.setAttribute('src','//www.googletagservices.com/tag/js/gpt.js');
-          var node = document.getElementsByTagName('script')[0];
-          node.parentNode.insertBefore(tag, node);
-          tag.onload = () => {
-            this.wasInitialized = true;
-            resolve();
-          };
-          tag.onerror = (error) => {
-            this.wasInitialized = true;
+          var node = window.document.getElementsByTagName('script')[0];
+          tag.onload = (() => {
+            dfpThis.wasInitialized = true;
+            resolve(true);
+            dfpThis.resumeInit();
+          });
+          tag.onerror = ((error) => {
+            dfpThis.wasInitialized = true;
             reject(error);
-          };
+          });
+          node.parentNode.insertBefore(tag, node);
         })();
       }
     });
@@ -51,6 +71,7 @@ export default class DFP {
     }
   initGoogleGlobalSettings() {
     googletag.pubads().enableAsyncRendering();
+    // Enables all GPT services that have been defined for ad slots on the page.
     googletag.enableServices();
   }
 }

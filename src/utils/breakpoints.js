@@ -14,7 +14,7 @@ const breakpoints = globalConfig.breakpointsConfig.breakpoints;
  * @returns {Function} the debounced function
  * //TODO translate to ES6 format - in progress...
  */
-export function debounce(func, wait, immediate) {
+export function debounce(func, wait = 100, immediate) {
   let timeout;
   return function() {
     const context = this, args = arguments;
@@ -29,20 +29,19 @@ export function debounce(func, wait, immediate) {
   };
 }
 
-
-function getBreakpoint() {
-  let breakpoint = breakpoints.xl;
+/**
+ * Returns the current breakpoint that is closest to the window's width
+ * @returns {number} the break that the current width represents
+ */
+export function getBreakpoint() {
+  let breakpoint = breakpoints.xxl;
   let windowWidth = window.innerWidth;
-  switch (true) {
-    //case windowWidth < breakpoints.xl: breakpoint = breakpoints.xl; //Default
-    case windowWidth < breakpoints.l: breakpoint = breakpoints.l;
-    case windowWidth < breakpoints.m: breakpoint = breakpoints.m;
-    case windowWidth < breakpoints.s: breakpoint = breakpoints.s;
-  }
+  if(windowWidth < breakpoints.xl) { breakpoint = breakpoints.xl }
+  if(windowWidth < breakpoints.l) { breakpoint = breakpoints.l }
+  if(windowWidth < breakpoints.m) { breakpoint = breakpoints.m }
+  if(windowWidth < breakpoints.s) { breakpoint = breakpoints.s }
+  if(windowWidth < breakpoints.xs) { breakpoint = breakpoints.xs }
+  if(windowWidth < breakpoints.xxs) { breakpoint = breakpoints.xxs }
   return breakpoint
-}
-function breakpointChanged() {
-  this.currentBreakpoint = this.getBreakpoint();
-  dfp.adManager.switchedToBreakpoint(this.currentBreakpoint);
 }
 

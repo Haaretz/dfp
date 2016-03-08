@@ -11,7 +11,7 @@ describe( 'conflictResolver', () => {
   } );
 
   it( 'should be a object', () => {
-    expect( conflictResolver ).to.be.a.object;
+    expect( conflictResolver ).to.be.an('object');
   } );
 
   it( 'should not have a configuration ', () => {
@@ -33,7 +33,7 @@ describe( 'conflictResolver', () => {
     });
 
     it( 'should properly init the queue', () => {
-      expect( window.conflicManagementJson ).to.be.a.object;
+      expect( window.conflicManagementJson ).to.be.an('object');
     } );
 
     it( 'should properly init the blockingQueue', () => {
@@ -45,7 +45,7 @@ describe( 'conflictResolver', () => {
     } );
     describe(`updateResolvedSlot`, () => {
       it( `should properly define a 'updateResolvedSlot' method on 'conflictResolver'`, () => {
-        expect( conflictResolver.updateResolvedSlot).to.be.a.function;
+        expect( conflictResolver.updateResolvedSlot).to.be.a('function');
       } );
 
       it( `should throw an error when called without an 'adSlotId' parameter`, () => {
@@ -83,7 +83,7 @@ describe( 'conflictResolver', () => {
         conflictResolver = new ConflictResolver();
       });
       it( `should properly define a 'isBlocked' method on 'conflictResolver'`, () => {
-        expect( conflictResolver.isBlocked).to.be.a.function;
+        expect( conflictResolver.isBlocked).to.be.a('function');
       } );
 
       it( `should throw an error when called without an 'adSlotId' parameter`, () => {

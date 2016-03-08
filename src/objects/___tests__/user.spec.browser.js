@@ -31,23 +31,23 @@ describe( ' User module', function() {
       } );
 
       it( 'should be a object', () => {
-        expect( user ).to.be.a.object;
+        expect( user ).to.be.an('object');
       } );
 
       it( 'should have a user type string property ', () => {
-        expect( user.type ).to.be.a.string && expect( user.type ).to.not.be.a.undefined;
+        expect( user.type ).to.be.a('string') && expect( user.type ).to.not.be.an('undefined');
       } );
 
       it( 'should have an impression manager initialized ', () => {
-        expect( user.impressionManager ).to.be.a.object;
+        expect( user.impressionManager ).to.be.an('object');
       } );
 
       it( 'can never have an age property', () => {
-        expect( user.age ).to.be.undefined;
+        expect( user.age ).to.be.an('undefined');
       } );
 
       it( 'can never have a gender property', () => {
-        expect( user.gender ).to.be.undefined
+        expect( user.gender ).to.be.an('undefined')
       } );
     });
 
@@ -64,15 +64,15 @@ describe( ' User module', function() {
       } );
 
       it( 'should be a object', () => {
-        expect( user ).to.be.a.object;
+        expect( user ).to.be.an('object');
       } );
 
       it( 'should have a user type string property ', () => {
-        expect( user.type ).to.be.a.string && expect( user.type ).to.not.be.a.undefined;
+        expect( user.type ).to.be.a('string') && expect( user.type ).to.not.be.an('undefined');
       } );
 
       it( 'should have an impression manager initialized ', () => {
-        expect( user.impressionManager ).to.be.a.object;
+        expect( user.impressionManager ).to.be.an('object');
       } );
 
       it( 'should have an age property within 1-120', () => {
@@ -98,15 +98,15 @@ describe( ' User module', function() {
       } );
 
       it( 'should be a object', () => {
-        expect( user ).to.be.a.object;
+        expect( user ).to.be.an('object');
       } );
 
       it( 'should have a user type string property ', () => {
-        expect( user.type ).to.be.a.string && expect( user.type ).to.not.be.a.undefined;
+        expect( user.type ).to.be.a('string') && expect( user.type ).to.not.be.an('undefined');
       } );
 
       it( 'should have an impression manager initialized ', () => {
-        expect( user.impressionManager ).to.be.a.object;
+        expect( user.impressionManager ).to.be.an('object');
       } );
 
       it( 'should have an age property within 1-120', () => {
@@ -134,23 +134,23 @@ describe( ' User module', function() {
       } );
 
       it( 'should be a object', () => {
-        expect( user ).to.be.a.object;
+        expect( user ).to.be.an('object');
       } );
 
       it( 'should have a user type string property ', () => {
-        expect( user.type ).to.be.a.string && expect( user.type ).to.not.be.a.undefined;
+        expect( user.type ).to.be.a('string') && expect( user.type ).to.not.be.an('undefined');
       } );
 
       it( 'should have an impression manager initialized ', () => {
-        expect( user.impressionManager ).to.be.a.object;
+        expect( user.impressionManager ).to.be.an('object');
       } );
 
       it( 'can never have an age property', () => {
-        expect( user.age ).to.be.undefined;
+        expect( user.age ).to.be.an('undefined');
       } );
 
       it( 'can never have a gender property', () => {
-        expect( user.gender ).to.be.undefined
+        expect( user.gender ).to.be.an('undefined')
       } );
     });
 
@@ -168,15 +168,15 @@ describe( ' User module', function() {
       } );
 
       it( 'should be a object', () => {
-        expect( user ).to.be.a.object;
+        expect( user ).to.be.an('object');
       } );
 
       it( 'should have a user type string property ', () => {
-        expect( user.type ).to.be.a.string && expect( user.type ).to.not.be.a.undefined;
+        expect( user.type ).to.be.a('string') && expect( user.type ).to.not.be.an('undefined');
       } );
 
       it( 'should have an impression manager initialized ', () => {
-        expect( user.impressionManager ).to.be.a.object;
+        expect( user.impressionManager ).to.be.an('object');
       } );
 
       it( 'should have an age property within 1-120', () => {
@@ -203,16 +203,16 @@ describe( ' User module', function() {
       } );
 
       it( 'should be a object', done => {
-        expect( user ).to.be.a.object;
+        expect( user ).to.be.an('object');
         done();
       } );
 
       it( 'should have a user type string property ', () => {
-        expect( user.type ).to.be.a.string;
+        expect( user.type ).to.be.a('string');
       } );
 
       it( 'should have an impression manager initialized ', () => {
-        expect( user.impressionManager ).to.be.a.object;
+        expect( user.impressionManager ).to.be.an('object');
       } );
 
       it( 'should have an age property within 1-120', () => {

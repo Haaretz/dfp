@@ -5,9 +5,8 @@ global.sinon = require('sinon');
 
 //var AbstractBrowser = require('mock-browser').delegates.AbstractBrowser;
 var MockBrowser = require('mock-browser').mocks.MockBrowser;
-//var MockBrowser = MockBrowserModule.mocks.MockBrowser;
 var mock = new MockBrowser();
-//
+
 //// configure in some factory
 //var opts = {};
 //
@@ -17,14 +16,18 @@ var mock = new MockBrowser();
 //} else {
 //  // create a mock window object for testing
 //  opts.window =  MockBrowser.createWindow();
+//  opts.window.location = 'localhost';
 //}
-//
-//// create the browser object with a real window in browsers and mock when not in browser
-//var browser = new AbstractBrowser( opts );
-//
-//var document = browser.getDocument();
+
+// create the browser object with a real window in browsers and mock when not in browser
+//var mock = new AbstractBrowser( opts );
+
+
 
 global.window = mock.getWindow();
 global.document = mock.getDocument();
+global.location = mock.getLocation();
+//global.localStorage = storage;// || mock.getLocalStorage();
 global.localStorage = mock.getLocalStorage();
 global.isHomepage = true;
+//global.googletag = global.googletag || {};
