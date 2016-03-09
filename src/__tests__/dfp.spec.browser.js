@@ -35,21 +35,24 @@ describe( 'DFP - unit tests for browser', () => {
   });
 
   describe('dfp init', () => {
+    before(() => {
+
+      setTimeout(() => {
+        console.log(`window.googletag`,window.googletag,`window.googletag.apiReady`,window.googletag.apiReady);
+      }, 500);
+      setTimeout(() => {
+        console.log(`window.googletag`,window.googletag,`window.googletag.apiReady`,window.googletag.apiReady);
+      }, 1000);
+      setTimeout(() => {
+        console.log(`window.googletag`,window.googletag,`window.googletag.apiReady`,window.googletag.apiReady);
+      }, 1500);
+    });
     it(' should load the google tag script correctly ', function(done) {
       this.timeout(4000);
       dfp.initGoogleTag().then(() => {
         expect( window.googletag).to.not.be.undefined;
         done();
       });
-      //promise.then(() => {
-      //  expect( window.googletag).to.not.be.undefined;
-      //  done();
-      //})
-      //.catch(reason => {
-      //  console.log(reason);
-      //  expect( window.googletag).to.not.be.undefined;
-      //  done();
-      //})
     });
 
     it(' should not break on multiple calls to initGoogleTag', function(done) {

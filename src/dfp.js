@@ -35,7 +35,7 @@ export default class DFP {
   initGoogleTag() {
     const dfpThis = this;
     let promise = new Promise((resolve,reject) => {
-      if (dfpThis.wasInitialized == true) {
+      if (dfpThis.wasInitialized == true || (window.googletag && window.googletag.apiReady)) {
         resolve(true);
       }
       else {
