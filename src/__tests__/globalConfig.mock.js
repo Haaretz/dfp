@@ -66,15 +66,14 @@ const dfpConfigMock = {
     },
   },
   adManagerConfig : {
-    network: '9401',
-    adUnitBase: 'haaretz.co.il_Web',
+    network: 9401,
+    adUnitBase: 'haaretz.co.il_web',
   },
   breakpointsConfig : {
     get breakpoints() {
       const isType1 = true; //Override in VM from backend to control this toggle.
       return isType1 ? this.breakpoints1 : this.breakpoints2;
     },
-
     // Type 1
     breakpoints1 : {
       xxs: 600,
@@ -101,6 +100,38 @@ const dfpConfigMock = {
     age: undefined,
     gender: undefined,
   },
+  conflictManagementConfig: {
+    "haaretz.co.il.web.plazma": [
+      {
+        onsize: "1280x200,970x250,3x3",
+        avoid: "haaretz.co.il.web.halfpage.floating_x"
+      },
+      {
+        onsize: "1280x200,970x250,3x3",
+        avoid: "haaretz.co.il.web.ruler"
+      }
+    ]
+  },
+  impressionManagerConfig : {
+    "haaretz.co.il.web.plazma_section" : {
+      id: 'haaretz.co.il.web.plazma',
+      target: 'section',
+      frequency: '2/1hour',
+    },
+    "haaretz.co.il.web.marketing.promotional_madrid.left_text3_section": {
+      id: 'haaretz.co.il.web.marketing.promotional_madrid.left_text3',
+      target: 'homepage',
+      frequency: '2/1day',
+    },
+    "haaretz.co.il.web.popunder_all": {
+      id: 'haaretz.co.il.web.popunder',
+      target: 'all',
+      frequency: '10/10hour',
+    }
+
+  }
 };
 
 export default dfpConfigMock;
+
+

@@ -1,4 +1,3 @@
-import DFP from '../index';
 import globalConfig from '../globalConfig';
 
 const breakpoints = globalConfig.breakpointsConfig.breakpoints;
@@ -38,10 +37,25 @@ export function getBreakpoint() {
   let windowWidth = window.innerWidth;
   if(windowWidth < breakpoints.xl) { breakpoint = breakpoints.xl }
   if(windowWidth < breakpoints.l) { breakpoint = breakpoints.l }
-  if(windowWidth < breakpoints.m) { breakpoint = breakpoints.m }
+  if(windowWidth < breakpoints.m) { breakpoint = breakpoints.m } else { return breakpoint}
   if(windowWidth < breakpoints.s) { breakpoint = breakpoints.s }
   if(windowWidth < breakpoints.xs) { breakpoint = breakpoints.xs }
   if(windowWidth < breakpoints.xxs) { breakpoint = breakpoints.xxs }
   return breakpoint
+}
+/**
+ * Returns the current breakpoint that is closest to the window's width
+ * @returns {string} the breakpoint label that the current width represents
+ */
+export function getBreakpointName(breakpoint) {
+  let resultBreakpoint = 'xxl';
+  let windowWidth = breakpoint || window.innerWidth;
+  if(windowWidth < breakpoints.xl) { resultBreakpoint = 'xl' }
+  if(windowWidth < breakpoints.l) { resultBreakpoint = 'l' }
+  if(windowWidth < breakpoints.m) { resultBreakpoint = 'm' }
+  if(windowWidth < breakpoints.s) { resultBreakpoint = 's' }
+  if(windowWidth < breakpoints.xs) { resultBreakpoint = 'xs' }
+  if(windowWidth < breakpoints.xxs) { resultBreakpoint = 'xxs' }
+  return resultBreakpoint
 }
 

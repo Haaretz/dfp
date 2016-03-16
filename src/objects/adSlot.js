@@ -3,33 +3,49 @@ import globalConfig from '../globalConfig';
 import dfpInstance from '../index';
 export default class adSlot {
 
-  constructor(config) {
-    this.config = Object.assign({}, config);
+  constructor(adSlotConfig) {
+    this.config = Object.assign({}, adSlotConfig);
+
+    // Part I : Markup configuration - passed from AdManager
     this.id = this.config.id;
+    if(!this.config.id) {
+      throw new Error("an adSlot requires an id!")
+    }
+    this.target = this.config.target;
     this.type = this.config.type;
     this.responsive = this.config.responsive;
+    this.user = this.config.user;
+
+    // Part II : Global, general ad configuration - passed from AdManager
+    this.department = this.config.department;
+    this.network = this.config.network;
+    this.adUnitBase = this.config.adUnitBase;
+
+    // Part III : ad specific configuration - passed from globalConfig.adSlotConfig
     this.adSizeMapping = this.config.adSizeMapping;
     this.responsiveAdSizeMapping = this.config.responsiveAdSizeMapping;
     this.blacklistReferrers = this.config.blacklistReferrers;
     this.whitelistReferrers = this.config.whitelistReferrers;
-    this.lastResolvedSize = null;
 
-    this.lastResolvedWithBreakpoint = null;
-    if(!this.config.id) {
-      throw new Error("an adSlot requires an id!")
-    }
-    this.department = this.config.department;
-    this.target = this.config.target;
-    this.user = this.config.user;
-    console.log(this.config);
-    this.network = this.config.adManagerConfig.network;
-    this.adUnitBase = this.config.adManagerConfig.adUnitBase;
-    // this.slot
-    // Holds a googletag.Slot object
+
+    // Part IV : Runtime configuration - calculated data - only present in runtime
+    this.lastResolvedSize; // Initialized in 'slotRenderEnded' callback
+    this.lastResolvedWithBreakpoint; // Initialized in 'slotRenderEnded' callback
+    this.slot; // Holds a googletag.Slot object
     // [https://developers.google.com/doubleclick-gpt/reference#googletag.Slot]
-
+    try {
+      this.slot = this.defineSlot();
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
 
+  /**
+   * Checks whether this adSlot is an 'Out-of-page' slot or not.
+   * An Out-of-page slot is a slot that is not embedded in the page 'normally'.
+   * @returns {boolean} true iff this adSlot is one of the predefined 'out-of-page' slots.
+     */
   isOutOfPage() {
     switch(this.type) {
       case adTypes.maavaron: return true;
@@ -40,6 +56,13 @@ export default class adSlot {
     }
   }
 
+  /**
+   * Checks whether or not this adSlot has a non-empty whitelist, and if so, that the current
+   * referrer appears in the whitelist.
+   * Should return false iff there is a whitelist for the current adSlot, but the referrer is not
+   * mentioned in the whitelist.
+   * @returns {boolean} true iff the ad can be displayed.
+   */
   isWhitelisted() {
     let whitelisted = false;
     if (this.whitelistReferrers.length !== 0) {
@@ -56,6 +79,13 @@ export default class adSlot {
     return whitelisted;
   }
 
+  /**
+   * Checks whether or not this adSlot has a non-empty blacklist, and if so, that the current
+   * referrer does not appear in the blacklist.
+   * Should return true iff there is a blacklist for the current adSlot, and the referrer is
+   * mentioned in the blacklist - to indicate that the adSlot is 'blocked'.
+   * @returns {boolean} true iff the ad cannot be displayed.
+   */
   isBlacklisted() {
     let blacklisted = false;
     if (this.blacklistReferrers.length !== 0) {
@@ -117,28 +147,38 @@ export default class adSlot {
     if(this.isOutOfPage() === false) {
       slot.setCollapseEmptyDiv(true);
     }
-    this.slot = slot;
+    return slot;
   }
 
+  /**
+   * Returns the current path calculated for the adSlot
+   * @returns {*} a formatted string that represent the path for the slot definition
+     */
   getPath() {
-    let path = this.config.path;
+    let path = globalConfig.path;
     path = path.map(section => `${this.id}${section}`).join('/');
-    path = path ? `/${path}` : '';
-    const calculatedPath = `${this.config.network}/${this.config.adUnitBase}/${this.id}${this.department}${path}`;
-    console.log(`Calculated path : ${calculatedPath}`);
+    path = path ? `/${path}` : ''; //If a path exist, it will be preceded with a forward slash
+    const calculatedPath = `/${this.config.network}/${this.config.adUnitBase}/${this.id}/${this.id}${this.department}${path}`;
     return calculatedPath;
   }
 
   slotRendered(event) {
-    const id = event.slot.getAdUnitPath().split('/')[3];
-    const isEmpty = event.isEmpty;
-    const resolvedSize = event.size;
-    // Empty or onload callback
+    const id = event.slot.getAdUnitPath().split('/')[3]; // Convention: [0]/[1]network/[2]base/[3]id
+    const isEmpty = event.isEmpty; // Did the ad return as empty?
+    const resolvedSize = event.size; // What 'creative' size did the ad return with?
+    // Empty or onload callback should be called next?
   }
 
+  /**
+   * Refresh this adSlot
+   */
   refresh() {
     googletag.pubads().refresh([this.id]);
   }
+
+  /**
+   * Shows 'Maavaron' type adSlot using Passback definition
+   */
   showMaavaron() {
     if(document.referrer.match('loc.haaretz') === false) {
       const adUnitMaavaronPath = this.getPath();
@@ -149,8 +189,8 @@ export default class adSlot {
         .setTargeting('UserType', [this.user.type])
         .setTargeting('age', [this.user.age])
         .setTargeting('urgdr', [this.user.gender])
-        .setTargeting('articleId', [this.config.articleId])
-        .setTargeting('stg', [this.config.environment])
+        .setTargeting('articleId', [globalConfig.articleId])
+        .setTargeting('stg', [globalConfig.environment])
         .display();
     }
   }

@@ -187,37 +187,26 @@ describe( 'globalConfig - unit tests for browser', () => {
 
   describe( 'gStat campaign property' , () => {
     before(() =>{
-      window.localStorage.clear();
+      localStorage.clear();
     });
-
 
     it( 'should not have a gStat campaign by default', () => {
       expect( config.gStatCampaignNumber ).to.be.an('undefined');
     });
 
-    it( 'should have properly read the Campaign property from localStorage', () => {
+    it( 'should have properly read the Campaign property from localStorage', done => {
       const item = {
         "lastModifiedDateTime": 1456977600000,
         "CampaignNumber": 6310
       };
-      window.localStorage.setItem("GstatCampaign",JSON.stringify(item));
-      expect( config.gStatCampaignNumber ).to.be.a('number');
-    })
-  });
+      localStorage.setItem("GstatCampaign",JSON.stringify(item));
+      done();
+      expect( config.gStatCampaignNumber ).to.equal(6310);
+    });
 
-  describe( 'adManager configuration' , () => {
-    it( 'should have a configuration ', () => {
-      expect( config.adManagerConfig ).to.be.an('object');
-    } );
-
-    it( 'should have a configuration ', () => {
-      expect( config.adManagerConfig ).to.be.an('object');
-    } );
-
-    it( 'should have a configuration ', () => {
-      expect( config.adManagerConfig ).to.be.an('object');
-    } );
-
+    after(() => {
+      localStorage.clear();
+    });
   });
 
   describe( 'adSlot configuration' , () => {
@@ -353,10 +342,12 @@ describe( 'globalConfig - unit tests for browser', () => {
   });
 
   describe( 'breakpointsConfig configuration' , () => {
-    let breakpointsConfig, keys = ['xxs','xs','s','m','l','xl','xxl'];
+    let breakpointsConfig,
+      keys = ['xxs','xs','s','m','l','xl','xxl'],
+      values = [600, 761, 993, 1009, 1291, 1600, 1900];
     before(done => {
       breakpointsConfig = config.breakpointsConfig;
-      keys = ['xxs','xs','s','m','l','xl','xxl'];
+
       done();
     });
 
@@ -366,6 +357,10 @@ describe( 'globalConfig - unit tests for browser', () => {
 
     it( 'should be an object', () => {
       expect( breakpointsConfig ).to.be.an('object');
+    } );
+
+    it( `should have the breakpoint computed property `, () => {
+      expect( breakpointsConfig.breakpoints ).to.be.an('object');
     } );
 
     it( `should have the following keys: ${keys}`, () => {
@@ -385,6 +380,41 @@ describe( 'globalConfig - unit tests for browser', () => {
       } );
     });
   });
+
+  describe( 'conflictManagement configuration' , () => {
+    let conflictManagement, blockingSlot, keys = ['onsize', 'avoid'];
+    conflictManagement = globalConfig.conflictManagementConfig;
+    for(let key in conflictManagement) {
+      if(conflictManagement.hasOwnProperty(key)) {
+        blockingSlot = conflictManagement[key];
+        break;
+      }
+    }
+
+
+    it( 'should not be undefined', () => {
+      expect( conflictManagement ).to.not.be.an('undefined');
+    } );
+
+    it( 'should be an object', () => {
+      expect( conflictManagement ).to.be.an('object');
+    } );
+
+    describe(`blocking slot`, () => {
+      it( 'should be an array', () => {
+        expect( blockingSlot ).to.be.an.array;
+      } );
+
+
+      Array.prototype.forEach.call(blockingSlot,(blockedSlot) => {
+        it( `should have the following keys: ${keys}`, () => {
+          expect( blockedSlot ).to.contain.all.keys(keys);
+        } );
+      });
+    });
+
+  });
+
 
   describe( `sso property` , () => {
     let sso;

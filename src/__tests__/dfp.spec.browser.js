@@ -12,7 +12,7 @@ describe( 'DFP - unit tests for browser', () => {
   });
 
   it( 'should not throw an error', () => {
-    expect( dfp ).to.not.throw;
+    expect( () => { new DFP(globalConfig) } ).to.not.throw(Error);
   } );
 
   it( 'should be a object', () => {
@@ -35,18 +35,6 @@ describe( 'DFP - unit tests for browser', () => {
   });
 
   describe('dfp init', () => {
-    before(() => {
-
-      setTimeout(() => {
-        console.log(`window.googletag`,window.googletag,`window.googletag.apiReady`,window.googletag.apiReady);
-      }, 500);
-      setTimeout(() => {
-        console.log(`window.googletag`,window.googletag,`window.googletag.apiReady`,window.googletag.apiReady);
-      }, 1000);
-      setTimeout(() => {
-        console.log(`window.googletag`,window.googletag,`window.googletag.apiReady`,window.googletag.apiReady);
-      }, 1500);
-    });
     it(' should load the google tag script correctly ', function(done) {
       this.timeout(4000);
       dfp.initGoogleTag().then(() => {
@@ -74,13 +62,12 @@ describe( 'DFP - unit tests for browser', () => {
     it(' should have a single adManager', function(done) {
       this.timeout(4000);
       dfp.initGoogleTag().then(() => {
-        console.log(`DFP`,dfp.adManager);
         expect( dfp.adManager ).to.be.an('object');
-        console.log(`spy call count: ${spy.callCount}`);
         done();
       });
     });
     after(() => {
+      console.log(`spy:`,spy);
       window.dfp = dfp;
     })
 

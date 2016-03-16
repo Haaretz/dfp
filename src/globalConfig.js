@@ -1,6 +1,7 @@
+/*global dfpBaseConf*/
 import { ssoKey } from '../src/utils/cookieUtils';
 //globalConfig for DFP
-const dfpConfig = {
+const dfpConfig = Object.assign({
   get referrer() {
     return document.referrer ? document.referrer : "";
   },
@@ -23,8 +24,8 @@ const dfpConfig = {
    * @returns {string} the domain name from the windows's location hostname property
    */
   get domain() {
-    const regexMatch = /([\d|\w]+)(\.co\.il|\.com)(.*)?/.exec(location.hostname);
-    const result = regexMatch ? regexMatch[0] : location.hostname;
+    const regexMatch = /([\d|\w]+)(\.co\.il|\.com)(.*)?/.exec(window.location.hostname);
+    const result = regexMatch ? regexMatch[0] : window.location.hostname;
     return result;
   },
   /**
@@ -37,7 +38,7 @@ const dfpConfig = {
    * ['.news', '.news.world', '.news.world.america', '.news.world.america.us-election-2016']
    * This denotes the path configuration for the given adSlot
    * @returns {Array.<T>} an array of path names
-     */
+   */
   get path() {
     return window.location.pathname.split('/').slice(1,-1)
       .map(section => `.${section}`)
@@ -48,7 +49,7 @@ const dfpConfig = {
    * Returns the current environment targeting param, if such is defined.
    * @returns {number} targeting param, 1 for local development, 2 for test servers and 3 for prod.
    * May return undefined if no targeting is specified.
-     */
+   */
   get environment() {
     const env = {
       dev: 1,
@@ -92,9 +93,16 @@ const dfpConfig = {
     },
   },
   get gStatCampaignNumber() {
-    const GstatCampaign = window.localStorage.getItem('GstatCampaign') ?
-      JSON.parse(window.localStorage.getItem('GstatCampaign')) : undefined;
-    return GstatCampaign ? GstatCampaign['CampaignNumber'] : undefined;
+    let gstatCampaign;
+    try {
+      gstatCampaign = localStorage.getItem('GstatCampaign') ?
+        JSON.parse(localStorage.getItem('GstatCampaign')) : undefined;
+    }
+    catch (err) {
+      //In case of thrown 'SecurityError' or 'QuotaExceededError', the variable should be undefined
+      gstatCampaign = undefined;
+    }
+    return gstatCampaign ? gstatCampaign['CampaignNumber'] : undefined;
   },
   adSlotConfig: {
     "haaretz.co.il.example.slot" : {
@@ -124,7 +132,6 @@ const dfpConfig = {
       const isType1 = true; //Override in VM from backend to control this toggle.
       return isType1 ? this.breakpoints1 : this.breakpoints2;
     },
-
     // Type 1
     breakpoints1 : {
       xxs: 600,
@@ -151,8 +158,28 @@ const dfpConfig = {
     age: undefined,
     gender: undefined,
   },
+  conflictManagementConfig: {
+    "blocking.ad.unit.name": [
+      {
+        onsize: "1280x200,970x250,3x3",
+        avoid: "blocked.ad.unit.name"
+      },
+      {
+        onsize: "1280x200,970x250,3x3",
+        avoid: "blocked.ad.unit.name"
+      }
+    ]
+  },
+  impressionManagerConfig: {
+    "ad.unit.name": {
+      target: 'all|section|homepage',
+      frequency: '$1/$2(day|hour)',
+      exposed: 0,
+      expires: (new Date).getTime()
+    }
+  },
   sso: ssoKey,
 
-};
+},window.dfpConfig);
 
 export default dfpConfig;

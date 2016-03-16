@@ -1,13 +1,9 @@
-/*global conflicManagementJson, conflictManagementJson*/
 export default class ConflictResolver {
-  constructor() {
-    this.blockingQueue = this.initQueueFromJson();
+  constructor(conflictManagementConfig) {
+    this.blockingQueue = this.initQueueFromJson(conflictManagementConfig);
   }
-  initQueueFromJson() {
+  initQueueFromJson(conflictManagementJson) {
     let queue = [];
-    const conflictManagementJson = window.conflicManagementJson || window.conflictManagementJson || {};
-    //Typo in original code. //TODO fix typo
-
     Object.keys(conflictManagementJson).map(function(key, value) {
       let rules = conflictManagementJson[key];
       if(rules) {

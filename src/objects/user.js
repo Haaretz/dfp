@@ -8,15 +8,19 @@ export const userTypes = {
   anonymous: 'anonymous'
 };
 
-const defaultConfig = globalConfig;
-
 export default class User {
   constructor(config) {
-    this.config = Object.assign({}, defaultConfig, config);
-    this.ssoKey = this.config.userConfig.ssoKey || ssoKey;
-    let cookieMap = getCookieAsMap(this.ssoKey);
+    this.config = Object.assign({}, config.userConfig);
+    let cookieMap = getCookieAsMap();
+    this.ssoKey = globalConfig.sso;
+    if(!cookieMap[this.ssoKey]) {
+      //console.log(`ssoKey flipped! - was ${this.ssoKey}`);
+      //Flips the ssoKey, since cookieMap.ssoKey cannot be used to retrieve data
+      this.ssoKey = this.ssoKey === 'tmsso' ? 'engsso' : 'tmsso';
+      //console.log(`ssoKey flipped! - now ${this.ssoKey}`);
+    }
     this.type = this.getUserType(cookieMap);
-    this.impressionManager = this.initImpressionMap();
+    this.impressionManager = new ImpressionManager(config.impressionManagerConfig);
     this.age = this.getUserAge(cookieMap);
     this.gender = this.getUserGender(cookieMap);
   }
@@ -49,20 +53,5 @@ export default class User {
       gender = gender === 2 || gender === 1 ? gender : undefined;
     }
     return gender;
-  }
-
-
-  /**
-   * TODO change
-   * @returns {ImpressionsManager}
-     */
-  initImpressionMap() {
-    const globalConfig = {};
-    if(window.adUnitsFrequencyMap) {
-      Object.keys(adUnitsFrequencyMap).map(function(key, index) {
-        globalConfig[key] = adUnitsFrequencyMap[key];
-      });
-    }
-    return new ImpressionManager(globalConfig)
   }
 }

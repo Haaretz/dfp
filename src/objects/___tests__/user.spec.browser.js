@@ -1,7 +1,8 @@
 import User from '../../objects/user';
 import CookieData from './../../utils/__tests__/cookieData.mock.js';
 import getCookieAsMap, { ssoKey } from '../../utils/cookieUtils';
-import globalConfig from '../../globalConfig';
+import globalConfigMock from '../../__tests__/globalConfig.mock';
+const globalConfig = globalConfigMock;
 
 function deleteAllCookies() {
   document.cookie.split(";").forEach((c) => {
@@ -125,7 +126,6 @@ describe( ' User module', function() {
       before(done => {
         deleteAllCookies();
         CookieData.hdcAnonCookie.split(';').map(cookie => document.cookie = cookie);
-        globalConfig.userConfig.ssoKey = 'engsso';
         user = new User(globalConfig);
         done();
       });
@@ -159,7 +159,6 @@ describe( ' User module', function() {
       before(done => {
         deleteAllCookies();
         CookieData.hdcRegisteredCookie.split(';').map(cookie => document.cookie = cookie);
-        globalConfig.userConfig.ssoKey = 'engsso';
         user = new User(globalConfig);
         done();
       });
@@ -193,7 +192,6 @@ describe( ' User module', function() {
       before(done => {
         deleteAllCookies();
         CookieData.hdcPayingCookie.split(';').map(cookie => document.cookie = cookie);
-        globalConfig.userConfig.ssoKey = 'engsso';
         user = new User(globalConfig);
         done();
       });

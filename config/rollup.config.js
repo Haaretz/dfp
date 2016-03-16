@@ -30,14 +30,14 @@ const copyright =
 	' */'
 
 const entry = p.resolve('src/index.js');
-const dest  = p.resolve(`dist/dpf.${production ? 'min.js' : es6 ? 'es6.js' : 'js'}`);
+const dest  = p.resolve(`dist/${pack.name.toLowerCase()}.${production ? 'min.js' : es6 ? 'es6.js' : 'js'}`);
 
 const bundleConfig = {
 	dest,
 	format: es6 ? 'es6' : 'umd',
-	moduleName: 'DFP',
+	moduleName: `${pack.name}`,
 	globals: {
-    DFP: 'DFP'
+    DFP: `${pack.name}`
 	},
 	banner: copyright,
 	sourceMap: false // set to false to generate sourceMap

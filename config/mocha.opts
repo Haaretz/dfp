@@ -1,4 +1,4 @@
-./src/**/*__tests__*/**/*spec.browser.js
+./src/**/*__tests__*/**/*.spec.browser.js
 
 --require ./config/mocha.conf.js
 --reporter spec

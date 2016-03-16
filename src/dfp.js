@@ -2,26 +2,29 @@
 import AdManager  from '../src/objects/adManager';
 import globalConfig from './globalConfig';
 const defaultConfig = globalConfig || {};
+import { getBreakpoint, getBreakpointName, debounce }  from '../src/utils/breakpoints';
+const googletagInitTimeout = 10000;
+const resizeTimeout = 250;
+
 export default class DFP {
 
   constructor(config) {
     this.config = Object.assign({}, defaultConfig, config);
     this.wasInitialized = false;
+    this.breakpoint = getBreakpoint();
+    this.initWindowResizeListener();
   }
 
   /**
    * This part of the object's construction is dependent on the call to 'init'
    */
   resumeInit() {
-    let adManager;
     try{
-      adManager = new AdManager(this.config);
-      this.adManager = adManager;
+      this.adManager = new AdManager(this.config);
     }
     catch (err) {
       console.log(err);
     }
-    return this.adManager;
   }
 
   //get wasInitialized() {
@@ -30,13 +33,15 @@ export default class DFP {
 
   /*
    * initializes the 'googletag' global namespace and add the
-    * google publish tags library to the page
+   * google publish tags library to the page
    */
   initGoogleTag() {
     const dfpThis = this;
-    let promise = new Promise((resolve,reject) => {
+    return new Promise((resolve,reject) => {
       if (dfpThis.wasInitialized == true || (window.googletag && window.googletag.apiReady)) {
-        resolve(true);
+        this.adManager = this.adManager || new AdManager(this.config);
+        dfpThis.wasInitialized = true;
+        resolve(this.isGoogleTagReady);
       }
       else {
         // set up a place holder for the gpt code downloaded from google
@@ -56,22 +61,46 @@ export default class DFP {
           var node = window.document.getElementsByTagName('script')[0];
           tag.onload = (() => {
             dfpThis.wasInitialized = true;
-            resolve(true);
             dfpThis.resumeInit();
+            resolve(this.isGoogleTagReady);
           });
           tag.onerror = ((error) => {
-            dfpThis.wasInitialized = true;
+            dfpThis.wasInitialized = false;
             reject(error);
           });
           node.parentNode.insertBefore(tag, node);
         })();
       }
     });
+  }
+
+  isGoogleTagReady() {
+    let promise = new Promise((resolve,reject) => {
+      googletag.cmd.push(() => {
+        resolve(this);
+      });
+      setTimeout(() => {
+        if(!(googletag && googletag.apiReady === true)) {
+          reject(new Error("googletag failed to initialize on the page!"));
+        }
+      },googletagInitTimeout);
+    });
     return promise;
+  }
+
+  initWindowResizeListener() {
+    function onResize() {
+      const currentBreakpoint = getBreakpoint();
+      if(this.breakpoint != currentBreakpoint) {
+        console.log(`moved to breakpoint ${getBreakpointName(currentBreakpoint)}`+
+        ` from ${getBreakpointName(this.breakpoint)} - refreshing slots`);
+        this.breakpoint = currentBreakpoint;
+        if(this.adManager) {
+          this.adManager.refreshAllSlots();
+        }
+      }
     }
-  initGoogleGlobalSettings() {
-    googletag.pubads().enableAsyncRendering();
-    // Enables all GPT services that have been defined for ad slots on the page.
-    googletag.enableServices();
+    const debouncedFunction = debounce(onResize,resizeTimeout);
+    window.onresize = debouncedFunction;
   }
 }
