@@ -35,12 +35,12 @@ export function debounce(func, wait = 100, immediate) {
 export function getBreakpoint() {
   let breakpoint = breakpoints.xxl;
   let windowWidth = window.innerWidth;
-  if(windowWidth < breakpoints.xl) { breakpoint = breakpoints.xl }
-  if(windowWidth < breakpoints.l) { breakpoint = breakpoints.l }
-  if(windowWidth < breakpoints.m) { breakpoint = breakpoints.m } else { return breakpoint}
-  if(windowWidth < breakpoints.s) { breakpoint = breakpoints.s }
-  if(windowWidth < breakpoints.xs) { breakpoint = breakpoints.xs }
-  if(windowWidth < breakpoints.xxs) { breakpoint = breakpoints.xxs }
+  if(windowWidth < breakpoints.xl) { breakpoint = breakpoints.xl } else { return breakpoint }
+  if(windowWidth < breakpoints.l) { breakpoint = breakpoints.l } else { return breakpoint }
+  if(windowWidth < breakpoints.m) { breakpoint = breakpoints.m } else { return breakpoint }
+  if(windowWidth < breakpoints.s) { breakpoint = breakpoints.s } else { return breakpoint }
+  if(windowWidth < breakpoints.xs) { breakpoint = breakpoints.xs } else { return breakpoint }
+  if(windowWidth < breakpoints.xxs) { breakpoint = breakpoints.xxs } else { return breakpoint }
   return breakpoint
 }
 /**
@@ -50,12 +50,12 @@ export function getBreakpoint() {
 export function getBreakpointName(breakpoint) {
   let resultBreakpoint = 'xxl';
   let windowWidth = breakpoint || window.innerWidth;
-  if(windowWidth < breakpoints.xl) { resultBreakpoint = 'xl' }
-  if(windowWidth < breakpoints.l) { resultBreakpoint = 'l' }
-  if(windowWidth < breakpoints.m) { resultBreakpoint = 'm' }
-  if(windowWidth < breakpoints.s) { resultBreakpoint = 's' }
-  if(windowWidth < breakpoints.xs) { resultBreakpoint = 'xs' }
-  if(windowWidth < breakpoints.xxs) { resultBreakpoint = 'xxs' }
+  if(windowWidth < breakpoints.xl) { resultBreakpoint = 'xl' } else { return resultBreakpoint }
+  if(windowWidth < breakpoints.l) { resultBreakpoint = 'l' } else { return resultBreakpoint }
+  if(windowWidth < breakpoints.m) { resultBreakpoint = 'm' } else { return resultBreakpoint }
+  if(windowWidth < breakpoints.s) { resultBreakpoint = 's' } else { return resultBreakpoint }
+  if(windowWidth < breakpoints.xs) { resultBreakpoint = 'xs' } else { return resultBreakpoint }
+  if(windowWidth < breakpoints.xxs) { resultBreakpoint = 'xxs' } else { return resultBreakpoint }
   return resultBreakpoint
 }
 

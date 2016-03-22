@@ -4,7 +4,7 @@ import ConflictResolver from '../objects/conflictResolver';
 import AdSlot from '../objects/adSlot';
 import globalConfig from '../globalConfig';
 import { getBreakpoint, getBreakpointName } from '../utils/breakpoints';
-
+import { arraysEqual } from '../utils/arrays';
 
 // There are a total of 7 adTargets:
 // "all","nonPaying","anonymous","registered","paying","digitalOnly" and "digitalAndPrint"
@@ -43,7 +43,7 @@ export default class AdManager {
 
   constructor(config) {
     this.config = Object.assign({}, config);
-    this.user = new User(config.userConfig);
+    this.user = new User(config);
     this.conflictResolver = new ConflictResolver(config.conflictManagementConfig);
     /**
      * Avoid race conditions by making sure to respect the usual timing of GPT.
@@ -57,26 +57,47 @@ export default class AdManager {
       googletag.cmd.push(() => {
         this.initGoogleTargetingParams();
         this.initSlotRenderedCallback();
-        this.initGoogleGlobalSettings();
+      });
+      // Holds adSlot objects as soon as possible.
+      googletag.cmd.push(() => {
+        this.adSlots = this.initAdSlots(config.adSlotConfig);
+      });
+      // Once DOM ready, add the rest of the adSlots.
+      document.addEventListener('DOMContentLoaded', () => {
+        googletag.cmd.push(() => {
+          this.adSlots = this.initAdSlots(config.adSlotConfig);
+          this.initGoogleGlobalSettings();
+        });
       });
     }
     catch (err) {
       console.log(err);
     }
-    // Holds adSlot objects
-    googletag.cmd.push(() => {
-      this.adSlots = this.initAdSlots(config.adSlotConfig);
-    });
   }
 
   /**
    * Shows all of the adSlots that can be displayed.
    */
   showAllSlots() {
-    for(const adSlot of this.adSlots) {
+    for(const adSlotKey of this.adSlots.keys()) {
+      const adSlot = this.adSlots.get(adSlotKey);
       if(this.shouldSendRequestToDfp(adSlot)) {
         console.log(`calling show for adSlot: ${adSlot.id}`);
         adSlot.show();
+      }
+    }
+  }
+
+  showAllDeferredSlots() {
+    for(const deferredSlotId of this.conflictResolver.deferredSlots) {
+      if(this.adSlots.has(deferredSlotId)) {
+        if(!this.conflictResolver.isBlocked(deferredSlotId)) {
+          const deferredAdSlot = this.adSlots.get(deferredSlotId);
+          if(this.shouldSendRequestToDfp(deferredAdSlot)) {
+            console.log(`calling show for adSlot: ${deferredAdSlot.id}`);
+            deferredAdSlot.show();
+          }
+        }
       }
     }
   }
@@ -85,10 +106,15 @@ export default class AdManager {
    * Shows all of the adSlots that can be displayed.
    */
   refreshAllSlots() {
-    for(const adSlot of this.adSlots) {
-      if(adSlot.responsive && adSlot.lastResolvedWithBreakpoint != getBreakpoint() && this.shouldSendRequestToDfp(adSlot)) {
+    const currentBreakpoint = getBreakpoint();
+    for(const adSlotKey of this.adSlots.keys()) {
+      const adSlot = this.adSlots.get(adSlotKey);
+      if(adSlot.responsive && adSlot.lastResolvedWithBreakpoint != currentBreakpoint && this.shouldSendRequestToDfp(adSlot)) {
         console.log(`calling refresh for adSlot: ${adSlot.id}`);
         adSlot.refresh();
+      }
+      else {
+        adSlot.hide();
       }
     }
   }
@@ -97,29 +123,38 @@ export default class AdManager {
    * Initializes adSlots based on the currently found slot markup (HTML page specific),
    * and the predefined configuration for the slots.
    * @param adSlotConfig
-   * @returns {Array}
-     */
+   * @returns {Map}
+   */
   initAdSlots(adSlotConfig) {
-    let adSlots = [];
-    let adSlotPlaceholders = document.getElementsByClassName('js-dfp-ad');
-    adSlotPlaceholders = Array.prototype.sort.call(
-      adSlotPlaceholders, (a,b) => a.offsetTop - b.offsetTop);
-    adSlotPlaceholders = Array.prototype.filter.call(adSlotPlaceholders, node => node.id);
-    Array.prototype.forEach.call(adSlotPlaceholders, (adSlot,index) => {
-      if(adSlotConfig[adSlot.id]) {
-        // adSlotConfig is built from globalConfig, but can be overridden by markup
-        const computedAdSlotConfig = Object.assign({},adSlotConfig[adSlot.id],{
-          id: adSlot.id,
-          target: adSlot.attributes['data-audtarget'].value,
-          type: this.getAdType(adSlot.id),
-          responsive: adSlot.classList.contains('js-dfp-resp-refresh'),
-          user: this.user,
-          department: this.config.adManagerConfig.department,
-          network: this.config.adManagerConfig.network,
-          adUnitBase: this.config.adManagerConfig.adUnitBase,
-        });
+    let adSlots = new Map(this.adSlots);
+    let adSlotPlaceholders = Array.from(document.getElementsByClassName('js-dfp-ad'));
+    adSlotPlaceholders = adSlotPlaceholders.filter((node,index,arr) => node.id);
+    adSlotPlaceholders = adSlotPlaceholders.filter(node => node.id); //only nodes with an id
+    const adSlotNodeSet = new Set();
+    adSlotPlaceholders = Array.prototype.filter.call(adSlotPlaceholders, node => {
+      if(adSlotNodeSet.has(node.id) === false) { //first occurrence of Node
+        adSlotNodeSet.add(node.id);
+        return true;
+      }
+      return false;
+    });
+    adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
+    adSlotPlaceholders.forEach(adSlot => {
+      if(adSlotConfig[adSlot.id] && adSlots.has(adSlot.id) === false) {
+        //the markup has a matching configuration from adSlotConfig AND was not already defined
         try {
-          adSlots.push(new AdSlot(computedAdSlotConfig));
+          // adSlotConfig is built from globalConfig, but can be overridden by markup
+          const computedAdSlotConfig = Object.assign({},adSlotConfig[adSlot.id],{
+            id: adSlot.id,
+            target: adSlot.attributes['data-audtarget'].value,
+            type: this.getAdType(adSlot.id),
+            responsive: adSlot.classList.contains('js-dfp-resp-refresh'),
+            user: this.user,
+            department: this.config.department,
+            network: this.config.adManagerConfig.network,
+            adUnitBase: this.config.adManagerConfig.adUnitBase,
+          });
+          adSlots.set(adSlot.id,new AdSlot(computedAdSlotConfig));
         }
         catch (err) {
           console.log(err);
@@ -133,7 +168,7 @@ export default class AdManager {
    * Returns the adType based on the adSlot name.
    * @param adSlotId the adSlot's identifier.
    * @returns {*} enumerated export 'adTypes'
-     */
+   */
   getAdType(adSlotId) {
     if(!adSlotId) {
       throw new Error(`Missing argument: a call to getAdType must have an adSlotId`,this);
@@ -148,7 +183,7 @@ export default class AdManager {
    *
    * @param {object} adSlot the AdSlot
    * @returns {boolean|*}
-     */
+   */
   shouldSendRequestToDfp(adSlot) {
     // TODO: go over each one of the following and mark as checked once implemented
     // Conflict management check
@@ -158,13 +193,13 @@ export default class AdManager {
         // Not in referrer Blacklist
       adSlot.isBlacklisted() === false &&
         // Not a Talkback adUnit type, not a Maavaron type and not a Popunder type
-        adSlot.isOutOfPage() === false &&
-    // Responsive: breakpoint contains ad?
-        this.doesBreakpointContainAd(adSlot) &&
-    // Targeting check (userType vs. slotTargeting)
+      adSlot.isOutOfPage() === false &&
+        // Responsive: breakpoint contains ad?
+      this.doesBreakpointContainAd(adSlot) &&
+        // Targeting check (userType vs. slotTargeting)
       this.doesUserTypeMatchBannerTargeting(adSlot) &&
-    // Impressions Manager check (limits number of impressions per slot)
-      this.user.impressionManager.reachedQuota(adSlot.id) === false;
+        // Impressions Manager check (limits number of impressions per slot)
+      this.user.impressionManager.reachedQuota(`${adSlot.id}`) === false;
   }
 
   /**
@@ -194,13 +229,14 @@ export default class AdManager {
    * another). Should there be a responsive slot with a
    * @param breakpoint the breakpoint that is currently being displayed
    * @returns {number} the number of adSlots affected by the change
-     */
+   */
   switchedToBreakpoint(breakpoint) {
     if(!breakpoint) {
       throw new Error(`Missing argument: a call to switchedToBreakpoint must have an breakpoint`,this);
     }
     let count = 0;
-    for(const adSlot of this.adSlots) {
+    for(const adSlotKey of this.adSlots.keys()) {
+      const adSlot = this.adSlots.get(adSlotKey);
       if(adSlot.responsive === true && adSlot.lastResolvedWithBreakpoint) {
         if(adSlot.lastResolvedWithBreakpoint != breakpoint) {
           adSlot.refresh(); //TODO check logic - should it check the responsiveAdSizeMapping first?
@@ -214,7 +250,7 @@ export default class AdManager {
   /**
    * Checks whether an adSlot is defined for a given breakpoint (Default: current breakpoint)
    * @returns {boolean} true iff the adSlot is defined for the given breakpoint.
-     */
+   */
   doesBreakpointContainAd(adSlot, breakpoint = getBreakpoint()) {
     if(!adSlot) {
       throw new Error(`Missing argument: a call to doesBreakpointContainAd must have an adSlot`,this);
@@ -227,24 +263,58 @@ export default class AdManager {
       if(Array.isArray(mapping) === false) {
         throw new Error(`Invalid argument: breakpoint:${breakpoint} doesn't exist!`,this);
       }
-      containsBreakpoint = mapping.length > 0;
+      containsBreakpoint = mapping.length > 0 && !arraysEqual(mapping,[0,0]);
     }
     return containsBreakpoint;
   }
 
   /**
    * Initializes the callback from the 'slotRenderEnded' event for each slot
+   * //TODO refactor: break down to smaller submethods
    */
   initSlotRenderedCallback() {
-    if(window.googletag && window.googletag.pubadsReady) {
+    if(window.googletag && window.googletag.apiReady) {
       const pubads = window.googletag.pubads();
       pubads.addEventListener('slotRenderEnded', event => {
         const id = event.slot.getAdUnitPath().split('/')[3];
         const isEmpty = event.isEmpty;
         const resolvedSize = event.size;
-        if(this.adSlots[id]) {
-          this.adSlots[id].lastResolvedSize = resolvedSize;
-          this.adSlots[id].lastResolvedWithBreakpoint = getBreakpoint();
+        if(this.adSlots.has(id)) {
+          const adSlot = this.adSlots.get(id);
+          adSlot.lastResolvedSize = resolvedSize;
+          adSlot.lastResolvedWithBreakpoint = getBreakpoint();
+          if(isEmpty) {
+            console.log(`AdSlot ${id} came back empty! hiding!`);
+            adSlot.hide();
+          } else {
+            this.user.impressionManager.registerImpression(`${adSlot.id}${this.config.department}`);
+            this.user.impressionManager.registerImpression(`${adSlot.id}_all`);
+            try {
+              this.conflictResolver.updateResolvedSlot(id,resolvedSize);
+              if(this.conflictResolver.isBlocking(id)) {
+                // Hide all blocked adSlots
+                for(const blockedSlot of this.conflictResolver.getBlockedSlotsIds(id)) {
+                  if(this.conflictResolver.isBlocked(blockedSlot)) {
+                    if(this.adSlots.has(blockedSlot)) {
+                      console.log(`Hiding blocked Slot ${blockedSlot}`);
+                      this.adSlots.get(blockedSlot).hide();
+                    }
+                  }
+                }
+                // Show the non blocked
+                for(const deferredSlotKey of this.conflictResolver.deferredSlots.keys()) {
+                  if(this.conflictResolver.isBlocked(deferredSlotKey) === false) {
+                    this.conflictResolver.deferredSlots.delete(deferredSlotKey);
+                    console.log(`deferred AdSlot ${deferredSlotKey} is being resolved!`);
+                    this.adSlots.get(deferredSlotKey).show();
+                  }
+                }
+              }
+            }
+            catch (err) {
+              console.log(`Cannot update resolved adSlot: ${id}. Ad Unit path is ${event.slot.getAdUnitPath()}`);
+            }
+          }
         }
         else {
           //Log an error
@@ -261,7 +331,7 @@ export default class AdManager {
    * Initializes page-level targeting params.
    */
   initGoogleTargetingParams() {
-    if(window.googletag && window.googletag.pubadsReady) {
+    if(window.googletag && window.googletag.apiReady) {
 
       //Returns a reference to the pubads service.
       const pubads = googletag.pubads();
@@ -303,6 +373,13 @@ export default class AdManager {
       if (this.config.utm_.campaign) {
         pubads.setTargeting('utm_campaign', [this.config.utm_.campaign]);
       }
+      // AdBlock removal
+      if (this.config.adBlockRemoved) {
+        pubads.setTargeting('adblock_removed', [this.config.adBlockRemoved]);
+      }
+
+      // Ads Centering
+      pubads.setCentering(true);
     }
     else {
       throw new Error(`googletag api was not ready when 'initGoogleTargetingParams' was called!`);

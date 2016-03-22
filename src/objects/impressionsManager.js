@@ -1,3 +1,6 @@
+import globalConfig from '../globalConfig';
+import { addHours, addDays } from '../utils/time';
+
 export const keys = {
   impressions : 'impressions',
   frequency : 'frequency',
@@ -27,6 +30,15 @@ export default class ImpressionsManager {
     this.config = Object.assign({}, impressionManagerConfig);
     this.impressions = this.retrieveImpressionsData();
     this.initImpressionMap();
+    const interval = window.setInterval(() => {
+      try {
+        this.saveImpressionsToLocalStorage();
+      }
+      catch (err) {
+        console.log('Error saving ad impressions to localStorage!', err);
+        window.clearInterval(interval);
+      }
+    },10000);
   }
 
   retrieveImpressionsData() {
@@ -74,7 +86,10 @@ export default class ImpressionsManager {
           const name = adUnitImpression[0];
           const data = adUnitImpression[1];
           let tmp = name.split('.');
-          const target = tmp.pop();
+          let target = tmp.pop();
+          if(target && target == 'hp') {
+            target = 'homepage';
+          }
           const slotId = tmp.join('.');
           const id = `${slotId}_${target}`;
           const exposed = parseInt(data.split('/')[0]) || 0;
@@ -153,35 +168,13 @@ export default class ImpressionsManager {
       now.setHours(0);
     }
     this.impressions[slotName][keys.expires] = (frequencyMap.indexOf(keys.days) > -1 ?
-      this.addDays(now, frequencyMap[2]) : this.addHours(now, frequencyMap[2])).getTime();
+      addDays(now, frequencyMap[2]) : addHours(now, frequencyMap[2])).getTime();
 
     //Set max impressions:
     this.impressions[slotName][keys.maxImpressions] = parseInt(frequencyMap[1]);
   }
 
-  /**
-   * Helper function. Adds N hours to a given date object.
-   * @param date the date to derive from
-   * @param hours the amount of hours to add, in whole numbers
-   * @returns {Date} the new date, derived from adding the given hours
-     */
-  addHours(date, hours) {
-    const result = new Date(date);
-    result.setHours(result.getHours() + hours);
-    return result;
-  }
 
-  /**
-   * Helper function. Adds N days to a given date object.
-   * @param date the date to derive from
-   * @param hours the amount of days to add, in whole numbers
-   * @returns {Date} the new date, derived from adding the given days
-   */
-  addDays(date, days) {
-    const result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
-  }
 
   /**
    * Initializes a non-existing slot from the passed global configuration for the slot
@@ -204,21 +197,29 @@ export default class ImpressionsManager {
   registerImpression(adSlotId) {
     if(adSlotId) {
       const slot = this.impressions[adSlotId];
-      const exposed = slot[keys.exposed];
-      if(exposed) {
-        this.impressions[adSlotId][keys.exposed] += 1;
-        return true;
+      if(slot) {
+        const exposed = slot[keys.exposed];
+        if(isNaN(parseInt(exposed)) === false) {
+          this.impressions[adSlotId][keys.exposed] += 1;
+          return true;
+        }
       }
+
     }
     return false;
   }
 
   /**
-   * Checks whether an adSlot has reached it's allocated impressions count
+   * Checks whether an adSlot has reached it's allocated impressions count.
    * @param adSlotId the adSlot to check
    * @returns {boolean} true iff there is a quota for the adSlot, and it has been reached
      */
   reachedQuota(adSlotId) {
+    // An adSlotId is suffixed with _homepage | _section if it's targeting is different
+    // between the two. If there is no difference, an _all suffix can be used.
+    adSlotId = this.impressions[`${adSlotId}${globalConfig.department}`] ?
+      `${adSlotId}${globalConfig.department}`: `${adSlotId}_all`;
+
     let slot = this.impressions[adSlotId];
     let atQuota = false;
     if(slot) {
@@ -227,8 +228,8 @@ export default class ImpressionsManager {
       const maxImpressions = this.impressions[adSlotId][keys.maxImpressions];
       //Not expired, and reached max impressions
       if(maxImpressions) {
-        atQuota = this.impressions[adSlotId][keys.expires] < now &&
-          this.impressions[adSlotId][keys.exposed] <= maxImpressions;
+        atQuota = this.impressions[adSlotId][keys.expires] > now &&
+          this.impressions[adSlotId][keys.exposed] >= maxImpressions;
       }
     }
     return atQuota;

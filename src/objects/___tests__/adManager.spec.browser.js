@@ -16,13 +16,13 @@ const breakpoints = globalConfigMock.breakpointsConfig.breakpoints;
 //}
 
 
-
+prepareMarkup();
 describe( 'AdManager', () => {
   let adManager;
   let dfp;
   before(function(done) {
     dfp = new DFP(globalConfigMock);
-    dfp.initGoogleTag().then(dfpInstance => {
+    dfp.initGoogleTag().then(() => {
       adManager = dfp.adManager;
       done();
     });
@@ -57,7 +57,7 @@ describe( 'AdManager', () => {
     } );
 
     it( 'should have initialized the adSlots object ', () => {
-      expect( adManager.adSlots ).to.be.an('array');
+      expect( adManager.adSlots ).to.deep.equal(new Map());
     } );
   });
 
@@ -80,19 +80,19 @@ describe( 'AdManager', () => {
       } );
 
       it( 'should have initialized the adSlots object ', () => {
-        expect( adManager.adSlots ).to.be.an('array');
+        expect( adManager.adSlots ).to.deep.equal(new Map());
       } );
 
       it( `should have sorted the adSlots based on its selector's offsetTop `, () => {
-        let tmpSlots = JSON.parse(JSON.stringify(adManager.adSlots));
+        let adSlotsFromConfig = Object.keys(adManager.config.adSlotConfig);
         function byOffsetTop(a,b) {
           a = document.getElementById(a.id);
           b = document.getElementById(b.id);
-          return a.offsetTop - b.offsetTop
+          return !a || !b ? 0 : a.offsetTop - b.offsetTop;
         }
-        tmpSlots = tmpSlots.sort(byOffsetTop);
-
-        expect( adManager.adSlots ).to.deep.equal(tmpSlots);
+        adSlotsFromConfig = adSlotsFromConfig.sort(byOffsetTop);
+        const adSlotsKeys = Array.from(adManager.adSlots.keys()); // adSlot keys
+        expect( adSlotsKeys ).to.deep.equal(adSlotsFromConfig);
       } );
 
     });
@@ -311,4 +311,11 @@ function definePromotionalMadridSlot(target) {
     adUnitBase: globalConfigMock.adManagerConfig.adUnitBase,
   });
   return new AdSlot(adSlotConfig);
+}
+
+function prepareMarkup() {
+  let divs = `<div id="haaretz.co.il.web.plazma" class="js-dfp-ad js-dfp-resp-refresh h-dib" data-audtarget="section"></div>`;
+  divs += `<div id="haaretz.co.il.web.marketing.promotional_madrid.left_text3" class="js-dfp-ad js-dfp-resp-refresh h-dib" data-audtarget="homepage"></div>`;
+  divs += `<div id="haaretz.co.il.web.popunder" class="js-dfp-ad js-dfp-resp-refresh h-dib" data-audtarget="all"></div>`;
+document.write(divs);
 }

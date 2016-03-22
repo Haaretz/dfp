@@ -24,14 +24,16 @@ export default class adSlot {
     // Part III : ad specific configuration - passed from globalConfig.adSlotConfig
     this.adSizeMapping = this.config.adSizeMapping;
     this.responsiveAdSizeMapping = this.config.responsiveAdSizeMapping;
-    this.blacklistReferrers = this.config.blacklistReferrers;
-    this.whitelistReferrers = this.config.whitelistReferrers;
+    this.blacklistReferrers = this.config.blacklistReferrers ?
+      this.config.blacklistReferrers.split(',') : [];
+    this.whitelistReferrers = this.config.whitelistReferrers ?
+      this.config.whitelistReferrers.split(',') : [];
 
 
     // Part IV : Runtime configuration - calculated data - only present in runtime
-    this.lastResolvedSize; // Initialized in 'slotRenderEnded' callback
-    this.lastResolvedWithBreakpoint; // Initialized in 'slotRenderEnded' callback
-    this.slot; // Holds a googletag.Slot object
+    this.lastResolvedSize = undefined; // Initialized in 'slotRenderEnded' callback
+    this.lastResolvedWithBreakpoint = undefined; // Initialized in 'slotRenderEnded' callback
+    this.slot  = undefined; // Holds a googletag.Slot object
     // [https://developers.google.com/doubleclick-gpt/reference#googletag.Slot]
     try {
       this.slot = this.defineSlot();
@@ -45,13 +47,31 @@ export default class adSlot {
    * Checks whether this adSlot is an 'Out-of-page' slot or not.
    * An Out-of-page slot is a slot that is not embedded in the page 'normally'.
    * @returns {boolean} true iff this adSlot is one of the predefined 'out-of-page' slots.
-     */
+   */
   isOutOfPage() {
+    if(typeof this.type != 'string') {
+      throw new Error("An adSlot cannot by typeless!",this);
+    }
     switch(this.type) {
       case adTypes.maavaron: return true;
       case adTypes.popunder: return true;
       case adTypes.talkback: return true;
       case adTypes.regular: return false;
+      default: return false;
+    }
+  }
+
+  /**
+   * Checks whether this adSlot is a 'maavaron' slot or not.
+   * An Out-of-page slot is a slot that is not embedded in the page 'normally'.
+   * @returns {boolean} true iff this adSlot is one of the predefined 'out-of-page' slots.
+   */
+  isMaavaron() {
+    if(typeof this.type != 'string') {
+      throw new Error("An adSlot cannot by typeless!",this);
+    }
+    switch(this.type) {
+      case adTypes.maavaron: return true;
       default: return false;
     }
   }
@@ -105,20 +125,34 @@ export default class adSlot {
    * It assumes a markup is available for this slot (any tag with an id attribute = this.id)
    */
   show() {
-    if(this.type === adTypes.maavaron) {
-      //maavaron uses synced request by definePassback
-      this.showMaavaron();
-    }
-    else {
-      googletag.cmd.push(() =>  {
-        googletag.display(this.id);
-      })
-    }
+    googletag.cmd.push(() =>  {
+      document.getElementById(this.id).classList.remove('h-hidden');
+      googletag.display(this.id);
+    })
   }
+
+  /**
+   * Shows the current adSlot.
+   * It assumes a markup is available for this slot (any tag with an id attribute = this.id)
+   */
+  hide() {
+    googletag.cmd.push(() =>  {
+      document.getElementById(this.id).classList.add('h-hidden');
+    })
+  }
+
   /**
    * Initializes page-level slot definition for the current slot
    */
   defineSlot() {
+    if(this.isMaavaron()) {
+      if(!this.user.impressionManager.reachedQuota(this.id)) {
+        return this.showMaavaron();
+      }
+      else {
+        console.log(`Skipping maavaron, impressions at quota`);
+      }
+    }
     const googletag = window.googletag;
     const pubads = googletag.pubads();
     let args = [];
@@ -130,22 +164,24 @@ export default class adSlot {
     }
     args.push(this.id);
     let slot = defineFn.apply(defineFn, args);
-    // Responsive size Mapping
-    if(this.responsive) {
-      let responsiveSlotSizeMapping = googletag.sizeMapping();
-      const breakpoints = globalConfig.breakpointsConfig.breakpoints;
-      const keys = Object.keys(this.responsiveAdSizeMapping);
-      for(const key of keys) { //['xxs','xs',...]
-        responsiveSlotSizeMapping.addSize(
-          [breakpoints[key],100],//100 is a default height, since it is height agnostic
-          this.responsiveAdSizeMapping[key]);
+    if(slot) {
+      // Responsive size Mapping
+      if(this.responsive) {
+        let responsiveSlotSizeMapping = googletag.sizeMapping();
+        const breakpoints = globalConfig.breakpointsConfig.breakpoints;
+        const keys = Object.keys(this.responsiveAdSizeMapping);
+        for(const key of keys) { //['xxs','xs',...]
+          responsiveSlotSizeMapping.addSize(
+            [breakpoints[key],100],//100 is a default height, since it is height agnostic
+            this.responsiveAdSizeMapping[key]);
+        }
+        responsiveSlotSizeMapping = responsiveSlotSizeMapping.build();
+        slot = slot.defineSizeMapping(responsiveSlotSizeMapping);
       }
-      responsiveSlotSizeMapping = responsiveSlotSizeMapping.build();
-      slot = slot.defineSizeMapping(responsiveSlotSizeMapping);
-    }
-    slot = slot.addService(pubads);
-    if(this.isOutOfPage() === false) {
-      slot.setCollapseEmptyDiv(true);
+      slot = slot.addService(pubads);
+      if(this.isOutOfPage() === false) {
+        slot.setCollapseEmptyDiv(true);
+      }
     }
     return slot;
   }
@@ -157,7 +193,8 @@ export default class adSlot {
   getPath() {
     let path = globalConfig.path;
     path = path.map(section => `${this.id}${section}`).join('/');
-    path = path ? `/${path}` : ''; //If a path exist, it will be preceded with a forward slash
+    //If a path exist, it will be preceded with a forward slash
+    path = path && this.config.department !== '_homepage' ? `/${path}` : '';
     const calculatedPath = `/${this.config.network}/${this.config.adUnitBase}/${this.id}/${this.id}${this.department}${path}`;
     return calculatedPath;
   }
@@ -173,14 +210,16 @@ export default class adSlot {
    * Refresh this adSlot
    */
   refresh() {
-    googletag.pubads().refresh([this.id]);
+    googletag.cmd.push(() => {
+      googletag.pubads().refresh([this.slot]);
+    });
   }
 
   /**
    * Shows 'Maavaron' type adSlot using Passback definition
    */
   showMaavaron() {
-    if(document.referrer.match('loc.haaretz') === false) {
+    if(!document.referrer.match('loc.haaretz')) {
       const adUnitMaavaronPath = this.getPath();
       const adUnitMaavaronSize = [
         [2, 1]

@@ -80,11 +80,11 @@ describe( 'adSlot', () => {
     } );
 
     it( 'should have an blacklistReferrers property ', () => {
-      expect( adSlot.blacklistReferrers ).to.be.an('string');
+      expect( adSlot.blacklistReferrers ).to.be.an('array');
     } );
 
     it( 'should have an whitelistReferrers property ', () => {
-      expect( adSlot.whitelistReferrers ).to.be.a('string');
+      expect( adSlot.whitelistReferrers ).to.be.an('array');
     } );
 
     // Part IV : Runtime configuration - calculated data - only present in runtime
@@ -110,9 +110,103 @@ describe( 'adSlot', () => {
   describe(`adSlot functions`, () => {
 
     describe(`isOutOfPage`, () => {
+      let stub;
+      let adExamples = {
+        maavaron: 'haaretz.co.il.web.maavaron.',
+        popunder: 'haaretz.co.il.web.popunder',
+        talkback: 'haaretz.co.il.web.fullbanner.talkback',
+        regular: 'haaretz.co.il.web.marketing.promotional_madrid.left_text3',
+      };
+      before(() => {
+        stub = sinon.stub();
+        stub.withArgs(undefined).throws();
+        stub.withArgs(adExamples.maavaron).returns(true);
+        stub.withArgs(adExamples.popunder).returns(true);
+        stub.withArgs(adExamples.talkback).returns(true);
+        stub.withArgs(adExamples.regular).returns(false);
+        stub.withArgs("random.data.ad.id").returns(false);
+
+      });
+
       it( 'should be a function ', () => {
         expect( adSlot.isOutOfPage ).to.be.a('function');
       } );
+
+      it( 'should return a boolean ', () => {
+        expect( adSlot.isOutOfPage() ).to.be.a('boolean');
+      } );
+
+      it( `should throw for an undefined argument `, () => {
+        expect( () => { stub(undefined) } ).to.throw(Error);
+      } );
+
+      it( `should return true for an adSlotId that contains ${adTypes.maavaron} `, () => {
+        expect( stub(adExamples.maavaron) ).to.equal(true);
+      } );
+
+      it( `should return true for an adSlotId that contains ${adTypes.popunder} `, () => {
+        expect( stub(adExamples.popunder) ).to.equal(true);
+      } );
+
+      it( `should return true for an adSlotId that contains ${adTypes.talkback} `, () => {
+        expect( stub(adExamples.talkback) ).to.equal(true);
+      } );
+
+      it( `should return false for any other adSlotId `, () => {
+        expect( stub(adExamples.regular) ).to.equal(false) &&
+        expect( stub('random.data.ad.id') ).to.equal(false);
+      } );
+
+    });
+
+    describe(`isMaavaron`, () => {
+      let stub;
+      let adExamples = {
+        maavaron: 'haaretz.co.il.web.maavaron.',
+        popunder: 'haaretz.co.il.web.popunder',
+        talkback: 'haaretz.co.il.web.fullbanner.talkback',
+        regular: 'haaretz.co.il.web.marketing.promotional_madrid.left_text3',
+      };
+      before(() => {
+        stub = sinon.stub();
+        stub.withArgs(undefined).throws();
+        stub.withArgs(adExamples.maavaron).returns(true);
+        stub.withArgs(adExamples.popunder).returns(false);
+        stub.withArgs(adExamples.talkback).returns(false);
+        stub.withArgs(adExamples.regular).returns(false);
+        stub.withArgs("random.data.ad.id").returns(false);
+
+      });
+
+      it( 'should be a function ', () => {
+        expect( adSlot.isMaavaron ).to.be.a('function');
+      } );
+
+      it( 'should return a boolean ', () => {
+        expect( adSlot.isMaavaron() ).to.be.a('boolean');
+      } );
+
+      it( `should throw for an undefined argument `, () => {
+        expect( () => { stub(undefined) } ).to.throw(Error);
+      } );
+
+      it( `should return true for an adSlotId that contains ${adTypes.maavaron} `, () => {
+        expect( stub(adExamples.maavaron) ).to.equal(true);
+      } );
+
+      it( `should return true for an adSlotId that contains ${adTypes.popunder} `, () => {
+        expect( stub(adExamples.popunder) ).to.equal(false);
+      } );
+
+      it( `should return true for an adSlotId that contains ${adTypes.talkback} `, () => {
+        expect( stub(adExamples.talkback) ).to.equal(false);
+      } );
+
+      it( `should return false for any other adSlotId `, () => {
+        expect( stub(adExamples.regular) ).to.equal(false) &&
+        expect( stub('random.data.ad.id') ).to.equal(false);
+      } );
+
     });
 
     describe(`isWhitelisted`, () => {
@@ -139,7 +233,6 @@ describe( 'adSlot', () => {
       it( 'should be a function ', () => {
         expect( adSlot.show ).to.be.a('function');
       } );
-      //TODO check maavaron with spy
     });
 
     describe(`defineSlot`, () => {

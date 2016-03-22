@@ -36,11 +36,8 @@ const bundleConfig = {
 	dest,
 	format: es6 ? 'es6' : 'umd',
 	moduleName: `${pack.name}`,
-	globals: {
-    DFP: `${pack.name}`
-	},
 	banner: copyright,
-	sourceMap: false // set to false to generate sourceMap
+	sourceMap: true // set to false to generate sourceMap
 };
 
 const babelConfig = JSON.parse(fs.readFileSync('.babelrc', 'utf8'));

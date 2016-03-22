@@ -40,7 +40,10 @@ const dfpConfig = Object.assign({
    * @returns {Array.<T>} an array of path names
    */
   get path() {
-    return window.location.pathname.split('/').slice(1,-1)
+    const sectionArray = this.articleId ?
+      window.location.pathname.split('/').slice(1,-1) :
+      window.location.pathname.split('/').slice(1);
+    return sectionArray
       .map(section => `.${section}`)
       .map((section, index, arr) => arr.slice(0,index+1)
         .reduce((last, current) => last.concat(current)));
@@ -91,6 +94,17 @@ const dfpConfig = Object.assign({
       let results = RegExp(`(${key})(=)([^&"]+)`).exec(window.location.search);
       return results && results[3] ? results[3] : undefined;
     },
+  },
+  get adBlockRemoved() {
+    let adBlockRemoved;
+    try {
+      adBlockRemoved = localStorage.getItem('adblock_removed') ?
+        true : false;
+    }
+    catch (err) {
+      adblock_removed = false;
+    }
+    return adBlockRemoved;
   },
   get gStatCampaignNumber() {
     let gstatCampaign;

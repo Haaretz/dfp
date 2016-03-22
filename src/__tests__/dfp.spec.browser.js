@@ -12,27 +12,46 @@ describe( 'DFP - unit tests for browser', () => {
   });
 
   it( 'should not throw an error', () => {
-    expect( () => { new DFP(globalConfig) } ).to.not.throw(Error);
+    expect( () => { new DFP(globalConfig); } ).to.not.throw(Error);
   } );
 
   it( 'should be a object', () => {
     expect( dfp ).to.be.an('object');
   } );
 
+  describe(` DFP properties `, () => {
+    describe( 'configuration' , () => {
+      it( 'should have a configuration ', () => {
+        expect( dfp.config ).to.be.an('object');
+      } );
+    });
 
-  describe( 'configuration' , () => {
-    it( 'should have a configuration ', () => {
-      expect( dfp.config ).to.be.an('object');
+    describe( 'version' , () => {
+      it( 'should have a version ', () => {
+        expect( DFP.version ).to.be.a('string');
+      } );
+    });
+
+  });
+
+  describe(` DFP functions `, () => {
+    it(`should have the 'resumeInit' function`, () => {
+      expect( dfp.resumeInit ).to.be.a('function');
     } );
 
-    //it( 'should have an sso declaration inside of the configuration ', () => {
-    //  expect( dfp.config.sso ).to.be.a('string');
-    //} );
-    //
-    //it( `should have an sso value of '${ssoKey}' `, () => {
-    //  expect( dfp.config.sso ).to.equal(ssoKey);
-    //} );
+    it(`should have the 'initGoogleTag' function`, () => {
+      expect( dfp.initGoogleTag ).to.be.a('function');
+    } );
+
+    it(`should have the 'isGoogleTagReady' function`, () => {
+      expect( dfp.isGoogleTagReady ).to.be.a('function');
+    } );
+
+    it(`should have the 'initWindowResizeListener' function`, () => {
+      expect( dfp.initWindowResizeListener ).to.be.a('function');
+    } );
   });
+
 
   describe('dfp init', () => {
     it(' should load the google tag script correctly ', function(done) {
@@ -67,9 +86,7 @@ describe( 'DFP - unit tests for browser', () => {
       });
     });
     after(() => {
-      console.log(`spy:`,spy);
       window.dfp = dfp;
     })
-
   });
 } );

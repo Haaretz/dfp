@@ -27,13 +27,11 @@ export default class DFP {
     }
   }
 
-  //get wasInitialized() {
-  //  return (window.googletag && window.googletag.cmd);
-  //}
-
-  /*
+  /**
    * initializes the 'googletag' global namespace and add the
    * google publish tags library to the page
+   * @returns {Promise} that resolves to true once the googletag api is ready to use
+   * (googletag.apiReady = true)
    */
   initGoogleTag() {
     const dfpThis = this;
@@ -74,6 +72,10 @@ export default class DFP {
     });
   }
 
+  /**
+   *
+   * @returns {Promise}
+   */
   isGoogleTagReady() {
     let promise = new Promise((resolve,reject) => {
       googletag.cmd.push(() => {
@@ -88,15 +90,22 @@ export default class DFP {
     return promise;
   }
 
+  /**
+   * Initializes the window resize listener to support responsive ad refreshes
+   */
   initWindowResizeListener() {
+    const dfpThis = this;
     function onResize() {
       const currentBreakpoint = getBreakpoint();
-      if(this.breakpoint != currentBreakpoint) {
+      if(dfpThis.breakpoint != currentBreakpoint) {
         console.log(`moved to breakpoint ${getBreakpointName(currentBreakpoint)}`+
-        ` from ${getBreakpointName(this.breakpoint)} - refreshing slots`);
-        this.breakpoint = currentBreakpoint;
-        if(this.adManager) {
-          this.adManager.refreshAllSlots();
+          ` from ${getBreakpointName(dfpThis.breakpoint)} - refreshing slots`);
+        dfpThis.breakpoint = currentBreakpoint;
+        if(dfpThis.adManager) {
+          dfpThis.adManager.refreshAllSlots();
+        }
+        else {
+          throw new Error("initWindowResizeListener error - adManager instance is not available")
         }
       }
     }

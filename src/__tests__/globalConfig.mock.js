@@ -14,6 +14,7 @@ const dfpConfigMock = {
     medium: undefined,
     campaign: undefined,
   },
+  adBlockRemoved: undefined,
   gStatCampaignNumber: undefined,
   adSlotConfig: {
     "haaretz.co.il.web.plazma" : {
@@ -133,5 +134,3 @@ const dfpConfigMock = {
 };
 
 export default dfpConfigMock;
-
-
