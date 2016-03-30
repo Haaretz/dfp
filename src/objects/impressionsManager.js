@@ -172,6 +172,8 @@ export default class ImpressionsManager {
 
     //Set max impressions:
     this.impressions[slotName][keys.maxImpressions] = parseInt(frequencyMap[1]);
+    //Reset exposed
+    this.impressions[slotName][keys.exposed] = 0;
   }
 
 
@@ -225,12 +227,18 @@ export default class ImpressionsManager {
     if(slot) {
       let now = (new Date()).getTime();
       //Second element of 2/4day matches '2'
-      const maxImpressions = this.impressions[adSlotId][keys.maxImpressions];
-      //Not expired, and reached max impressions
-      if(maxImpressions) {
-        atQuota = this.impressions[adSlotId][keys.expires] > now &&
-          this.impressions[adSlotId][keys.exposed] >= maxImpressions;
+      const expires = this.impressions[adSlotId][keys.expires];
+      if(expires < now) {
+        this.updateExpiryDate(adSlotId);
       }
+      else {
+        const maxImpressions = this.impressions[adSlotId][keys.maxImpressions];
+        //Not expired, did reach max impressions?
+        if(maxImpressions) {
+          atQuota = this.impressions[adSlotId][keys.exposed] >= maxImpressions;
+        }
+      }
+
     }
     return atQuota;
   }

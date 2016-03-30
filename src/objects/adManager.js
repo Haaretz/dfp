@@ -103,18 +103,19 @@ export default class AdManager {
   }
 
   /**
-   * Shows all of the adSlots that can be displayed.
+   * Refreshes all responsive adSlots
    */
   refreshAllSlots() {
     const currentBreakpoint = getBreakpoint();
     for(const adSlotKey of this.adSlots.keys()) {
       const adSlot = this.adSlots.get(adSlotKey);
-      if(adSlot.responsive && adSlot.lastResolvedWithBreakpoint != currentBreakpoint && this.shouldSendRequestToDfp(adSlot)) {
-        console.log(`calling refresh for adSlot: ${adSlot.id}`);
-        adSlot.refresh();
-      }
-      else {
-        adSlot.hide();
+      if(adSlot.responsive) {
+        if(adSlot.lastResolvedWithBreakpoint != currentBreakpoint && this.shouldSendRequestToDfp(adSlot)) {
+          console.log(`calling refresh for adSlot: ${adSlot.id}`);
+          adSlot.refresh();
+        } else {
+          adSlot.hide();
+        }
       }
     }
   }
@@ -303,10 +304,11 @@ export default class AdManager {
                 }
                 // Show the non blocked
                 for(const deferredSlotKey of this.conflictResolver.deferredSlots.keys()) {
-                  if(this.conflictResolver.isBlocked(deferredSlotKey) === false) {
+                  const adSlot = this.adSlots.get(deferredSlotKey);
+                  if(adSlot && this.shouldSendRequestToDfp(adSlot)) {
                     this.conflictResolver.deferredSlots.delete(deferredSlotKey);
                     console.log(`deferred AdSlot ${deferredSlotKey} is being resolved!`);
-                    this.adSlots.get(deferredSlotKey).show();
+                    adSlot.show();
                   }
                 }
               }

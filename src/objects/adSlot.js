@@ -196,7 +196,7 @@ export default class adSlot {
     //If a path exist, it will be preceded with a forward slash
     path = path && this.config.department !== '_homepage' ? `/${path}` : '';
     const calculatedPath = `/${this.config.network}/${this.config.adUnitBase}/${this.id}/${this.id}${this.department}${path}`;
-    return calculatedPath;
+    return calculatedPath.toLowerCase();
   }
 
   slotRendered(event) {
