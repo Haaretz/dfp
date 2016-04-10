@@ -102,7 +102,7 @@ const dfpConfig = Object.assign({
         true : false;
     }
     catch (err) {
-      adblock_removed = false;
+      adBlockRemoved = false;
     }
     return adBlockRemoved;
   },
