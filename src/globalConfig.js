@@ -17,7 +17,7 @@ const dfpConfig = Object.assign({
     return window.location.pathname === "/" || this.environment === 3; //'prod'
   },
   get department() {
-    return this.isHomepage ? '_homepage' : '_section'
+    return this.isHomepage ? '_homepage' : '_section';
   },
   /**
    * returns the domain the page was loaded to. i.e: 'haaretz.co.il', 'haaretz.com'

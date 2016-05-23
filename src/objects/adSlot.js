@@ -192,7 +192,7 @@ export default class adSlot {
      */
   getPath() {
     let path = globalConfig.path;
-    path = path.map(section => `${this.id}${section}`).join('/');
+    path = path.map(section => `${this.id}${this.department}${section}`).join('/');
     //If a path exist, it will be preceded with a forward slash
     path = path && this.config.department !== '_homepage' ? `/${path}` : '';
     const calculatedPath = `/${this.config.network}/${this.config.adUnitBase}/${this.id}/${this.id}${this.department}${path}`;
