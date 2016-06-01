@@ -98,8 +98,6 @@ export default class DFP {
     function onResize() {
       const currentBreakpoint = getBreakpoint();
       if(dfpThis.breakpoint != currentBreakpoint) {
-        console.log(`moved to breakpoint ${getBreakpointName(currentBreakpoint)}`+
-          ` from ${getBreakpointName(dfpThis.breakpoint)} - refreshing slots`);
         dfpThis.breakpoint = currentBreakpoint;
         if(dfpThis.adManager) {
           dfpThis.adManager.refreshAllSlots();

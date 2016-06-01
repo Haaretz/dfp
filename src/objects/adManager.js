@@ -82,7 +82,6 @@ export default class AdManager {
     for(const adSlotKey of this.adSlots.keys()) {
       const adSlot = this.adSlots.get(adSlotKey);
       if(this.shouldSendRequestToDfp(adSlot)) {
-        console.log(`calling show for adSlot: ${adSlot.id}`);
         adSlot.show();
       }
     }
@@ -94,7 +93,6 @@ export default class AdManager {
         if(!this.conflictResolver.isBlocked(deferredSlotId)) {
           const deferredAdSlot = this.adSlots.get(deferredSlotId);
           if(this.shouldSendRequestToDfp(deferredAdSlot)) {
-            console.log(`calling show for adSlot: ${deferredAdSlot.id}`);
             deferredAdSlot.show();
           }
         }
@@ -285,7 +283,6 @@ export default class AdManager {
           adSlot.lastResolvedSize = resolvedSize;
           adSlot.lastResolvedWithBreakpoint = getBreakpoint();
           if(isEmpty) {
-            console.log(`AdSlot ${id} came back empty! hiding!`);
             adSlot.hide();
           } else {
             this.user.impressionManager.registerImpression(`${adSlot.id}${this.config.department}`);
@@ -297,7 +294,6 @@ export default class AdManager {
                 for(const blockedSlot of this.conflictResolver.getBlockedSlotsIds(id)) {
                   if(this.conflictResolver.isBlocked(blockedSlot)) {
                     if(this.adSlots.has(blockedSlot)) {
-                      console.log(`Hiding blocked Slot ${blockedSlot}`);
                       this.adSlots.get(blockedSlot).hide();
                     }
                   }
@@ -307,7 +303,6 @@ export default class AdManager {
                   const adSlot = this.adSlots.get(deferredSlotKey);
                   if(adSlot && this.shouldSendRequestToDfp(adSlot)) {
                     this.conflictResolver.deferredSlots.delete(deferredSlotKey);
-                    console.log(`deferred AdSlot ${deferredSlotKey} is being resolved!`);
                     adSlot.show();
                   }
                 }

@@ -150,7 +150,7 @@ export default class adSlot {
         return this.showMaavaron();
       }
       else {
-        console.log(`Skipping maavaron, impressions at quota`);
+        //console.log(`Skipping maavaron, impressions at quota`);
       }
     }
     const googletag = window.googletag;
