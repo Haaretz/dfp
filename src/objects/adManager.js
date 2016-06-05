@@ -75,7 +75,7 @@ export default class AdManager {
   showAllSlots() {
     for(const adSlotKey of this.adSlots.keys()) {
       const adSlot = this.adSlots.get(adSlotKey);
-      if(this.shouldSendRequestToDfp(adSlot)) {
+      if(adSlot.type !== adTypes.talkback && this.shouldSendRequestToDfp(adSlot)) {
         adSlot.show();
       }
     }
@@ -304,13 +304,13 @@ export default class AdManager {
               }
             }
             catch (err) {
-              console.log(`Cannot update resolved adSlot: ${id}. Ad Unit path is ${event.slot.getAdUnitPath()}`);
+              console.log(`Cannot update resolved adSlot: ${id} - Ad Unit path is ${event.slot.getAdUnitPath()}`);
             }
           }
         }
         else {
           //Log an error
-          console.log(`Cannot find an ad with id: ${id}. Ad Unit path is ${event.slot.getAdUnitPath()}`);
+          console.log(`Cannot find an ad with id: ${id} - Ad Unit path is ${event.slot.getAdUnitPath()}`);
         }
       });
     }

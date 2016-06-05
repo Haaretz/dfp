@@ -59,7 +59,7 @@ export default class adSlot {
     switch(this.type) {
       case adTypes.maavaron: return true;
       case adTypes.popunder: return true;
-      case adTypes.talkback: return true;
+      case adTypes.talkback: return false;
       case adTypes.regular: return false;
       default: return false;
     }
@@ -157,12 +157,11 @@ export default class adSlot {
    */
   defineSlot() {
     if(this.isMaavaron()) {
+      const maavaronSlot = this.defineMaavaron();
       if(this.adManager.shouldSendRequestToDfp(this)) {
-        return this.showMaavaron();
+        maavaronSlot.display();
       }
-      else {
-        //console.log(`Skipping maavaron, impressions at quota`);
-      }
+      return maavaronSlot;
     }
     const googletag = window.googletag;
     const pubads = googletag.pubads();
@@ -230,7 +229,7 @@ export default class adSlot {
   /**
    * Shows 'Maavaron' type adSlot using Passback definition
    */
-  showMaavaron() {
+  defineMaavaron() {
     if(!document.referrer.match('loc.haaretz')) {
       const adUnitMaavaronPath = this.getPath();
       const adUnitMaavaronSize = [
@@ -242,7 +241,6 @@ export default class adSlot {
         .setTargeting('urgdr', [this.user.gender])
         .setTargeting('articleId', [globalConfig.articleId])
         .setTargeting('stg', [globalConfig.environment]);
-        slot.display();
       return slot;
     }
   }

@@ -268,9 +268,9 @@ describe( 'adSlot', () => {
       } );
     });
 
-    describe(`showMaavaron`, () => {
+    describe(`defineMaavaron`, () => {
       it( 'should be a function ', () => {
-        expect( adSlot.showMaavaron ).to.be.a('function');
+        expect( adSlot.defineMaavaron ).to.be.a('function');
       } );
     });
   });
