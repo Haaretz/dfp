@@ -52,7 +52,7 @@ export default class DFP {
         //load google tag services JavaScript
         (() => {
           const tag = window.document.createElement('script');
-          tag.async = true;
+          tag.async = false;
           tag.type = 'text/javascript';
           //var useSSL = 'https:' == document.location.protocol;
           tag.setAttribute('src','//www.googletagservices.com/tag/js/gpt.js');

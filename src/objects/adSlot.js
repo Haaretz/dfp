@@ -15,6 +15,7 @@ export default class adSlot {
     this.type = this.config.type;
     this.responsive = this.config.responsive;
     this.user = this.config.user;
+    this.adManager = this.config.adManager;
 
     // Part II : Global, general ad configuration - passed from AdManager
     this.department = this.config.department;
@@ -52,6 +53,9 @@ export default class adSlot {
     if(typeof this.type != 'string') {
       throw new Error("An adSlot cannot by typeless!",this);
     }
+    if(this.isMobile() == true) {
+      return false;
+    }
     switch(this.type) {
       case adTypes.maavaron: return true;
       case adTypes.popunder: return true;
@@ -70,12 +74,19 @@ export default class adSlot {
     if(typeof this.type != 'string') {
       throw new Error("An adSlot cannot by typeless!",this);
     }
+    if(this.isMobile() == true) {
+      return false;
+    }
     switch(this.type) {
       case adTypes.maavaron: return true;
       default: return false;
     }
   }
 
+  isMobile() {
+    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+      .test(window.navigator.userAgent || ""));
+  }
   /**
    * Checks whether or not this adSlot has a non-empty whitelist, and if so, that the current
    * referrer appears in the whitelist.
@@ -146,7 +157,7 @@ export default class adSlot {
    */
   defineSlot() {
     if(this.isMaavaron()) {
-      if(!this.user.impressionManager.reachedQuota(this.id)) {
+      if(this.adManager.shouldSendRequestToDfp(this)) {
         return this.showMaavaron();
       }
       else {
@@ -189,9 +200,10 @@ export default class adSlot {
   /**
    * Returns the current path calculated for the adSlot
    * @returns {*} a formatted string that represent the path for the slot definition
-     */
+   */
   getPath() {
-    let path = globalConfig.path;
+    let path = globalConfig.path || [];
+    path = path.filter(path => path != '.');
     path = path.map(section => `${this.id}${this.department}${section}`).join('/');
     //If a path exist, it will be preceded with a forward slash
     path = path && this.config.department !== '_homepage' ? `/${path}` : '';
@@ -224,17 +236,18 @@ export default class adSlot {
       const adUnitMaavaronSize = [
         [2, 1]
       ];
-      googletag.pubads().definePassback(adUnitMaavaronPath, adUnitMaavaronSize)
+      const slot = googletag.pubads().definePassback(adUnitMaavaronPath, adUnitMaavaronSize)
         .setTargeting('UserType', [this.user.type])
         .setTargeting('age', [this.user.age])
         .setTargeting('urgdr', [this.user.gender])
         .setTargeting('articleId', [globalConfig.articleId])
-        .setTargeting('stg', [globalConfig.environment])
-        .display();
+        .setTargeting('stg', [globalConfig.environment]);
+        slot.display();
+      return slot;
     }
   }
   /*
-  These functions were on the adUnitDFP prototype:
+   These functions were on the adUnitDFP prototype:
    getNumOfImpressions: ()
    getPeriodImpression: ()
    hasMoreImpressions: ()

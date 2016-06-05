@@ -40,9 +40,10 @@ const dfpConfig = Object.assign({
    * @returns {Array.<T>} an array of path names
    */
   get path() {
-    const sectionArray = this.articleId ?
+    let sectionArray = this.articleId ?
       window.location.pathname.split('/').slice(1,-1) :
       window.location.pathname.split('/').slice(1);
+    sectionArray = sectionArray.filter(path => path != 'wwwMobileSite' && path != 'whtzMobileSite');
     return sectionArray
       .map(section => `.${section}`)
       .map((section, index, arr) => arr.slice(0,index+1)

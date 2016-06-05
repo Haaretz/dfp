@@ -33,12 +33,6 @@ export const adTypes = {
 };
 
 
-//const defaultConfig = {
-//  target: adTargets.all,
-//  type: adTypes.regular,
-//  responsive: false,
-//};
-
 export default class AdManager {
 
   constructor(config) {
@@ -127,7 +121,6 @@ export default class AdManager {
   initAdSlots(adSlotConfig) {
     let adSlots = new Map(this.adSlots);
     let adSlotPlaceholders = Array.from(document.getElementsByClassName('js-dfp-ad'));
-    adSlotPlaceholders = adSlotPlaceholders.filter((node,index,arr) => node.id);
     adSlotPlaceholders = adSlotPlaceholders.filter(node => node.id); //only nodes with an id
     const adSlotNodeSet = new Set();
     adSlotPlaceholders = Array.prototype.filter.call(adSlotPlaceholders, node => {
@@ -145,10 +138,11 @@ export default class AdManager {
           // adSlotConfig is built from globalConfig, but can be overridden by markup
           const computedAdSlotConfig = Object.assign({},adSlotConfig[adSlot.id],{
             id: adSlot.id,
-            target: adSlot.attributes['data-audtarget'].value,
+            target: adSlot.attributes['data-audtarget'] ? adSlot.attributes['data-audtarget'].value : adTargets.all,
             type: this.getAdType(adSlot.id),
-            responsive: adSlot.classList.contains('js-dfp-resp-refresh'),
+            responsive: adSlotConfig[adSlot.id].responsive && adSlot.classList.contains('js-dfp-resp-refresh'), //TODO change to global config
             user: this.user,
+            adManager: this,
             department: this.config.department,
             network: this.config.adManagerConfig.network,
             adUnitBase: this.config.adManagerConfig.adUnitBase,
@@ -179,7 +173,7 @@ export default class AdManager {
   }
 
   /**
-   *
+   *  //TODO: add explicit type override
    * @param {object} adSlot the AdSlot
    * @returns {boolean|*}
    */
@@ -192,24 +186,25 @@ export default class AdManager {
         // Not in referrer Blacklist
       adSlot.isBlacklisted() === false &&
         // Not a Talkback adUnit type, not a Maavaron type and not a Popunder type
-      adSlot.isOutOfPage() === false &&
+      // adSlot.type !== adTypes.maavaron &&
+      // adSlot.type !== adTypes.talkback &&
         // Responsive: breakpoint contains ad?
       this.doesBreakpointContainAd(adSlot) &&
         // Targeting check (userType vs. slotTargeting)
       this.doesUserTypeMatchBannerTargeting(adSlot) &&
         // Impressions Manager check (limits number of impressions per slot)
-      this.user.impressionManager.reachedQuota(`${adSlot.id}`) === false;
+      this.user.impressionManager.reachedQuota(adSlot.id) === false;
   }
 
   /**
    * Check whether or not an ad slot should appear for the current user type
-   * @param adSlot the slot to check
+   * @param adSlotOrTarget the adSlot to check or the target as a sting
    * @returns {boolean} true iff the slot should appear for the user type
    */
-  doesUserTypeMatchBannerTargeting(adSlot) {
+  doesUserTypeMatchBannerTargeting(adSlotOrTarget) {
 
     const userType = this.user.type;
-    const adTarget = adSlot.target;
+    const adTarget = typeof adSlotOrTarget === 'string' ? adSlotOrTarget : adSlotOrTarget.target;
 
     switch (adTarget) {
       case adTargets.all : return true;
@@ -388,8 +383,12 @@ export default class AdManager {
    */
   initGoogleGlobalSettings() {
     if(window.googletag && window.googletag.apiReady) {
-
-      googletag.pubads().enableAsyncRendering();
+      if(!this.config.isMobile) {
+        googletag.pubads().enableAsyncRendering();
+      }
+      else {
+        googletag.pubads().enableAsyncRendering(); // disabled: googletag.pubads().enableSyncRendering();
+      }
       // Enables all GPT services that have been defined for ad slots on the page.
       googletag.enableServices();
     }

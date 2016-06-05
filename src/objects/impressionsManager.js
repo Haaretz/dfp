@@ -30,15 +30,15 @@ export default class ImpressionsManager {
     this.config = Object.assign({}, impressionManagerConfig);
     this.impressions = this.retrieveImpressionsData();
     this.initImpressionMap();
-    const interval = window.setInterval(() => {
+    const interval = window.setTimeout(() => {
       try {
         this.saveImpressionsToLocalStorage();
       }
       catch (err) {
         console.log('Error saving ad impressions to localStorage!', err);
-        window.clearInterval(interval);
+        window.clearTimeout(interval);
       }
-    },10000);
+    },1000);
   }
 
   retrieveImpressionsData() {
@@ -203,6 +203,12 @@ export default class ImpressionsManager {
         const exposed = slot[keys.exposed];
         if(isNaN(parseInt(exposed)) === false) {
           this.impressions[adSlotId][keys.exposed] += 1;
+          try {
+            this.saveImpressionsToLocalStorage();
+          }
+          catch (err) {
+            console.log('Error saving ad impressions to localStorage!', err);
+          }
           return true;
         }
       }
