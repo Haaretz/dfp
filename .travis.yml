@@ -36,10 +36,11 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sudo apt-get update
-  - sudo apt-get install -y libappindicator1 fonts-liberation
+  - sudo apt-get install -y libstdc++6 libappindicator1 fonts-liberation
   - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   - sudo apt-get install -f
   - sudo dpkg -i google-chrome*.deb
+  - sudo apt-get install -f
 
 install:
   # - npm config set registry http://23.251.144.68
