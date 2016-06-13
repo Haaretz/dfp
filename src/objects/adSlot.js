@@ -215,6 +215,7 @@ export default class adSlot {
     const isEmpty = event.isEmpty; // Did the ad return as empty?
     const resolvedSize = event.size; // What 'creative' size did the ad return with?
     // Empty or onload callback should be called next?
+    
   }
 
   /**

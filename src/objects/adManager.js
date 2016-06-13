@@ -188,12 +188,17 @@ export default class AdManager {
         // Not a Talkback adUnit type, not a Maavaron type and not a Popunder type
       // adSlot.type !== adTypes.maavaron &&
       // adSlot.type !== adTypes.talkback &&
+      this.shouldDisplayAdAfterAdBlockRemoval(adSlot) &&
         // Responsive: breakpoint contains ad?
       this.doesBreakpointContainAd(adSlot) &&
         // Targeting check (userType vs. slotTargeting)
       this.doesUserTypeMatchBannerTargeting(adSlot) &&
         // Impressions Manager check (limits number of impressions per slot)
       this.user.impressionManager.reachedQuota(adSlot.id) === false;
+  }
+
+  shouldDisplayAdAfterAdBlockRemoval(adSlot) {
+    return !(this.config.adBlockRemoved && (adSlot.type === adTypes.maavaron || adSlot.type === adTypes.popunder));
   }
 
   /**
@@ -279,6 +284,25 @@ export default class AdManager {
           adSlot.lastResolvedWithBreakpoint = getBreakpoint();
           if(isEmpty) {
             adSlot.hide();
+            this.conflictResolver.updateResolvedSlot(id,ConflictResolver.EMPTY_SIZE);
+            if(this.conflictResolver.isBlocking(id)) {
+              // Hide all blocked adSlots
+              for(const blockedSlot of this.conflictResolver.getBlockedSlotsIds(id)) {
+                if(this.conflictResolver.isBlocked(blockedSlot)) {
+                  if(this.adSlots.has(blockedSlot)) {
+                    this.adSlots.get(blockedSlot).hide();
+                  }
+                }
+              }
+              // Show the non blocked
+              for(const deferredSlotKey of this.conflictResolver.deferredSlots.keys()) {
+                const adSlot = this.adSlots.get(deferredSlotKey);
+                if(adSlot && this.shouldSendRequestToDfp(adSlot)) {
+                  this.conflictResolver.deferredSlots.delete(deferredSlotKey);
+                  adSlot.show();
+                }
+              }
+            }
           } else {
             this.user.impressionManager.registerImpression(`${adSlot.id}${this.config.department}`);
             this.user.impressionManager.registerImpression(`${adSlot.id}_all`);
@@ -383,6 +407,10 @@ export default class AdManager {
    */
   initGoogleGlobalSettings() {
     if(window.googletag && window.googletag.apiReady) {
+      if(window.location.search && window.location.search.indexOf('sraon') > 0) {
+        console.log('enableSingleRequest mode: active');
+        googletag.pubads().enableSingleRequest();
+      }
       if(!this.config.isMobile) {
         googletag.pubads().enableAsyncRendering();
       }

@@ -1,4 +1,4 @@
-export default class ConflictResolver {
+class ConflictResolver {
   constructor(conflictManagementConfig) {
     this.dependencyMap = this.initializeDependencyMap(conflictManagementConfig);
     this.deferredSlots = new Set();
@@ -91,3 +91,5 @@ export default class ConflictResolver {
     return true;
   }
 }
+ConflictResolver.EMPTY_SIZE = []; //TODO : add this to the testing scenarios
+export default ConflictResolver;

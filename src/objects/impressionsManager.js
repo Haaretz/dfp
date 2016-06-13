@@ -1,5 +1,6 @@
 import globalConfig from '../globalConfig';
 import { addHours, addDays } from '../utils/time';
+import { debounce }  from '../utils/breakpoints';
 
 export const keys = {
   impressions : 'impressions',
@@ -30,15 +31,6 @@ export default class ImpressionsManager {
     this.config = Object.assign({}, impressionManagerConfig);
     this.impressions = this.retrieveImpressionsData();
     this.initImpressionMap();
-    const interval = window.setTimeout(() => {
-      try {
-        this.saveImpressionsToLocalStorage();
-      }
-      catch (err) {
-        console.log('Error saving ad impressions to localStorage!', err);
-        window.clearTimeout(interval);
-      }
-    },1000);
   }
 
   retrieveImpressionsData() {
@@ -109,8 +101,23 @@ export default class ImpressionsManager {
     return impressions || {};
   }
 
-
+  /**
+   * Define the debounced version of the local storage save
+   */
   saveImpressionsToLocalStorage() {
+    if(this.debouncedSave && typeof this.debouncedSave === 'function') {
+      this.debouncedSave();
+    }
+    else {
+      this.debouncedSave = debounce(this.saveImpressionsToLocalStorageImpl, 250, false);
+      this.debouncedSave();
+    }
+  }
+
+  /**
+   * Implementation of saving the impression map to localstorage
+   */
+  saveImpressionsToLocalStorageImpl() {
     try {
       localStorage.setItem(keys.impressions, JSON.stringify(this.impressions));
     }
@@ -153,7 +160,7 @@ export default class ImpressionsManager {
   /**
    * Updates the expiry date of a slotName based on the configured slot frequency
    * @param slotName the slotName to update.
-     */
+   */
   updateExpiryDate(slotName) {
     let now = new Date();
     if(!(this.impressions[slotName] && this.impressions[slotName][keys.frequency])) {
@@ -181,7 +188,7 @@ export default class ImpressionsManager {
   /**
    * Initializes a non-existing slot from the passed global configuration for the slot
    * @param slotName the name of the slot to create
-     */
+   */
   initSlotFromConfig(slotName) {
     let slot = this.impressions[slotName] || {};
     slot[keys.frequency] = this.config[slotName][keys.frequency];
@@ -195,7 +202,7 @@ export default class ImpressionsManager {
    * Registers an impression for a given adSlot.
    * @param adSlotId the adSlot id to register an impression for
    * @returns {boolean} returns true iff the impression has been registered
-     */
+   */
   registerImpression(adSlotId) {
     if(adSlotId) {
       const slot = this.impressions[adSlotId];
@@ -221,7 +228,7 @@ export default class ImpressionsManager {
    * Checks whether an adSlot has reached it's allocated impressions count.
    * @param adSlotId the adSlot to check
    * @returns {boolean} true iff there is a quota for the adSlot, and it has been reached
-     */
+   */
   reachedQuota(adSlotId) {
     // An adSlotId is suffixed with _homepage | _section if it's targeting is different
     // between the two. If there is no difference, an _all suffix can be used.
@@ -247,5 +254,21 @@ export default class ImpressionsManager {
 
     }
     return atQuota;
+  }
+
+
+  /**
+   * Clears the impression map from 'exposed' impressions
+   */
+  resetImpressions() {
+    const impressions = this.impressions;
+    for(const key in impressions) {
+      if(impressions.hasOwnProperty(key)) {
+        if(impressions[key][keys.exposed]) {
+          impressions[key][keys.exposed] = 0;
+        }
+      }
+    }
+    this.saveImpressionsToLocalStorage();
   }
 }
