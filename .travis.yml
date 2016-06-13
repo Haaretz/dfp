@@ -1,63 +1,52 @@
 language: node_js
-
+sudo: required
+dist: trusty
 node_js:
   - 'stable'
-  - 4.1
-
-# Don't Use container-based Travis infrastructure else we can't get latest Chrome.
-sudo: true
-
-env:
-  global:
-    - BIN="node" ISTANBUL=false OPTION=""
-    - NPM_VERSION="^2.0.0""
+  - '6'
 
 cache:
   directories:
     - node_modules
-
-matrix:
-  include:
-      env:
-
-
-#if [ "$BROWSER_PROVIDER" == "browserstack" ]; then
-#  echo "Using BrowserStack"
-#elif [ "$BROWSER_PROVIDER" == "saucelabs" ]; then
-#  echo "Using SauceLabs"
-#else
-#  echo "Invalid BROWSER_PROVIDER. Please set env var BROWSER_PROVIDER to 'saucelabs' or 'browserstack'."
-#  exit 1
-#fi
-
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - google-chrome
+    packages:
+      - google-chrome-stable
+      - google-chrome-beta
+env:
+ - CXX=g++-4.8
+ - g++-4.8
+ - NPM_VERSION=3
+ - TRAVIS_NODE_VERSION="5"
+ - TRAVIS_NODE_VERSION="6"
 before_install:
   - "nvm use $TRAVIS_NODE_VERSION"
-  - export CHROME_BIN=/usr/bin/google-chrome
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sudo apt-get update
-  - sudo apt-get install -y libstdc++6 libappindicator1 fonts-liberation
-  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  - sudo apt-get install -f
-  - sudo dpkg -i google-chrome*.deb
-  - sudo apt-get install -f
 
 install:
+  # Install version of npm that we are locked against
+  - npm install -g npm@3
   # - npm config set registry http://23.251.144.68
   # Disable the spinner, it looks bad on Travis
   - npm config set spin false
+  - sudo apt-get update -qq
   # Log HTTP requests
   - npm config set loglevel http
-  - npm install -g npm@3.7.3
   # Install npm dependencies and ensure that npm cache is not stale
   - npm install
+  - if [[ $TRAVIS_OS_NAME == "linux" ]]; then export CXX=g++-4.8; fi
 
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 notifications:
   email: true
 
-  after_script:
+script:
+  - gulp server:cov
+after_script:
 # Upload to coveralls, but don't _fail_ if coveralls is down.
-  - ./node_modules/karma/bin/karma start
   - cat coverage/lcov.info | node_modules/.bin/coveralls || echo "Coveralls upload failed"
   - node node_modules/lcov-filter/index.js lcov.info config | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
-
