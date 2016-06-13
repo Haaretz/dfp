@@ -1,5 +1,5 @@
 /*!
- * DFP v1.6.2
+ * DFP v1.6.3
  * (c) 2016 Elia Grady
  * Released under the MIT License.
  */
@@ -2113,7 +2113,7 @@ var DFP = function () {
 }();
 
 // Correct version will be set with the 'rollup-replace plugin'
-DFP.version = '1.6.2';
+DFP.version = '1.6.3';
 
 //// Only for development mode
 //if ( "production" !== 'production' ) {
