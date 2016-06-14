@@ -32,6 +32,11 @@ export const adTypes = {
   regular: '',
 };
 
+export const adPriorities = {
+  high: 'high',
+  normal: 'normal',
+  low: 'low',
+};
 
 export default class AdManager {
 
@@ -146,7 +151,7 @@ export default class AdManager {
             department: this.config.department,
             network: this.config.adManagerConfig.network,
             adUnitBase: this.config.adManagerConfig.adUnitBase,
-            deferredSlot: this.conflictResolver.isBlocked(adSlot.id) || !this.isPriority(adSlot.id),
+            priority: this.config.priority,
           });
           adSlots.set(adSlot.id,new AdSlot(computedAdSlotConfig));
         }

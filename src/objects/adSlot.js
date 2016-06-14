@@ -16,7 +16,7 @@ export default class adSlot {
     this.responsive = this.config.responsive;
     this.user = this.config.user;
     this.adManager = this.config.adManager;
-    this.deferredSlot = this.config.deferredSlot;
+    this.priority = this.config.priority;
 
     // Part II : Global, general ad configuration - passed from AdManager
     this.department = this.config.department;
@@ -37,14 +37,15 @@ export default class adSlot {
     this.lastResolvedWithBreakpoint = undefined; // Initialized in 'slotRenderEnded' callback
     this.slot  = undefined; // Holds a googletag.Slot object
     // [https://developers.google.com/doubleclick-gpt/reference#googletag.Slot]
-    try {
-      if(!this.deferredSlot) {
-        this.slot = this.defineSlot();
-      }
-    }
-    catch (err) {
-      console.log(err);
-    }
+    // Do not initialize google slots - will be priority based
+    // try {
+    //   if(!this.deferredSlot) {
+    //     this.slot = this.defineSlot();
+    //   }
+    // }
+    // catch (err) {
+    //   console.log(err);
+    // }
   }
 
   /**
