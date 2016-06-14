@@ -137,6 +137,7 @@ export default class adSlot {
    */
   show() {
     googletag.cmd.push(() =>  {
+      console.log('calling show for slot',this.id,' called @',window.performance.now());
       document.getElementById(this.id).classList.remove('h-hidden');
       googletag.display(this.id);
     })

@@ -1,5 +1,5 @@
 /*!
- * DFP v1.6.3
+ * DFP v1.6.4
  * (c) 2016 Elia Grady
  * Released under the MIT License.
  */
@@ -1156,6 +1156,7 @@ var adSlot = function () {
       var _this = this;
 
       googletag.cmd.push(function () {
+        console.log('calling show for slot', _this.id, ' called @', window.performance.now());
         document.getElementById(_this.id).classList.remove('h-hidden');
         googletag.display(_this.id);
       });
@@ -1749,143 +1750,18 @@ var AdManager = function () {
           var id = event.slot.getAdUnitPath().split('/')[3];
           var isEmpty = event.isEmpty;
           var resolvedSize = event.size;
+          console.log('slotRenderEnded for slot', id, ' called @', window.performance.now());
           if (_this3.adSlots.has(id)) {
             var adSlot$$ = _this3.adSlots.get(id);
             adSlot$$.lastResolvedSize = resolvedSize;
             adSlot$$.lastResolvedWithBreakpoint = getBreakpoint();
             if (isEmpty) {
               adSlot$$.hide();
-              _this3.conflictResolver.updateResolvedSlot(id, ConflictResolver.EMPTY_SIZE);
-              if (_this3.conflictResolver.isBlocking(id)) {
-                // Hide all blocked adSlots
-                var _iteratorNormalCompletion5 = true;
-                var _didIteratorError5 = false;
-                var _iteratorError5 = undefined;
-
-                try {
-                  for (var _iterator5 = _this3.conflictResolver.getBlockedSlotsIds(id)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                    var blockedSlot = _step5.value;
-
-                    if (_this3.conflictResolver.isBlocked(blockedSlot)) {
-                      if (_this3.adSlots.has(blockedSlot)) {
-                        _this3.adSlots.get(blockedSlot).hide();
-                      }
-                    }
-                  }
-                  // Show the non blocked
-                } catch (err) {
-                  _didIteratorError5 = true;
-                  _iteratorError5 = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                      _iterator5.return();
-                    }
-                  } finally {
-                    if (_didIteratorError5) {
-                      throw _iteratorError5;
-                    }
-                  }
-                }
-
-                var _iteratorNormalCompletion6 = true;
-                var _didIteratorError6 = false;
-                var _iteratorError6 = undefined;
-
-                try {
-                  for (var _iterator6 = _this3.conflictResolver.deferredSlots.keys()[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                    var deferredSlotKey = _step6.value;
-
-                    var _adSlot = _this3.adSlots.get(deferredSlotKey);
-                    if (_adSlot && _this3.shouldSendRequestToDfp(_adSlot)) {
-                      _this3.conflictResolver.deferredSlots.delete(deferredSlotKey);
-                      _adSlot.show();
-                    }
-                  }
-                } catch (err) {
-                  _didIteratorError6 = true;
-                  _iteratorError6 = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion6 && _iterator6.return) {
-                      _iterator6.return();
-                    }
-                  } finally {
-                    if (_didIteratorError6) {
-                      throw _iteratorError6;
-                    }
-                  }
-                }
-              }
+              _this3.releaseSlotDependencies(adSlot$$);
             } else {
               _this3.user.impressionManager.registerImpression('' + adSlot$$.id + _this3.config.department);
               _this3.user.impressionManager.registerImpression(adSlot$$.id + '_all');
-              try {
-                _this3.conflictResolver.updateResolvedSlot(id, resolvedSize);
-                if (_this3.conflictResolver.isBlocking(id)) {
-                  // Hide all blocked adSlots
-                  var _iteratorNormalCompletion7 = true;
-                  var _didIteratorError7 = false;
-                  var _iteratorError7 = undefined;
-
-                  try {
-                    for (var _iterator7 = _this3.conflictResolver.getBlockedSlotsIds(id)[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-                      var blockedSlot = _step7.value;
-
-                      if (_this3.conflictResolver.isBlocked(blockedSlot)) {
-                        if (_this3.adSlots.has(blockedSlot)) {
-                          _this3.adSlots.get(blockedSlot).hide();
-                        }
-                      }
-                    }
-                    // Show the non blocked
-                  } catch (err) {
-                    _didIteratorError7 = true;
-                    _iteratorError7 = err;
-                  } finally {
-                    try {
-                      if (!_iteratorNormalCompletion7 && _iterator7.return) {
-                        _iterator7.return();
-                      }
-                    } finally {
-                      if (_didIteratorError7) {
-                        throw _iteratorError7;
-                      }
-                    }
-                  }
-
-                  var _iteratorNormalCompletion8 = true;
-                  var _didIteratorError8 = false;
-                  var _iteratorError8 = undefined;
-
-                  try {
-                    for (var _iterator8 = _this3.conflictResolver.deferredSlots.keys()[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-                      var deferredSlotKey = _step8.value;
-
-                      var _adSlot2 = _this3.adSlots.get(deferredSlotKey);
-                      if (_adSlot2 && _this3.shouldSendRequestToDfp(_adSlot2)) {
-                        _this3.conflictResolver.deferredSlots.delete(deferredSlotKey);
-                        _adSlot2.show();
-                      }
-                    }
-                  } catch (err) {
-                    _didIteratorError8 = true;
-                    _iteratorError8 = err;
-                  } finally {
-                    try {
-                      if (!_iteratorNormalCompletion8 && _iterator8.return) {
-                        _iterator8.return();
-                      }
-                    } finally {
-                      if (_didIteratorError8) {
-                        throw _iteratorError8;
-                      }
-                    }
-                  }
-                }
-              } catch (err) {
-                console.log('Cannot update resolved adSlot: ' + id + ' - Ad Unit path is ' + event.slot.getAdUnitPath());
-              }
+              _this3.releaseSlotDependencies(adSlot$$);
             }
           } else {
             //Log an error
@@ -1894,6 +1770,81 @@ var AdManager = function () {
         });
       } else {
         throw new Error('googletag api was not ready when \'initSlotRenderedCallback\' was called!');
+      }
+    }
+  }, {
+    key: 'releaseSlotDependencies',
+    value: function releaseSlotDependencies(adSlot$$) {
+      try {
+        var id = adSlot$$.id;
+        this.conflictResolver.updateResolvedSlot(id, ConflictResolver.EMPTY_SIZE);
+        if (this.conflictResolver.isBlocking(id)) {
+          // Hide all blocked adSlots
+          var _iteratorNormalCompletion5 = true;
+          var _didIteratorError5 = false;
+          var _iteratorError5 = undefined;
+
+          try {
+            for (var _iterator5 = this.conflictResolver.getBlockedSlotsIds(id)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+              var blockedSlot = _step5.value;
+
+              if (this.conflictResolver.isBlocked(blockedSlot)) {
+                if (this.adSlots.has(blockedSlot)) {
+                  this.adSlots.get(blockedSlot).hide();
+                }
+              }
+            }
+            // Show the non blocked
+          } catch (err) {
+            _didIteratorError5 = true;
+            _iteratorError5 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                _iterator5.return();
+              }
+            } finally {
+              if (_didIteratorError5) {
+                throw _iteratorError5;
+              }
+            }
+          }
+
+          var _iteratorNormalCompletion6 = true;
+          var _didIteratorError6 = false;
+          var _iteratorError6 = undefined;
+
+          try {
+            for (var _iterator6 = this.conflictResolver.deferredSlots.keys()[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+              var deferredSlotKey = _step6.value;
+
+              var deferredAdSlot = this.adSlots.get(deferredSlotKey);
+              if (deferredAdSlot && this.shouldSendRequestToDfp(deferredAdSlot)) {
+                this.conflictResolver.deferredSlots.delete(deferredSlotKey);
+                if (deferredAdSlot.deferredSlot) {
+                  deferredAdSlot.defineSlot();
+                  deferredAdSlot.deferredSlot = false;
+                }
+                deferredAdSlot.show();
+              }
+            }
+          } catch (err) {
+            _didIteratorError6 = true;
+            _iteratorError6 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                _iterator6.return();
+              }
+            } finally {
+              if (_didIteratorError6) {
+                throw _iteratorError6;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.log('Cannot updateSlotDependencies for adSlot: ' + adSlot$$.id);
       }
     }
 
@@ -2113,7 +2064,7 @@ var DFP = function () {
 }();
 
 // Correct version will be set with the 'rollup-replace plugin'
-DFP.version = '1.6.3';
+DFP.version = '1.6.4';
 
 //// Only for development mode
 //if ( "production" !== 'production' ) {

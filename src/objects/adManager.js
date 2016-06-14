@@ -278,58 +278,19 @@ export default class AdManager {
         const id = event.slot.getAdUnitPath().split('/')[3];
         const isEmpty = event.isEmpty;
         const resolvedSize = event.size;
+        console.log('slotRenderEnded for slot',id,' called @',window.performance.now());
         if(this.adSlots.has(id)) {
           const adSlot = this.adSlots.get(id);
           adSlot.lastResolvedSize = resolvedSize;
           adSlot.lastResolvedWithBreakpoint = getBreakpoint();
           if(isEmpty) {
             adSlot.hide();
-            this.conflictResolver.updateResolvedSlot(id,ConflictResolver.EMPTY_SIZE);
-            if(this.conflictResolver.isBlocking(id)) {
-              // Hide all blocked adSlots
-              for(const blockedSlot of this.conflictResolver.getBlockedSlotsIds(id)) {
-                if(this.conflictResolver.isBlocked(blockedSlot)) {
-                  if(this.adSlots.has(blockedSlot)) {
-                    this.adSlots.get(blockedSlot).hide();
-                  }
-                }
-              }
-              // Show the non blocked
-              for(const deferredSlotKey of this.conflictResolver.deferredSlots.keys()) {
-                const adSlot = this.adSlots.get(deferredSlotKey);
-                if(adSlot && this.shouldSendRequestToDfp(adSlot)) {
-                  this.conflictResolver.deferredSlots.delete(deferredSlotKey);
-                  adSlot.show();
-                }
-              }
-            }
-          } else {
+            this.releaseSlotDependencies(adSlot);
+          }
+          else {
             this.user.impressionManager.registerImpression(`${adSlot.id}${this.config.department}`);
             this.user.impressionManager.registerImpression(`${adSlot.id}_all`);
-            try {
-              this.conflictResolver.updateResolvedSlot(id,resolvedSize);
-              if(this.conflictResolver.isBlocking(id)) {
-                // Hide all blocked adSlots
-                for(const blockedSlot of this.conflictResolver.getBlockedSlotsIds(id)) {
-                  if(this.conflictResolver.isBlocked(blockedSlot)) {
-                    if(this.adSlots.has(blockedSlot)) {
-                      this.adSlots.get(blockedSlot).hide();
-                    }
-                  }
-                }
-                // Show the non blocked
-                for(const deferredSlotKey of this.conflictResolver.deferredSlots.keys()) {
-                  const adSlot = this.adSlots.get(deferredSlotKey);
-                  if(adSlot && this.shouldSendRequestToDfp(adSlot)) {
-                    this.conflictResolver.deferredSlots.delete(deferredSlotKey);
-                    adSlot.show();
-                  }
-                }
-              }
-            }
-            catch (err) {
-              console.log(`Cannot update resolved adSlot: ${id} - Ad Unit path is ${event.slot.getAdUnitPath()}`);
-            }
+            this.releaseSlotDependencies(adSlot);
           }
         }
         else {
@@ -340,6 +301,38 @@ export default class AdManager {
     }
     else {
       throw new Error(`googletag api was not ready when 'initSlotRenderedCallback' was called!`);
+    }
+  }
+
+  releaseSlotDependencies(adSlot) {
+    try {
+      const id = adSlot.id;
+      this.conflictResolver.updateResolvedSlot(id,ConflictResolver.EMPTY_SIZE);
+      if(this.conflictResolver.isBlocking(id)) {
+        // Hide all blocked adSlots
+        for(const blockedSlot of this.conflictResolver.getBlockedSlotsIds(id)) {
+          if(this.conflictResolver.isBlocked(blockedSlot)) {
+            if(this.adSlots.has(blockedSlot)) {
+              this.adSlots.get(blockedSlot).hide();
+            }
+          }
+        }
+        // Show the non blocked
+        for(const deferredSlotKey of this.conflictResolver.deferredSlots.keys()) {
+          const deferredAdSlot = this.adSlots.get(deferredSlotKey);
+          if(deferredAdSlot && this.shouldSendRequestToDfp(deferredAdSlot)) {
+            this.conflictResolver.deferredSlots.delete(deferredSlotKey);
+            if(deferredAdSlot.deferredSlot) {
+              deferredAdSlot.defineSlot();
+              deferredAdSlot.deferredSlot = false;
+            }
+            deferredAdSlot.show();
+          }
+        }
+      }
+    }
+    catch (err) {
+      console.log(`Cannot updateSlotDependencies for adSlot: ${adSlot.id}`);
     }
   }
 
