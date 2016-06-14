@@ -20,6 +20,8 @@ const dfpConfigMock = {
     "haaretz.co.il.web.plazma" : {
       id: "haaretz.co.il.web.plazma",
       responsive: true,
+      fluid: false,
+      priority: 'high',
       adSizeMapping: [[970, 90]],
       responsiveAdSizeMapping : {
         xxs: [[468, 60]],
@@ -36,6 +38,8 @@ const dfpConfigMock = {
     "haaretz.co.il.web.marketing.promotional_madrid.left_text3" : {
       id: "haaretz.co.il.web.marketing.promotional_madrid.left_text3",
       responsive: false,
+      fluid: false,
+      priority: 'low',
       adSizeMapping: [[375, 102]],
       responsiveAdSizeMapping : {
         xxs: [],
@@ -52,6 +56,8 @@ const dfpConfigMock = {
     "haaretz.co.il.web.popunder" : {
       id: "haaretz.co.il.web.popunder",
       responsive: false,
+      fluid: false,
+      priority: 'normal',
       adSizeMapping: [],
       responsiveAdSizeMapping : {
         xxs: [],

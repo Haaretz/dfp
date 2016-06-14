@@ -146,6 +146,7 @@ export default class AdManager {
             department: this.config.department,
             network: this.config.adManagerConfig.network,
             adUnitBase: this.config.adManagerConfig.adUnitBase,
+            deferredSlot: this.conflictResolver.isBlocked(adSlot.id) || !this.isPriority(adSlot.id),
           });
           adSlots.set(adSlot.id,new AdSlot(computedAdSlotConfig));
         }
@@ -155,6 +156,10 @@ export default class AdManager {
       }
     });
     return adSlots;
+  }
+
+  isPriority(adSlotId) {
+    return (typeof adSlotId === 'string' && (adSlotId.indexOf('plazma') > 0 || adSlotId.indexOf('maavaron') > 0 || adSlotId.indexOf('popunder') > 0 ));
   }
 
   /**

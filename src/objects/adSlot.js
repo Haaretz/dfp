@@ -16,6 +16,7 @@ export default class adSlot {
     this.responsive = this.config.responsive;
     this.user = this.config.user;
     this.adManager = this.config.adManager;
+    this.deferredSlot = this.config.deferredSlot;
 
     // Part II : Global, general ad configuration - passed from AdManager
     this.department = this.config.department;
@@ -37,7 +38,9 @@ export default class adSlot {
     this.slot  = undefined; // Holds a googletag.Slot object
     // [https://developers.google.com/doubleclick-gpt/reference#googletag.Slot]
     try {
-      this.slot = this.defineSlot();
+      if(!this.deferredSlot) {
+        this.slot = this.defineSlot();
+      }
     }
     catch (err) {
       console.log(err);
@@ -216,7 +219,7 @@ export default class adSlot {
     const isEmpty = event.isEmpty; // Did the ad return as empty?
     const resolvedSize = event.size; // What 'creative' size did the ad return with?
     // Empty or onload callback should be called next?
-    
+
   }
 
   /**

@@ -70,7 +70,6 @@ describe( 'globalConfig - unit tests for browser', () => {
 
   });
 
-
   describe( 'department property' , () => {
     let department;
     before(() => {
@@ -233,7 +232,7 @@ describe( 'globalConfig - unit tests for browser', () => {
             break;
           }
         }
-        keys = ['id','responsive','adSizeMapping','responsiveAdSizeMapping',
+        keys = ['id','responsive','fluid','priority','adSizeMapping','responsiveAdSizeMapping',
           'blacklistReferrers','whitelistReferrers']
       });
       it( `should have the following keys: ${keys}`, () => {
@@ -252,6 +251,29 @@ describe( 'globalConfig - unit tests for browser', () => {
 
       });
 
+      describe( 'fluid property' , () => {
+        let fluid;
+        before(() => {
+          fluid = adSlot.fluid;
+        });
+
+        it( `should be a boolean`, () => {
+          expect( fluid ).to.be.a('boolean');
+        } );
+
+      });
+
+      describe( 'priority property' , () => {
+        let priority, priorities = ['low', 'normal', 'high'];
+        before(() => {
+          priority = adSlot.priority;
+        });
+
+        it( `should be one of: ${priorities}`, () => {
+          expect( priority ).to.be.oneOf(priorities);
+        } );
+
+      });
 
       describe( 'adSizeMapping property' , () => {
         let adSizeMapping;
@@ -264,7 +286,6 @@ describe( 'globalConfig - unit tests for browser', () => {
         } );
 
       });
-
 
       describe( `responsiveAdSizeMapping property` , () => {
         let responsiveAdSizeMapping, keys;
@@ -414,7 +435,6 @@ describe( 'globalConfig - unit tests for browser', () => {
     });
 
   });
-
 
   describe( `sso property` , () => {
     let sso;

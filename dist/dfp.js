@@ -1,5 +1,5 @@
 /*!
- * DFP v1.6.4
+ * DFP v1.7.0
  * (c) 2016 Elia Grady
  * Released under the MIT License.
  */
@@ -979,6 +979,7 @@
       this.responsive = this.config.responsive;
       this.user = this.config.user;
       this.adManager = this.config.adManager;
+      this.deferredSlot = this.config.deferredSlot;
 
       // Part II : Global, general ad configuration - passed from AdManager
       this.department = this.config.department;
@@ -997,7 +998,9 @@
       this.slot = undefined; // Holds a googletag.Slot object
       // [https://developers.google.com/doubleclick-gpt/reference#googletag.Slot]
       try {
-        this.slot = this.defineSlot();
+        if (!this.deferredSlot) {
+          this.slot = this.defineSlot();
+        }
       } catch (err) {
         console.log(err);
       }
@@ -1571,7 +1574,8 @@
                 adManager: _this2,
                 department: _this2.config.department,
                 network: _this2.config.adManagerConfig.network,
-                adUnitBase: _this2.config.adManagerConfig.adUnitBase
+                adUnitBase: _this2.config.adManagerConfig.adUnitBase,
+                deferredSlot: _this2.conflictResolver.isBlocked(adSlot$$.id) || !_this2.isPriority(adSlot$$.id)
               });
               adSlots.set(adSlot$$.id, new adSlot(computedAdSlotConfig));
             } catch (err) {
@@ -1580,6 +1584,11 @@
           }
         });
         return adSlots;
+      }
+    }, {
+      key: 'isPriority',
+      value: function isPriority(adSlotId) {
+        return typeof adSlotId === 'string' && (adSlotId.indexOf('plazma') > 0 || adSlotId.indexOf('maavaron') > 0 || adSlotId.indexOf('popunder') > 0);
       }
 
       /**
@@ -2070,7 +2079,7 @@
   }();
 
   // Correct version will be set with the 'rollup-replace plugin'
-  DFP.version = '1.6.4';
+  DFP.version = '1.7.0';
 
   //// Only for development mode
   //if ( "production" !== 'production' ) {

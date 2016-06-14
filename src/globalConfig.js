@@ -125,6 +125,8 @@ const dfpConfig = Object.assign({
       //path : "/network/base/slotId/slotId_subsection", Will be calculated from AdManager
       responsive: true,
       adSizeMapping: [['width1','height1'],...['widthN','heightN']],
+      priority: 'normal',
+      fluid: false,
       responsiveAdSizeMapping : {
         xxs: [['width1','height1'],...['widthN','heightN'],],
         xs: [['width1','height1'],...['widthN','heightN'],],
