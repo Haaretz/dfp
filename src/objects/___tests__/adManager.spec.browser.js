@@ -1,4 +1,4 @@
-import  AdManager, {userTypes, adTargets, adTypes } from '../../objects/adManager';
+import  AdManager, {userTypes, adTargets, adTypes, adPriorities } from '../../objects/adManager';
 import globalConfigMock from '../../__tests__/globalConfig.mock';
 import User from '../../objects/user';
 import AdSlot from '../../objects/adSlot';
@@ -85,6 +85,10 @@ describe( 'AdManager', () => {
 
       it( `should have sorted the adSlots based on its selector's offsetTop `, () => {
         let adSlotsFromConfig = Object.keys(adManager.config.adSlotConfig);
+        //Only high priority will be initialized at first
+        adSlotsFromConfig = adSlotsFromConfig.filter(adSlotName => {
+          return adManager.config.adSlotConfig[adSlotName].priority === adPriorities.high;
+        });
         function byOffsetTop(a,b) {
           a = document.getElementById(a.id);
           b = document.getElementById(b.id);

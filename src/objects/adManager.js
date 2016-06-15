@@ -2,12 +2,17 @@
 import User from '../objects/user';
 import ConflictResolver from '../objects/conflictResolver';
 import AdSlot from '../objects/adSlot';
-import globalConfig from '../globalConfig';
 import { getBreakpoint, getBreakpointName } from '../utils/breakpoints';
 import { arraysEqual } from '../utils/arrays';
 
 // There are a total of 7 adTargets:
 // "all","nonPaying","anonymous","registered","paying","digitalOnly" and "digitalAndPrint"
+export const adPriorities = {
+  high: 'high',
+  normal: 'normal',
+  low: 'low',
+};
+
 export const adTargets = {
   all: 'all',
   nonPaying: 'nonPaying',
@@ -32,11 +37,6 @@ export const adTypes = {
   regular: '',
 };
 
-export const adPriorities = {
-  high: 'high',
-  normal: 'normal',
-  low: 'low',
-};
 
 export default class AdManager {
 
@@ -54,18 +54,27 @@ export default class AdManager {
      */
     try {
       googletag.cmd.push(() => {
-        this.initGoogleTargetingParams();
-        this.initSlotRenderedCallback();
+        this.initGoogleTargetingParams(); //  Define page-level settings
+        this.initGoogleGlobalSettings();  //  enableServices()
+        this.initSlotRenderedCallback();  //  Define callbacks
       });
       // Holds adSlot objects as soon as possible.
       googletag.cmd.push(() => {
-        this.adSlots = this.initAdSlots(config.adSlotConfig);
+        this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.high);
       });
-      // Once DOM ready, add the rest of the adSlots.
+      // Once DOM ready, add more adSlots.
       document.addEventListener('DOMContentLoaded', () => {
         googletag.cmd.push(() => {
-          this.adSlots = this.initAdSlots(config.adSlotConfig);
-          this.initGoogleGlobalSettings();
+          this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.high);
+          googletag.cmd.push(() => {
+            this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.normal);
+          });
+        });
+      });
+      // Once window was loaded, add the rest of the adSlots.
+      window.addEventListener('load', () => {
+        googletag.cmd.push(() => {
+          this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.low);
         });
       });
     }
@@ -84,6 +93,16 @@ export default class AdManager {
         adSlot.show();
       }
     }
+  }
+
+  /**
+   * Gets all adSlots that has a certain priority
+   */
+  getAdSlotsByPriority(priority) {
+    function priorityFilter(adPriority) {
+      return adPriority === priority;
+    }
+    return Array.from(this.adSlots.values()).filter(priorityFilter);
   }
 
   showAllDeferredSlots() {
@@ -108,7 +127,7 @@ export default class AdManager {
       const adSlot = this.adSlots.get(adSlotKey);
       if(adSlot.responsive) {
         if(adSlot.lastResolvedWithBreakpoint != currentBreakpoint && this.shouldSendRequestToDfp(adSlot)) {
-          console.log(`calling refresh for adSlot: ${adSlot.id}`);
+          //console.log(`calling refresh for adSlot: ${adSlot.id}`);
           adSlot.refresh();
         } else {
           adSlot.hide();
@@ -123,7 +142,7 @@ export default class AdManager {
    * @param adSlotConfig
    * @returns {Map}
    */
-  initAdSlots(adSlotConfig) {
+  initAdSlots(adSlotConfig, filteredPriority) {
     let adSlots = new Map(this.adSlots);
     let adSlotPlaceholders = Array.from(document.getElementsByClassName('js-dfp-ad'));
     adSlotPlaceholders = adSlotPlaceholders.filter(node => node.id); //only nodes with an id
@@ -135,9 +154,10 @@ export default class AdManager {
       }
       return false;
     });
-    adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
+    //adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
     adSlotPlaceholders.forEach(adSlot => {
-      if(adSlotConfig[adSlot.id] && adSlots.has(adSlot.id) === false) {
+      const adSlotPriority = adSlotConfig[adSlot.id].priority || adPriorities.normal;
+      if(adSlotConfig[adSlot.id] && adSlots.has(adSlot.id) === false && adSlotPriority === filteredPriority) {
         //the markup has a matching configuration from adSlotConfig AND was not already defined
         try {
           // adSlotConfig is built from globalConfig, but can be overridden by markup
@@ -151,9 +171,15 @@ export default class AdManager {
             department: this.config.department,
             network: this.config.adManagerConfig.network,
             adUnitBase: this.config.adManagerConfig.adUnitBase,
-            priority: this.config.priority,
+            deferredSlot: this.conflictResolver.isBlocked(adSlot.id),
+            priority: adSlotPriority,
           });
-          adSlots.set(adSlot.id,new AdSlot(computedAdSlotConfig));
+          const adSlotInstance = new AdSlot(computedAdSlotConfig);
+          adSlots.set(adSlot.id, adSlotInstance);
+          if(adSlotInstance.type !== adTypes.talkback && adSlotInstance.priority === adPriorities.high && this.shouldSendRequestToDfp(adSlotInstance)) {
+            //console.log('calling show for high priority slot', adSlotInstance.id, ' called @', window.performance.now());
+            adSlotInstance.show();
+          }
         }
         catch (err) {
           console.log(err);
@@ -183,7 +209,6 @@ export default class AdManager {
   }
 
   /**
-   *  //TODO: add explicit type override
    * @param {object} adSlot the AdSlot
    * @returns {boolean|*}
    */
@@ -195,9 +220,6 @@ export default class AdManager {
       adSlot.isWhitelisted() &&
         // Not in referrer Blacklist
       adSlot.isBlacklisted() === false &&
-        // Not a Talkback adUnit type, not a Maavaron type and not a Popunder type
-      // adSlot.type !== adTypes.maavaron &&
-      // adSlot.type !== adTypes.talkback &&
       this.shouldDisplayAdAfterAdBlockRemoval(adSlot) &&
         // Responsive: breakpoint contains ad?
       this.doesBreakpointContainAd(adSlot) &&
@@ -247,8 +269,8 @@ export default class AdManager {
     for(const adSlotKey of this.adSlots.keys()) {
       const adSlot = this.adSlots.get(adSlotKey);
       if(adSlot.responsive === true && adSlot.lastResolvedWithBreakpoint) {
-        if(adSlot.lastResolvedWithBreakpoint != breakpoint) {
-          adSlot.refresh(); //TODO check logic - should it check the responsiveAdSizeMapping first?
+        if(adSlot.lastResolvedWithBreakpoint !== breakpoint) {
+          adSlot.refresh();
           count++;
         }
       }
@@ -264,8 +286,6 @@ export default class AdManager {
     if(!adSlot) {
       throw new Error(`Missing argument: a call to doesBreakpointContainAd must have an adSlot`,this);
     }
-    //TODO check if default value is being passed (if the next line is redundant)
-    breakpoint = breakpoint || getBreakpoint();
     let containsBreakpoint = true;
     if(adSlot.responsive === true) {
       const mapping = adSlot.responsiveAdSizeMapping[getBreakpointName(breakpoint)];
@@ -279,7 +299,6 @@ export default class AdManager {
 
   /**
    * Initializes the callback from the 'slotRenderEnded' event for each slot
-   * //TODO refactor: break down to smaller submethods
    */
   initSlotRenderedCallback() {
     if(window.googletag && window.googletag.apiReady) {
@@ -288,24 +307,24 @@ export default class AdManager {
         const id = event.slot.getAdUnitPath().split('/')[3];
         const isEmpty = event.isEmpty;
         const resolvedSize = event.size;
-        console.log('slotRenderEnded for slot',id,' called @',window.performance.now());
+        //console.log('slotRenderEnded for slot',id,' called @',window.performance.now());
         if(this.adSlots.has(id)) {
           const adSlot = this.adSlots.get(id);
           adSlot.lastResolvedSize = resolvedSize;
           adSlot.lastResolvedWithBreakpoint = getBreakpoint();
           if(isEmpty) {
+            adSlot.lastResolvedSize = ConflictResolver.EMPTY_SIZE;
             adSlot.hide();
             this.releaseSlotDependencies(adSlot);
           }
           else {
             this.user.impressionManager.registerImpression(`${adSlot.id}${this.config.department}`);
             this.user.impressionManager.registerImpression(`${adSlot.id}_all`);
-            this.releaseSlotDependencies(adSlot);
+            this.releaseSlotDependencies(adSlot, adSlot.lastResolvedSize);
           }
         }
         else {
-          //Log an error
-          console.log(`Cannot find an ad with id: ${id} - Ad Unit path is ${event.slot.getAdUnitPath()}`);
+          console.error(`Cannot find an adSlot with id: ${id} - Ad Unit path is ${event.slot.getAdUnitPath()}`);
         }
       });
     }
@@ -317,7 +336,7 @@ export default class AdManager {
   releaseSlotDependencies(adSlot) {
     try {
       const id = adSlot.id;
-      this.conflictResolver.updateResolvedSlot(id,ConflictResolver.EMPTY_SIZE);
+      this.conflictResolver.updateResolvedSlot(id, adSlot.lastResolvedSize);
       if(this.conflictResolver.isBlocking(id)) {
         // Hide all blocked adSlots
         for(const blockedSlot of this.conflictResolver.getBlockedSlotsIds(id)) {
@@ -342,7 +361,7 @@ export default class AdManager {
       }
     }
     catch (err) {
-      console.log(`Cannot updateSlotDependencies for adSlot: ${adSlot.id}`);
+      console.error(`Cannot updateSlotDependencies for adSlot: ${adSlot.id}`);
     }
   }
 

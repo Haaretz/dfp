@@ -2,7 +2,7 @@
 import AdManager  from '../src/objects/adManager';
 import globalConfig from './globalConfig';
 const defaultConfig = globalConfig || {};
-import { getBreakpoint, getBreakpointName, debounce }  from '../src/utils/breakpoints';
+import { getBreakpoint, debounce }  from '../src/utils/breakpoints';
 const googletagInitTimeout = 10000;
 const resizeTimeout = 250;
 

@@ -17,6 +17,7 @@ export default class adSlot {
     this.user = this.config.user;
     this.adManager = this.config.adManager;
     this.priority = this.config.priority;
+    this.deferredSlot = this.config.deferredSlot;
 
     // Part II : Global, general ad configuration - passed from AdManager
     this.department = this.config.department;
@@ -37,15 +38,14 @@ export default class adSlot {
     this.lastResolvedWithBreakpoint = undefined; // Initialized in 'slotRenderEnded' callback
     this.slot  = undefined; // Holds a googletag.Slot object
     // [https://developers.google.com/doubleclick-gpt/reference#googletag.Slot]
-    // Do not initialize google slots - will be priority based
-    // try {
-    //   if(!this.deferredSlot) {
-    //     this.slot = this.defineSlot();
-    //   }
-    // }
-    // catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      if(!this.deferredSlot) {
+        this.slot = this.defineSlot();
+      }
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
 
   /**
@@ -140,11 +140,17 @@ export default class adSlot {
    * It assumes a markup is available for this slot (any tag with an id attribute = this.id)
    */
   show() {
-    googletag.cmd.push(() =>  {
-      console.log('calling show for slot',this.id,' called @',window.performance.now());
-      document.getElementById(this.id).classList.remove('h-hidden');
-      googletag.display(this.id);
-    })
+    if(!this.shown === true) {
+      this.shown = true; //Ensure show will be called once per adSlot
+      googletag.cmd.push(() =>  {
+        if(this.deferredSlot) {
+          this.slot = this.defineSlot();
+        }
+        //console.log('calling show for slot',this.id,' called @',window.performance.now());
+        document.getElementById(this.id).classList.remove('h-hidden');
+        googletag.display(this.id);
+      })
+    }
   }
 
   /**
