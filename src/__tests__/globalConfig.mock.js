@@ -14,7 +14,8 @@ const dfpConfigMock = {
     medium: undefined,
     campaign: undefined,
   },
-  adBlockRemoved: undefined,
+  adBlockRemoved: false,
+  wifiLocation : 'ArCafe',
   gStatCampaignNumber: undefined,
   adSlotConfig: {
     "haaretz.co.il.web.plazma" : {

@@ -6,7 +6,8 @@ describe( 'globalConfig - unit tests for browser', () => {
   before(() => {
     config = globalConfig;
     keys = ['referrer', 'isMobile', 'isHomepage', 'department', 'path', 'environment', 'articleId',
-      'utm_', 'adSlotConfig', 'adManagerConfig', 'breakpointsConfig', 'userConfig', 'sso'];
+      'utm_', 'adBlockRemoved', 'wifiLocation', 'gStatCampaignNumber', 'adSlotConfig', 'adManagerConfig',
+      'breakpointsConfig', 'userConfig', 'sso'];
   });
 
   it( 'should not throw an error', () => {
@@ -180,6 +181,42 @@ describe( 'globalConfig - unit tests for browser', () => {
 
     it( `should have a campaign property that is either undefined or a string`, () => {
       expect( utm.campaign ).to.be.undefined || expect( utm.campaign ).to.be.a('string');
+    } );
+
+  });
+
+  describe( 'adBlockRemoved property' , () => {
+    let adBlockRemoved;
+    before(() => {
+      adBlockRemoved = config.adBlockRemoved;
+    });
+
+    it( 'should not be undefined', () => {
+      expect( adBlockRemoved ).to.not.be.an('undefined');
+    } );
+
+    it( 'should be a boolean', () => {
+      expect( adBlockRemoved ).to.be.a('boolean');
+    } );
+
+  });
+
+  describe( 'wifiLocation property' , () => {
+    let wifiLocation;
+    before(() => {
+      wifiLocation = config.wifiLocation;
+    });
+
+    it( 'should not be undefined', () => {
+      expect( wifiLocation ).to.not.be.an('undefined');
+    } );
+
+    it( 'should be a string', () => {
+      expect( wifiLocation ).to.be.a('string');
+    } );
+
+    it(`should either be an empty string, 'ArCafe' of 'university'`, () => {
+      expect( wifiLocation ).to.be.oneOf(['', 'ArCafe', 'university']);
     } );
 
   });

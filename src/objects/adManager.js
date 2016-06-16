@@ -365,6 +365,7 @@ export default class AdManager {
     }
   }
 
+  //TODO - move these to a separate service
   /**
    * Initializes page-level targeting params.
    */
@@ -414,6 +415,10 @@ export default class AdManager {
       // AdBlock removal
       if (this.config.adBlockRemoved) {
         pubads.setTargeting('adblock_removed', [this.config.adBlockRemoved]);
+      }
+      // University targeting - triggered via cookie
+      if (this.config.wifiLocation) {
+        pubads.setTargeting('wifiLocation', [this.config.wifiLocation]);
       }
 
       // Ads Centering

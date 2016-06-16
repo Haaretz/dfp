@@ -1,5 +1,5 @@
 /*global dfpBaseConf*/
-import { ssoKey } from '../src/utils/cookieUtils';
+import getCookieAsMap, { ssoKey } from './utils/cookieUtils';
 //globalConfig for DFP
 const dfpConfig = Object.assign({
   get referrer() {
@@ -97,15 +97,25 @@ const dfpConfig = Object.assign({
     },
   },
   get adBlockRemoved() {
-    let adBlockRemoved;
+    let adBlockRemoved = false;
     try {
-      adBlockRemoved = localStorage.getItem('adblock_removed') ?
-        true : false;
+      adBlockRemoved = localStorage.getItem('adblock_removed') ? true : false;
+    }
+    catch (err) {}
+    return adBlockRemoved;
+  },
+  get wifiLocation() {
+    let wifiLocation = '';
+    let cookieMap = getCookieAsMap();
+    try {
+      if(cookieMap && cookieMap['_htzwif']) {
+        wifiLocation = (cookieMap['_htzwif'] == 'arcaffe')? 'ArCafe' : 'university';
+      }
     }
     catch (err) {
-      adBlockRemoved = false;
+
     }
-    return adBlockRemoved;
+    return wifiLocation;
   },
   get gStatCampaignNumber() {
     let gstatCampaign;

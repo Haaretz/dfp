@@ -1,5 +1,5 @@
 /*!
- * DFP v1.7.4
+ * DFP v1.8.0
  * (c) 2016 Elia Grady
  * Released under the MIT License.
  */
@@ -185,13 +185,21 @@
       }
     },
     get adBlockRemoved() {
-      var adBlockRemoved = void 0;
+      var adBlockRemoved = false;
       try {
         adBlockRemoved = localStorage.getItem('adblock_removed') ? true : false;
-      } catch (err) {
-        adBlockRemoved = false;
-      }
+      } catch (err) {}
       return adBlockRemoved;
+    },
+    get wifiLocation() {
+      var wifiLocation = '';
+      var cookieMap = getCookieAsMap();
+      try {
+        if (cookieMap && cookieMap['_htzwif']) {
+          wifiLocation = cookieMap['_htzwif'] == 'arcaffe' ? 'ArCafe' : 'university';
+        }
+      } catch (err) {}
+      return wifiLocation;
     },
     get gStatCampaignNumber() {
       var gstatCampaign = void 0;
@@ -1897,6 +1905,7 @@
         }
       }
 
+      //TODO - move these to a separate service
       /**
        * Initializes page-level targeting params.
        */
@@ -1949,6 +1958,10 @@
           // AdBlock removal
           if (this.config.adBlockRemoved) {
             pubads.setTargeting('adblock_removed', [this.config.adBlockRemoved]);
+          }
+          // University targeting - triggered via cookie
+          if (this.config.wifiLocation) {
+            pubads.setTargeting('wifiLocation', [this.config.wifiLocation]);
           }
 
           // Ads Centering
@@ -2113,7 +2126,7 @@
   }();
 
   // Correct version will be set with the 'rollup-replace plugin'
-  DFP.version = '1.7.4';
+  DFP.version = '1.8.0';
 
   //// Only for development mode
   //if ( "production" !== 'production' ) {
