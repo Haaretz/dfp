@@ -1,5 +1,5 @@
 /*!
- * DFP v1.8.0
+ * DFP v1.8.6
  * (c) 2016 Elia Grady
  * Released under the MIT License.
  */
@@ -989,6 +989,7 @@
       this.responsive = this.config.responsive;
       this.user = this.config.user;
       this.adManager = this.config.adManager;
+      this.htmlElement = this.config.htmlElement;
       this.priority = this.config.priority;
       this.deferredSlot = this.config.deferredSlot;
 
@@ -1213,7 +1214,10 @@
         if (this.isMaavaron()) {
           var maavaronSlot = this.defineMaavaron();
           if (this.adManager.shouldSendRequestToDfp(this)) {
-            maavaronSlot.display();
+            if (!this.shown) {
+              this.shown = true; //Ensure show will be called once
+              maavaronSlot.display();
+            }
           }
           return maavaronSlot;
         }
@@ -1493,8 +1497,8 @@
     }, {
       key: 'getAdSlotsByPriority',
       value: function getAdSlotsByPriority(priority) {
-        function priorityFilter(adPriority) {
-          return adPriority === priority;
+        function priorityFilter(adSlot$$) {
+          return adSlot$$.priority === priority;
         }
         return Array.from(this.adSlots.values()).filter(priorityFilter);
       }
@@ -1604,7 +1608,7 @@
         });
         //adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
         adSlotPlaceholders.forEach(function (adSlot$$) {
-          var adSlotPriority = adSlotConfig[adSlot$$.id].priority || adPriorities.normal;
+          var adSlotPriority = adSlotConfig[adSlot$$.id] ? adSlotConfig[adSlot$$.id].priority || adPriorities.normal : undefined;
           if (adSlotConfig[adSlot$$.id] && adSlots.has(adSlot$$.id) === false && adSlotPriority === filteredPriority) {
             //the markup has a matching configuration from adSlotConfig AND was not already defined
             try {
@@ -1613,9 +1617,10 @@
                 id: adSlot$$.id,
                 target: adSlot$$.attributes['data-audtarget'] ? adSlot$$.attributes['data-audtarget'].value : adTargets.all,
                 type: _this2.getAdType(adSlot$$.id),
-                responsive: adSlotConfig[adSlot$$.id].responsive && adSlot$$.classList.contains('js-dfp-resp-refresh'), //TODO change to global config
+                responsive: adSlotConfig[adSlot$$.id].responsive,
                 user: _this2.user,
                 adManager: _this2,
+                htmlElement: adSlot$$,
                 department: _this2.config.department,
                 network: _this2.config.adManagerConfig.network,
                 adUnitBase: _this2.config.adManagerConfig.adUnitBase,
@@ -1684,7 +1689,7 @@
     }, {
       key: 'shouldDisplayAdAfterAdBlockRemoval',
       value: function shouldDisplayAdAfterAdBlockRemoval(adSlot$$) {
-        return !(this.config.adBlockRemoved && (adSlot$$.type === adTypes.maavaron || adSlot$$.type === adTypes.popunder));
+        return !(this.config.adBlockRemoved === true && (adSlot$$.type === adTypes.maavaron || adSlot$$.type === adTypes.popunder));
       }
 
       /**
@@ -2126,7 +2131,7 @@
   }();
 
   // Correct version will be set with the 'rollup-replace plugin'
-  DFP.version = '1.8.0';
+  DFP.version = '1.8.6';
 
   //// Only for development mode
   //if ( "production" !== 'production' ) {

@@ -99,8 +99,8 @@ export default class AdManager {
    * Gets all adSlots that has a certain priority
    */
   getAdSlotsByPriority(priority) {
-    function priorityFilter(adPriority) {
-      return adPriority === priority;
+    function priorityFilter(adSlot) {
+      return adSlot.priority === priority;
     }
     return Array.from(this.adSlots.values()).filter(priorityFilter);
   }
@@ -156,7 +156,7 @@ export default class AdManager {
     });
     //adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
     adSlotPlaceholders.forEach(adSlot => {
-      const adSlotPriority = adSlotConfig[adSlot.id].priority || adPriorities.normal;
+      const adSlotPriority = adSlotConfig[adSlot.id] ? adSlotConfig[adSlot.id].priority || adPriorities.normal : undefined;
       if(adSlotConfig[adSlot.id] && adSlots.has(adSlot.id) === false && adSlotPriority === filteredPriority) {
         //the markup has a matching configuration from adSlotConfig AND was not already defined
         try {
@@ -165,9 +165,10 @@ export default class AdManager {
             id: adSlot.id,
             target: adSlot.attributes['data-audtarget'] ? adSlot.attributes['data-audtarget'].value : adTargets.all,
             type: this.getAdType(adSlot.id),
-            responsive: adSlotConfig[adSlot.id].responsive && adSlot.classList.contains('js-dfp-resp-refresh'), //TODO change to global config
+            responsive: adSlotConfig[adSlot.id].responsive,
             user: this.user,
             adManager: this,
+            htmlElement: adSlot,
             department: this.config.department,
             network: this.config.adManagerConfig.network,
             adUnitBase: this.config.adManagerConfig.adUnitBase,
@@ -230,7 +231,7 @@ export default class AdManager {
   }
 
   shouldDisplayAdAfterAdBlockRemoval(adSlot) {
-    return !(this.config.adBlockRemoved && (adSlot.type === adTypes.maavaron || adSlot.type === adTypes.popunder));
+    return !(this.config.adBlockRemoved === true && (adSlot.type === adTypes.maavaron || adSlot.type === adTypes.popunder));
   }
 
   /**

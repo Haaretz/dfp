@@ -16,6 +16,7 @@ export default class adSlot {
     this.responsive = this.config.responsive;
     this.user = this.config.user;
     this.adManager = this.config.adManager;
+    this.htmlElement = this.config.htmlElement;
     this.priority = this.config.priority;
     this.deferredSlot = this.config.deferredSlot;
 
@@ -170,7 +171,10 @@ export default class adSlot {
     if(this.isMaavaron()) {
       const maavaronSlot = this.defineMaavaron();
       if(this.adManager.shouldSendRequestToDfp(this)) {
-        maavaronSlot.display();
+        if(!this.shown) {
+          this.shown = true; //Ensure show will be called once
+          maavaronSlot.display();
+        }
       }
       return maavaronSlot;
     }
