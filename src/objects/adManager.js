@@ -419,7 +419,7 @@ export default class AdManager {
       }
       // University targeting - triggered via cookie
       if (this.config.wifiLocation) {
-        pubads.setTargeting('wifiLocation', [this.config.wifiLocation]);
+        pubads.setTargeting('wifi', [this.config.wifiLocation]);
       }
 
       // Ads Centering

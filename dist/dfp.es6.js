@@ -1,5 +1,5 @@
 /*!
- * DFP v1.8.6
+ * DFP v1.8.7
  * (c) 2016 Elia Grady
  * Released under the MIT License.
  */
@@ -1960,7 +1960,7 @@ var AdManager = function () {
         }
         // University targeting - triggered via cookie
         if (this.config.wifiLocation) {
-          pubads.setTargeting('wifiLocation', [this.config.wifiLocation]);
+          pubads.setTargeting('wifi', [this.config.wifiLocation]);
         }
 
         // Ads Centering
@@ -2125,7 +2125,7 @@ var DFP = function () {
 }();
 
 // Correct version will be set with the 'rollup-replace plugin'
-DFP.version = '1.8.6';
+DFP.version = '1.8.7';
 
 //// Only for development mode
 //if ( "production" !== 'production' ) {
