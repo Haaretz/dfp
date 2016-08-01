@@ -1,4 +1,14 @@
 const path = require('path');
+const webpack = require('webpack');
+const glob = require('glob');
+
+// Our testing bundle is made up of our unit tests, which
+// should individually load up pieces of our application.
+// We also include the browser setup file.
+const testFiles  = glob.sync('./src/**/*__tests__*/**/*.spec.browser.js');
+//.concat(glob.sync('./src/**/*__tests__*/**/*spec.server.js'));
+const allFiles = ['./config/browser.js'].concat(testFiles);
+
 
 // Karma configuration
 module.exports = function(config, specificOptions) {
@@ -24,30 +34,39 @@ module.exports = function(config, specificOptions) {
     preprocessors: {
       '../src/**/*.js': ['sourcemap'],
       //'../src/**/*__tests__*/**/*spec.server.js': ['webpack'],
-      '../src/**/*__tests__*/**/*spec.browser.js': ['sourcemap','webpack'],
+      '../src/**/*__tests__*/**/*spec.browser.js': ['webpack','sourcemap'],
     },
     webpack: {
+      entry: allFiles,
       cache: true,
-      devtool: '#inline-source-map',
+      devtool: 'inline-source-map',
       module: {
         preLoaders: [{
           test: /\.js?$/,
           exclude: /(src\/dist|packages|.git|node_modules|__tests__)/,
-          loader: 'isparta-instrumenter-loader',
+          loader: 'isparta',
           include: path.join(__dirname, '../src'),
           query: {
             cacheDirectory: true,
           }
         }],
-        loaders: [{
-          test: /\.js$/,
-          exclude: /(src\/dist|.git|node_modules)/,
-          loader: 'babel-loader',
-          query: {
-            cacheDirectory: true,
+        loaders: [
+          {
+            test: /\.js$/,
+            exclude: /(src\/dist|.git|node_modules)/,
+            loader: 'babel-loader',
+            query: {
+              cacheDirectory: true,
+            }
           }
-        }]
-      }
+        ]
+      },
+      plugins: [
+        // By default, webpack does `n=>n` compilation with entry files. This concatenates
+        // them into a single chunk.
+        new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+        new webpack.HotModuleReplacementPlugin(),
+      ]
     },
     webpackMiddleware: {
       noInfo: true

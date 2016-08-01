@@ -1,5 +1,5 @@
 /*!
- * DFP v1.8.7
+ * DFP v1.9.1
  * (c) 2016 Elia Grady
  * Released under the MIT License.
  */
@@ -987,6 +987,7 @@
       this.target = this.config.target;
       this.type = this.config.type;
       this.responsive = this.config.responsive;
+      this.fluid = this.config.fluid;
       this.user = this.config.user;
       this.adManager = this.config.adManager;
       this.htmlElement = this.config.htmlElement;
@@ -1228,7 +1229,11 @@
         //3 or 2 params according to the function that we want to activate.
         args.push(this.getPath());
         if (this.isOutOfPage() === false) {
-          args.push(this.adSizeMapping);
+          if (this.fluid) {
+            args.push('fluid');
+          } else {
+            args.push(this.adSizeMapping);
+          }
         }
         args.push(this.id);
         var slot = defineFn.apply(defineFn, args);
@@ -1618,6 +1623,7 @@
                 target: adSlot$$.attributes['data-audtarget'] ? adSlot$$.attributes['data-audtarget'].value : adTargets.all,
                 type: _this2.getAdType(adSlot$$.id),
                 responsive: adSlotConfig[adSlot$$.id].responsive,
+                fluid: adSlotConfig[adSlot$$.id].fluid || false,
                 user: _this2.user,
                 adManager: _this2,
                 htmlElement: adSlot$$,
@@ -2131,7 +2137,7 @@
   }();
 
   // Correct version will be set with the 'rollup-replace plugin'
-  DFP.version = '1.8.7';
+  DFP.version = '1.9.1';
 
   //// Only for development mode
   //if ( "production" !== 'production' ) {

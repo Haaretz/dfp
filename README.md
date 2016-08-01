@@ -8,26 +8,6 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![npm](https://img.shields.io/npm/l/express.svg?style=flat-square)](https://github.com/kflash/boily/blob/master/LICENSE.md)
 
-### Based on the excellent Boilerplate 'boily' created by Kflash: https://github.com/kflash/boily
-
-> Boily is a starter kit to get you up and running with a bunch of awesome new front-end
-technologies using Babel, Rollup, Webpack, Mocha, Sinon-chai, Isparta, and ESLint without any framework dependencies.
-
-## Features
-
-* [ES6 with Babel](http://babeljs.io/) for ES6 and ES7
-* [Webpack](https://webpack.github.io/) for unit tests
-* [Rollup](http://rollupjs.org/) for bundling
-* [ESLint](http://eslint.org/) to maintain a consistent code style
-* [Karma](http://karma-runner.github.io/0.13/index.html) as the test runner
-* [Universal Module Definition (UMD) API](https://github.com/umdjs/umd), which provides compatibility with the most popular script loaders, to the output.
-* Unit tests written with ES2015 get transpiled on the fly
-* [Easier way of committing your changes](https://github.com/commitizen/cz-cli), with command line tool
-* Browser tests in the browser
-* [SauceLab](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/) ready
-* [TestingBot](https://testingbot.com/) ready
-* Node >= 4.2
-
 ## Installation
 
 Just clone the repo and install the necessary node modules.
@@ -60,9 +40,9 @@ $ npm run build                 # Build a minified and a non-minified version of
 * `npm run package:purge` - Remove all dependencies
 * `npm run package:reinstall` - Reinstall all dependencies
 * `npm run package:check` - shows a list over dependencies with a higher version number then the current one - if any
-* `npm run package:upgrade` - Automaticly upgrade all devDependencies & dependencies, and update package.json
-* `npm run package:dev` - Automaticly upgrade all devDependencies and update package.json
-* `npm run package:prod` - Automaticly upgrade all dependencies and update package.json
+* `npm run package:upgrade` - Automatically upgrade all devDependencies & dependencies, and update package.json
+* `npm run package:dev` - Automatically upgrade all devDependencies and update package.json
+* `npm run package:prod` - Automatically upgrade all dependencies and update package.json
 * `npm run browser` - runs browser unit tests in the browser. All of your unit tests get bundled automatically.
 * `npm run commit` - commit latest changes to the Master branch on Github.
 
@@ -126,4 +106,4 @@ npm install
 ```
 
 ## License
-MIT Â© [KFlash](https://github.com/kflash)
+MIT © [Haaretz Ltd.](https://github.com/Haaretz)

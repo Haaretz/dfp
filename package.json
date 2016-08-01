@@ -1,25 +1,19 @@
 {
   "name": "DFP",
   "description": "A DoubleClick for Publishers Implementation",
-  "version": "1.8.7",
+  "version": "1.9.1",
   "license": "MIT",
   "author": {
     "name": "Elia Grady",
     "email": "admin@eliagrady.com"
   },
-  "contributors": [
-    {
-      "name": "KFlash",
-      "email": "kflash123@gmail.com"
-    }
-  ],
   "bugs": {
-    "url": "https://github.com/eliagrady/dfp/issues"
+    "url": "https://github.com/haaretz/dfp/issues"
   },
   "devDependencies": {
     "babel-cli": "^6.6.0",
     "babel-core": "^6.6.0",
-    "babel-eslint": "^5.0.0",
+    "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-syntax-jsx": "^6.5.0-1",
     "babel-plugin-syntax-object-rest-spread": "^6.5.0-1",
@@ -29,26 +23,26 @@
     "babel-preset-stage-0": "^6.5.0-1",
     "babel-register": "^6.6.0",
     "chai": "^3.5.0",
-    "eslint": "^2.2.0",
+    "eslint": "^3.2.0",
     "glob": "^7.0.0",
     "isparta": "^4.0.0",
     "isparta-loader": "^2.0.0",
-    "karma": "0.13.22",
-    "karma-browserstack-launcher": "^0.1.10",
-    "karma-chrome-launcher": "^0.2.2",
+    "karma": "1.1.2",
+    "karma-browserstack-launcher": "^1.0.1",
+    "karma-chrome-launcher": "^1.0.1",
     "karma-coverage": "douglasduteil/karma-coverage#next",
     "karma-coveralls": "^1.1.2",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-ie-launcher": "^0.2.0",
-    "karma-mocha": "^0.2.2",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-mocha": "^1.1.1",
     "karma-mocha-reporter": "^2.0.0",
     "karma-phantomjs-launcher": "^1.0.0",
-    "karma-sauce-launcher": "^0.3.0",
+    "karma-sauce-launcher": "^1.0.0",
     "karma-sinon-chai": "^1.2.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^2.4.5",
+    "mocha": "^3.0.0",
     "mocha-jsdom": "^1.1.0",
     "mocha-lcov-reporter": "^1.2.0",
     "mock-browser": "^0.92.10",
@@ -57,22 +51,23 @@
     "phantomjs-prebuilt": "^2.1.4",
     "pre-commit": "^1.1.2",
     "rimraf": "^2.5.2",
-    "rollup": "^0.25.4",
+    "rollup": "^0.34.1",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-eslint": "^2.0.0",
-    "rollup-plugin-filesize": "^0.2.1",
-    "rollup-plugin-node-resolve": "^1.4.0",
+    "rollup-plugin-filesize": "^0.4.4",
+    "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-replace": "^1.1.0",
-    "rollup-plugin-uglify": "^0.3.1",
+    "rollup-plugin-uglify": "^1.0.1",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "webpack": "^2.1.0-beta.4",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "isparta-instrumenter-loader": "^1.0.0"
   },
   "peerDependencies": {
     "lolex": "^1.4.0"
   },
-  "homepage": "https://github.com/eliagrady/dfp#readme",
+  "homepage": "https://github.com/haaretz/dfp#readme",
   "jsnext:main": "src/index.js",
   "keywords": [
     "boilerplate",
@@ -94,7 +89,7 @@
   "main": "dist/dfp.min.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:eliagrady/dfp"
+    "url": "git@github.com:haaretz/dfp"
   },
   "scripts": {
     "clean": "rimraf coverage/ dist/",
@@ -133,8 +128,5 @@
   "engines": {
     "node": "<6",
     "npm": "~2.5"
-  },
-  "dependencies": {
-    "isparta-instrumenter-loader": "^1.0.0"
   }
 }

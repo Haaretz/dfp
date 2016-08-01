@@ -14,6 +14,7 @@ export default class adSlot {
     this.target = this.config.target;
     this.type = this.config.type;
     this.responsive = this.config.responsive;
+    this.fluid = this.config.fluid;
     this.user = this.config.user;
     this.adManager = this.config.adManager;
     this.htmlElement = this.config.htmlElement;
@@ -185,7 +186,12 @@ export default class adSlot {
     //3 or 2 params according to the function that we want to activate.
     args.push(this.getPath());
     if(this.isOutOfPage() === false) {
-      args.push(this.adSizeMapping);
+      if(this.fluid) {
+        args.push('fluid');
+      }
+      else {
+        args.push(this.adSizeMapping);
+      }
     }
     args.push(this.id);
     let slot = defineFn.apply(defineFn, args);

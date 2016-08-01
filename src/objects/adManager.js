@@ -166,6 +166,7 @@ export default class AdManager {
             target: adSlot.attributes['data-audtarget'] ? adSlot.attributes['data-audtarget'].value : adTargets.all,
             type: this.getAdType(adSlot.id),
             responsive: adSlotConfig[adSlot.id].responsive,
+            fluid: adSlotConfig[adSlot.id].fluid || false,
             user: this.user,
             adManager: this,
             htmlElement: adSlot,
