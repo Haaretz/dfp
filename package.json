@@ -1,7 +1,7 @@
 {
   "name": "DFP",
   "description": "A DoubleClick for Publishers Implementation",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "license": "MIT",
   "author": {
     "name": "Elia Grady",
@@ -84,7 +84,8 @@
     "sinon",
     "webpack",
     "eslint",
-    "bundle"
+    "bundle",
+    "DFP"
   ],
   "main": "dist/dfp.min.js",
   "repository": {
