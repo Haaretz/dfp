@@ -1,7 +1,7 @@
 {
   "name": "DFP",
   "description": "A DoubleClick for Publishers Implementation",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "license": "MIT",
   "author": {
     "name": "Elia Grady",
@@ -23,15 +23,20 @@
     "babel-preset-stage-0": "^6.5.0-1",
     "babel-register": "^6.6.0",
     "chai": "^3.5.0",
+    "dirty-chai": "^1.2.2",
     "eslint": "^3.2.0",
+    "eslint-config-airbnb": "^10.0.0",
+    "eslint-plugin-import": "^1.8.1",
     "glob": "^7.0.0",
     "isparta": "^4.0.0",
+    "isparta-instrumenter-loader": "^1.0.0",
     "isparta-loader": "^2.0.0",
     "karma": "1.1.2",
     "karma-browserstack-launcher": "^1.0.1",
     "karma-chrome-launcher": "^1.0.1",
     "karma-coverage": "douglasduteil/karma-coverage#next",
     "karma-coveralls": "^1.1.2",
+    "karma-dirty-chai": "^1.0.2",
     "karma-firefox-launcher": "^1.0.0",
     "karma-ie-launcher": "^1.0.0",
     "karma-mocha": "^1.1.1",
@@ -61,8 +66,7 @@
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "webpack": "^2.1.0-beta.4",
-    "webpack-dev-server": "^1.14.1",
-    "isparta-instrumenter-loader": "^1.0.0"
+    "webpack-dev-server": "^1.14.1"
   },
   "peerDependencies": {
     "lolex": "^1.4.0"

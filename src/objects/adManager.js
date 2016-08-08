@@ -1,4 +1,4 @@
-/*global googletag*/
+/* global googletag */
 import User from '../objects/user';
 import ConflictResolver from '../objects/conflictResolver';
 import AdSlot from '../objects/adSlot';
@@ -79,7 +79,7 @@ export default class AdManager {
       });
     }
     catch (err) {
-      console.log(err);
+      console.error(err); // eslint-disable-line no-console
     }
   }
 
@@ -87,9 +87,9 @@ export default class AdManager {
    * Shows all of the adSlots that can be displayed.
    */
   showAllSlots() {
-    for(const adSlotKey of this.adSlots.keys()) {
+    for (const adSlotKey of this.adSlots.keys()) {
       const adSlot = this.adSlots.get(adSlotKey);
-      if(adSlot.type !== adTypes.talkback && this.shouldSendRequestToDfp(adSlot)) {
+      if (adSlot.type !== adTypes.talkback && this.shouldSendRequestToDfp(adSlot)) {
         adSlot.show();
       }
     }
@@ -97,6 +97,9 @@ export default class AdManager {
 
   /**
    * Gets all adSlots that has a certain priority
+   * @param {adPriority} priority - the priority of the ad {high, normal, low}
+   * @return {Array<AdSlot>} adSlots - all of the defined adSlots that matches
+   * the given priority
    */
   getAdSlotsByPriority(priority) {
     function priorityFilter(adSlot) {
@@ -106,11 +109,11 @@ export default class AdManager {
   }
 
   showAllDeferredSlots() {
-    for(const deferredSlotId of this.conflictResolver.deferredSlots) {
-      if(this.adSlots.has(deferredSlotId)) {
-        if(!this.conflictResolver.isBlocked(deferredSlotId)) {
+    for (const deferredSlotId of this.conflictResolver.deferredSlots) {
+      if (this.adSlots.has(deferredSlotId)) {
+        if (!this.conflictResolver.isBlocked(deferredSlotId)) {
           const deferredAdSlot = this.adSlots.get(deferredSlotId);
-          if(this.shouldSendRequestToDfp(deferredAdSlot)) {
+          if (this.shouldSendRequestToDfp(deferredAdSlot)) {
             deferredAdSlot.show();
           }
         }
@@ -123,13 +126,15 @@ export default class AdManager {
    */
   refreshAllSlots() {
     const currentBreakpoint = getBreakpoint();
-    for(const adSlotKey of this.adSlots.keys()) {
+    for (const adSlotKey of this.adSlots.keys()) {
       const adSlot = this.adSlots.get(adSlotKey);
-      if(adSlot.responsive) {
-        if(adSlot.lastResolvedWithBreakpoint != currentBreakpoint && this.shouldSendRequestToDfp(adSlot)) {
-          //console.log(`calling refresh for adSlot: ${adSlot.id}`);
+      if (adSlot.responsive) {
+        if (adSlot.lastResolvedWithBreakpoint !== currentBreakpoint &&
+          this.shouldSendRequestToDfp(adSlot)) {
+          // console.log(`calling refresh for adSlot: ${adSlot.id}`);
           adSlot.refresh();
-        } else {
+        }
+        else {
           adSlot.hide();
         }
       }
@@ -139,31 +144,36 @@ export default class AdManager {
   /**
    * Initializes adSlots based on the currently found slot markup (HTML page specific),
    * and the predefined configuration for the slots.
-   * @param adSlotConfig
+   * @param {Object} adSlotConfig - the AdSlots configuration object (see: globalConfig)
+   * @param {String} filteredPriority - filters out all adSlots that does not match
+   * a given adPriority. This is used to cherry pick the init process of ads.
    * @returns {Map}
    */
   initAdSlots(adSlotConfig, filteredPriority) {
-    let adSlots = new Map(this.adSlots);
+    const adSlots = new Map(this.adSlots);
     let adSlotPlaceholders = Array.from(document.getElementsByClassName('js-dfp-ad'));
-    adSlotPlaceholders = adSlotPlaceholders.filter(node => node.id); //only nodes with an id
+    adSlotPlaceholders = adSlotPlaceholders.filter(node => node.id); // only nodes with an id
     const adSlotNodeSet = new Set();
     adSlotPlaceholders = Array.prototype.filter.call(adSlotPlaceholders, node => {
-      if(adSlotNodeSet.has(node.id) === false) { //first occurrence of Node
+      if (adSlotNodeSet.has(node.id) === false) { // first occurrence of Node
         adSlotNodeSet.add(node.id);
         return true;
       }
       return false;
     });
-    //adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
+    // adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
     adSlotPlaceholders.forEach(adSlot => {
-      const adSlotPriority = adSlotConfig[adSlot.id] ? adSlotConfig[adSlot.id].priority || adPriorities.normal : undefined;
-      if(adSlotConfig[adSlot.id] && adSlots.has(adSlot.id) === false && adSlotPriority === filteredPriority) {
-        //the markup has a matching configuration from adSlotConfig AND was not already defined
+      const adSlotPriority = adSlotConfig[adSlot.id] ?
+      adSlotConfig[adSlot.id].priority || adPriorities.normal : undefined;
+      if (adSlotConfig[adSlot.id] && adSlots.has(adSlot.id) === false &&
+        adSlotPriority === filteredPriority) {
+        // The markup has a matching configuration from adSlotConfig AND was not already defined
         try {
           // adSlotConfig is built from globalConfig, but can be overridden by markup
-          const computedAdSlotConfig = Object.assign({},adSlotConfig[adSlot.id],{
+          const computedAdSlotConfig = Object.assign({}, adSlotConfig[adSlot.id], {
             id: adSlot.id,
-            target: adSlot.attributes['data-audtarget'] ? adSlot.attributes['data-audtarget'].value : adTargets.all,
+            target: adSlot.attributes['data-audtarget'] ?
+              adSlot.attributes['data-audtarget'].value : adTargets.all,
             type: this.getAdType(adSlot.id),
             responsive: adSlotConfig[adSlot.id].responsive,
             fluid: adSlotConfig[adSlot.id].fluid || false,
@@ -178,13 +188,18 @@ export default class AdManager {
           });
           const adSlotInstance = new AdSlot(computedAdSlotConfig);
           adSlots.set(adSlot.id, adSlotInstance);
-          if(adSlotInstance.type !== adTypes.talkback && adSlotInstance.priority === adPriorities.high && this.shouldSendRequestToDfp(adSlotInstance)) {
-            //console.log('calling show for high priority slot', adSlotInstance.id, ' called @', window.performance.now());
+          if (adSlotInstance.type !== adTypes.talkback &&
+            adSlotInstance.priority === adPriorities.high &&
+            this.shouldSendRequestToDfp(adSlotInstance)) {
+            /*
+             console.log('calling show for high priority slot', adSlotInstance.id, ' called @',
+             window.performance.now());
+             */
             adSlotInstance.show();
           }
         }
         catch (err) {
-          console.log(err);
+          console.error(err); // eslint-disable-line no-console
         }
       }
     });
@@ -192,21 +207,24 @@ export default class AdManager {
   }
 
   isPriority(adSlotId) {
-    return (typeof adSlotId === 'string' && (adSlotId.indexOf('plazma') > 0 || adSlotId.indexOf('maavaron') > 0 || adSlotId.indexOf('popunder') > 0 ));
+    return (typeof adSlotId === 'string' &&
+    (adSlotId.indexOf('plazma') > 0 ||
+    adSlotId.indexOf('maavaron') > 0 ||
+    adSlotId.indexOf('popunder') > 0));
   }
 
   /**
    * Returns the adType based on the adSlot name.
-   * @param adSlotId the adSlot's identifier.
+   * @param {String} adSlotId - the adSlot's identifier.
    * @returns {*} enumerated export 'adTypes'
    */
   getAdType(adSlotId) {
-    if(!adSlotId) {
-      throw new Error(`Missing argument: a call to getAdType must have an adSlotId`,this);
+    if (!adSlotId) {
+      throw new Error('Missing argument: a call to getAdType must have an adSlotId');
     }
-    if(adSlotId.indexOf(adTypes.maavaron) > -1) return adTypes.maavaron;
-    if(adSlotId.indexOf(adTypes.popunder) > -1) return adTypes.popunder;
-    if(adSlotId.indexOf(adTypes.talkback) > -1) return adTypes.talkback;
+    if (adSlotId.indexOf(adTypes.maavaron) > -1) return adTypes.maavaron;
+    if (adSlotId.indexOf(adTypes.popunder) > -1) return adTypes.popunder;
+    if (adSlotId.indexOf(adTypes.talkback) > -1) return adTypes.talkback;
     return adTypes.regular;
   }
 
@@ -215,39 +233,40 @@ export default class AdManager {
    * @returns {boolean|*}
    */
   shouldSendRequestToDfp(adSlot) {
-    // TODO: go over each one of the following and mark as checked once implemented
     // Conflict management check
     return this.conflictResolver.isBlocked(adSlot.id) === false &&
-        // Valid Referrer check
+      // Valid Referrer check
       adSlot.isWhitelisted() &&
-        // Not in referrer Blacklist
+      // Not in referrer Blacklist
       adSlot.isBlacklisted() === false &&
       this.shouldDisplayAdAfterAdBlockRemoval(adSlot) &&
-        // Responsive: breakpoint contains ad?
+      // Responsive: breakpoint contains ad?
       this.doesBreakpointContainAd(adSlot) &&
-        // Targeting check (userType vs. slotTargeting)
+      // Targeting check (userType vs. slotTargeting)
       this.doesUserTypeMatchBannerTargeting(adSlot) &&
-        // Impressions Manager check (limits number of impressions per slot)
+      // Impressions Manager check (limits number of impressions per slot)
       this.user.impressionManager.reachedQuota(adSlot.id) === false;
   }
 
   shouldDisplayAdAfterAdBlockRemoval(adSlot) {
-    return !(this.config.adBlockRemoved === true && (adSlot.type === adTypes.maavaron || adSlot.type === adTypes.popunder));
+    return !(this.config.adBlockRemoved === true &&
+    (adSlot.type === adTypes.maavaron ||
+    adSlot.type === adTypes.popunder));
   }
 
   /**
    * Check whether or not an ad slot should appear for the current user type
-   * @param adSlotOrTarget the adSlot to check or the target as a sting
+   * @param {String} adSlotOrTarget the adSlot to check or the target as a string
    * @returns {boolean} true iff the slot should appear for the user type
    */
   doesUserTypeMatchBannerTargeting(adSlotOrTarget) {
-
     const userType = this.user.type;
     const adTarget = typeof adSlotOrTarget === 'string' ? adSlotOrTarget : adSlotOrTarget.target;
 
     switch (adTarget) {
       case adTargets.all : return true;
-      case adTargets.nonPaying : return userType === userTypes.anonymous || userType === userTypes.registered;
+      case adTargets.nonPaying :
+        return userType === userTypes.anonymous || userType === userTypes.registered;
       case adTargets.anonymous : return userType === userTypes.anonymous;
       case adTargets.registered : return userType === userTypes.registered;
       case adTargets.paying : return userType === userTypes.payer;
@@ -260,18 +279,18 @@ export default class AdManager {
   /**
    * Report to the AdManager that a breakpoint has been switched (passed from one break to
    * another). Should there be a responsive slot with a
-   * @param breakpoint the breakpoint that is currently being displayed
-   * @returns {number} the number of adSlots affected by the change
+   * @param {Breakpoint} breakpoint - the breakpoint that is currently being displayed
+   * @returns {Integer} affected - the number of adSlots affected by the change
    */
   switchedToBreakpoint(breakpoint) {
-    if(!breakpoint) {
-      throw new Error(`Missing argument: a call to switchedToBreakpoint must have an breakpoint`,this);
+    if (!breakpoint) {
+      throw new Error('Missing argument: a call to switchedToBreakpoint must have an breakpoint');
     }
     let count = 0;
-    for(const adSlotKey of this.adSlots.keys()) {
+    for (const adSlotKey of this.adSlots.keys()) {
       const adSlot = this.adSlots.get(adSlotKey);
-      if(adSlot.responsive === true && adSlot.lastResolvedWithBreakpoint) {
-        if(adSlot.lastResolvedWithBreakpoint !== breakpoint) {
+      if (adSlot.responsive === true && adSlot.lastResolvedWithBreakpoint) {
+        if (adSlot.lastResolvedWithBreakpoint !== breakpoint) {
           adSlot.refresh();
           count++;
         }
@@ -282,19 +301,21 @@ export default class AdManager {
 
   /**
    * Checks whether an adSlot is defined for a given breakpoint (Default: current breakpoint)
+   * @param {AdSlot} adSlot - the adSlot to check.
+   * @param {Breakpoint} [breakpoint=currentBreakpoint] - the breakpoint to check this ad in.
    * @returns {boolean} true iff the adSlot is defined for the given breakpoint.
    */
   doesBreakpointContainAd(adSlot, breakpoint = getBreakpoint()) {
-    if(!adSlot) {
-      throw new Error(`Missing argument: a call to doesBreakpointContainAd must have an adSlot`,this);
+    if (!adSlot) {
+      throw new Error('Missing argument: a call to doesBreakpointContainAd must have an adSlot');
     }
     let containsBreakpoint = true;
-    if(adSlot.responsive === true) {
+    if (adSlot.responsive === true) {
       const mapping = adSlot.responsiveAdSizeMapping[getBreakpointName(breakpoint)];
-      if(Array.isArray(mapping) === false) {
-        throw new Error(`Invalid argument: breakpoint:${breakpoint} doesn't exist!`,this);
+      if (Array.isArray(mapping) === false) {
+        throw new Error(`Invalid argument: breakpoint:${breakpoint} doesn't exist!`, this);
       }
-      containsBreakpoint = mapping.length > 0 && !arraysEqual(mapping,[0,0]);
+      containsBreakpoint = mapping.length > 0 && !arraysEqual(mapping, [0, 0]);
     }
     return containsBreakpoint;
   }
@@ -303,18 +324,18 @@ export default class AdManager {
    * Initializes the callback from the 'slotRenderEnded' event for each slot
    */
   initSlotRenderedCallback() {
-    if(window.googletag && window.googletag.apiReady) {
+    if (window.googletag && window.googletag.apiReady) {
       const pubads = window.googletag.pubads();
       pubads.addEventListener('slotRenderEnded', event => {
         const id = event.slot.getAdUnitPath().split('/')[3];
         const isEmpty = event.isEmpty;
         const resolvedSize = event.size;
-        //console.log('slotRenderEnded for slot',id,' called @',window.performance.now());
-        if(this.adSlots.has(id)) {
+        // console.log('slotRenderEnded for slot',id,' called @',window.performance.now());
+        if (this.adSlots.has(id)) {
           const adSlot = this.adSlots.get(id);
           adSlot.lastResolvedSize = resolvedSize;
           adSlot.lastResolvedWithBreakpoint = getBreakpoint();
-          if(isEmpty) {
+          if (isEmpty) {
             adSlot.lastResolvedSize = ConflictResolver.EMPTY_SIZE;
             adSlot.hide();
             this.releaseSlotDependencies(adSlot);
@@ -326,12 +347,15 @@ export default class AdManager {
           }
         }
         else {
-          console.error(`Cannot find an adSlot with id: ${id} - Ad Unit path is ${event.slot.getAdUnitPath()}`);
+          /*
+           console.error(`Cannot find an adSlot with id: ${id} - Ad Unit path is
+           ${event.slot.getAdUnitPath()}`);
+           */
         }
       });
     }
     else {
-      throw new Error(`googletag api was not ready when 'initSlotRenderedCallback' was called!`);
+      throw new Error('googletag api was not ready when \'initSlotRenderedCallback\' was called!');
     }
   }
 
@@ -339,21 +363,21 @@ export default class AdManager {
     try {
       const id = adSlot.id;
       this.conflictResolver.updateResolvedSlot(id, adSlot.lastResolvedSize);
-      if(this.conflictResolver.isBlocking(id)) {
+      if (this.conflictResolver.isBlocking(id)) {
         // Hide all blocked adSlots
-        for(const blockedSlot of this.conflictResolver.getBlockedSlotsIds(id)) {
-          if(this.conflictResolver.isBlocked(blockedSlot)) {
-            if(this.adSlots.has(blockedSlot)) {
+        for (const blockedSlot of this.conflictResolver.getBlockedSlotsIds(id)) {
+          if (this.conflictResolver.isBlocked(blockedSlot)) {
+            if (this.adSlots.has(blockedSlot)) {
               this.adSlots.get(blockedSlot).hide();
             }
           }
         }
         // Show the non blocked
-        for(const deferredSlotKey of this.conflictResolver.deferredSlots.keys()) {
+        for (const deferredSlotKey of this.conflictResolver.deferredSlots.keys()) {
           const deferredAdSlot = this.adSlots.get(deferredSlotKey);
-          if(deferredAdSlot && this.shouldSendRequestToDfp(deferredAdSlot)) {
+          if (deferredAdSlot && this.shouldSendRequestToDfp(deferredAdSlot)) {
             this.conflictResolver.deferredSlots.delete(deferredSlotKey);
-            if(deferredAdSlot.deferredSlot) {
+            if (deferredAdSlot.deferredSlot) {
               deferredAdSlot.defineSlot();
               deferredAdSlot.deferredSlot = false;
             }
@@ -363,20 +387,19 @@ export default class AdManager {
       }
     }
     catch (err) {
+      /* eslint-disable no-console*/
       console.error(`Cannot updateSlotDependencies for adSlot: ${adSlot.id}`);
+      /* eslint-enable no-console*/
     }
   }
 
-  //TODO - move these to a separate service
   /**
    * Initializes page-level targeting params.
    */
   initGoogleTargetingParams() {
-    if(window.googletag && window.googletag.apiReady) {
-
-      //Returns a reference to the pubads service.
+    if (window.googletag && window.googletag.apiReady) {
+      // Returns a reference to the pubads service.
       const pubads = googletag.pubads();
-
       // Environment targeting (dev, test, prod)
       if (this.config.environment) {
         pubads.setTargeting('stg', [this.config.environment]);
@@ -397,11 +420,12 @@ export default class AdManager {
       if (this.config.articleId) {
         pubads.setTargeting('articleId', [this.config.articleId]);
       }
-      if (this.config.gStatCampaignNumber && this.config.gStatCampaignNumber != -1) {
+      if (this.config.gStatCampaignNumber && this.config.gStatCampaignNumber !== -1) {
         pubads.setTargeting('gstat_campaign_id', [this.config.gStatCampaignNumber]);
       }
 
       // UTM targeting
+      /* eslint-disable no-underscore-dangle */
       if (this.config.utm_.content) {
         pubads.setTargeting('utm_content', [this.config.utm_.content]);
       }
@@ -414,6 +438,7 @@ export default class AdManager {
       if (this.config.utm_.campaign) {
         pubads.setTargeting('utm_campaign', [this.config.utm_.campaign]);
       }
+      /* eslint-enable no-underscore-dangle */
       // AdBlock removal
       if (this.config.adBlockRemoved) {
         pubads.setTargeting('adblock_removed', [this.config.adBlockRemoved]);
@@ -427,7 +452,7 @@ export default class AdManager {
       pubads.setCentering(true);
     }
     else {
-      throw new Error(`googletag api was not ready when 'initGoogleTargetingParams' was called!`);
+      throw new Error('googletag api was not ready when \'initGoogleTargetingParams\' was called!');
     }
   }
 
@@ -435,22 +460,24 @@ export default class AdManager {
    * Initializes googletag services.
    */
   initGoogleGlobalSettings() {
-    if(window.googletag && window.googletag.apiReady) {
-      if(window.location.search && window.location.search.indexOf('sraon') > 0) {
-        console.log('enableSingleRequest mode: active');
+    if (window.googletag && window.googletag.apiReady) {
+      if (window.location.search &&
+        window.location.search.indexOf('sraon') > 0) {
+        console.log('enableSingleRequest mode: active');// eslint-disable-line no-console
         googletag.pubads().enableSingleRequest();
       }
-      if(!this.config.isMobile) {
+      if (!this.config.isMobile) {
         googletag.pubads().enableAsyncRendering();
       }
       else {
-        googletag.pubads().enableAsyncRendering(); // disabled: googletag.pubads().enableSyncRendering();
+        googletag.pubads().enableAsyncRendering();
+        // disabled: googletag.pubads().enableSyncRendering();
       }
       // Enables all GPT services that have been defined for ad slots on the page.
       googletag.enableServices();
     }
     else {
-      throw new Error(`googletag api was not ready when 'initGoogleGlobalSettings' was called!`);
+      throw new Error('googletag api wasn\'t ready when \'initGoogleGlobalSettings\' was called!');
     }
   }
 }

@@ -1,6 +1,6 @@
-//GlobalConfig Mock data
+// GlobalConfig Mock data
 const dfpConfigMock = {
-  referrer : "",
+  referrer: '',
   isMobile: false,
   isHomepage: true,
   department: '_homepage',
@@ -8,41 +8,41 @@ const dfpConfigMock = {
   path: [],
   environment: 1,
   articleId: null,
-  utm_ : {
+  utm_: {
     content: undefined,
     source: undefined,
     medium: undefined,
     campaign: undefined,
   },
   adBlockRemoved: false,
-  wifiLocation : 'ArCafe',
+  wifiLocation: 'ArCafe',
   gStatCampaignNumber: undefined,
   adSlotConfig: {
-    "haaretz.co.il.web.plazma" : {
-      id: "haaretz.co.il.web.plazma",
+    'haaretz.co.il.web.plazma': {
+      id: 'haaretz.co.il.web.plazma',
       responsive: true,
       fluid: false,
-      priority: "high",
+      priority: 'high',
       adSizeMapping: [[970, 90]],
-      responsiveAdSizeMapping : {
+      responsiveAdSizeMapping: {
         xxs: [[468, 60]],
         xs: [[728, 90]],
-        s: [[970, 250],[980, 190],[970, 90],[960, 150]],
-        m: [[970, 250],[980, 190],[960, 150],[970, 90],[3, 3]],
-        l: [[970, 250],[980, 190],[960, 150],[970, 90],[1280, 200],[3, 3]],
-        xl: [[970, 250],[980, 190],[960, 150],[970, 90],[1280, 200],[3, 3]],
-        xxl: [[970, 250],[980, 190],[960, 150],[970, 90],[1280, 200],[3, 3]],
+        s: [[970, 250], [980, 190], [970, 90], [960, 150]],
+        m: [[970, 250], [980, 190], [960, 150], [970, 90], [3, 3]],
+        l: [[970, 250], [980, 190], [960, 150], [970, 90], [1280, 200], [3, 3]],
+        xl: [[970, 250], [980, 190], [960, 150], [970, 90], [1280, 200], [3, 3]],
+        xxl: [[970, 250], [980, 190], [960, 150], [970, 90], [1280, 200], [3, 3]],
       },
-      blacklistReferrers: "",
-      whitelistReferrers: "",
+      blacklistReferrers: '',
+      whitelistReferrers: '',
     },
-    "haaretz.co.il.web.marketing.promotional_madrid.left_text3" : {
-      id: "haaretz.co.il.web.marketing.promotional_madrid.left_text3",
+    'haaretz.co.il.web.marketing.promotional_madrid.left_text3': {
+      id: 'haaretz.co.il.web.marketing.promotional_madrid.left_text3',
       responsive: false,
       fluid: false,
-      priority: "low",
+      priority: 'low',
       adSizeMapping: [[375, 102]],
-      responsiveAdSizeMapping : {
+      responsiveAdSizeMapping: {
         xxs: [],
         xs: [],
         s: [],
@@ -51,16 +51,16 @@ const dfpConfigMock = {
         xl: [],
         xxl: [],
       },
-      blacklistReferrers: "",
-      whitelistReferrers: "",
+      blacklistReferrers: '',
+      whitelistReferrers: '',
     },
-    "haaretz.co.il.web.popunder" : {
-      id: "haaretz.co.il.web.popunder",
+    'haaretz.co.il.web.popunder': {
+      id: 'haaretz.co.il.web.popunder',
       responsive: false,
       fluid: false,
-      priority: "normal",
+      priority: 'normal',
       adSizeMapping: [],
-      responsiveAdSizeMapping : {
+      responsiveAdSizeMapping: {
         xxs: [],
         xs: [],
         s: [],
@@ -69,21 +69,21 @@ const dfpConfigMock = {
         xl: [],
         xxl: [],
       },
-      blacklistReferrers: "",
-      whitelistReferrers: "",
+      blacklistReferrers: '',
+      whitelistReferrers: '',
     },
   },
-  adManagerConfig : {
+  adManagerConfig: {
     network: 9401,
     adUnitBase: 'haaretz.co.il_web',
   },
-  breakpointsConfig : {
+  breakpointsConfig: {
     get breakpoints() {
-      const isType1 = true; //Override in VM from backend to control this toggle.
+      const isType1 = true; // Override in VM from backend to control this toggle.
       return isType1 ? this.breakpoints1 : this.breakpoints2;
     },
     // Type 1
-    breakpoints1 : {
+    breakpoints1: {
       xxs: 600,
       xs: 761,
       s: 993,
@@ -93,7 +93,7 @@ const dfpConfigMock = {
       xxl: 1900,
     },
     // Type 2
-    breakpoints2 : {
+    breakpoints2: {
       xxs: 600,
       xs: 1000,
       s: 1150,
@@ -101,43 +101,42 @@ const dfpConfigMock = {
       l: 1600,
       xl: 1920,
       xxl: 1920,
-    }
+    },
   },
   userConfig: {
-    type : undefined,
+    type: undefined,
     age: undefined,
     gender: undefined,
   },
   conflictManagementConfig: {
-    "haaretz.co.il.web.plazma": [
+    'haaretz.co.il.web.plazma': [
       {
-        onsize: "1280x200,970x250,3x3",
-        avoid: "haaretz.co.il.web.halfpage.floating_x"
+        onsize: '1280x200,970x250,3x3',
+        avoid: 'haaretz.co.il.web.halfpage.floating_x',
       },
       {
-        onsize: "1280x200,970x250,3x3",
-        avoid: "haaretz.co.il.web.ruler"
-      }
-    ]
+        onsize: '1280x200,970x250,3x3',
+        avoid: 'haaretz.co.il.web.ruler',
+      },
+    ],
   },
-  impressionManagerConfig : {
-    "haaretz.co.il.web.plazma_section" : {
+  impressionManagerConfig: {
+    'haaretz.co.il.web.plazma_section': {
       id: 'haaretz.co.il.web.plazma',
       target: 'section',
       frequency: '2/1hour',
     },
-    "haaretz.co.il.web.marketing.promotional_madrid.left_text3_section": {
+    'haaretz.co.il.web.marketing.promotional_madrid.left_text3_section': {
       id: 'haaretz.co.il.web.marketing.promotional_madrid.left_text3',
       target: 'homepage',
       frequency: '2/1day',
     },
-    "haaretz.co.il.web.popunder_all": {
+    'haaretz.co.il.web.popunder_all': {
       id: 'haaretz.co.il.web.popunder',
       target: 'all',
       frequency: '10/10hour',
-    }
-
-  }
+    },
+  },
 };
 
 export default dfpConfigMock;

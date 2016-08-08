@@ -1,6 +1,7 @@
-import { adTargets, adTypes } from '../objects/adManager';
+/* global googletag */
+import { adTypes } from '../objects/adManager';
 import globalConfig from '../globalConfig';
-import dfpInstance from '../index';
+
 export default class adSlot {
 
   constructor(adSlotConfig) {
@@ -8,8 +9,8 @@ export default class adSlot {
 
     // Part I : Markup configuration - passed from AdManager
     this.id = this.config.id;
-    if(!this.config.id) {
-      throw new Error("an adSlot requires an id!")
+    if (!this.config.id) {
+      throw new Error('an adSlot requires an id!');
     }
     this.target = this.config.target;
     this.type = this.config.type;
@@ -38,15 +39,15 @@ export default class adSlot {
     // Part IV : Runtime configuration - calculated data - only present in runtime
     this.lastResolvedSize = undefined; // Initialized in 'slotRenderEnded' callback
     this.lastResolvedWithBreakpoint = undefined; // Initialized in 'slotRenderEnded' callback
-    this.slot  = undefined; // Holds a googletag.Slot object
+    this.slot = undefined; // Holds a googletag.Slot object
     // [https://developers.google.com/doubleclick-gpt/reference#googletag.Slot]
     try {
-      if(!this.deferredSlot) {
+      if (!this.deferredSlot) {
         this.slot = this.defineSlot();
       }
     }
     catch (err) {
-      console.log(err);
+      console.error(err); // eslint-disable-line no-console
     }
   }
 
@@ -56,13 +57,13 @@ export default class adSlot {
    * @returns {boolean} true iff this adSlot is one of the predefined 'out-of-page' slots.
    */
   isOutOfPage() {
-    if(typeof this.type != 'string') {
-      throw new Error("An adSlot cannot by typeless!",this);
+    if (typeof this.type !== 'string') {
+      throw new Error('An adSlot cannot by typeless!', this);
     }
-    if(this.isMobile() == true) {
+    if (this.isMobile() === true) {
       return false;
     }
-    switch(this.type) {
+    switch (this.type) {
       case adTypes.maavaron: return true;
       case adTypes.popunder: return true;
       case adTypes.talkback: return false;
@@ -77,13 +78,13 @@ export default class adSlot {
    * @returns {boolean} true iff this adSlot is one of the predefined 'out-of-page' slots.
    */
   isMaavaron() {
-    if(typeof this.type != 'string') {
-      throw new Error("An adSlot cannot by typeless!",this);
+    if (typeof this.type !== 'string') {
+      throw new Error('An adSlot cannot by typeless!', this);
     }
-    if(this.isMobile() == true) {
+    if (this.isMobile() === true) {
       return false;
     }
-    switch(this.type) {
+    switch (this.type) {
       case adTypes.maavaron: return true;
       default: return false;
     }
@@ -91,7 +92,7 @@ export default class adSlot {
 
   isMobile() {
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-      .test(window.navigator.userAgent || ""));
+      .test(window.navigator.userAgent || ''));
   }
   /**
    * Checks whether or not this adSlot has a non-empty whitelist, and if so, that the current
@@ -142,16 +143,16 @@ export default class adSlot {
    * It assumes a markup is available for this slot (any tag with an id attribute = this.id)
    */
   show() {
-    if(!this.shown === true) {
-      this.shown = true; //Ensure show will be called once per adSlot
-      googletag.cmd.push(() =>  {
-        if(this.deferredSlot) {
+    if (!this.shown === true) {
+      this.shown = true; // Ensure show will be called once per adSlot
+      googletag.cmd.push(() => {
+        if (this.deferredSlot) {
           this.slot = this.defineSlot();
         }
-        //console.log('calling show for slot',this.id,' called @',window.performance.now());
+        // console.log('calling show for slot',this.id,' called @',window.performance.now());
         document.getElementById(this.id).classList.remove('h-hidden');
         googletag.display(this.id);
-      })
+      });
     }
   }
 
@@ -160,20 +161,21 @@ export default class adSlot {
    * It assumes a markup is available for this slot (any tag with an id attribute = this.id)
    */
   hide() {
-    googletag.cmd.push(() =>  {
+    googletag.cmd.push(() => {
       document.getElementById(this.id).classList.add('h-hidden');
-    })
+    });
   }
 
   /**
    * Initializes page-level slot definition for the current slot
+   * @return {Slot} slot - the Google Slot that was defined from this AdSlot configuration
    */
   defineSlot() {
-    if(this.isMaavaron()) {
+    if (this.isMaavaron()) {
       const maavaronSlot = this.defineMaavaron();
-      if(this.adManager.shouldSendRequestToDfp(this)) {
-        if(!this.shown) {
-          this.shown = true; //Ensure show will be called once
+      if (this.adManager.shouldSendRequestToDfp(this)) {
+        if (!this.shown) {
+          this.shown = true; // Ensure show will be called once
           maavaronSlot.display();
         }
       }
@@ -181,12 +183,12 @@ export default class adSlot {
     }
     const googletag = window.googletag;
     const pubads = googletag.pubads();
-    let args = [];
-    let defineFn = this.isOutOfPage() ? googletag.defineOutOfPageSlot : googletag.defineSlot;
-    //3 or 2 params according to the function that we want to activate.
+    const args = [];
+    const defineFn = this.isOutOfPage() ? googletag.defineOutOfPageSlot : googletag.defineSlot;
+    // 3 or 2 params according to the function that we want to activate.
     args.push(this.getPath());
-    if(this.isOutOfPage() === false) {
-      if(this.fluid) {
+    if (this.isOutOfPage() === false) {
+      if (this.fluid) {
         args.push('fluid');
       }
       else {
@@ -195,22 +197,22 @@ export default class adSlot {
     }
     args.push(this.id);
     let slot = defineFn.apply(defineFn, args);
-    if(slot) {
+    if (slot) {
       // Responsive size Mapping
-      if(this.responsive) {
+      if (this.responsive) {
         let responsiveSlotSizeMapping = googletag.sizeMapping();
         const breakpoints = globalConfig.breakpointsConfig.breakpoints;
         const keys = Object.keys(this.responsiveAdSizeMapping);
-        for(const key of keys) { //['xxs','xs',...]
+        for (const key of keys) { // ['xxs','xs',...]
           responsiveSlotSizeMapping.addSize(
-            [breakpoints[key],100],//100 is a default height, since it is height agnostic
+            [breakpoints[key], 100], // 100 is a default height, since it is height agnostic
             this.responsiveAdSizeMapping[key]);
         }
         responsiveSlotSizeMapping = responsiveSlotSizeMapping.build();
         slot = slot.defineSizeMapping(responsiveSlotSizeMapping);
       }
       slot = slot.addService(pubads);
-      if(this.isOutOfPage() === false) {
+      if (this.isOutOfPage() === false) {
         slot.setCollapseEmptyDiv(true);
       }
     }
@@ -219,25 +221,28 @@ export default class adSlot {
 
   /**
    * Returns the current path calculated for the adSlot
-   * @returns {*} a formatted string that represent the path for the slot definition
+   * @returns {String} a formatted string that represent the path for the slot definition
    */
   getPath() {
+    /* eslint-disable no-shadow */
     let path = globalConfig.path || [];
-    path = path.filter(path => path != '.');
+    path = path.filter(path => path !== '.');
     path = path.map(section => `${this.id}${this.department}${section}`).join('/');
-    //If a path exist, it will be preceded with a forward slash
+    // If a path exist, it will be preceded with a forward slash
     path = path && this.config.department !== '_homepage' ? `/${path}` : '';
-    const calculatedPath = `/${this.config.network}/${this.config.adUnitBase}/${this.id}/${this.id}${this.department}${path}`;
+    /* eslint-enable no-shadow */
+    const calculatedPath = `/${this.config.network}/${this.config.adUnitBase}/${this.id}/${this.id}${this.department}${path}`; // eslint-disable-line max-len
     return calculatedPath.toLowerCase();
   }
 
+  /* eslint-disable */
   slotRendered(event) {
     const id = event.slot.getAdUnitPath().split('/')[3]; // Convention: [0]/[1]network/[2]base/[3]id
     const isEmpty = event.isEmpty; // Did the ad return as empty?
     const resolvedSize = event.size; // What 'creative' size did the ad return with?
     // Empty or onload callback should be called next?
-
   }
+  /* eslint-enable */
 
   /**
    * Refresh this adSlot
@@ -250,12 +255,13 @@ export default class adSlot {
 
   /**
    * Shows 'Maavaron' type adSlot using Passback definition
+   * @return {Slot} slot - the Google Slot that was defined for Maavaron
    */
   defineMaavaron() {
-    if(!document.referrer.match('loc.haaretz')) {
+    if (!document.referrer.match('loc.haaretz')) {
       const adUnitMaavaronPath = this.getPath();
       const adUnitMaavaronSize = [
-        [2, 1]
+        [2, 1],
       ];
       const slot = googletag.pubads().definePassback(adUnitMaavaronPath, adUnitMaavaronSize)
         .setTargeting('UserType', [this.user.type])
@@ -265,23 +271,6 @@ export default class adSlot {
         .setTargeting('stg', [globalConfig.environment]);
       return slot;
     }
+    return null;
   }
-  /*
-   These functions were on the adUnitDFP prototype:
-   getNumOfImpressions: ()
-   getPeriodImpression: ()
-   hasMoreImpressions: ()
-   hasValidReferrer: ()
-   hide: ()
-   isMaavaron: ()
-   maxImpressions: ()
-   maxImpressionsPeriod: ()
-   nextExpiresDate: ()
-   onEmptyCallBack: ()
-   onLoaded: ()
-   refresh: ()
-   setNumOfImpressions: ()
-   show: ()
-   updateNumOfImpressions: ()
-   */
 }

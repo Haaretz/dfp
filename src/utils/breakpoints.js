@@ -7,16 +7,17 @@ const breakpoints = globalConfig.breakpointsConfig.breakpoints;
  * be triggered. The function will be called after it stops being called for
  * N milliseconds. If `immediate` is passed, trigger the function on the
  * leading edge, instead of the trailing.
- * @param func the function to run
- * @param wait the timeout period to avoid running the function
- * @param immediate leading edge modifier
- * @returns {Function} the debounced function
- * //TODO translate to ES6 format - in progress...
+ * @param {function} func - the function to run
+ * @param {Number} wait - the timeout period to avoid running the function
+ * @param {Boolean} immediate - leading edge modifier
+ * @returns {function} the debounced function
+ * //TODO translate to ES6 format or import lodash debounce instead
  */
 export function debounce(func, wait = 100, immediate) {
   let timeout;
-  return function() {
-    const context = this, args = arguments;
+  return function debounced() {
+    const context = this;
+    const args = arguments;// eslint-disable-line prefer-rest-params
     const later = () => {
       timeout = null;
       if (!immediate) func.apply(context, args);
@@ -33,29 +34,36 @@ export function debounce(func, wait = 100, immediate) {
  * @returns {number} the break that the current width represents
  */
 export function getBreakpoint() {
-  let breakpoint = breakpoints.xxl;
-  let windowWidth = window.innerWidth;
-  if(windowWidth < breakpoints.xxl) { breakpoint = breakpoints.xl } else { return breakpoint }
-  if(windowWidth < breakpoints.xl) { breakpoint = breakpoints.l } else { return breakpoint }
-  if(windowWidth < breakpoints.l) { breakpoint = breakpoints.m } else { return breakpoint }
-  if(windowWidth < breakpoints.m) { breakpoint = breakpoints.s } else { return breakpoint }
-  if(windowWidth < breakpoints.s) { breakpoint = breakpoints.xs } else { return breakpoint }
-  if(windowWidth < breakpoints.xs) { breakpoint = breakpoints.xxs } else { return breakpoint }
-  return breakpoint
+  let breakpoint;
+  const windowWidth = window.innerWidth;
+  switch (windowWidth) {
+    case windowWidth < breakpoints.xs: breakpoint = breakpoints.xxs; break;
+    case windowWidth < breakpoints.s: breakpoint = breakpoints.xs; break;
+    case windowWidth < breakpoints.m: breakpoint = breakpoints.s; break;
+    case windowWidth < breakpoints.l: breakpoint = breakpoints.m; break;
+    case windowWidth < breakpoints.xl: breakpoint = breakpoints.l; break;
+    case windowWidth < breakpoints.xxl: breakpoint = breakpoints.xl; break;
+    default: breakpoint = breakpoints.xxl;
+  }
+  return breakpoint;
 }
 /**
  * Returns the current breakpoint that is closest to the window's width
- * @returns {string} the breakpoint label that the current width represents
+ * @param {string} breakpoint - the breakpoint label enumerator that the current width represents
+ * @returns {string} breakpoint - the breakpoint label that the current width represents,
+ * as a string
  */
 export function getBreakpointName(breakpoint) {
-  let resultBreakpoint = 'xxl';
-  let windowWidth = breakpoint || window.innerWidth;
-  if(windowWidth < breakpoints.xxl) { resultBreakpoint = 'xl' } else { return resultBreakpoint }
-  if(windowWidth < breakpoints.xl) { resultBreakpoint = 'l' } else { return resultBreakpoint }
-  if(windowWidth < breakpoints.l) { resultBreakpoint = 'm' } else { return resultBreakpoint }
-  if(windowWidth < breakpoints.m) { resultBreakpoint = 's' } else { return resultBreakpoint }
-  if(windowWidth < breakpoints.s) { resultBreakpoint = 'xs' } else { return resultBreakpoint }
-  if(windowWidth < breakpoints.xs) { resultBreakpoint = 'xxs' } else { return resultBreakpoint }
-  return resultBreakpoint
+  let resultBreakpoint;
+  const windowWidth = breakpoint || window.innerWidth;
+  switch (windowWidth) {
+    case windowWidth < breakpoints.xs: resultBreakpoint = 'xxs'; break;
+    case windowWidth < breakpoints.s: resultBreakpoint = 'xs'; break;
+    case windowWidth < breakpoints.m: resultBreakpoint = 's'; break;
+    case windowWidth < breakpoints.l: resultBreakpoint = 'm'; break;
+    case windowWidth < breakpoints.xl: resultBreakpoint = 'l'; break;
+    case windowWidth < breakpoints.xxl: resultBreakpoint = 'xl'; break;
+    default: resultBreakpoint = 'xxl';
+  }
+  return resultBreakpoint;
 }
-

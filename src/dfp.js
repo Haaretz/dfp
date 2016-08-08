@@ -1,8 +1,9 @@
 /* globals googletag */
-import AdManager  from '../src/objects/adManager';
+import AdManager from '../src/objects/adManager';
 import globalConfig from './globalConfig';
+import { getBreakpoint, debounce } from '../src/utils/breakpoints';
+
 const defaultConfig = globalConfig || {};
-import { getBreakpoint, debounce }  from '../src/utils/breakpoints';
 const googletagInitTimeout = 10000;
 const resizeTimeout = 250;
 
@@ -19,11 +20,11 @@ export default class DFP {
    * This part of the object's construction is dependent on the call to 'init'
    */
   resumeInit() {
-    try{
+    try {
       this.adManager = new AdManager(this.config);
     }
     catch (err) {
-      console.log(err);
+      console.error(err); // eslint-disable-line no-console
     }
   }
 
@@ -35,8 +36,8 @@ export default class DFP {
    */
   initGoogleTag() {
     const dfpThis = this;
-    return new Promise((resolve,reject) => {
-      if (dfpThis.wasInitialized == true || (window.googletag && window.googletag.apiReady)) {
+    return new Promise((resolve, reject) => {
+      if (dfpThis.wasInitialized === true || (window.googletag && window.googletag.apiReady)) {
         this.adManager = this.adManager || new AdManager(this.config);
         dfpThis.wasInitialized = true;
         resolve(this.isGoogleTagReady);
@@ -49,23 +50,23 @@ export default class DFP {
         // executed when GPT code is available, if GPT is already available they
         // will be executed immediately
         window.googletag.cmd = window.googletag.cmd || [];
-        //load google tag services JavaScript
+        // load google tag services JavaScript
         (() => {
           const tag = window.document.createElement('script');
           tag.async = false;
           tag.type = 'text/javascript';
-          //var useSSL = 'https:' == document.location.protocol;
-          tag.setAttribute('src','//www.googletagservices.com/tag/js/gpt.js');
-          var node = window.document.getElementsByTagName('script')[0];
-          tag.onload = (() => {
+          // var useSSL = 'https:' == document.location.protocol;
+          tag.setAttribute('src', '//www.googletagservices.com/tag/js/gpt.js');
+          const node = window.document.getElementsByTagName('script')[0];
+          tag.onload = () => {
             dfpThis.wasInitialized = true;
             dfpThis.resumeInit();
             resolve(this.isGoogleTagReady);
-          });
-          tag.onerror = ((error) => {
+          };
+          tag.onerror = (error) => {
             dfpThis.wasInitialized = false;
             reject(error);
-          });
+          };
           node.parentNode.insertBefore(tag, node);
         })();
       }
@@ -77,15 +78,15 @@ export default class DFP {
    * @returns {Promise}
    */
   isGoogleTagReady() {
-    let promise = new Promise((resolve,reject) => {
+    const promise = new Promise((resolve, reject) => {
       googletag.cmd.push(() => {
         resolve(this);
       });
       setTimeout(() => {
-        if(!(googletag && googletag.apiReady === true)) {
-          reject(new Error("googletag failed to initialize on the page!"));
+        if (!(googletag && googletag.apiReady === true)) {
+          reject(new Error('googletag failed to initialize on the page!'));
         }
-      },googletagInitTimeout);
+      }, googletagInitTimeout);
     });
     return promise;
   }
@@ -97,17 +98,17 @@ export default class DFP {
     const dfpThis = this;
     function onResize() {
       const currentBreakpoint = getBreakpoint();
-      if(dfpThis.breakpoint != currentBreakpoint) {
+      if (dfpThis.breakpoint !== currentBreakpoint) {
         dfpThis.breakpoint = currentBreakpoint;
-        if(dfpThis.adManager) {
+        if (dfpThis.adManager) {
           dfpThis.adManager.refreshAllSlots();
         }
         else {
-          throw new Error("initWindowResizeListener error - adManager instance is not available")
+          throw new Error('initWindowResizeListener error - adManager instance is not available');
         }
       }
     }
-    const debouncedFunction = debounce(onResize,resizeTimeout);
+    const debouncedFunction = debounce(onResize, resizeTimeout);
     window.onresize = debouncedFunction;
   }
 }

@@ -1,6 +1,6 @@
-//Cookie Mock data
+/* Cookie Mock data */
 const CookieData = {
-  //Valid Cookie, non htz data
+  /* Valid Cookie, non htz data */
   emptyCookie: '',
   htzAnonCookie: '__vrf=1456155277135rWYUjKNIxXut4uWTB3qliRyBnN3zz4KQ;' +
   ' __gads=ID=9e71a1b5a95948a5:T=1456155277:S=ALNI_Mb8tn3A0aqTbOmJ_yqk7o3CwPaH9g;' +
@@ -12,7 +12,7 @@ const CookieData = {
   ' __vrm=379_285_1345; tm221655337=1%7CMon%2C%2022%20Feb%202016%2019%3A34%3A37%20GMT;' +
   ' _cb_ls=1; _chartbeat2=CekshB3oZjJD8AV7i.1456155286685.1456155286685.1;' +
   ' _ga=GA1.3.1557816997.1456155277; _dc_gtm_UA-65332170-1=1',
-  //Valid Cookie, htz data
+  /* Valid Cookie, htz data */
   htzRegisteredCookie: '__vrf=1456155357944H1Q8ocasMk7IJsEPUhDff3gpjepFXU1Q;' +
   ' __gads=ID=d5485991d6aab93a:T=1456155357:S=ALNI_MaSsIiomMKNiPJSz2gA-eR_UobGmg;' +
   ' acl=acl; anonPopup=poped; tm915103525=1%7CMon%2C%2022%20Feb%202016%2019%3A35%3A58%20GMT;' +
@@ -87,7 +87,7 @@ const CookieData = {
   ' __utmb=120564881.3.10.1456154804; __utmc=120564881; ' +
   '__utmz=120564881.1456154804.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none);' +
   ' __utmv=120564881.|1=user-type=Paying=1; trd_cid=14561548045885872; trd_sid=14561548045895882;' +
-  ' _ga=GA1.2.758619817.1456154802; _chartbeat2=2RxFdDVBnRUDd6su4.1456154808486.1456154831648.1'
+  ' _ga=GA1.2.758619817.1456154802; _chartbeat2=2RxFdDVBnRUDd6su4.1456154808486.1456154831648.1',
 };
 
 export default CookieData;

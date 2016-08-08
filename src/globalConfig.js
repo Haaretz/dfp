@@ -1,20 +1,20 @@
-/*global dfpBaseConf*/
+/* global dfpBaseConf */
 import getCookieAsMap, { ssoKey } from './utils/cookieUtils';
-//globalConfig for DFP
+// globalConfig for DFP
 const dfpConfig = Object.assign({
   get referrer() {
-    return document.referrer ? document.referrer : "";
+    return document.referrer ? document.referrer : '';
   },
   get isMobile() {
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-      .test(window.navigator.userAgent || ""));
+      .test(window.navigator.userAgent || ''));
   },
   /**
    * Returns true iff the loaded page is the homepage (no inner path)
    * @returns {boolean}
    */
   get isHomepage() {
-    return window.location.pathname === "/" || this.environment === 3; //'prod'
+    return window.location.pathname === '/' || this.environment === 3; // 'prod'
   },
   get department() {
     return this.isHomepage ? '_homepage' : '_section';
@@ -41,12 +41,13 @@ const dfpConfig = Object.assign({
    */
   get path() {
     let sectionArray = this.articleId ?
-      window.location.pathname.split('/').slice(1,-1) :
+      window.location.pathname.split('/').slice(1, -1) :
       window.location.pathname.split('/').slice(1);
-    sectionArray = sectionArray.filter(path => path != 'wwwMobileSite' && path != 'whtzMobileSite');
+    sectionArray = sectionArray.filter(path =>
+    path !== 'wwwMobileSite' && path !== 'whtzMobileSite');
     return sectionArray
       .map(section => `.${section}`)
-      .map((section, index, arr) => arr.slice(0,index+1)
+      .map((section, index, arr) => arr.slice(0, index + 1)
         .reduce((last, current) => last.concat(current)));
   },
   /**
@@ -64,7 +65,8 @@ const dfpConfig = Object.assign({
       (window.location.hostname.indexOf('pre.haaretz.co.il') > -1
       || window.location.hostname.indexOf('tmtest.themarker.com') > -1) ? env.test :
         (window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1
-        || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1) ? env.prod : undefined;
+        || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1)
+          ? env.prod : undefined;
   },
   /**
    * Returns the articleIf if on an article page, or null otherwise
@@ -73,12 +75,12 @@ const dfpConfig = Object.assign({
   get articleId() {
     const articleIdMatch = /\d\.\d+/g.exec(window.location.pathname);
     let articleId;
-    if(articleIdMatch) {
-      articleId = articleIdMatch.pop(); //Converts ["1.23145"] to "1.23145"
+    if (articleIdMatch) {
+      articleId = articleIdMatch.pop(); // Converts ["1.23145"] to "1.23145"
     }
     return articleId;
   },
-  utm_ : {
+  utm_: {
     get content() {
       return this.getUrlParam('utm_content');
     },
@@ -92,28 +94,33 @@ const dfpConfig = Object.assign({
       return this.getUrlParam('utm_campaign');
     },
     getUrlParam(key) {
-      let results = RegExp(`(${key})(=)([^&"]+)`).exec(window.location.search);
+      const results = RegExp(`(${key})(=)([^&"]+)`).exec(window.location.search);
       return results && results[3] ? results[3] : undefined;
     },
   },
   get adBlockRemoved() {
     let adBlockRemoved = false;
     try {
-      adBlockRemoved = localStorage.getItem('adblock_removed') ? true : false;
+      if (localStorage.getItem('adblock_removed')) {
+        adBlockRemoved = true;
+      }
     }
-    catch (err) {}
+    catch (err) {
+      // do nothing
+    }
     return adBlockRemoved;
   },
   get wifiLocation() {
     let wifiLocation = '';
-    let cookieMap = getCookieAsMap();
+    const cookieMap = getCookieAsMap();
     try {
-      if(cookieMap && cookieMap['_htzwif']) {
-        wifiLocation = (cookieMap['_htzwif'] == 'arcaffe')? 'ArCafe' : 'university';
+      if (cookieMap && cookieMap._htzwif) { // eslint-disable-line no-underscore-dangle
+        wifiLocation = (cookieMap._htzwif === 'arcaffe') // eslint-disable-line no-underscore-dangle
+          ? 'ArCafe' : 'university';
       }
     }
     catch (err) {
-
+      // do nothing
     }
     return wifiLocation;
   },
@@ -124,43 +131,44 @@ const dfpConfig = Object.assign({
         JSON.parse(localStorage.getItem('GstatCampaign')) : undefined;
     }
     catch (err) {
-      //In case of thrown 'SecurityError' or 'QuotaExceededError', the variable should be undefined
+      /* In case of thrown 'SecurityError' or 'QuotaExceededError',
+       the variable should be undefined */
       gstatCampaign = undefined;
     }
-    return gstatCampaign ? gstatCampaign['CampaignNumber'] : undefined;
+    return gstatCampaign ? gstatCampaign.CampaignNumber : undefined;
   },
   adSlotConfig: {
-    "haaretz.co.il.example.slot" : {
-      id: "slotId",
-      //path : "/network/base/slotId/slotId_subsection", Will be calculated from AdManager
+    'haaretz.co.il.example.slot': {
+      id: 'slotId',
+      // path : "/network/base/slotId/slotId_subsection", Will be calculated from AdManager
       responsive: true,
-      adSizeMapping: [['width1','height1'],...['widthN','heightN']],
+      adSizeMapping: [['width1', 'height1'], ...['widthN', 'heightN']],
       priority: 'normal',
       fluid: false,
-      responsiveAdSizeMapping : {
-        xxs: [['width1','height1'],...['widthN','heightN'],],
-        xs: [['width1','height1'],...['widthN','heightN'],],
-        s: [['width1','height1'],...['widthN','heightN'],],
-        m: [['width1','height1'],...['widthN','heightN'],],
-        l: [['width1','height1'],...['widthN','heightN'],],
-        xl: [['width1','height1'],...['widthN','heightN'],],
-        xxl: [['width1','height1'],...['widthN','heightN'],],
+      responsiveAdSizeMapping: {
+        xxs: [['width1', 'height1'], ...['widthN', 'heightN']],
+        xs: [['width1', 'height1'], ...['widthN', 'heightN']],
+        s: [['width1', 'height1'], ...['widthN', 'heightN']],
+        m: [['width1', 'height1'], ...['widthN', 'heightN']],
+        l: [['width1', 'height1'], ...['widthN', 'heightN']],
+        xl: [['width1', 'height1'], ...['widthN', 'heightN']],
+        xxl: [['width1', 'height1'], ...['widthN', 'heightN']],
       },
-      blacklistReferrers: "comma, delimited, blacklisted, referrer, list",
-      whitelistReferrers: "comma, delimited, referrer, list",
-    }
+      blacklistReferrers: 'comma, delimited, blacklisted, referrer, list',
+      whitelistReferrers: 'comma, delimited, referrer, list',
+    },
   },
-  adManagerConfig : {
+  adManagerConfig: {
     network: '9401',
     adUnitBase: 'haaretz.co.il_Web',
   },
-  breakpointsConfig : {
+  breakpointsConfig: {
     get breakpoints() {
-      const isType1 = true; //Override in VM from backend to control this toggle.
+      const isType1 = true; // Override in VM from backend to control this toggle.
       return isType1 ? this.breakpoints1 : this.breakpoints2;
     },
     // Type 1
-    breakpoints1 : {
+    breakpoints1: {
       xxs: 600,
       xs: 761,
       s: 993,
@@ -170,7 +178,7 @@ const dfpConfig = Object.assign({
       xxl: 1900,
     },
     // Type 2
-    breakpoints2 : {
+    breakpoints2: {
       xxs: 600,
       xs: 1000,
       s: 1150,
@@ -178,35 +186,35 @@ const dfpConfig = Object.assign({
       l: 1600,
       xl: 1920,
       xxl: 1920,
-    }
+    },
   },
   userConfig: {
-    type : undefined,
+    type: undefined,
     age: undefined,
     gender: undefined,
   },
   conflictManagementConfig: {
-    "blocking.ad.unit.name": [
+    'blocking.ad.unit.name': [
       {
-        onsize: "1280x200,970x250,3x3",
-        avoid: "blocked.ad.unit.name"
+        onsize: '1280x200,970x250,3x3',
+        avoid: 'blocked.ad.unit.name',
       },
       {
-        onsize: "1280x200,970x250,3x3",
-        avoid: "blocked.ad.unit.name"
-      }
-    ]
+        onsize: '1280x200,970x250,3x3',
+        avoid: 'blocked.ad.unit.name',
+      },
+    ],
   },
   impressionManagerConfig: {
-    "ad.unit.name": {
+    'ad.unit.name': {
       target: 'all|section|homepage',
       frequency: '$1/$2(day|hour)',
       exposed: 0,
-      expires: (new Date).getTime()
-    }
+      expires: (new Date()).getTime(),
+    },
   },
   sso: ssoKey,
 
-},window.dfpConfig);
+}, window.dfpConfig);
 
 export default dfpConfig;
