@@ -1,7 +1,7 @@
 {
   "name": "DFP",
   "description": "A DoubleClick for Publishers Implementation",
-  "version": "1.10.1",
+  "version": "1.11.0",
   "license": "MIT",
   "author": {
     "name": "Elia Grady",
@@ -59,6 +59,8 @@
     "rimraf": "^2.5.2",
     "rollup": "^0.34.1",
     "rollup-plugin-babel": "^2.4.0",
+    "rollup-plugin-buble": "^0.13.0",
+    "rollup-plugin-commonjs": "^4.0.1",
     "rollup-plugin-eslint": "^2.0.0",
     "rollup-plugin-filesize": "^0.4.4",
     "rollup-plugin-node-resolve": "^2.0.0",
@@ -93,7 +95,7 @@
     "bundle",
     "DFP"
   ],
-  "main": "dist/dfp.min.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:haaretz/dfp"
@@ -102,8 +104,8 @@
     "clean": "rimraf coverage/ dist/",
     "build:dev": "babel-node config/rollup.config.js dev",
     "build:prod": "babel-node config/rollup.config.js prod",
-    "build:es": "babel-node config/rollup.config.js dev es",
-    "build": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es",
+    "build:es6": "babel-node config/rollup.config.js dev es6",
+    "build": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es6",
     "browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
     "test:server": "mocha --opts config/mocha.opts",
     "test:browser": "karma start config/karma.conf.js --no-auto-watch",

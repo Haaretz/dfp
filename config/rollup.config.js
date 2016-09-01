@@ -6,13 +6,13 @@ import babelrc from 'babelrc-rollup';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import uglify from 'rollup-plugin-uglify';
-import { minify } from 'uglify-js';
 import filesize from 'rollup-plugin-filesize';
 import pack from '../package.json';
 
+
 const development = process.argv[2] === 'dev';
 const production = process.argv[2] === 'prod';
-const es = process.argv[3] === 'es';
+const es6 = process.argv[3] === 'es6';
 
 if (development) {
 	process.env.NODE_ENV = 'development';
@@ -28,18 +28,18 @@ const copyright =
 	' * ' + pack.name + ' v' + pack.version + '\n' +
 	' * (c) ' + new Date().getFullYear() + ' ' + pack.author.name + '\n' +
 	' * Released under the ' + pack.license + ' License.\n' +
-	' */'
+	' */';
 
-const entry = p.resolve('src/index.js');
-const dest  = p.resolve(`dist/${pack.name.toLowerCase()}.${production ? 'min.js' : es ? 'es.js' : 'js'}`);
+const entry = p.resolve('./src/index.js');
+const dest  = p.resolve(`./dist/${pack.name.toLowerCase()}.${production ? 'min.js' : es6 ? 'es6.js' : 'js'}`);
 
 const bundleConfig = {
 	dest,
-	format: es ? 'es' : 'umd',
+	format: es6 ? 'es' : 'umd',
 	moduleName: `${pack.name}`,
 	exports: `named`,
 	banner: copyright,
-	sourceMap: true // set to false to skip generate sourceMap
+	sourceMap: true, // set to false to skip generate sourceMap
 };
 
 const babelConfig = JSON.parse(fs.readFileSync('.babelrc', 'utf8'));
@@ -50,7 +50,7 @@ babelConfig.presets = babelConfig.presets.map((preset) => {
 });
 
 const plugins = [
-	nodeResolve({
+  nodeResolve({
 		jsnext: true,
 		main: true
 	}),
@@ -58,14 +58,14 @@ const plugins = [
 	replace({
 		'process.env.NODE_ENV': JSON.stringify('production'),
 		VERSION: pack.version
-	})
+	}),
 ];
 
-if(!es) {
-  plugins.push(babel(babelrc()))
+if(!es6) {
+ plugins.unshift(babel(babelrc()));
 }
 
-if (production && !es) {
+if (production && !es6) {
 	plugins.push(
 		uglify({
 			warnings: false,
@@ -85,6 +85,8 @@ if (production && !es) {
 
 Promise.resolve(rollup({entry, plugins}))
 	.then(
-	  ({write}) => write(bundleConfig));
+	  (bundle) => {
+	    bundle.write(bundleConfig);
+    });
 
 process.on('unhandledRejection', (reason) => {throw reason;});

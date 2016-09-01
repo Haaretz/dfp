@@ -1,5 +1,5 @@
 /*!
- * DFP v1.10.1
+ * DFP v1.11.0
  * (c) 2016 Elia Grady
  * Released under the MIT License.
  */
@@ -1691,7 +1691,7 @@ class DFP {
 }
 
 // Correct version will be set with the 'rollup-replace plugin'
-DFP.version = '1.10.1';
+DFP.version = '1.11.0';
 
 /*
  // Only for development mode
@@ -1704,4 +1704,4 @@ const config = dfpConfig;
 const version = DFP.version;
 
 export { config, version };export default DFP;
-//# sourceMappingURL=dfp.es.js.map
+//# sourceMappingURL=dfp.es6.js.map
