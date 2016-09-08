@@ -9,7 +9,6 @@ const testFiles  = glob.sync('./src/**/*__tests__*/**/*.spec.browser.js');
 //.concat(glob.sync('./src/**/*__tests__*/**/*spec.server.js'));
 const allFiles = ['./config/browser.js'].concat(testFiles);
 
-
 // Karma configuration
 module.exports = function(config, specificOptions) {
   config.set({
@@ -55,6 +54,14 @@ module.exports = function(config, specificOptions) {
             test: /\.js$/,
             exclude: /(src\/dist|.git|node_modules)/,
             loader: 'babel-loader',
+            query: {
+              cacheDirectory: true,
+            }
+          },
+          {
+            test: /\.json$/,
+            exclude: /(src\/dist|.git|node_modules)/,
+            loader: 'json-loader',
             query: {
               cacheDirectory: true,
             }
