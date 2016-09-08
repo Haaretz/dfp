@@ -1,8 +1,10 @@
 import DFP from './dfp';
 import globalConfig from './globalConfig';
+import { version as v } from './../package.json';
+// const pkg = require('./../package.json');
 
-// Correct version will be set with the 'rollup-replace plugin'
-DFP.version = 'VERSION';
+// DFP version is based on the package.json
+DFP.version = v || 'VERSION';
 
 /*
  // Only for development mode
