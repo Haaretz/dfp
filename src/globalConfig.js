@@ -70,11 +70,11 @@ const dfpConfig = Object.assign({
   },
   /**
    * Returns the articleIf if on an article page, or null otherwise
-   * @returns {string} an articleId string from the pathname, or null if none is found
+   * @returns {string} an articleId string from the pathname, or 0 if not found
    */
   get articleId() {
     const articleIdMatch = /\d\.\d+/g.exec(window.location.pathname);
-    let articleId;
+    let articleId = '0';
     if (articleIdMatch) {
       articleId = articleIdMatch.pop(); // Converts ["1.23145"] to "1.23145"
     }

@@ -144,7 +144,7 @@ describe('globalConfig - unit tests for browser', () => {
     });
 
     it('should be either undefined or a string', () => {
-      expect(articleId).to.be.undefined() || expect(articleId).to.be.a('string');
+      expect(articleId).to.not.be.undefined() && expect(articleId).to.be.a('string');
     });
   });
 

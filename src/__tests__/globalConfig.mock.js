@@ -7,7 +7,7 @@ const dfpConfigMock = {
   domain: 'haaretz.co.il',
   path: [],
   environment: 1,
-  articleId: null,
+  articleId: '0',
   utm_: {
     content: undefined,
     source: undefined,
