@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.12.2",
+    "version": "1.12.3",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -444,10 +444,11 @@ $__System.register("1", ["2"], function (_export, _context) {
          * and converts it to the following format:
          * ['.news', '.news.world', '.news.world.america', '.news.world.america.us-election-2016']
          * This denotes the path configuration for the given adSlot
+         * non articles (sections) will be given a '0' - no articleId value for targeting purposes)
          * @returns {Array.<T>} an array of path names
          */
         get path() {
-          var sectionArray = this.articleId ? window.location.pathname.split('/').slice(1, -1) : window.location.pathname.split('/').slice(1);
+          var sectionArray = this.articleId && this.articleId !== '0' ? window.location.pathname.split('/').slice(1, -1) : window.location.pathname.split('/').slice(1);
           sectionArray = sectionArray.filter(function (path) {
             return path !== 'wwwMobileSite' && path !== 'whtzMobileSite';
           });

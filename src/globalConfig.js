@@ -37,10 +37,11 @@ const dfpConfig = Object.assign({
    * and converts it to the following format:
    * ['.news', '.news.world', '.news.world.america', '.news.world.america.us-election-2016']
    * This denotes the path configuration for the given adSlot
+   * non articles (sections) will be given a '0' - no articleId value for targeting purposes)
    * @returns {Array.<T>} an array of path names
    */
   get path() {
-    let sectionArray = this.articleId ?
+    let sectionArray = this.articleId && this.articleId !== '0' ?
       window.location.pathname.split('/').slice(1, -1) :
       window.location.pathname.split('/').slice(1);
     sectionArray = sectionArray.filter(path =>
