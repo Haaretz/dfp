@@ -1,6 +1,7 @@
 SystemJS.config({
   paths: {
     "npm:": "jspm_packages/npm/",
+    "github:": "jspm_packages/github/",
     "DFP/": "src/"
   },
   browserConfig: {
@@ -8,33 +9,38 @@ SystemJS.config({
   },
   devConfig: {
     "map": {
-      "plugin-babel": "npm:systemjs-plugin-babel@0.0.14"
+      "plugin-babel": "npm:systemjs-plugin-babel@0.0.17"
     }
   },
   transpiler: "plugin-babel",
   packages: {
     "DFP": {
-      "main": "DFP.js",
+      "main": "index.js",
       "meta": {
         "*.js": {
           "loader": "plugin-babel"
         }
+      },
+      "babelOptions": {
+        "sourceMaps": true
       }
-    },
+    }
+  },
+  meta: {
+    "*.json": {
+      "format": "json"
+    }
   }
 });
 
 SystemJS.config({
   packageConfigPaths: [
     "npm:@*/*.json",
-    "npm:*.json"
+    "npm:*.json",
+    "github:*/*.json"
   ],
-  map: {},
+  map: {
+    "json": "github:systemjs/plugin-json@0.1.2"
+  },
   packages: {}
-});
-
-System.config({
-  meta: {
-    '*.json': { format: 'json' }
-  }
 });

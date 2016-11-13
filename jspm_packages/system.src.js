@@ -1,5 +1,5 @@
 /*
- * SystemJS v0.19.37
+ * SystemJS v0.19.40
  */
 (function() {
 function bootstrap() {// from https://gist.github.com/Yaffle/1088850
@@ -121,13 +121,8 @@ global.URLPolyfill = URLPolyfill;
 
     var newErr = errArgs ? new Error(newMsg, err.fileName, err.lineNumber) : new Error(newMsg);
     
-    // Node needs stack adjustment for throw to show message
-    if (!isBrowser)
-      newErr.stack = newMsg;
-    // Clearing the stack stops unnecessary loader lines showing
-    else
-      newErr.stack = null;
-    
+    newErr.stack = newMsg;
+        
     // track the original error
     newErr.originalErr = err.originalErr || err;
 
@@ -1504,7 +1499,7 @@ var __exec;
 
     return (wrap ? '(function(System, SystemJS) {' : '') + load.source + (wrap ? '\n})(System, System);' : '')
         // adds the sourceURL comment if not already present
-        + (load.source.substr(lastLineIndex, 15) != '\n//# sourceURL=' 
+        + (load.source.substr(lastLineIndex, 15) != '\n//# sourceURL='
           ? '\n//# sourceURL=' + load.address + (sourceMap ? '!transpiled' : '') : '')
         // add sourceMappingURL if load.metadata.sourceMap is set
         + (sourceMap && inlineSourceMap(sourceMap) || '');
@@ -1531,7 +1526,7 @@ var __exec;
     curLoad = load;
     if (callCounter++ == 0)
       curSystem = __global.System;
-    __global.System = __global.SystemJS = loader; 
+    __global.System = __global.SystemJS = loader;
   }
   function postExec() {
     if (--callCounter == 0)
@@ -1561,16 +1556,13 @@ var __exec;
       postExec();
     }
     catch(e) {
-      postExec(); 
+      postExec();
       throw addToError(e, 'Evaluating ' + load.address);
     }
   };
 
   var supportsScriptExec = false;
   if (isBrowser && typeof document != 'undefined' && document.getElementsByTagName) {
-    var scripts = document.getElementsByTagName('script');
-    $__curScript = scripts[scripts.length - 1];
-
     if (!(window.chrome && window.chrome.extension || navigator.userAgent.match(/^Node\.js/)))
       supportsScriptExec = true;
   }
@@ -1737,11 +1729,15 @@ function coreResolve(name, parentName) {
 
   if (this.has(name))
     return name;
+  
   // dynamically load node-core modules when requiring `@node/fs` for example
   if (name.substr(0, 6) == '@node/') {
     if (!this._nodeRequire)
       throw new TypeError('Error loading ' + name + '. Can only load node core modules in Node.');
-    this.set(name, this.newModule(getESModule(getNodeModule.call(this, name.substr(6), this.baseURL))));
+    if (this.builder)
+      this.set(name, this.newModule({}));
+    else
+      this.set(name, this.newModule(getESModule(getNodeModule.call(this, name.substr(6), this.baseURL))));
     return name;
   }
 
@@ -3329,7 +3325,7 @@ function createEntry() {
       entry.esModule = loader.newModule(getESModule(exports));
     // just use the 'default' export
     else
-      entry.esModule = loader.newModule({ 'default': exports });
+      entry.esModule = loader.newModule({ 'default': exports, __useDefault: true });
   }
 
   /*
@@ -3577,7 +3573,14 @@ function createEntry() {
           // do transpilation
           return (loader._loader.transpilerPromise || (
             loader._loader.transpilerPromise = Promise.resolve(
-              __global[loader.transpiler == 'typescript' ? 'ts' : loader.transpiler] || (loader.pluginLoader || loader)['import'](loader.transpiler)
+              __global[loader.transpiler == 'typescript' ? 'ts' : loader.transpiler] || (loader.pluginLoader || loader).normalize(loader.transpiler)
+              .then(function(normalized) {
+                loader._loader.transpilerNormalized = normalized;
+                return (loader.pluginLoader || loader).load(normalized)
+                .then(function() {
+                  return (loader.pluginLoader || loader).get(normalized);
+                });
+              })
           ))).then(function(transpiler) {
             loader._loader.loadedTranspilerRuntime = true;
 
@@ -3586,6 +3589,8 @@ function createEntry() {
               // if transpiler is the same as the plugin loader, then don't run twice
               if (transpiler == load.metadata.loaderModule)
                 return load.source;
+              load.metadata.loaderModule = transpiler;
+              load.metadata.loader = loader._loader.transpilerNormalized;
 
               // convert the source map into an object for transpilation chaining
               if (typeof load.metadata.sourceMap == 'string')
@@ -3597,7 +3602,7 @@ function createEntry() {
                 var sourceMap = load.metadata.sourceMap;
                 if (sourceMap && typeof sourceMap == 'object') {
                   var originalName = load.address.split('!')[0];
-                  
+
                   // force set the filename of the original file
                   if (!sourceMap.file || sourceMap.file == load.address)
                     sourceMap.file = originalName + '!transpiled';
@@ -3616,14 +3621,14 @@ function createEntry() {
             // legacy builder support
             if (loader.builder)
               load.metadata.originalSource = load.source;
-            
+
             // defined in es6-module-loader/src/transpile.js
             return transpile.call(loader, load)
             .then(function(source) {
               // clear sourceMap as transpiler embeds it
               load.metadata.sourceMap = undefined;
               return source;
-            });            
+            });
           }, function(err) {
             throw addToError(err, 'Unable to load transpiler to transpile ' + load.name);
           });
@@ -5101,7 +5106,7 @@ hookConstructor(function(constructor) {
 System = new SystemJSLoader();
 
 __global.SystemJS = System;
-System.version = '0.19.37 Standard';
+System.version = '0.19.40 Standard';
   if (typeof module == 'object' && module.exports && typeof exports == 'object')
     module.exports = System;
 
@@ -5116,8 +5121,10 @@ var doPolyfill = typeof Promise === 'undefined';
 if (typeof document !== 'undefined') {
   var scripts = document.getElementsByTagName('script');
   $__curScript = scripts[scripts.length - 1];
-  if ($__curScript.defer || $__curScript.async)
+  if (document.currentScript && ($__curScript.defer || $__curScript.async))
     $__curScript = document.currentScript;
+  if (!$__curScript.src)
+    $__curScript = undefined;
   if (doPolyfill) {
     var curPath = $__curScript.src;
     var basePath = curPath.substr(0, curPath.lastIndexOf('/') + 1);

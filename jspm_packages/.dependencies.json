@@ -1,5 +1,5 @@
 {
-  "npm:systemjs-plugin-babel@0.0.14": {
+  "npm:systemjs-plugin-babel@0.0.17": {
     "deps": {},
     "peerDeps": {}
   },

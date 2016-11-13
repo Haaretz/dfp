@@ -1,4 +1,4 @@
-!function(e){function r(e,r,o){return 4===arguments.length?t.apply(this,arguments):void n(e,{declarative:!0,deps:r,declare:o})}function t(e,r,t,o){n(e,{declarative:!1,deps:r,executingRequire:t,execute:o})}function n(e,r){r.name=e,e in v||(v[e]=r),r.normalizedDeps=r.deps}function o(e,r){if(r[e.groupIndex]=r[e.groupIndex]||[],-1==g.call(r[e.groupIndex],e)){r[e.groupIndex].push(e);for(var t=0,n=e.normalizedDeps.length;n>t;t++){var a=e.normalizedDeps[t],u=v[a];if(u&&!u.evaluated){var d=e.groupIndex+(u.declarative!=e.declarative);if(void 0===u.groupIndex||u.groupIndex<d){if(void 0!==u.groupIndex&&(r[u.groupIndex].splice(g.call(r[u.groupIndex],u),1),0==r[u.groupIndex].length))throw new TypeError("Mixed dependency cycle detected");u.groupIndex=d}o(u,r)}}}}function a(e){var r=v[e];r.groupIndex=0;var t=[];o(r,t);for(var n=!!r.declarative==t.length%2,a=t.length-1;a>=0;a--){for(var u=t[a],i=0;i<u.length;i++){var s=u[i];n?d(s):l(s)}n=!n}}function u(e){return y[e]||(y[e]={name:e,dependencies:[],exports:{},importers:[]})}function d(r){if(!r.module){var t=r.module=u(r.name),n=r.module.exports,o=r.declare.call(e,function(e,r){if(t.locked=!0,"object"==typeof e)for(var o in e)n[o]=e[o];else n[e]=r;for(var a=0,u=t.importers.length;u>a;a++){var d=t.importers[a];if(!d.locked)for(var i=0;i<d.dependencies.length;++i)d.dependencies[i]===t&&d.setters[i](n)}return t.locked=!1,r},{id:r.name});t.setters=o.setters,t.execute=o.execute;for(var a=0,i=r.normalizedDeps.length;i>a;a++){var l,s=r.normalizedDeps[a],c=v[s],f=y[s];f?l=f.exports:c&&!c.declarative?l=c.esModule:c?(d(c),f=c.module,l=f.exports):l=p(s),f&&f.importers?(f.importers.push(t),t.dependencies.push(f)):t.dependencies.push(null),t.setters[a]&&t.setters[a](l)}}}function i(e){var r,t=v[e];if(t)t.declarative?f(e,[]):t.evaluated||l(t),r=t.module.exports;else if(r=p(e),!r)throw new Error("Unable to load dependency "+e+".");return(!t||t.declarative)&&r&&r.__useDefault?r["default"]:r}function l(r){if(!r.module){var t={},n=r.module={exports:t,id:r.name};if(!r.executingRequire)for(var o=0,a=r.normalizedDeps.length;a>o;o++){var u=r.normalizedDeps[o],d=v[u];d&&l(d)}r.evaluated=!0;var c=r.execute.call(e,function(e){for(var t=0,n=r.deps.length;n>t;t++)if(r.deps[t]==e)return i(r.normalizedDeps[t]);throw new TypeError("Module "+e+" not declared as a dependency.")},t,n);c&&(n.exports=c),t=n.exports,t&&t.__esModule?r.esModule=t:r.esModule=s(t)}}function s(r){var t={};if(("object"==typeof r||"function"==typeof r)&&r!==e)if(m)for(var n in r)"default"!==n&&c(t,r,n);else{var o=r&&r.hasOwnProperty;for(var n in r)"default"===n||o&&!r.hasOwnProperty(n)||(t[n]=r[n])}return t["default"]=r,x(t,"__useDefault",{value:!0}),t}function c(e,r,t){try{var n;(n=Object.getOwnPropertyDescriptor(r,t))&&x(e,t,n)}catch(o){return e[t]=r[t],!1}}function f(r,t){var n=v[r];if(n&&!n.evaluated&&n.declarative){t.push(r);for(var o=0,a=n.normalizedDeps.length;a>o;o++){var u=n.normalizedDeps[o];-1==g.call(t,u)&&(v[u]?f(u,t):p(u))}n.evaluated||(n.evaluated=!0,n.module.execute.call(e))}}function p(e){if(I[e])return I[e];if("@node/"==e.substr(0,6))return I[e]=s(D(e.substr(6)));var r=v[e];if(!r)throw"Module "+e+" not present.";return a(e),f(e,[]),v[e]=void 0,r.declarative&&x(r.module.exports,"__esModule",{value:!0}),I[e]=r.declarative?r.module.exports:r.esModule}var v={},g=Array.prototype.indexOf||function(e){for(var r=0,t=this.length;t>r;r++)if(this[r]===e)return r;return-1},m=!0;try{Object.getOwnPropertyDescriptor({a:0},"a")}catch(h){m=!1}var x;!function(){try{Object.defineProperty({},"a",{})&&(x=Object.defineProperty)}catch(e){x=function(e,r,t){try{e[r]=t.value||t.get.call(e)}catch(n){}}}}();var y={},D="undefined"!=typeof System&&System._nodeRequire||"undefined"!=typeof require&&require.resolve&&"undefined"!=typeof process&&require,I={"@empty":{}};return function(e,n,o,a){return function(u){u(function(u){for(var d={_nodeRequire:D,register:r,registerDynamic:t,get:p,set:function(e,r){I[e]=r},newModule:function(e){return e}},i=0;i<n.length;i++)(function(e,r){r&&r.__esModule?I[e]=r:I[e]=s(r)})(n[i],arguments[i]);a(d);var l=p(e[0]);if(e.length>1)for(var i=1;i<e.length;i++)p(e[i]);return o?l["default"]:l})}}}("undefined"!=typeof self?self:global)
+!function(e){function r(e,r,o){return 4===arguments.length?t.apply(this,arguments):void n(e,{declarative:!0,deps:r,declare:o})}function t(e,r,t,o){n(e,{declarative:!1,deps:r,executingRequire:t,execute:o})}function n(e,r){r.name=e,e in v||(v[e]=r),r.normalizedDeps=r.deps}function o(e,r){if(r[e.groupIndex]=r[e.groupIndex]||[],-1==g.call(r[e.groupIndex],e)){r[e.groupIndex].push(e);for(var t=0,n=e.normalizedDeps.length;n>t;t++){var a=e.normalizedDeps[t],u=v[a];if(u&&!u.evaluated){var d=e.groupIndex+(u.declarative!=e.declarative);if(void 0===u.groupIndex||u.groupIndex<d){if(void 0!==u.groupIndex&&(r[u.groupIndex].splice(g.call(r[u.groupIndex],u),1),0==r[u.groupIndex].length))throw new TypeError("Mixed dependency cycle detected");u.groupIndex=d}o(u,r)}}}}function a(e){var r=v[e];r.groupIndex=0;var t=[];o(r,t);for(var n=!!r.declarative==t.length%2,a=t.length-1;a>=0;a--){for(var u=t[a],i=0;i<u.length;i++){var s=u[i];n?d(s):l(s)}n=!n}}function u(e){return y[e]||(y[e]={name:e,dependencies:[],exports:{},importers:[]})}function d(r){if(!r.module){var t=r.module=u(r.name),n=r.module.exports,o=r.declare.call(e,function(e,r){if(t.locked=!0,"object"==typeof e)for(var o in e)n[o]=e[o];else n[e]=r;for(var a=0,u=t.importers.length;u>a;a++){var d=t.importers[a];if(!d.locked)for(var i=0;i<d.dependencies.length;++i)d.dependencies[i]===t&&d.setters[i](n)}return t.locked=!1,r},{id:r.name});t.setters=o.setters,t.execute=o.execute;for(var a=0,i=r.normalizedDeps.length;i>a;a++){var l,s=r.normalizedDeps[a],c=v[s],f=y[s];f?l=f.exports:c&&!c.declarative?l=c.esModule:c?(d(c),f=c.module,l=f.exports):l=p(s),f&&f.importers?(f.importers.push(t),t.dependencies.push(f)):t.dependencies.push(null),t.setters[a]&&t.setters[a](l)}}}function i(e){var r,t=v[e];if(t)t.declarative?f(e,[]):t.evaluated||l(t),r=t.module.exports;else if(r=p(e),!r)throw new Error("Unable to load dependency "+e+".");return(!t||t.declarative)&&r&&r.__useDefault?r["default"]:r}function l(r){if(!r.module){var t={},n=r.module={exports:t,id:r.name};if(!r.executingRequire)for(var o=0,a=r.normalizedDeps.length;a>o;o++){var u=r.normalizedDeps[o],d=v[u];d&&l(d)}r.evaluated=!0;var c=r.execute.call(e,function(e){for(var t=0,n=r.deps.length;n>t;t++)if(r.deps[t]==e)return i(r.normalizedDeps[t]);throw new TypeError("Module "+e+" not declared as a dependency.")},t,n);void 0!==typeof c&&(n.exports=c),t=n.exports,t&&t.__esModule?r.esModule=t:r.esModule=s(t)}}function s(r){var t={};if(("object"==typeof r||"function"==typeof r)&&r!==e)if(m)for(var n in r)"default"!==n&&c(t,r,n);else{var o=r&&r.hasOwnProperty;for(var n in r)"default"===n||o&&!r.hasOwnProperty(n)||(t[n]=r[n])}return t["default"]=r,x(t,"__useDefault",{value:!0}),t}function c(e,r,t){try{var n;(n=Object.getOwnPropertyDescriptor(r,t))&&x(e,t,n)}catch(o){return e[t]=r[t],!1}}function f(r,t){var n=v[r];if(n&&!n.evaluated&&n.declarative){t.push(r);for(var o=0,a=n.normalizedDeps.length;a>o;o++){var u=n.normalizedDeps[o];-1==g.call(t,u)&&(v[u]?f(u,t):p(u))}n.evaluated||(n.evaluated=!0,n.module.execute.call(e))}}function p(e){if(I[e])return I[e];if("@node/"==e.substr(0,6))return I[e]=s(D(e.substr(6)));var r=v[e];if(!r)throw"Module "+e+" not present.";return a(e),f(e,[]),v[e]=void 0,r.declarative&&x(r.module.exports,"__esModule",{value:!0}),I[e]=r.declarative?r.module.exports:r.esModule}var v={},g=Array.prototype.indexOf||function(e){for(var r=0,t=this.length;t>r;r++)if(this[r]===e)return r;return-1},m=!0;try{Object.getOwnPropertyDescriptor({a:0},"a")}catch(h){m=!1}var x;!function(){try{Object.defineProperty({},"a",{})&&(x=Object.defineProperty)}catch(e){x=function(e,r,t){try{e[r]=t.value||t.get.call(e)}catch(n){}}}}();var y={},D="undefined"!=typeof System&&System._nodeRequire||"undefined"!=typeof require&&require.resolve&&"undefined"!=typeof process&&require,I={"@empty":{}};return function(e,n,o,a){return function(u){u(function(u){for(var d={_nodeRequire:D,register:r,registerDynamic:t,get:p,set:function(e,r){I[e]=r},newModule:function(e){return e}},i=0;i<n.length;i++)(function(e,r){r&&r.__esModule?I[e]=r:I[e]=s(r)})(n[i],arguments[i]);a(d);var l=p(e[0]);if(e.length>1)for(var i=1;i<e.length;i++)p(e[i]);return o?l["default"]:l})}}}("undefined"!=typeof self?self:global)
 
 (["1"], [], false, function($__System) {
 var require = this.require, exports = this.exports, module = this.module;
@@ -43,7 +43,7 @@ $__System.registerDynamic("2", [], false, function() {
       "isparta-instrumenter-loader": "^1.0.0",
       "isparta-loader": "^2.0.0",
       "json-loader": "^0.5.4",
-      "jspm": "^0.17.0-beta.28",
+      "jspm": "^0.17.0-beta.31",
       "karma": "1.2.0",
       "karma-browserstack-launcher": "^1.0.1",
       "karma-chrome-launcher": "^2.0.0",
@@ -111,12 +111,12 @@ $__System.registerDynamic("2", [], false, function() {
     "main": "dist/dfp.min.js",
     "jspm": {
       "name": "DFP",
-      "main": "DFP.js",
+      "main": "dfp.js",
       "dependencies": {
         "json": "github:systemjs/plugin-json@^0.1.2"
       },
       "devDependencies": {
-        "plugin-babel": "npm:systemjs-plugin-babel@^0.0.14"
+        "plugin-babel": "npm:systemjs-plugin-babel@^0.0.17"
       },
       "peerDependencies": {}
     },
@@ -175,7 +175,7 @@ $__System.registerDynamic("2", [], false, function() {
 $__System.register("1", ["2"], function (_export, _context) {
   "use strict";
 
-  var version, _classCallCheck, _createClass, ssoKey, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, User, ConflictResolver, adSlot, adPriorities, adTargets, userTypes, adTypes, AdManager, defaultConfig, googletagInitTimeout, resizeTimeout, DFP, config, version$1;
+  var version, _classCallCheck, _createClass, ssoKey, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, User, ConflictResolver, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, googletagInitTimeout, resizeTimeout, DFP$1, config, version$1;
 
   /**
    * Htz-cookie-util
@@ -194,12 +194,11 @@ $__System.register("1", ["2"], function (_export, _context) {
    * @returns {object} a map object, with key-value mapping according to the passed configuration.
    */
   function stringToMap(string) {
-    var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    var _ref$separator = _ref.separator;
-    var separator = _ref$separator === undefined ? ';' : _ref$separator;
-    var _ref$operator = _ref.operator;
-    var operator = _ref$operator === undefined ? '=' : _ref$operator;
+    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        _ref$separator = _ref.separator,
+        separator = _ref$separator === undefined ? ';' : _ref$separator,
+        _ref$operator = _ref.operator,
+        operator = _ref$operator === undefined ? '=' : _ref$operator;
 
     var map = {};
     var itemsArr = string.split(separator);
@@ -227,6 +226,7 @@ $__System.register("1", ["2"], function (_export, _context) {
     return map;
   }
 
+  /* global dfpBaseConf */
   // globalConfig for DFP
 
 
@@ -288,7 +288,7 @@ $__System.register("1", ["2"], function (_export, _context) {
    * //TODO translate to ES6 format or import lodash debounce instead
    */
   function debounce(func) {
-    var wait = arguments.length <= 1 || arguments[1] === undefined ? 100 : arguments[1];
+    var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
     var immediate = arguments[2];
 
     var timeout = void 0;
@@ -365,7 +365,7 @@ $__System.register("1", ["2"], function (_export, _context) {
    * @param {Array} b - the second array to check
    * @returns {Boolean} true iff both a and b are arrays, with equal values
    */
-  function arraysEqual(a, b) {
+  function arraysEqual$1(a, b) {
     if (!a || !b) return false;
     if (!Array.isArray(a) || !Array.isArray(b)) return false;
     if (a === b) return true;
@@ -376,6 +376,7 @@ $__System.register("1", ["2"], function (_export, _context) {
     return true;
   }
 
+  /* global googletag */
   // There are a total of 7 adTargets:
   // "all","nonPaying","anonymous","registered","paying","digitalOnly" and "digitalAndPrint"
   return {
@@ -1173,6 +1174,8 @@ $__System.register("1", ["2"], function (_export, _context) {
 
       ConflictResolver.EMPTY_SIZE = [];
 
+      /* global googletag */
+
       adSlot = function () {
         function adSlot(adSlotConfig) {
           _classCallCheck(this, adSlot);
@@ -1566,7 +1569,7 @@ $__System.register("1", ["2"], function (_export, _context) {
         digitalOnly: 'digitalOnly',
         digitalAndPrint: 'digitalAndPrint'
       };
-      userTypes = {
+      userTypes$$1 = {
         anonymous: 'anonymous',
         registered: 'registered',
         payer: 'payer'
@@ -1640,9 +1643,9 @@ $__System.register("1", ["2"], function (_export, _context) {
               for (var _iterator = this.adSlots.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                 var adSlotKey = _step.value;
 
-                var adSlot$$ = this.adSlots.get(adSlotKey);
-                if (adSlot$$.type !== adTypes.talkback && this.shouldSendRequestToDfp(adSlot$$)) {
-                  adSlot$$.show();
+                var adSlot$$1 = this.adSlots.get(adSlotKey);
+                if (adSlot$$1.type !== adTypes.talkback && this.shouldSendRequestToDfp(adSlot$$1)) {
+                  adSlot$$1.show();
                 }
               }
             } catch (err) {
@@ -1671,8 +1674,8 @@ $__System.register("1", ["2"], function (_export, _context) {
         }, {
           key: 'getAdSlotsByPriority',
           value: function getAdSlotsByPriority(priority) {
-            function priorityFilter(adSlot$$) {
-              return adSlot$$.priority === priority;
+            function priorityFilter(adSlot$$1) {
+              return adSlot$$1.priority === priority;
             }
             return Array.from(this.adSlots.values()).filter(priorityFilter);
           }
@@ -1728,13 +1731,13 @@ $__System.register("1", ["2"], function (_export, _context) {
               for (var _iterator3 = this.adSlots.keys()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
                 var adSlotKey = _step3.value;
 
-                var adSlot$$ = this.adSlots.get(adSlotKey);
-                if (adSlot$$.responsive) {
-                  if (adSlot$$.lastResolvedWithBreakpoint !== currentBreakpoint && this.shouldSendRequestToDfp(adSlot$$)) {
+                var adSlot$$1 = this.adSlots.get(adSlotKey);
+                if (adSlot$$1.responsive) {
+                  if (adSlot$$1.lastResolvedWithBreakpoint !== currentBreakpoint && this.shouldSendRequestToDfp(adSlot$$1)) {
                     // console.log(`calling refresh for adSlot: ${adSlot.id}`);
-                    adSlot$$.refresh();
+                    adSlot$$1.refresh();
                   } else {
-                    adSlot$$.hide();
+                    adSlot$$1.hide();
                   }
                 }
               }
@@ -1783,29 +1786,29 @@ $__System.register("1", ["2"], function (_export, _context) {
               return false;
             });
             // adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
-            adSlotPlaceholders.forEach(function (adSlot$$) {
-              var adSlotPriority = adSlotConfig[adSlot$$.id] ? adSlotConfig[adSlot$$.id].priority || adPriorities.normal : undefined;
-              if (adSlotConfig[adSlot$$.id] && adSlots.has(adSlot$$.id) === false && adSlotPriority === filteredPriority) {
+            adSlotPlaceholders.forEach(function (adSlot$$1) {
+              var adSlotPriority = adSlotConfig[adSlot$$1.id] ? adSlotConfig[adSlot$$1.id].priority || adPriorities.normal : undefined;
+              if (adSlotConfig[adSlot$$1.id] && adSlots.has(adSlot$$1.id) === false && adSlotPriority === filteredPriority) {
                 // The markup has a matching configuration from adSlotConfig AND was not already defined
                 try {
                   // adSlotConfig is built from globalConfig, but can be overridden by markup
-                  var computedAdSlotConfig = Object.assign({}, adSlotConfig[adSlot$$.id], {
-                    id: adSlot$$.id,
-                    target: adSlot$$.attributes['data-audtarget'] ? adSlot$$.attributes['data-audtarget'].value : adTargets.all,
-                    type: _this2.getAdType(adSlot$$.id),
-                    responsive: adSlotConfig[adSlot$$.id].responsive,
-                    fluid: adSlotConfig[adSlot$$.id].fluid || false,
+                  var computedAdSlotConfig = Object.assign({}, adSlotConfig[adSlot$$1.id], {
+                    id: adSlot$$1.id,
+                    target: adSlot$$1.attributes['data-audtarget'] ? adSlot$$1.attributes['data-audtarget'].value : adTargets.all,
+                    type: _this2.getAdType(adSlot$$1.id),
+                    responsive: adSlotConfig[adSlot$$1.id].responsive,
+                    fluid: adSlotConfig[adSlot$$1.id].fluid || false,
                     user: _this2.user,
                     adManager: _this2,
-                    htmlElement: adSlot$$,
+                    htmlElement: adSlot$$1,
                     department: _this2.config.department,
                     network: _this2.config.adManagerConfig.network,
                     adUnitBase: _this2.config.adManagerConfig.adUnitBase,
-                    deferredSlot: _this2.conflictResolver.isBlocked(adSlot$$.id),
+                    deferredSlot: _this2.conflictResolver.isBlocked(adSlot$$1.id),
                     priority: adSlotPriority
                   });
                   var adSlotInstance = new adSlot(computedAdSlotConfig);
-                  adSlots.set(adSlot$$.id, adSlotInstance);
+                  adSlots.set(adSlot$$1.id, adSlotInstance);
                   if (adSlotInstance.type !== adTypes.talkback && adSlotInstance.priority === adPriorities.high && _this2.shouldSendRequestToDfp(adSlotInstance)) {
                     /*
                      console.log('calling show for high priority slot', adSlotInstance.id, ' called @',
@@ -1851,24 +1854,24 @@ $__System.register("1", ["2"], function (_export, _context) {
 
         }, {
           key: 'shouldSendRequestToDfp',
-          value: function shouldSendRequestToDfp(adSlot$$) {
+          value: function shouldSendRequestToDfp(adSlot$$1) {
             // Conflict management check
-            return this.conflictResolver.isBlocked(adSlot$$.id) === false &&
+            return this.conflictResolver.isBlocked(adSlot$$1.id) === false &&
             // Valid Referrer check
-            adSlot$$.isWhitelisted() &&
+            adSlot$$1.isWhitelisted() &&
             // Not in referrer Blacklist
-            adSlot$$.isBlacklisted() === false && this.shouldDisplayAdAfterAdBlockRemoval(adSlot$$) &&
+            adSlot$$1.isBlacklisted() === false && this.shouldDisplayAdAfterAdBlockRemoval(adSlot$$1) &&
             // Responsive: breakpoint contains ad?
-            this.doesBreakpointContainAd(adSlot$$) &&
+            this.doesBreakpointContainAd(adSlot$$1) &&
             // Targeting check (userType vs. slotTargeting)
-            this.doesUserTypeMatchBannerTargeting(adSlot$$) &&
+            this.doesUserTypeMatchBannerTargeting(adSlot$$1) &&
             // Impressions Manager check (limits number of impressions per slot)
-            this.user.impressionManager.reachedQuota(adSlot$$.id) === false;
+            this.user.impressionManager.reachedQuota(adSlot$$1.id) === false;
           }
         }, {
           key: 'shouldDisplayAdAfterAdBlockRemoval',
-          value: function shouldDisplayAdAfterAdBlockRemoval(adSlot$$) {
-            return !(this.config.adBlockRemoved === true && (adSlot$$.type === adTypes.maavaron || adSlot$$.type === adTypes.popunder));
+          value: function shouldDisplayAdAfterAdBlockRemoval(adSlot$$1) {
+            return !(this.config.adBlockRemoved === true && (adSlot$$1.type === adTypes.maavaron || adSlot$$1.type === adTypes.popunder));
           }
 
           /**
@@ -1887,17 +1890,17 @@ $__System.register("1", ["2"], function (_export, _context) {
               case adTargets.all:
                 return true;
               case adTargets.nonPaying:
-                return userType === userTypes.anonymous || userType === userTypes.registered;
+                return userType === userTypes$$1.anonymous || userType === userTypes$$1.registered;
               case adTargets.anonymous:
-                return userType === userTypes.anonymous;
+                return userType === userTypes$$1.anonymous;
               case adTargets.registered:
-                return userType === userTypes.registered;
+                return userType === userTypes$$1.registered;
               case adTargets.paying:
-                return userType === userTypes.payer;
+                return userType === userTypes$$1.payer;
               case adTargets.digitalOnly:
-                return userType === userTypes.payer;
+                return userType === userTypes$$1.payer;
               case adTargets.digitalAndPrint:
-                return userType === userTypes.payer;
+                return userType === userTypes$$1.payer;
               default:
                 return false;
             }
@@ -1925,10 +1928,10 @@ $__System.register("1", ["2"], function (_export, _context) {
               for (var _iterator4 = this.adSlots.keys()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
                 var adSlotKey = _step4.value;
 
-                var adSlot$$ = this.adSlots.get(adSlotKey);
-                if (adSlot$$.responsive === true && adSlot$$.lastResolvedWithBreakpoint) {
-                  if (adSlot$$.lastResolvedWithBreakpoint !== breakpoint) {
-                    adSlot$$.refresh();
+                var adSlot$$1 = this.adSlots.get(adSlotKey);
+                if (adSlot$$1.responsive === true && adSlot$$1.lastResolvedWithBreakpoint) {
+                  if (adSlot$$1.lastResolvedWithBreakpoint !== breakpoint) {
+                    adSlot$$1.refresh();
                     count++;
                   }
                 }
@@ -1960,19 +1963,19 @@ $__System.register("1", ["2"], function (_export, _context) {
 
         }, {
           key: 'doesBreakpointContainAd',
-          value: function doesBreakpointContainAd(adSlot$$) {
-            var breakpoint = arguments.length <= 1 || arguments[1] === undefined ? getBreakpoint() : arguments[1];
+          value: function doesBreakpointContainAd(adSlot$$1) {
+            var breakpoint = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : getBreakpoint();
 
-            if (!adSlot$$) {
+            if (!adSlot$$1) {
               throw new Error('Missing argument: a call to doesBreakpointContainAd must have an adSlot');
             }
             var containsBreakpoint = true;
-            if (adSlot$$.responsive === true) {
-              var mapping = adSlot$$.responsiveAdSizeMapping[getBreakpointName(breakpoint)];
+            if (adSlot$$1.responsive === true) {
+              var mapping = adSlot$$1.responsiveAdSizeMapping[getBreakpointName(breakpoint)];
               if (Array.isArray(mapping) === false) {
                 throw new Error('Invalid argument: breakpoint:' + breakpoint + ' doesn\'t exist!', this);
               }
-              containsBreakpoint = mapping.length > 0 && !arraysEqual(mapping, [0, 0]);
+              containsBreakpoint = mapping.length > 0 && !arraysEqual$1(mapping, [0, 0]);
             }
             return containsBreakpoint;
           }
@@ -1994,17 +1997,17 @@ $__System.register("1", ["2"], function (_export, _context) {
                 var resolvedSize = event.size;
                 // console.log('slotRenderEnded for slot',id,' called @',window.performance.now());
                 if (_this3.adSlots.has(id)) {
-                  var adSlot$$ = _this3.adSlots.get(id);
-                  adSlot$$.lastResolvedSize = resolvedSize;
-                  adSlot$$.lastResolvedWithBreakpoint = getBreakpoint();
+                  var adSlot$$1 = _this3.adSlots.get(id);
+                  adSlot$$1.lastResolvedSize = resolvedSize;
+                  adSlot$$1.lastResolvedWithBreakpoint = getBreakpoint();
                   if (isEmpty) {
-                    adSlot$$.lastResolvedSize = ConflictResolver.EMPTY_SIZE;
-                    adSlot$$.hide();
-                    _this3.releaseSlotDependencies(adSlot$$);
+                    adSlot$$1.lastResolvedSize = ConflictResolver.EMPTY_SIZE;
+                    adSlot$$1.hide();
+                    _this3.releaseSlotDependencies(adSlot$$1);
                   } else {
-                    _this3.user.impressionManager.registerImpression('' + adSlot$$.id + _this3.config.department);
-                    _this3.user.impressionManager.registerImpression(adSlot$$.id + '_all');
-                    _this3.releaseSlotDependencies(adSlot$$, adSlot$$.lastResolvedSize);
+                    _this3.user.impressionManager.registerImpression('' + adSlot$$1.id + _this3.config.department);
+                    _this3.user.impressionManager.registerImpression(adSlot$$1.id + '_all');
+                    _this3.releaseSlotDependencies(adSlot$$1, adSlot$$1.lastResolvedSize);
                   }
                 } else {
                   /*
@@ -2019,10 +2022,10 @@ $__System.register("1", ["2"], function (_export, _context) {
           }
         }, {
           key: 'releaseSlotDependencies',
-          value: function releaseSlotDependencies(adSlot$$) {
+          value: function releaseSlotDependencies(adSlot$$1) {
             try {
-              var id = adSlot$$.id;
-              this.conflictResolver.updateResolvedSlot(id, adSlot$$.lastResolvedSize);
+              var id = adSlot$$1.id;
+              this.conflictResolver.updateResolvedSlot(id, adSlot$$1.lastResolvedSize);
               if (this.conflictResolver.isBlocking(id)) {
                 // Hide all blocked adSlots
                 var _iteratorNormalCompletion5 = true;
@@ -2090,7 +2093,7 @@ $__System.register("1", ["2"], function (_export, _context) {
               }
             } catch (err) {
               /* eslint-disable no-console*/
-              console.error('Cannot updateSlotDependencies for adSlot: ' + adSlot$$.id);
+              console.error('Cannot updateSlotDependencies for adSlot: ' + adSlot$$1.id);
               /* eslint-enable no-console*/
             }
           }
@@ -2193,7 +2196,7 @@ $__System.register("1", ["2"], function (_export, _context) {
       googletagInitTimeout = 10000;
       resizeTimeout = 250;
 
-      DFP = function () {
+      DFP$1 = function () {
         function DFP(config) {
           _classCallCheck(this, DFP);
 
@@ -2319,7 +2322,7 @@ $__System.register("1", ["2"], function (_export, _context) {
       // const pkg = require('./../package.json');
 
       // DFP version is based on the package.json
-      DFP.version = version || 'VERSION';
+      DFP$1.version = version || 'VERSION';
 
       /*
        // Only for development mode
@@ -2330,13 +2333,13 @@ $__System.register("1", ["2"], function (_export, _context) {
 
       _export("config", config = dfpConfig);
 
-      _export("version", version$1 = DFP.version);
+      _export("version", version$1 = DFP$1.version);
 
       _export("config", config);
 
       _export("version", version$1);
 
-      _export("default", DFP);
+      _export("default", DFP$1);
     }
   };
 });
