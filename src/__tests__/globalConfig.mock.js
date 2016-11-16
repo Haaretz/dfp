@@ -137,6 +137,10 @@ const dfpConfigMock = {
       frequency: '10/10hour',
     },
   },
+  googleGlobalSettings: {
+    enableSingleRequest: true,
+    enableAsyncRendering: true,
+  },
 };
 
 export default dfpConfigMock;

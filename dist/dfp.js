@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.12.3",
+    "version": "1.13.0",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -129,11 +129,11 @@ $__System.registerDynamic("2", [], false, function() {
       "build:dev": "babel-node config/rollup.config.js dev",
       "build:prod": "babel-node config/rollup.config.js prod",
       "build:es6": "babel-node config/rollup.config.js dev es6",
-      "jspmbuild:dev": "jspm build src/index.js dist/dfp.js --format global --global-name DFP",
-      "jspmbuild:prod": "jspm build src/index.js dist/dfp.min.js --minify",
-      "jspmbuild:es6": "jspm build src/index.js dist/dfp.es6.js --format esm",
+      "build:jspm:dev": "jspm build src/index.js dist/dfp.js --format global --global-name DFP --source-map-contents",
+      "build:jspm:prod": "jspm build src/index.js dist/dfp.min.js --minify --source-map-contents",
+      "build:jspm:es6": "jspm build src/index.js dist/dfp.es6.js --format esm --source-map-contents",
       "build": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es6",
-      "build:jspm": "npm run clean && mkdirp dist && npm run jspmbuild:dev && npm run jspmbuild:prod && npm run jspmbuild:es6",
+      "build:jspm": "npm run clean && mkdirp dist && npm run build:jspm:dev && npm run build:jspm:prod && npm run build:jspm:es6",
       "browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
       "test:server": "mocha --opts config/mocha.opts",
       "test:browser": "karma start config/karma.conf.js --no-auto-watch",
@@ -612,6 +612,10 @@ $__System.register("1", ["2"], function (_export, _context) {
             exposed: 0,
             expires: new Date().getTime()
           }
+        },
+        googleGlobalSettings: {
+          enableSingleRequest: true,
+          enableAsyncRendering: true
         },
         sso: ssoKey
 
@@ -2171,15 +2175,33 @@ $__System.register("1", ["2"], function (_export, _context) {
           key: 'initGoogleGlobalSettings',
           value: function initGoogleGlobalSettings() {
             if (window.googletag && window.googletag.apiReady) {
-              if (window.location.search && window.location.search.indexOf('sraon') > 0) {
-                console.log('enableSingleRequest mode: active'); // eslint-disable-line no-console
+              var googleGlobalSettings = this.config.googleGlobalSettings;
+              // Enable GET parameter overrides
+              if (window.location.search) {
+                var search = window.location.search;
+                if (search.indexOf('sraon') > 0) {
+                  console.log('Single Request Mode: active'); // eslint-disable-line no-console
+                  googleGlobalSettings.enableAsyncRendering = true;
+                } else if (search.indexOf('sraoff') > 0) {
+                  console.log('Single Request Mode: disabled'); // eslint-disable-line no-console
+                  googleGlobalSettings.enableAsyncRendering = false;
+                }
+                if (search.indexOf('asyncrenderingon') > 0) {
+                  console.log('Async rendering mode: active'); // eslint-disable-line no-console
+                  googleGlobalSettings.enableAsyncRendering = true;
+                } else if (search.indexOf('asyncrenderingonoff') > 0) {
+                  console.log('Sync rendering mode: active'); // eslint-disable-line no-console
+                  googleGlobalSettings.enableAsyncRendering = false;
+                }
+              }
+              // Google services activation
+              if (googleGlobalSettings.enableSingleRequest === true) {
                 googletag.pubads().enableSingleRequest();
               }
-              if (!this.config.isMobile) {
+              if (googleGlobalSettings.enableAsyncRendering === true) {
                 googletag.pubads().enableAsyncRendering();
               } else {
-                googletag.pubads().enableAsyncRendering();
-                // disabled: googletag.pubads().enableSyncRendering();
+                googletag.pubads().enableSyncRendering();
               }
               // Enables all GPT services that have been defined for ad slots on the page.
               googletag.enableServices();

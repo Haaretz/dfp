@@ -452,12 +452,36 @@ describe('globalConfig - unit tests for browser', () => {
         expect(blockingSlot).to.be.instanceof(Array);
       });
 
-
       Array.prototype.forEach.call(blockingSlot, (blockedSlot) => {
         it(`should have the following keys: ${keys}`, () => {
           expect(blockedSlot).to.contain.all.keys(keys);
         });
       });
+    });
+  });
+
+  describe('googleGlobalSettings configuration', () => {
+    const keys = ['enableSingleRequest', 'enableAsyncRendering'];
+    const googleGlobalSettings = globalConfig.googleGlobalSettings;
+
+    it('should not be undefined', () => {
+      expect(googleGlobalSettings).to.not.be.an('undefined');
+    });
+
+    it('should be an object', () => {
+      expect(googleGlobalSettings).to.be.an('object');
+    });
+
+    it(`should have the following keys: ${keys}`, () => {
+      expect(googleGlobalSettings).to.contain.all.keys(keys);
+    });
+
+    it('enableSingleRequest should be a boolean', () => {
+      expect(googleGlobalSettings.enableSingleRequest).to.be.a('boolean');
+    });
+
+    it('enableAsyncRendering should be a boolean', () => {
+      expect(googleGlobalSettings.enableAsyncRendering).to.be.a('boolean');
     });
   });
 

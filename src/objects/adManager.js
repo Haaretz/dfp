@@ -461,17 +461,36 @@ export default class AdManager {
    */
   initGoogleGlobalSettings() {
     if (window.googletag && window.googletag.apiReady) {
-      if (window.location.search &&
-        window.location.search.indexOf('sraon') > 0) {
-        console.log('enableSingleRequest mode: active');// eslint-disable-line no-console
+      const googleGlobalSettings = this.config.googleGlobalSettings;
+      // Enable GET parameter overrides
+      if (window.location.search) {
+        const search = window.location.search;
+        if (search.indexOf('sraon') > 0) {
+          console.log('Single Request Mode: active'); // eslint-disable-line no-console
+          googleGlobalSettings.enableAsyncRendering = true;
+        }
+        else if (search.indexOf('sraoff') > 0) {
+          console.log('Single Request Mode: disabled');// eslint-disable-line no-console
+          googleGlobalSettings.enableAsyncRendering = false;
+        }
+        if (search.indexOf('asyncrenderingon') > 0) {
+          console.log('Async rendering mode: active'); // eslint-disable-line no-console
+          googleGlobalSettings.enableAsyncRendering = true;
+        }
+        else if (search.indexOf('asyncrenderingonoff') > 0) {
+          console.log('Sync rendering mode: active');// eslint-disable-line no-console
+          googleGlobalSettings.enableAsyncRendering = false;
+        }
+      }
+      // Google services activation
+      if (googleGlobalSettings.enableSingleRequest === true) {
         googletag.pubads().enableSingleRequest();
       }
-      if (!this.config.isMobile) {
+      if (googleGlobalSettings.enableAsyncRendering === true) {
         googletag.pubads().enableAsyncRendering();
       }
       else {
-        googletag.pubads().enableAsyncRendering();
-        // disabled: googletag.pubads().enableSyncRendering();
+        googletag.pubads().enableSyncRendering();
       }
       // Enables all GPT services that have been defined for ad slots on the page.
       googletag.enableServices();

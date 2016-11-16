@@ -214,6 +214,10 @@ const dfpConfig = Object.assign({
       expires: (new Date()).getTime(),
     },
   },
+  googleGlobalSettings: {
+    enableSingleRequest: true,
+    enableAsyncRendering: true,
+  },
   sso: ssoKey,
 
 }, window.dfpConfig);
