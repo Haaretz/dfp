@@ -11,13 +11,10 @@ prepareMarkup();
 describe('AdManager', () => {
   let adManager;
   let dfp;
-  const spyMap = {};
   before(done => {
     dfp = new DFP(globalConfigMock);
     dfp.initGoogleTag().then(() => {
       adManager = dfp.adManager;
-      spyMap.initGoogleGlobalSettings = sinon.spy(dfp.adManager, 'initGoogleGlobalSettings');
-      spyMap.initGoogleTargetingParams = sinon.spy(dfp.adManager, 'initGoogleTargetingParams');
       done();
     });
   });
@@ -243,19 +240,11 @@ describe('AdManager', () => {
       it('should have the \'initGoogleTargetingParams\' function', () => {
         expect(adManager.initGoogleTargetingParams).to.be.a('function');
       });
-
-      it('should have called \'initGoogleTargetingParams\'', () => {
-        expect(spyMap.initGoogleTargetingParams.called).to.be.true();
-      });
     });
 
     describe('initGoogleGlobalSettings', () => {
       it('should have the \'initGoogleGlobalSettings\' function', () => {
         expect(adManager.initGoogleGlobalSettings).to.be.a('function');
-      });
-
-      it('should have called \'initGoogleGlobalSettings\'', () => {
-        expect(spyMap.initGoogleGlobalSettings.called).to.be.true();
       });
     });
   });

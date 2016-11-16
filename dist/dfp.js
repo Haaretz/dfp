@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.13.0",
+    "version": "1.13.1",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
