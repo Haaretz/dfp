@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.13.1",
+    "version": "1.14.0",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -132,7 +132,8 @@ $__System.registerDynamic("2", [], false, function() {
       "build:jspm:dev": "jspm build src/index.js dist/dfp.js --format global --global-name DFP --source-map-contents",
       "build:jspm:prod": "jspm build src/index.js dist/dfp.min.js --minify --source-map-contents",
       "build:jspm:es6": "jspm build src/index.js dist/dfp.es6.js --format esm --source-map-contents",
-      "build": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es6",
+      "build": "npm run build:jspm",
+      "build:rollup": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es6",
       "build:jspm": "npm run clean && mkdirp dist && npm run build:jspm:dev && npm run build:jspm:prod && npm run build:jspm:es6",
       "browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
       "test:server": "mocha --opts config/mocha.opts",

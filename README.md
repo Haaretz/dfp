@@ -2,9 +2,10 @@
  "Google's [DoubleClick for Publishers (DFP)](https://developers.google.com/doubleclick-publishers/) ad management solution is designed to meet the
  growing needs of publishers."
 
+
 [![Build Status](https://travis-ci.org/eliagrady/dfp.svg?branch=master)](https://travis-ci.org/eliagrady/dfp)
 [![Coverage Status](https://coveralls.io/repos/github/eliagrady/dfp/badge.svg?branch=master)](https://coveralls.io/github/eliagrady/dfp?branch=master)
-[![npm version](https://badge.fury.io/js/boily.svg)](https://badge.fury.io/js/boily)
+[![GitHub version](https://badge.fury.io/gh/Haaretz%2Fdfp.svg)](https://badge.fury.io/gh/Haaretz%2Fdfp)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![npm](https://img.shields.io/npm/l/express.svg?style=flat-square)](https://github.com/kflash/boily/blob/master/LICENSE.md)
 
@@ -13,17 +14,22 @@
 Just clone the repo and install the necessary node modules.
 
 ```js
-$ git clone https://github.com/eliagrady/dfp.git dfp
+$ git clone https://github.com/Haaretz/dfp.git dfp
 $ cd dfp
 $ npm install                   # Install Node modules listed in ./package.json
 $ npm run build                 # Build a minified and a non-minified version of the library
 ```
 ## Workflow
 
-* `npm run build` - Build task that generate a minified and a non-minified script
-* `npm run build:prod` - Build task that generate a production bundle
-* `npm run build:dev` - Build task that generate a development bundle
-* `npm run build:es6` - Build task that generate and preserves ES6 imports and exports into a ES2015 development bundle
+* `npm run build` - Build task that generate a minified and a non-minified script (defaults to jspm build)
+* `npm run build:rollup` - Build task that generate a minified and a non-minified script (using the old rollup config)
+* `npm run build:jspm` - Build task that generate a minified and a non-minified script (using the new jspm config [default])
+* `npm run build:prod` - Build task that generate a production bundle (using rollup)
+* `npm run build:jspm:prod` - Build task that generate a production bundle (using jspm)
+* `npm run build:dev` - Build task that generate a development bundle (using rollup)
+* `npm run build:jspm:dev` - Build task that generate a development bundle (using jspm)
+* `npm run build:es6` - Build task that generate and preserves ES6 imports and exports into a ES2015 development bundle (using rollup)
+* `npm run build:jspm:es6` - Build task that generate and preserves ES6 imports and exports into a ES2015 development bundle (using jspm)
 * `npm run lint:source` - Lint the source
 * `npm run lint:tests` - Lint the unit tests
 * `npm run clean` - Remove the coverage report - and the *dist* folder
@@ -73,13 +79,17 @@ To run your unit tests in the browser, do `npm run browser`, and open `port 8080
 
 This library is set up to integrate with Coveralls, and will automatically publish your coverage report to **coveralls.io** if you have created an account there.
 
+##JSPM
+
+JSPM is used as the (primary) library bundler. It produces a cleaner and more lightweight source code then what you get with for example webpack and browserify.
+
 ##Rollup
 
-Rollup are used as the library bundler. It produces a cleaner and more lightweight source code then what you get with for example webpack and browserify.
+Rollup is used as the (secondary) library bundler. It produces a cleaner and more lightweight source code then what you get with for example webpack and browserify.
 
 ## Package management
 
-Boily has build-in some nice features to always make sure your dependency tree are up to date.
+This repository has some nice features built-in to always make sure your dependency tree are up to date.
 
 To check for the latest dependencies, simply run `npm run package:check`.
 
