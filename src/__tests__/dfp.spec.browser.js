@@ -67,7 +67,8 @@ describe('DFP - unit tests for browser', () => {
       dfp.initGoogleTag().then(() => {
         expect(window.googletag).to.not.be.undefined();
         done();
-      }); });
+      });
+    });
 
     it(' should call the \'resumeInit()\' function only once. ', done => {
       expect(spy.calledOnce).to.be.true();

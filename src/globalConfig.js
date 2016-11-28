@@ -111,6 +111,9 @@ const dfpConfig = Object.assign({
     }
     return adBlockRemoved;
   },
+  get isWriterAlerts() {
+    return (location.search.indexOf('writerAlerts=true') > -1);
+  },
   get wifiLocation() {
     let wifiLocation = '';
     const cookieMap = getCookieAsMap();

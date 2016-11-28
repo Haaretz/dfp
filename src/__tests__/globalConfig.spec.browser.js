@@ -7,8 +7,8 @@ describe('globalConfig - unit tests for browser', () => {
   before(() => {
     config = globalConfig;
     keys = ['referrer', 'isMobile', 'isHomepage', 'department', 'path', 'environment', 'articleId',
-      'utm_', 'adBlockRemoved', 'wifiLocation', 'gStatCampaignNumber', 'adSlotConfig',
-      'adManagerConfig', 'breakpointsConfig', 'userConfig', 'sso'];
+      'utm_', 'adBlockRemoved', 'wifiLocation', 'isWriterAlerts', 'gStatCampaignNumber',
+      'adSlotConfig', 'adManagerConfig', 'breakpointsConfig', 'userConfig', 'sso'];
   });
 
   it('should not be undefined', () => {
@@ -195,7 +195,20 @@ describe('globalConfig - unit tests for browser', () => {
       expect(adBlockRemoved).to.be.a('boolean');
     });
   });
+  describe('isWriterAlerts property', () => {
+    let isWriterAlerts;
+    before(() => {
+      isWriterAlerts = config.isWriterAlerts;
+    });
 
+    it('should not be undefined', () => {
+      expect(isWriterAlerts).to.not.be.an('undefined');
+    });
+
+    it('should be a string', () => {
+      expect(isWriterAlerts).to.be.a('boolean');
+    });
+  });
   describe('wifiLocation property', () => {
     let wifiLocation;
     before(() => {
