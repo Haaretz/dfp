@@ -162,6 +162,10 @@ export default class AdManager {
       return false;
     });
     // adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
+    if (this.config.adManagerConfig.adUnitBase.indexOf('mouse.co.il') > -1 &&
+      getBreakpointName(getBreakpoint()).indexOf('xs') > -1) {
+      this.config.adManagerConfig.adUnitBase = 'mouse.co.il.mobile_web';
+    }
     adSlotPlaceholders.forEach(adSlot => {
       const adSlotPriority = adSlotConfig[adSlot.id] ?
       adSlotConfig[adSlot.id].priority || adPriorities.normal : undefined;

@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.14.0",
+    "version": "1.16.0",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -286,7 +286,6 @@ $__System.register("1", ["2"], function (_export, _context) {
    * @param {Number} wait - the timeout period to avoid running the function
    * @param {Boolean} immediate - leading edge modifier
    * @returns {function} the debounced function
-   * //TODO translate to ES6 format or import lodash debounce instead
    */
   function debounce(func) {
     var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
@@ -334,7 +333,8 @@ $__System.register("1", ["2"], function (_export, _context) {
   }
   /**
    * Returns the current breakpoint that is closest to the window's width
-   * @param {string} breakpoint - the breakpoint label enumerator that the current width represents
+   * @param {number} breakpoint - the breakpoint label enumerator that the current width represents
+   * (yield with a getBreakpoint() call or passed manually )
    * @returns {string} breakpoint - the breakpoint label that the current width represents,
    * as a string
    */
@@ -473,7 +473,7 @@ $__System.register("1", ["2"], function (_export, _context) {
             test: 2,
             prod: 3
           };
-          return window.location.port === '8080' ? env.dev : window.location.hostname.indexOf('pre.haaretz.co.il') > -1 || window.location.hostname.indexOf('tmtest.themarker.com') > -1 ? env.test : window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1 ? env.prod : undefined;
+          return window.location.port === '8080' ? env.dev : window.location.hostname.indexOf('pre.haaretz.co.il') > -1 || window.location.hostname.indexOf('tmtest.themarker.com') > -1 || window.location.hostname.indexOf('pre.mouse.co.il') > -1 ? env.test : window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/Mouse.HomePage') > -1 ? env.prod : undefined;
         },
         /**
          * Returns the articleIf if on an article page, or null otherwise
@@ -568,8 +568,19 @@ $__System.register("1", ["2"], function (_export, _context) {
         },
         breakpointsConfig: {
           get breakpoints() {
-            var isType1 = true; // Override in VM from backend to control this toggle.
-            return isType1 ? this.breakpoints1 : this.breakpoints2;
+            var typeName = 'type1'; // Override in VM from backend to control this toggle
+            var type = void 0;
+            switch (typeName) {
+              case 'type1':
+                type = this.breakpoints1;break;
+              case 'type2':
+                type = this.breakpoints2;break;
+              case 'type3':
+                type = this.breakpoints3;break;
+              default:
+                type = this.breakpoints1;
+            }
+            return type;
           },
           // Type 1
           breakpoints1: {
@@ -590,6 +601,16 @@ $__System.register("1", ["2"], function (_export, _context) {
             l: 1600,
             xl: 1920,
             xxl: 1920
+          },
+          // Type 3
+          breakpoints3: {
+            xxs: 480,
+            xs: 600,
+            s: 768,
+            m: 1024,
+            l: 1280,
+            xl: 1900,
+            xxl: 1900
           }
         },
         userConfig: {
@@ -1791,6 +1812,9 @@ $__System.register("1", ["2"], function (_export, _context) {
               return false;
             });
             // adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
+            if (this.config.adManagerConfig.adUnitBase.indexOf('mouse.co.il') > -1 && getBreakpointName(getBreakpoint()).indexOf('xs') > -1) {
+              this.config.adManagerConfig.adUnitBase = 'mouse.co.il.mobile_web';
+            }
             adSlotPlaceholders.forEach(function (adSlot$$1) {
               var adSlotPriority = adSlotConfig[adSlot$$1.id] ? adSlotConfig[adSlot$$1.id].priority || adPriorities.normal : undefined;
               if (adSlotConfig[adSlot$$1.id] && adSlots.has(adSlot$$1.id) === false && adSlotPriority === filteredPriority) {

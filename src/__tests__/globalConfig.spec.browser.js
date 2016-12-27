@@ -418,6 +418,7 @@ describe('globalConfig - unit tests for browser', () => {
       breakpointsConfig = globalConfig.breakpointsConfig;
       breakpoints.push(breakpointsConfig.breakpoints1[key]);
       breakpoints.push(breakpointsConfig.breakpoints2[key]);
+      breakpoints.push(breakpointsConfig.breakpoints3[key]);
       it(`${key} breakpoint should be equal to one of: ${breakpoints}`, () => {
         expect(breakpointsConfig.breakpoints[key]).to.be.oneOf(breakpoints);
       });

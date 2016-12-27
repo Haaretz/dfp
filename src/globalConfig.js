@@ -64,9 +64,11 @@ const dfpConfig = Object.assign({
     };
     return window.location.port === '8080' ? env.dev :
       (window.location.hostname.indexOf('pre.haaretz.co.il') > -1
-      || window.location.hostname.indexOf('tmtest.themarker.com') > -1) ? env.test :
+      || window.location.hostname.indexOf('tmtest.themarker.com') > -1
+      || window.location.hostname.indexOf('pre.mouse.co.il') > -1) ? env.test :
         (window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1
-        || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1)
+        || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1
+        || window.location.pathname.indexOf('/cmlink/Mouse.HomePage') > -1)
           ? env.prod : undefined;
   },
   /**
@@ -165,8 +167,15 @@ const dfpConfig = Object.assign({
   },
   breakpointsConfig: {
     get breakpoints() {
-      const isType1 = true; // Override in VM from backend to control this toggle.
-      return isType1 ? this.breakpoints1 : this.breakpoints2;
+      const typeName = 'type1'; // Override in VM from backend to control this toggle
+      let type;
+      switch (typeName) {
+        case 'type1': type = this.breakpoints1; break;
+        case 'type2': type = this.breakpoints2; break;
+        case 'type3': type = this.breakpoints3; break;
+        default: type = this.breakpoints1;
+      }
+      return type;
     },
     // Type 1
     breakpoints1: {
@@ -187,6 +196,16 @@ const dfpConfig = Object.assign({
       l: 1600,
       xl: 1920,
       xxl: 1920,
+    },
+    // Type 3
+    breakpoints3: {
+      xxs: 480,
+      xs: 600,
+      s: 768,
+      m: 1024,
+      l: 1280,
+      xl: 1900,
+      xxl: 1900,
     },
   },
   userConfig: {
