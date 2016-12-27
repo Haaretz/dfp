@@ -11,7 +11,6 @@ const breakpoints = globalConfig.breakpointsConfig.breakpoints;
  * @param {Number} wait - the timeout period to avoid running the function
  * @param {Boolean} immediate - leading edge modifier
  * @returns {function} the debounced function
- * //TODO translate to ES6 format or import lodash debounce instead
  */
 export function debounce(func, wait = 100, immediate) {
   let timeout;
@@ -35,8 +34,10 @@ export function debounce(func, wait = 100, immediate) {
  */
 export function getBreakpoint() {
   let breakpoint;
-  const windowWidth = window.innerWidth;
-  switch (windowWidth) {
+  const windowWidth = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+  switch (true) {
     case windowWidth < breakpoints.xs: breakpoint = breakpoints.xxs; break;
     case windowWidth < breakpoints.s: breakpoint = breakpoints.xs; break;
     case windowWidth < breakpoints.m: breakpoint = breakpoints.s; break;
@@ -49,14 +50,15 @@ export function getBreakpoint() {
 }
 /**
  * Returns the current breakpoint that is closest to the window's width
- * @param {string} breakpoint - the breakpoint label enumerator that the current width represents
+ * @param {number} breakpoint - the breakpoint label enumerator that the current width represents
+ * (yield with a getBreakpoint() call or passed manually )
  * @returns {string} breakpoint - the breakpoint label that the current width represents,
  * as a string
  */
 export function getBreakpointName(breakpoint) {
   let resultBreakpoint;
   const windowWidth = breakpoint || window.innerWidth;
-  switch (windowWidth) {
+  switch (true) {
     case windowWidth < breakpoints.xs: resultBreakpoint = 'xxs'; break;
     case windowWidth < breakpoints.s: resultBreakpoint = 'xs'; break;
     case windowWidth < breakpoints.m: resultBreakpoint = 's'; break;

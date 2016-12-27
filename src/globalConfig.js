@@ -52,6 +52,23 @@ const dfpConfig = Object.assign({
         .reduce((last, current) => last.concat(current)));
   },
   /**
+   * Returns a string representation for the name of the site
+   * @return {*|string}
+   */
+  get site() {
+    let site;
+    if (window.location.hostname.indexOf('haaretz.co.il') > -1) {
+      site = 'haaretz';
+    }
+    else if (window.location.hostname.indexOf('themarker.com') > -1) {
+      site = 'themarker';
+    }
+    else if (window.location.hostname.indexOf('mouse.co.il') > -1) {
+      site = 'mouse';
+    }
+    return site || 'haaretz';
+  },
+  /**
    * Returns the current environment targeting param, if such is defined.
    * @returns {number} targeting param, 1 for local development, 2 for test servers and 3 for prod.
    * May return undefined if no targeting is specified.
@@ -64,9 +81,11 @@ const dfpConfig = Object.assign({
     };
     return window.location.port === '8080' ? env.dev :
       (window.location.hostname.indexOf('pre.haaretz.co.il') > -1
-      || window.location.hostname.indexOf('tmtest.themarker.com') > -1) ? env.test :
+      || window.location.hostname.indexOf('tmtest.themarker.com') > -1
+      || window.location.hostname.indexOf('pre.mouse.co.il') > -1) ? env.test :
         (window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1
-        || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1)
+        || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1
+        || window.location.pathname.indexOf('/cmlink/Mouse.HomePage') > -1)
           ? env.prod : undefined;
   },
   /**
@@ -165,8 +184,14 @@ const dfpConfig = Object.assign({
   },
   breakpointsConfig: {
     get breakpoints() {
-      const isType1 = true; // Override in VM from backend to control this toggle.
-      return isType1 ? this.breakpoints1 : this.breakpoints2;
+      // Override in VM from backend to control this toggle.
+      let breakpoints;
+      switch (this.site) {
+        case 'themarker': breakpoints = this.breakpoints2; break;
+        case 'mouse': breakpoints = this.breakpoints3; break;
+        default: breakpoints = this.breakpoints1;
+      }
+      return breakpoints;
     },
     // Type 1
     breakpoints1: {
@@ -187,6 +212,16 @@ const dfpConfig = Object.assign({
       l: 1600,
       xl: 1920,
       xxl: 1920,
+    },
+    // Type 3
+    breakpoints3: {
+      xxs: 480,
+      xs: 600,
+      s: 768,
+      m: 1024,
+      l: 1280,
+      xl: 1900,
+      xxl: 1900,
     },
   },
   userConfig: {

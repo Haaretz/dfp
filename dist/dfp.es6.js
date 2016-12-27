@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.14.0",
+    "version": "1.16.4",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -130,7 +130,7 @@ $__System.registerDynamic("2", [], false, function() {
       "build:prod": "babel-node config/rollup.config.js prod",
       "build:es6": "babel-node config/rollup.config.js dev es6",
       "build:jspm:dev": "jspm build src/index.js dist/dfp.js --format global --global-name DFP --source-map-contents",
-      "build:jspm:prod": "jspm build src/index.js dist/dfp.min.js --minify --source-map-contents",
+      "build:jspm:prod": "jspm build src/index.js dist/dfp.min.js --format global --global-name DFP --minify --source-map-contents",
       "build:jspm:es6": "jspm build src/index.js dist/dfp.es6.js --format esm --source-map-contents",
       "build": "npm run build:jspm",
       "build:rollup": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es6",
@@ -286,7 +286,6 @@ $__System.register("1", ["2"], function (_export, _context) {
    * @param {Number} wait - the timeout period to avoid running the function
    * @param {Boolean} immediate - leading edge modifier
    * @returns {function} the debounced function
-   * //TODO translate to ES6 format or import lodash debounce instead
    */
   function debounce(func) {
     var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
@@ -313,8 +312,8 @@ $__System.register("1", ["2"], function (_export, _context) {
    */
   function getBreakpoint() {
     var breakpoint = void 0;
-    var windowWidth = window.innerWidth;
-    switch (windowWidth) {
+    var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    switch (true) {
       case windowWidth < breakpoints.xs:
         breakpoint = breakpoints.xxs;break;
       case windowWidth < breakpoints.s:
@@ -334,14 +333,15 @@ $__System.register("1", ["2"], function (_export, _context) {
   }
   /**
    * Returns the current breakpoint that is closest to the window's width
-   * @param {string} breakpoint - the breakpoint label enumerator that the current width represents
+   * @param {number} breakpoint - the breakpoint label enumerator that the current width represents
+   * (yield with a getBreakpoint() call or passed manually )
    * @returns {string} breakpoint - the breakpoint label that the current width represents,
    * as a string
    */
   function getBreakpointName(breakpoint) {
     var resultBreakpoint = void 0;
     var windowWidth = breakpoint || window.innerWidth;
-    switch (windowWidth) {
+    switch (true) {
       case windowWidth < breakpoints.xs:
         resultBreakpoint = 'xxs';break;
       case windowWidth < breakpoints.s:
@@ -463,6 +463,21 @@ $__System.register("1", ["2"], function (_export, _context) {
           });
         },
         /**
+         * Returns a string representation for the name of the site
+         * @return {*|string}
+         */
+        get site() {
+          var site = void 0;
+          if (window.location.hostname.indexOf('haaretz.co.il') > -1) {
+            site = 'haaretz';
+          } else if (window.location.hostname.indexOf('themarker.com') > -1) {
+            site = 'themarker';
+          } else if (window.location.hostname.indexOf('mouse.co.il') > -1) {
+            site = 'mouse';
+          }
+          return site || 'haaretz';
+        },
+        /**
          * Returns the current environment targeting param, if such is defined.
          * @returns {number} targeting param, 1 for local development, 2 for test servers and 3 for prod.
          * May return undefined if no targeting is specified.
@@ -473,7 +488,7 @@ $__System.register("1", ["2"], function (_export, _context) {
             test: 2,
             prod: 3
           };
-          return window.location.port === '8080' ? env.dev : window.location.hostname.indexOf('pre.haaretz.co.il') > -1 || window.location.hostname.indexOf('tmtest.themarker.com') > -1 ? env.test : window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1 ? env.prod : undefined;
+          return window.location.port === '8080' ? env.dev : window.location.hostname.indexOf('pre.haaretz.co.il') > -1 || window.location.hostname.indexOf('tmtest.themarker.com') > -1 || window.location.hostname.indexOf('pre.mouse.co.il') > -1 ? env.test : window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/Mouse.HomePage') > -1 ? env.prod : undefined;
         },
         /**
          * Returns the articleIf if on an article page, or null otherwise
@@ -568,8 +583,17 @@ $__System.register("1", ["2"], function (_export, _context) {
         },
         breakpointsConfig: {
           get breakpoints() {
-            var isType1 = true; // Override in VM from backend to control this toggle.
-            return isType1 ? this.breakpoints1 : this.breakpoints2;
+            // Override in VM from backend to control this toggle.
+            var breakpoints = void 0;
+            switch (this.site) {
+              case 'themarker':
+                breakpoints = this.breakpoints2;break;
+              case 'mouse':
+                breakpoints = this.breakpoints3;break;
+              default:
+                breakpoints = this.breakpoints1;
+            }
+            return breakpoints;
           },
           // Type 1
           breakpoints1: {
@@ -590,6 +614,16 @@ $__System.register("1", ["2"], function (_export, _context) {
             l: 1600,
             xl: 1920,
             xxl: 1920
+          },
+          // Type 3
+          breakpoints3: {
+            xxs: 480,
+            xs: 600,
+            s: 768,
+            m: 1024,
+            l: 1280,
+            xl: 1900,
+            xxl: 1900
           }
         },
         userConfig: {
@@ -1609,6 +1643,11 @@ $__System.register("1", ["2"], function (_export, _context) {
               _this.initGoogleGlobalSettings(); //  enableServices()
               _this.initSlotRenderedCallback(); //  Define callbacks
             });
+            // Mouse special treatment to base path on mobile breakpoints
+            var currentBreakpointName = getBreakpointName(getBreakpoint());
+            if (this.config.adManagerConfig.adUnitBase.indexOf('mouse.co.il') > -1 && currentBreakpointName.indexOf('xs') > -1) {
+              this.config.adManagerConfig.adUnitBase = 'mouse.co.il.mobile_web';
+            }
             // Holds adSlot objects as soon as possible.
             googletag.cmd.push(function () {
               _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.high);
