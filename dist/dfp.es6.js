@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.16.0",
+    "version": "1.16.1",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -130,7 +130,7 @@ $__System.registerDynamic("2", [], false, function() {
       "build:prod": "babel-node config/rollup.config.js prod",
       "build:es6": "babel-node config/rollup.config.js dev es6",
       "build:jspm:dev": "jspm build src/index.js dist/dfp.js --format global --global-name DFP --source-map-contents",
-      "build:jspm:prod": "jspm build src/index.js dist/dfp.min.js --minify --source-map-contents",
+      "build:jspm:prod": "jspm build src/index.js dist/dfp.min.js --format global --global-name DFP --minify --source-map-contents",
       "build:jspm:es6": "jspm build src/index.js dist/dfp.es6.js --format esm --source-map-contents",
       "build": "npm run build:jspm",
       "build:rollup": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es6",
