@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.16.4",
+    "version": "1.14.1",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -530,6 +530,9 @@ $__System.register("1", ["2"], function (_export, _context) {
             // do nothing
           }
           return adBlockRemoved;
+        },
+        get isWriterAlerts() {
+          return !!location.search.match('writerAlerts=true');
         },
         get wifiLocation() {
           var wifiLocation = '';
@@ -2175,7 +2178,9 @@ $__System.register("1", ["2"], function (_export, _context) {
               if (this.config.gStatCampaignNumber && this.config.gStatCampaignNumber !== -1) {
                 pubads.setTargeting('gstat_campaign_id', [this.config.gStatCampaignNumber]);
               }
-
+              if (this.config.isWriterAlerts) {
+                pubads.setTargeting('WriterAlerts', ['true']);
+              }
               // UTM targeting
               /* eslint-disable no-underscore-dangle */
               if (this.config.utm_.content) {
