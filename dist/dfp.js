@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.14.1",
+    "version": "1.16.4",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -532,7 +532,7 @@ $__System.register("1", ["2"], function (_export, _context) {
           return adBlockRemoved;
         },
         get isWriterAlerts() {
-          return !!location.search.match('writerAlerts=true');
+          return location.search.indexOf('writerAlerts=true') > -1;
         },
         get wifiLocation() {
           var wifiLocation = '';
