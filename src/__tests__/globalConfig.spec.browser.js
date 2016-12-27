@@ -6,8 +6,8 @@ describe('globalConfig - unit tests for browser', () => {
   let keys;
   before(() => {
     config = globalConfig;
-    keys = ['referrer', 'isMobile', 'isHomepage', 'department', 'path', 'environment', 'articleId',
-      'utm_', 'adBlockRemoved', 'wifiLocation', 'gStatCampaignNumber', 'adSlotConfig',
+    keys = ['referrer', 'isMobile', 'isHomepage', 'department', 'path', 'site', 'environment',
+      'articleId', 'utm_', 'adBlockRemoved', 'wifiLocation', 'gStatCampaignNumber', 'adSlotConfig',
       'adManagerConfig', 'breakpointsConfig', 'userConfig', 'sso'];
   });
 
@@ -121,6 +121,21 @@ describe('globalConfig - unit tests for browser', () => {
 
     it('should be an empty array', () => {
       expect(path).to.be.instanceof(Array) && expect(path).to.be.empty();
+    });
+  });
+
+  describe('site property', () => {
+    let site;
+    before(() => {
+      site = config.site;
+    });
+
+    it('should not be undefined', () => {
+      expect(site).to.not.be.an('undefined');
+    });
+
+    it('should be an one of the supported sites', () => {
+      expect(site).to.be.oneOf(['haaretz', 'themarker', 'mouse']);
     });
   });
 

@@ -52,6 +52,23 @@ const dfpConfig = Object.assign({
         .reduce((last, current) => last.concat(current)));
   },
   /**
+   * Returns a string representation for the name of the site
+   * @return {*|string}
+   */
+  get site() {
+    let site;
+    if (window.location.hostname.indexOf('haaretz.co.il') > -1) {
+      site = 'haaretz';
+    }
+    else if (window.location.hostname.indexOf('themarker.com') > -1) {
+      site = 'themarker';
+    }
+    else if (window.location.hostname.indexOf('mouse.co.il') > -1) {
+      site = 'mouse';
+    }
+    return site || 'haaretz';
+  },
+  /**
    * Returns the current environment targeting param, if such is defined.
    * @returns {number} targeting param, 1 for local development, 2 for test servers and 3 for prod.
    * May return undefined if no targeting is specified.
@@ -167,15 +184,14 @@ const dfpConfig = Object.assign({
   },
   breakpointsConfig: {
     get breakpoints() {
-      const typeName = 'type1'; // Override in VM from backend to control this toggle
-      let type;
-      switch (typeName) {
-        case 'type1': type = this.breakpoints1; break;
-        case 'type2': type = this.breakpoints2; break;
-        case 'type3': type = this.breakpoints3; break;
-        default: type = this.breakpoints1;
+      // Override in VM from backend to control this toggle.
+      let breakpoints;
+      switch (this.site) {
+        case 'themarker': breakpoints = this.breakpoints2; break;
+        case 'mouse': breakpoints = this.breakpoints3; break;
+        default: breakpoints = this.breakpoints1;
       }
-      return type;
+      return breakpoints;
     },
     // Type 1
     breakpoints1: {

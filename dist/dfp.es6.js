@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.16.1",
+    "version": "1.16.4",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -312,8 +312,8 @@ $__System.register("1", ["2"], function (_export, _context) {
    */
   function getBreakpoint() {
     var breakpoint = void 0;
-    var windowWidth = window.innerWidth;
-    switch (windowWidth) {
+    var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    switch (true) {
       case windowWidth < breakpoints.xs:
         breakpoint = breakpoints.xxs;break;
       case windowWidth < breakpoints.s:
@@ -341,7 +341,7 @@ $__System.register("1", ["2"], function (_export, _context) {
   function getBreakpointName(breakpoint) {
     var resultBreakpoint = void 0;
     var windowWidth = breakpoint || window.innerWidth;
-    switch (windowWidth) {
+    switch (true) {
       case windowWidth < breakpoints.xs:
         resultBreakpoint = 'xxs';break;
       case windowWidth < breakpoints.s:
@@ -463,6 +463,21 @@ $__System.register("1", ["2"], function (_export, _context) {
           });
         },
         /**
+         * Returns a string representation for the name of the site
+         * @return {*|string}
+         */
+        get site() {
+          var site = void 0;
+          if (window.location.hostname.indexOf('haaretz.co.il') > -1) {
+            site = 'haaretz';
+          } else if (window.location.hostname.indexOf('themarker.com') > -1) {
+            site = 'themarker';
+          } else if (window.location.hostname.indexOf('mouse.co.il') > -1) {
+            site = 'mouse';
+          }
+          return site || 'haaretz';
+        },
+        /**
          * Returns the current environment targeting param, if such is defined.
          * @returns {number} targeting param, 1 for local development, 2 for test servers and 3 for prod.
          * May return undefined if no targeting is specified.
@@ -568,19 +583,17 @@ $__System.register("1", ["2"], function (_export, _context) {
         },
         breakpointsConfig: {
           get breakpoints() {
-            var typeName = 'type1'; // Override in VM from backend to control this toggle
-            var type = void 0;
-            switch (typeName) {
-              case 'type1':
-                type = this.breakpoints1;break;
-              case 'type2':
-                type = this.breakpoints2;break;
-              case 'type3':
-                type = this.breakpoints3;break;
+            // Override in VM from backend to control this toggle.
+            var breakpoints = void 0;
+            switch (this.site) {
+              case 'themarker':
+                breakpoints = this.breakpoints2;break;
+              case 'mouse':
+                breakpoints = this.breakpoints3;break;
               default:
-                type = this.breakpoints1;
+                breakpoints = this.breakpoints1;
             }
-            return type;
+            return breakpoints;
           },
           // Type 1
           breakpoints1: {
@@ -1630,6 +1643,11 @@ $__System.register("1", ["2"], function (_export, _context) {
               _this.initGoogleGlobalSettings(); //  enableServices()
               _this.initSlotRenderedCallback(); //  Define callbacks
             });
+            // Mouse special treatment to base path on mobile breakpoints
+            var currentBreakpointName = getBreakpointName(getBreakpoint());
+            if (this.config.adManagerConfig.adUnitBase.indexOf('mouse.co.il') > -1 && currentBreakpointName.indexOf('xs') > -1) {
+              this.config.adManagerConfig.adUnitBase = 'mouse.co.il.mobile_web';
+            }
             // Holds adSlot objects as soon as possible.
             googletag.cmd.push(function () {
               _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.high);
@@ -1812,9 +1830,6 @@ $__System.register("1", ["2"], function (_export, _context) {
               return false;
             });
             // adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
-            if (this.config.adManagerConfig.adUnitBase.indexOf('mouse.co.il') > -1 && getBreakpointName(getBreakpoint()).indexOf('xs') > -1) {
-              this.config.adManagerConfig.adUnitBase = 'mouse.co.il.mobile_web';
-            }
             adSlotPlaceholders.forEach(function (adSlot$$1) {
               var adSlotPriority = adSlotConfig[adSlot$$1.id] ? adSlotConfig[adSlot$$1.id].priority || adPriorities.normal : undefined;
               if (adSlotConfig[adSlot$$1.id] && adSlots.has(adSlot$$1.id) === false && adSlotPriority === filteredPriority) {

@@ -58,6 +58,12 @@ export default class AdManager {
         this.initGoogleGlobalSettings();  //  enableServices()
         this.initSlotRenderedCallback();  //  Define callbacks
       });
+      // Mouse special treatment to base path on mobile breakpoints
+      const currentBreakpointName = getBreakpointName(getBreakpoint());
+      if (this.config.adManagerConfig.adUnitBase.indexOf('mouse.co.il') > -1 &&
+        currentBreakpointName.indexOf('xs') > -1) {
+        this.config.adManagerConfig.adUnitBase = 'mouse.co.il.mobile_web';
+      }
       // Holds adSlot objects as soon as possible.
       googletag.cmd.push(() => {
         this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.high);
@@ -162,10 +168,6 @@ export default class AdManager {
       return false;
     });
     // adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
-    if (this.config.adManagerConfig.adUnitBase.indexOf('mouse.co.il') > -1 &&
-      getBreakpointName(getBreakpoint()).indexOf('xs') > -1) {
-      this.config.adManagerConfig.adUnitBase = 'mouse.co.il.mobile_web';
-    }
     adSlotPlaceholders.forEach(adSlot => {
       const adSlotPriority = adSlotConfig[adSlot.id] ?
       adSlotConfig[adSlot.id].priority || adPriorities.normal : undefined;
