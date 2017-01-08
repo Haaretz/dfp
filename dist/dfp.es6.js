@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.16.4",
+    "version": "1.16.5",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -488,7 +488,7 @@ $__System.register("1", ["2"], function (_export, _context) {
             test: 2,
             prod: 3
           };
-          return window.location.port === '8080' ? env.dev : window.location.hostname.indexOf('pre.haaretz.co.il') > -1 || window.location.hostname.indexOf('tmtest.themarker.com') > -1 || window.location.hostname.indexOf('pre.mouse.co.il') > -1 ? env.test : window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/Mouse.HomePage') > -1 ? env.prod : undefined;
+          return window.location.port === '8080' ? env.dev : window.location.hostname.indexOf('pre.haaretz.co.il') > -1 || window.location.hostname.indexOf('tmtest.themarker.com') > -1 || window.location.hostname.indexOf('prodmouse.mouse.co.il') > -1 ? env.test : window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/Mouse.HomePage') > -1 ? env.prod : undefined;
         },
         /**
          * Returns the articleIf if on an article page, or null otherwise
