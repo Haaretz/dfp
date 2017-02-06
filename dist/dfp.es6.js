@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.16.6",
+    "version": "1.16.7",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -372,7 +372,11 @@ $__System.register("1", ["2"], function (_export, _context) {
     if (a === b) return true;
     if (a.length !== b.length) return false;
     for (var i = 0; i < a.length; ++i) {
-      if (a[i] !== b[i]) return false;
+      if (Array.isArray(a[i]) && Array.isArray(b[i])) {
+        if (!arraysEqual$1(a[i], b[i])) return false;
+      } else {
+        if (a[i] !== b[i]) return false;
+      }
     }
     return true;
   }
