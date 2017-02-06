@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.16.5",
+    "version": "1.16.6",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -2022,7 +2022,7 @@ $__System.register("1", ["2"], function (_export, _context) {
               if (Array.isArray(mapping) === false) {
                 throw new Error('Invalid argument: breakpoint:' + breakpoint + ' doesn\'t exist!', this);
               }
-              containsBreakpoint = mapping.length > 0 && !arraysEqual$1(mapping, [0, 0]);
+              containsBreakpoint = mapping.length > 0 && !arraysEqual$1(mapping, [[0, 0]]);
             }
             return containsBreakpoint;
           }

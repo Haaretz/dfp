@@ -24,6 +24,8 @@ module.exports = {
     /* Warn about long line */
     "max-len": [1, 100, 2],
     /* Warn about use of console */
+    "linebreak-style": ["off"],
+    /* Warn about use of console */
     "no-console": [1],
     /* Warn about use of debugger */
     "no-debugger": [1],

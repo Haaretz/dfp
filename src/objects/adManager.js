@@ -321,7 +321,7 @@ export default class AdManager {
       if (Array.isArray(mapping) === false) {
         throw new Error(`Invalid argument: breakpoint:${breakpoint} doesn't exist!`, this);
       }
-      containsBreakpoint = mapping.length > 0 && !arraysEqual(mapping, [0, 0]);
+      containsBreakpoint = mapping.length > 0 && !arraysEqual(mapping, [[0, 0]]);
     }
     return containsBreakpoint;
   }
