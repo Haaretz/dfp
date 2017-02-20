@@ -189,7 +189,7 @@ const dfpConfig = Object.assign({
     get breakpoints() {
       // Override in VM from backend to control this toggle.
       let breakpoints;
-      switch (this.site) {
+      switch (dfpConfig.site) {
         case 'themarker': breakpoints = this.breakpoints2; break;
         case 'mouse': breakpoints = this.breakpoints3; break;
         default: breakpoints = this.breakpoints1;

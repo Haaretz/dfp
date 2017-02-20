@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.16.7",
+    "version": "1.16.8",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -374,8 +374,8 @@ $__System.register("1", ["2"], function (_export, _context) {
     for (var i = 0; i < a.length; ++i) {
       if (Array.isArray(a[i]) && Array.isArray(b[i])) {
         if (!arraysEqual$1(a[i], b[i])) return false;
-      } else {
-        if (a[i] !== b[i]) return false;
+      } else if (a[i] !== b[i]) {
+        return false;
       }
     }
     return true;
@@ -592,7 +592,7 @@ $__System.register("1", ["2"], function (_export, _context) {
           get breakpoints() {
             // Override in VM from backend to control this toggle.
             var breakpoints = void 0;
-            switch (this.site) {
+            switch (dfpConfig.site) {
               case 'themarker':
                 breakpoints = this.breakpoints2;break;
               case 'mouse':
