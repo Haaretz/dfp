@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.16.8",
+    "version": "1.17.0",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -176,7 +176,7 @@ $__System.registerDynamic("2", [], false, function() {
 $__System.register("1", ["2"], function (_export, _context) {
   "use strict";
 
-  var version, _classCallCheck, _createClass, ssoKey, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, User, ConflictResolver, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, googletagInitTimeout, resizeTimeout, DFP$1, config, version$1;
+  var version, _classCallCheck, _createClass, ssoKey, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, User, ConflictResolver, hiddenClass, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, googletagInitTimeout, resizeTimeout, DFP$1, config, version$1;
 
   /**
    * Htz-cookie-util
@@ -624,12 +624,12 @@ $__System.register("1", ["2"], function (_export, _context) {
           },
           // Type 3
           breakpoints3: {
-            xxs: 480,
-            xs: 600,
-            s: 768,
-            m: 1024,
-            l: 1280,
-            xl: 1900,
+            xxs: 100,
+            xs: 480,
+            s: 600,
+            m: 768,
+            l: 1024,
+            xl: 1280,
             xxl: 1900
           }
         },
@@ -1221,6 +1221,7 @@ $__System.register("1", ["2"], function (_export, _context) {
       ConflictResolver.EMPTY_SIZE = [];
 
       /* global googletag */
+      hiddenClass = dfpConfig.site.indexOf('mouse') > -1 ? 'u-is-hidden' : 'h-hidden';
 
       adSlot = function () {
         function adSlot(adSlotConfig) {
@@ -1432,7 +1433,7 @@ $__System.register("1", ["2"], function (_export, _context) {
                   _this.slot = _this.defineSlot();
                 }
                 // console.log('calling show for slot',this.id,' called @',window.performance.now());
-                document.getElementById(_this.id).classList.remove('h-hidden');
+                document.getElementById(_this.id).classList.remove(hiddenClass);
                 googletag.display(_this.id);
               });
             }
@@ -1449,7 +1450,7 @@ $__System.register("1", ["2"], function (_export, _context) {
             var _this2 = this;
 
             googletag.cmd.push(function () {
-              document.getElementById(_this2.id).classList.add('h-hidden');
+              document.getElementById(_this2.id).classList.add(hiddenClass);
             });
           }
 

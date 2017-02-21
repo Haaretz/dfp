@@ -2,6 +2,8 @@
 import { adTypes } from '../objects/adManager';
 import globalConfig from '../globalConfig';
 
+const hiddenClass = globalConfig.site.indexOf('mouse') > -1 ? 'u-is-hidden' : 'h-hidden';
+
 export default class adSlot {
 
   constructor(adSlotConfig) {
@@ -150,7 +152,7 @@ export default class adSlot {
           this.slot = this.defineSlot();
         }
         // console.log('calling show for slot',this.id,' called @',window.performance.now());
-        document.getElementById(this.id).classList.remove('h-hidden');
+        document.getElementById(this.id).classList.remove(hiddenClass);
         googletag.display(this.id);
       });
     }
@@ -162,7 +164,7 @@ export default class adSlot {
    */
   hide() {
     googletag.cmd.push(() => {
-      document.getElementById(this.id).classList.add('h-hidden');
+      document.getElementById(this.id).classList.add(hiddenClass);
     });
   }
 

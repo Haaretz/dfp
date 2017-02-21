@@ -218,12 +218,12 @@ const dfpConfig = Object.assign({
     },
     // Type 3
     breakpoints3: {
-      xxs: 480,
-      xs: 600,
-      s: 768,
-      m: 1024,
-      l: 1280,
-      xl: 1900,
+      xxs: 100,
+      xs: 480,
+      s: 600,
+      m: 768,
+      l: 1024,
+      xl: 1280,
       xxl: 1900,
     },
   },
