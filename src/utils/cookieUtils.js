@@ -22,7 +22,12 @@ function stringToMap(string,
     if (typeof element === 'string') {
       const keyValue = element.split(operator);
       if (keyValue.length === 2) {
-        map[keyValue[0]] = decodeURIComponent(keyValue[1]);
+        try {
+          map[keyValue[0]] = decodeURIComponent(keyValue[1]);
+        }
+        catch (e) {
+          // Do nothing, malformed URI
+        }
       }
     }
   });

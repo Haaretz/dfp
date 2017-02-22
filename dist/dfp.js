@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.17.0",
+    "version": "1.17.1",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -207,7 +207,11 @@ $__System.register("1", ["2"], function (_export, _context) {
       if (typeof element === 'string') {
         var keyValue = element.split(operator);
         if (keyValue.length === 2) {
-          map[keyValue[0]] = decodeURIComponent(keyValue[1]);
+          try {
+            map[keyValue[0]] = decodeURIComponent(keyValue[1]);
+          } catch (e) {
+            // Do nothing, malformed URI
+          }
         }
       }
     });
