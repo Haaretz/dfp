@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "1.17.1",
+    "version": "2.0.1",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -176,7 +176,7 @@ $__System.registerDynamic("2", [], false, function() {
 $__System.register("1", ["2"], function (_export, _context) {
   "use strict";
 
-  var version, _classCallCheck, _createClass, ssoKey, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, User, ConflictResolver, hiddenClass, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, googletagInitTimeout, resizeTimeout, DFP$1, config, version$1;
+  var version, _classCallCheck, _createClass, ssoKey, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, User, ConflictResolver, hiddenClass, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, resizeTimeout, DFP$1, config, version$1;
 
   /**
    * Htz-cookie-util
@@ -286,10 +286,10 @@ $__System.register("1", ["2"], function (_export, _context) {
    * be triggered. The function will be called after it stops being called for
    * N milliseconds. If `immediate` is passed, trigger the function on the
    * leading edge, instead of the trailing.
-   * @param {function} func - the function to run
-   * @param {Number} wait - the timeout period to avoid running the function
-   * @param {Boolean} immediate - leading edge modifier
-   * @returns {function} the debounced function
+   * @param { function } func - the function to run
+   * @param { number } wait - the timeout period to avoid running the function
+   * @param { boolean } immediate - leading edge modifier
+   * @returns {function } the debounced function
    */
   function debounce(func) {
     var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
@@ -386,8 +386,6 @@ $__System.register("1", ["2"], function (_export, _context) {
   }
 
   /* global googletag */
-  // There are a total of 7 adTargets:
-  // "all","nonPaying","anonymous","registered","paying","digitalOnly" and "digitalAndPrint"
   return {
     setters: [function (_) {
       version = _.version;
@@ -1222,10 +1220,7 @@ $__System.register("1", ["2"], function (_export, _context) {
         return ConflictResolver;
       }();
 
-      ConflictResolver.EMPTY_SIZE = [];
-
-      /* global googletag */
-      hiddenClass = dfpConfig.site.indexOf('mouse') > -1 ? 'u-is-hidden' : 'h-hidden';
+      ConflictResolver.EMPTY_SIZE = [];hiddenClass = dfpConfig.site.indexOf('mouse') > -1 ? 'u-is-hidden' : 'h-hidden';
 
       adSlot = function () {
         function adSlot(adSlotConfig) {
@@ -1290,7 +1285,7 @@ $__System.register("1", ["2"], function (_export, _context) {
             }
             switch (this.type) {
               case adTypes.maavaron:
-                return true;
+                return false;
               case adTypes.popunder:
                 return true;
               case adTypes.talkback:
@@ -1319,7 +1314,7 @@ $__System.register("1", ["2"], function (_export, _context) {
             }
             switch (this.type) {
               case adTypes.maavaron:
-                return true;
+                return false;
               default:
                 return false;
             }
@@ -1506,7 +1501,7 @@ $__System.register("1", ["2"], function (_export, _context) {
                     var key = _step3.value;
                     // ['xxs','xs',...]
                     responsiveSlotSizeMapping.addSize([breakpoints[key], 100], // 100 is a default height, since it is height agnostic
-                    this.responsiveAdSizeMapping[key]);
+                    !arraysEqual$1(this.responsiveAdSizeMapping[key], [[0, 0]]) ? this.responsiveAdSizeMapping[key] : []);
                   }
                 } catch (err) {
                   _didIteratorError3 = true;
@@ -2235,10 +2230,10 @@ $__System.register("1", ["2"], function (_export, _context) {
                 var search = window.location.search;
                 if (search.indexOf('sraon') > 0) {
                   console.log('Single Request Mode: active'); // eslint-disable-line no-console
-                  googleGlobalSettings.enableAsyncRendering = true;
+                  googleGlobalSettings.enableSingleRequest = true;
                 } else if (search.indexOf('sraoff') > 0) {
                   console.log('Single Request Mode: disabled'); // eslint-disable-line no-console
-                  googleGlobalSettings.enableAsyncRendering = false;
+                  googleGlobalSettings.enableSingleRequest = false;
                 }
                 if (search.indexOf('asyncrenderingon') > 0) {
                   console.log('Async rendering mode: active'); // eslint-disable-line no-console
@@ -2269,7 +2264,6 @@ $__System.register("1", ["2"], function (_export, _context) {
       }();
 
       defaultConfig = dfpConfig || {};
-      googletagInitTimeout = 10000;
       resizeTimeout = 250;
 
       DFP$1 = function () {
@@ -2278,6 +2272,7 @@ $__System.register("1", ["2"], function (_export, _context) {
 
           this.config = Object.assign({}, defaultConfig, config);
           this.wasInitialized = false;
+          this.initStarted = false;
           this.breakpoint = getBreakpoint();
           this.initWindowResizeListener();
         }
@@ -2290,7 +2285,7 @@ $__System.register("1", ["2"], function (_export, _context) {
           key: 'resumeInit',
           value: function resumeInit() {
             try {
-              this.adManager = new AdManager(this.config);
+              this.adManager = this.adManager || new AdManager(this.config);
             } catch (err) {
               console.error(err); // eslint-disable-line no-console
             }
@@ -2310,11 +2305,13 @@ $__System.register("1", ["2"], function (_export, _context) {
 
             var dfpThis = this;
             return new Promise(function (resolve, reject) {
-              if (dfpThis.wasInitialized === true || window.googletag && window.googletag.apiReady) {
-                _this.adManager = _this.adManager || new AdManager(_this.config);
-                dfpThis.wasInitialized = true;
-                resolve(_this.isGoogleTagReady);
+              if (dfpThis.initStarted === true) {
+                googletag.cmd.push(function () {
+                  dfpThis.wasInitialized = true;
+                  resolve(dfpThis);
+                });
               } else {
+                dfpThis.initStarted = true;
                 // set up a place holder for the gpt code downloaded from google
                 window.googletag = window.googletag || {};
 
@@ -2325,20 +2322,22 @@ $__System.register("1", ["2"], function (_export, _context) {
                 // load google tag services JavaScript
                 (function () {
                   var tag = window.document.createElement('script');
-                  tag.async = false;
+                  tag.async = true;
                   tag.type = 'text/javascript';
-                  // var useSSL = 'https:' == document.location.protocol;
+                  // Supports both https and http
                   tag.setAttribute('src', '//www.googletagservices.com/tag/js/gpt.js');
                   var node = window.document.getElementsByTagName('script')[0];
-                  tag.onload = function () {
-                    dfpThis.wasInitialized = true;
+                  tag.addEventListener('load', function () {
                     dfpThis.resumeInit();
-                    resolve(_this.isGoogleTagReady);
-                  };
-                  tag.onerror = function (error) {
+                    googletag.cmd.push(function () {
+                      dfpThis.wasInitialized = true;
+                      resolve(_this);
+                    });
+                  });
+                  tag.addEventListener('error', function (error) {
                     dfpThis.wasInitialized = false;
                     reject(error);
-                  };
+                  });
                   node.parentNode.insertBefore(tag, node);
                 })();
               }
@@ -2346,26 +2345,17 @@ $__System.register("1", ["2"], function (_export, _context) {
           }
 
           /**
-           *
-           * @returns {Promise}
+           *  Returns true iff googletag was properly initialized on the page
+           * @returns {boolean}
            */
 
         }, {
           key: 'isGoogleTagReady',
           value: function isGoogleTagReady() {
-            var _this2 = this;
-
-            var promise = new Promise(function (resolve, reject) {
-              googletag.cmd.push(function () {
-                resolve(_this2);
-              });
-              setTimeout(function () {
-                if (!(googletag && googletag.apiReady === true)) {
-                  reject(new Error('googletag failed to initialize on the page!'));
-                }
-              }, googletagInitTimeout);
-            });
-            return promise;
+            if (this.wasInitialized === true || window.googletag && window.googletag.apiReady) {
+              this.wasInitialized = true;
+            }
+            return this.wasInitialized;
           }
 
           /**

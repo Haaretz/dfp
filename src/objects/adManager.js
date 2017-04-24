@@ -475,11 +475,11 @@ export default class AdManager {
         const search = window.location.search;
         if (search.indexOf('sraon') > 0) {
           console.log('Single Request Mode: active'); // eslint-disable-line no-console
-          googleGlobalSettings.enableAsyncRendering = true;
+          googleGlobalSettings.enableSingleRequest = true;
         }
         else if (search.indexOf('sraoff') > 0) {
           console.log('Single Request Mode: disabled');// eslint-disable-line no-console
-          googleGlobalSettings.enableAsyncRendering = false;
+          googleGlobalSettings.enableSingleRequest = false;
         }
         if (search.indexOf('asyncrenderingon') > 0) {
           console.log('Async rendering mode: active'); // eslint-disable-line no-console

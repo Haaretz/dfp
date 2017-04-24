@@ -1,6 +1,7 @@
 /* global googletag */
 import { adTypes } from '../objects/adManager';
 import globalConfig from '../globalConfig';
+import { arraysEqual } from '../utils/arrays';
 
 const hiddenClass = globalConfig.site.indexOf('mouse') > -1 ? 'u-is-hidden' : 'h-hidden';
 
@@ -66,7 +67,7 @@ export default class adSlot {
       return false;
     }
     switch (this.type) {
-      case adTypes.maavaron: return true;
+      case adTypes.maavaron: return false;
       case adTypes.popunder: return true;
       case adTypes.talkback: return false;
       case adTypes.regular: return false;
@@ -87,7 +88,7 @@ export default class adSlot {
       return false;
     }
     switch (this.type) {
-      case adTypes.maavaron: return true;
+      case adTypes.maavaron: return false;
       default: return false;
     }
   }
@@ -208,7 +209,7 @@ export default class adSlot {
         for (const key of keys) { // ['xxs','xs',...]
           responsiveSlotSizeMapping.addSize(
             [breakpoints[key], 100], // 100 is a default height, since it is height agnostic
-            this.responsiveAdSizeMapping[key]);
+            !arraysEqual(this.responsiveAdSizeMapping[key], [[0, 0]]) ? this.responsiveAdSizeMapping[key] : []);
         }
         responsiveSlotSizeMapping = responsiveSlotSizeMapping.build();
         slot = slot.defineSizeMapping(responsiveSlotSizeMapping);

@@ -31,7 +31,7 @@ describe('AdManager', () => {
 
   describe('adManager properties', () => {
     before(done => {
-      dfp.isGoogleTagReady().then(() => {
+      dfp.initGoogleTag().then(() => {
         done();
       });
     });
@@ -55,7 +55,7 @@ describe('AdManager', () => {
 
   describe('adManager functions', () => {
     before(done => {
-      dfp.isGoogleTagReady().then(() => {
+      dfp.initGoogleTag().then(() => {
         done();
       });
     });

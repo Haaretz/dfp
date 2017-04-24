@@ -7,10 +7,10 @@ const breakpoints = globalConfig.breakpointsConfig.breakpoints;
  * be triggered. The function will be called after it stops being called for
  * N milliseconds. If `immediate` is passed, trigger the function on the
  * leading edge, instead of the trailing.
- * @param {function} func - the function to run
- * @param {Number} wait - the timeout period to avoid running the function
- * @param {Boolean} immediate - leading edge modifier
- * @returns {function} the debounced function
+ * @param { function } func - the function to run
+ * @param { number } wait - the timeout period to avoid running the function
+ * @param { boolean } immediate - leading edge modifier
+ * @returns {function } the debounced function
  */
 export function debounce(func, wait = 100, immediate) {
   let timeout;

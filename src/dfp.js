@@ -4,7 +4,6 @@ import globalConfig from './globalConfig';
 import { getBreakpoint, debounce } from '../src/utils/breakpoints';
 
 const defaultConfig = globalConfig || {};
-const googletagInitTimeout = 10000;
 const resizeTimeout = 250;
 
 export default class DFP {
@@ -12,6 +11,7 @@ export default class DFP {
   constructor(config) {
     this.config = Object.assign({}, defaultConfig, config);
     this.wasInitialized = false;
+    this.initStarted = false;
     this.breakpoint = getBreakpoint();
     this.initWindowResizeListener();
   }
@@ -21,7 +21,7 @@ export default class DFP {
    */
   resumeInit() {
     try {
-      this.adManager = new AdManager(this.config);
+      this.adManager = this.adManager || new AdManager(this.config);
     }
     catch (err) {
       console.error(err); // eslint-disable-line no-console
@@ -37,12 +37,14 @@ export default class DFP {
   initGoogleTag() {
     const dfpThis = this;
     return new Promise((resolve, reject) => {
-      if (dfpThis.wasInitialized === true || (window.googletag && window.googletag.apiReady)) {
-        this.adManager = this.adManager || new AdManager(this.config);
-        dfpThis.wasInitialized = true;
-        resolve(this.isGoogleTagReady);
+      if (dfpThis.initStarted === true) {
+        googletag.cmd.push(() => {
+          dfpThis.wasInitialized = true;
+          resolve(dfpThis);
+        });
       }
       else {
+        dfpThis.initStarted = true;
         // set up a place holder for the gpt code downloaded from google
         window.googletag = window.googletag || {};
 
@@ -53,20 +55,22 @@ export default class DFP {
         // load google tag services JavaScript
         (() => {
           const tag = window.document.createElement('script');
-          tag.async = false;
+          tag.async = true;
           tag.type = 'text/javascript';
-          // var useSSL = 'https:' == document.location.protocol;
+          // Supports both https and http
           tag.setAttribute('src', '//www.googletagservices.com/tag/js/gpt.js');
           const node = window.document.getElementsByTagName('script')[0];
-          tag.onload = () => {
-            dfpThis.wasInitialized = true;
+          tag.addEventListener('load', () => {
             dfpThis.resumeInit();
-            resolve(this.isGoogleTagReady);
-          };
-          tag.onerror = (error) => {
+            googletag.cmd.push(() => {
+              dfpThis.wasInitialized = true;
+              resolve(this);
+            });
+          });
+          tag.addEventListener('error', (error) => {
             dfpThis.wasInitialized = false;
             reject(error);
-          };
+          });
           node.parentNode.insertBefore(tag, node);
         })();
       }
@@ -74,21 +78,14 @@ export default class DFP {
   }
 
   /**
-   *
-   * @returns {Promise}
+   *  Returns true iff googletag was properly initialized on the page
+   * @returns {boolean}
    */
   isGoogleTagReady() {
-    const promise = new Promise((resolve, reject) => {
-      googletag.cmd.push(() => {
-        resolve(this);
-      });
-      setTimeout(() => {
-        if (!(googletag && googletag.apiReady === true)) {
-          reject(new Error('googletag failed to initialize on the page!'));
-        }
-      }, googletagInitTimeout);
-    });
-    return promise;
+    if (this.wasInitialized === true || (window.googletag && window.googletag.apiReady)) {
+      this.wasInitialized = true;
+    }
+    return this.wasInitialized;
   }
 
   /**

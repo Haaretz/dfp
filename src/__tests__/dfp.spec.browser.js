@@ -43,10 +43,6 @@ describe('DFP - unit tests for browser', () => {
       expect(dfp.initGoogleTag).to.be.a('function');
     });
 
-    it('should have the \'isGoogleTagReady\' function', () => {
-      expect(dfp.isGoogleTagReady).to.be.a('function');
-    });
-
     it('should have the \'initWindowResizeListener\' function', () => {
       expect(dfp.initWindowResizeListener).to.be.a('function');
     });
