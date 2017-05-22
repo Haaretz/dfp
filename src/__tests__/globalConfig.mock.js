@@ -140,6 +140,7 @@ const dfpConfigMock = {
   googleGlobalSettings: {
     enableSingleRequest: true,
     enableAsyncRendering: true,
+    breakpointType: 'type1',
   },
 };
 

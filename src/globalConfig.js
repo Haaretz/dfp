@@ -189,9 +189,10 @@ const dfpConfig = Object.assign({
     get breakpoints() {
       // Override in VM from backend to control this toggle.
       let breakpoints;
-      switch (dfpConfig.site) {
-        case 'themarker': breakpoints = this.breakpoints2; break;
-        case 'mouse': breakpoints = this.breakpoints3; break;
+      switch (dfpConfig.googleGlobalSettings.breakpointType) {
+        case 'type1': breakpoints = this.breakpoints1; break;
+        case 'type2': breakpoints = this.breakpoints2; break;
+        case 'type3': breakpoints = this.breakpoints3; break;
         default: breakpoints = this.breakpoints1;
       }
       return breakpoints;
@@ -255,6 +256,7 @@ const dfpConfig = Object.assign({
   googleGlobalSettings: {
     enableSingleRequest: true,
     enableAsyncRendering: true,
+    breakpointType: 'type1',
   },
   sso: ssoKey,
 

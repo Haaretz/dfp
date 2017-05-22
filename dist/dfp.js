@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "2.0.1",
+    "version": "2.1.0",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -594,10 +594,12 @@ $__System.register("1", ["2"], function (_export, _context) {
           get breakpoints() {
             // Override in VM from backend to control this toggle.
             var breakpoints = void 0;
-            switch (dfpConfig.site) {
-              case 'themarker':
+            switch (dfpConfig.googleGlobalSettings.breakpointType) {
+              case 'type1':
+                breakpoints = this.breakpoints1;break;
+              case 'type2':
                 breakpoints = this.breakpoints2;break;
-              case 'mouse':
+              case 'type3':
                 breakpoints = this.breakpoints3;break;
               default:
                 breakpoints = this.breakpoints1;
@@ -659,7 +661,8 @@ $__System.register("1", ["2"], function (_export, _context) {
         },
         googleGlobalSettings: {
           enableSingleRequest: true,
-          enableAsyncRendering: true
+          enableAsyncRendering: true,
+          breakpointType: 'type1'
         },
         sso: ssoKey
 

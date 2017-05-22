@@ -209,7 +209,8 @@ export default class adSlot {
         for (const key of keys) { // ['xxs','xs',...]
           responsiveSlotSizeMapping.addSize(
             [breakpoints[key], 100], // 100 is a default height, since it is height agnostic
-            !arraysEqual(this.responsiveAdSizeMapping[key], [[0, 0]]) ? this.responsiveAdSizeMapping[key] : []);
+            !arraysEqual(this.responsiveAdSizeMapping[key], [[0, 0]]) ?
+              this.responsiveAdSizeMapping[key] : []);
         }
         responsiveSlotSizeMapping = responsiveSlotSizeMapping.build();
         slot = slot.defineSizeMapping(responsiveSlotSizeMapping);

@@ -512,6 +512,10 @@ describe('globalConfig - unit tests for browser', () => {
     it('enableAsyncRendering should be a boolean', () => {
       expect(googleGlobalSettings.enableAsyncRendering).to.be.a('boolean');
     });
+
+    it('breakpointType should be a string', () => {
+      expect(googleGlobalSettings.breakpointType).to.be.oneOf(['type1', 'type2', 'type3']);
+    });
   });
 
   describe('sso property', () => {
