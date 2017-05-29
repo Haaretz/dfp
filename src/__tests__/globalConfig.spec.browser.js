@@ -516,6 +516,10 @@ describe('globalConfig - unit tests for browser', () => {
     it('breakpointType should be a string', () => {
       expect(googleGlobalSettings.breakpointType).to.be.oneOf(['type1', 'type2', 'type3']);
     });
+
+    it('refreshIntervalTime should be a number', () => {
+      expect(googleGlobalSettings.refreshIntervalTime).to.be.a('number');
+    });
   });
 
   describe('sso property', () => {

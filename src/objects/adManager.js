@@ -148,6 +148,22 @@ export default class AdManager {
   }
 
   /**
+   * Refreshes all adSlots
+   */
+  refreshAllSlotsInPage() {
+    for (const adSlotKey of this.adSlots.keys()) {
+      const adSlot = this.adSlots.get(adSlotKey);
+      if (this.shouldSendRequestToDfp(adSlot)) {
+        // console.log(`calling refresh for adSlot: ${adSlot.id}`);
+        adSlot.refresh();
+      }
+      else {
+        adSlot.hide();
+      }
+    }
+  }
+
+  /**
    * Initializes adSlots based on the currently found slot markup (HTML page specific),
    * and the predefined configuration for the slots.
    * @param {Object} adSlotConfig - the AdSlots configuration object (see: globalConfig)
