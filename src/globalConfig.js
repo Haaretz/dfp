@@ -267,6 +267,7 @@ const dfpConfig = Object.assign({
   googleGlobalSettings: {
     enableSingleRequest: true,
     enableAsyncRendering: true,
+    refreshIntervalTime: 1000,
     breakpointType: 'type1',
   },
   sso: ssoKey,

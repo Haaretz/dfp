@@ -79,7 +79,7 @@ export default class AdManager {
           });
         }
         catch (err) {
-          console.log(err);
+          console.log(err); // eslint-disable-line no-console
         }
       };
       // Once window was loaded, add the rest of the adSlots.
@@ -161,6 +161,22 @@ export default class AdManager {
         else {
           adSlot.hide();
         }
+      }
+    }
+  }
+
+  /**
+   * Refreshes all adSlots
+   */
+  refreshAllSlotsInPage() {
+    for (const adSlotKey of this.adSlots.keys()) {
+      const adSlot = this.adSlots.get(adSlotKey);
+      if (this.shouldSendRequestToDfp(adSlot)) {
+        // console.log(`calling refresh for adSlot: ${adSlot.id}`);
+        adSlot.refresh();
+      }
+      else {
+        adSlot.hide();
       }
     }
   }

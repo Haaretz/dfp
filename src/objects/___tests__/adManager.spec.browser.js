@@ -1,5 +1,5 @@
 /* global googletag */
-import AdManager, { userTypes, adTargets, adTypes, adPriorities } from '../../objects/adManager';
+import AdManager, { userTypes, adTargets, adTypes } from '../../objects/adManager';
 import globalConfigMock from '../../__tests__/globalConfig.mock';
 import User from '../../objects/user';
 import AdSlot from '../../objects/adSlot';

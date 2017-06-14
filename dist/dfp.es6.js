@@ -674,6 +674,7 @@ $__System.register("1", ["2"], function (_export, _context) {
         googleGlobalSettings: {
           enableSingleRequest: true,
           enableAsyncRendering: true,
+          refreshIntervalTime: 1000,
           breakpointType: 'type1'
         },
         sso: ssoKey
@@ -1685,7 +1686,7 @@ $__System.register("1", ["2"], function (_export, _context) {
                   });
                 });
               } catch (err) {
-                console.log(err);
+                console.log(err); // eslint-disable-line no-console
               }
             };
             // Once window was loaded, add the rest of the adSlots.
@@ -1838,6 +1839,45 @@ $__System.register("1", ["2"], function (_export, _context) {
               } finally {
                 if (_didIteratorError3) {
                   throw _iteratorError3;
+                }
+              }
+            }
+          }
+
+          /**
+           * Refreshes all adSlots
+           */
+
+        }, {
+          key: 'refreshAllSlotsInPage',
+          value: function refreshAllSlotsInPage() {
+            var _iteratorNormalCompletion4 = true;
+            var _didIteratorError4 = false;
+            var _iteratorError4 = undefined;
+
+            try {
+              for (var _iterator4 = this.adSlots.keys()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                var adSlotKey = _step4.value;
+
+                var adSlot$$1 = this.adSlots.get(adSlotKey);
+                if (this.shouldSendRequestToDfp(adSlot$$1)) {
+                  // console.log(`calling refresh for adSlot: ${adSlot.id}`);
+                  adSlot$$1.refresh();
+                } else {
+                  adSlot$$1.hide();
+                }
+              }
+            } catch (err) {
+              _didIteratorError4 = true;
+              _iteratorError4 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                  _iterator4.return();
+                }
+              } finally {
+                if (_didIteratorError4) {
+                  throw _iteratorError4;
                 }
               }
             }
@@ -2006,13 +2046,13 @@ $__System.register("1", ["2"], function (_export, _context) {
               throw new Error('Missing argument: a call to switchedToBreakpoint must have an breakpoint');
             }
             var count = 0;
-            var _iteratorNormalCompletion4 = true;
-            var _didIteratorError4 = false;
-            var _iteratorError4 = undefined;
+            var _iteratorNormalCompletion5 = true;
+            var _didIteratorError5 = false;
+            var _iteratorError5 = undefined;
 
             try {
-              for (var _iterator4 = this.adSlots.keys()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                var adSlotKey = _step4.value;
+              for (var _iterator5 = this.adSlots.keys()[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                var adSlotKey = _step5.value;
 
                 var adSlot$$1 = this.adSlots.get(adSlotKey);
                 if (adSlot$$1.responsive === true && adSlot$$1.lastResolvedWithBreakpoint) {
@@ -2023,16 +2063,16 @@ $__System.register("1", ["2"], function (_export, _context) {
                 }
               }
             } catch (err) {
-              _didIteratorError4 = true;
-              _iteratorError4 = err;
+              _didIteratorError5 = true;
+              _iteratorError5 = err;
             } finally {
               try {
-                if (!_iteratorNormalCompletion4 && _iterator4.return) {
-                  _iterator4.return();
+                if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                  _iterator5.return();
                 }
               } finally {
-                if (_didIteratorError4) {
-                  throw _iteratorError4;
+                if (_didIteratorError5) {
+                  throw _iteratorError5;
                 }
               }
             }
@@ -2114,13 +2154,13 @@ $__System.register("1", ["2"], function (_export, _context) {
               this.conflictResolver.updateResolvedSlot(id, adSlot$$1.lastResolvedSize);
               if (this.conflictResolver.isBlocking(id)) {
                 // Hide all blocked adSlots
-                var _iteratorNormalCompletion5 = true;
-                var _didIteratorError5 = false;
-                var _iteratorError5 = undefined;
+                var _iteratorNormalCompletion6 = true;
+                var _didIteratorError6 = false;
+                var _iteratorError6 = undefined;
 
                 try {
-                  for (var _iterator5 = this.conflictResolver.getBlockedSlotsIds(id)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                    var blockedSlot = _step5.value;
+                  for (var _iterator6 = this.conflictResolver.getBlockedSlotsIds(id)[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                    var blockedSlot = _step6.value;
 
                     if (this.conflictResolver.isBlocked(blockedSlot)) {
                       if (this.adSlots.has(blockedSlot)) {
@@ -2130,27 +2170,27 @@ $__System.register("1", ["2"], function (_export, _context) {
                   }
                   // Show the non blocked
                 } catch (err) {
-                  _didIteratorError5 = true;
-                  _iteratorError5 = err;
+                  _didIteratorError6 = true;
+                  _iteratorError6 = err;
                 } finally {
                   try {
-                    if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                      _iterator5.return();
+                    if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                      _iterator6.return();
                     }
                   } finally {
-                    if (_didIteratorError5) {
-                      throw _iteratorError5;
+                    if (_didIteratorError6) {
+                      throw _iteratorError6;
                     }
                   }
                 }
 
-                var _iteratorNormalCompletion6 = true;
-                var _didIteratorError6 = false;
-                var _iteratorError6 = undefined;
+                var _iteratorNormalCompletion7 = true;
+                var _didIteratorError7 = false;
+                var _iteratorError7 = undefined;
 
                 try {
-                  for (var _iterator6 = this.conflictResolver.deferredSlots.keys()[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                    var deferredSlotKey = _step6.value;
+                  for (var _iterator7 = this.conflictResolver.deferredSlots.keys()[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+                    var deferredSlotKey = _step7.value;
 
                     var deferredAdSlot = this.adSlots.get(deferredSlotKey);
                     if (deferredAdSlot && this.shouldSendRequestToDfp(deferredAdSlot)) {
@@ -2163,16 +2203,16 @@ $__System.register("1", ["2"], function (_export, _context) {
                     }
                   }
                 } catch (err) {
-                  _didIteratorError6 = true;
-                  _iteratorError6 = err;
+                  _didIteratorError7 = true;
+                  _iteratorError7 = err;
                 } finally {
                   try {
-                    if (!_iteratorNormalCompletion6 && _iterator6.return) {
-                      _iterator6.return();
+                    if (!_iteratorNormalCompletion7 && _iterator7.return) {
+                      _iterator7.return();
                     }
                   } finally {
-                    if (_didIteratorError6) {
-                      throw _iteratorError6;
+                    if (_didIteratorError7) {
+                      throw _iteratorError7;
                     }
                   }
                 }
