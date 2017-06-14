@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "2.1.0",
+    "version": "2.2.1",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -601,6 +601,8 @@ $__System.register("1", ["2"], function (_export, _context) {
                 breakpoints = this.breakpoints2;break;
               case 'type3':
                 breakpoints = this.breakpoints3;break;
+              case 'type4':
+                breakpoints = this.breakpoints4;break;
               default:
                 breakpoints = this.breakpoints1;
             }
@@ -634,6 +636,16 @@ $__System.register("1", ["2"], function (_export, _context) {
             m: 768,
             l: 1024,
             xl: 1280,
+            xxl: 1900
+          },
+          // Type 4
+          breakpoints4: {
+            xxs: 600,
+            xs: 768,
+            s: 1024,
+            m: 1280,
+            l: 1900,
+            xl: 1900,
             xxl: 1900
           }
         },
@@ -1663,20 +1675,40 @@ $__System.register("1", ["2"], function (_export, _context) {
               _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.high);
             });
             // Once DOM ready, add more adSlots.
-            document.addEventListener('DOMContentLoaded', function () {
-              googletag.cmd.push(function () {
-                _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.high);
+            var onDomLoaded = function onDomLoaded() {
+              // eslint-disable-line no-inner-declarations
+              try {
                 googletag.cmd.push(function () {
-                  _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.normal);
+                  _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.high);
+                  googletag.cmd.push(function () {
+                    _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.normal);
+                  });
                 });
-              });
-            });
+              } catch (err) {
+                console.log(err);
+              }
+            };
             // Once window was loaded, add the rest of the adSlots.
-            window.addEventListener('load', function () {
+            var onWindowLoaded = function onWindowLoaded() {
+              // eslint-disable-line no-inner-declarations
               googletag.cmd.push(function () {
                 _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.low);
               });
-            });
+            };
+            switch (document.readyState) {
+              case 'loading':
+                document.addEventListener('DOMContentLoaded', onDomLoaded);
+                window.addEventListener('load', onWindowLoaded);
+                break;
+              case 'interactive':
+                onDomLoaded();
+                window.addEventListener('load', onWindowLoaded);
+                break;
+              default:
+                // 'complete' - no need for event listeners.
+                onDomLoaded();
+                onWindowLoaded();
+            }
           } catch (err) {
             console.error(err); // eslint-disable-line no-console
           }
@@ -1786,7 +1818,7 @@ $__System.register("1", ["2"], function (_export, _context) {
                 var adSlotKey = _step3.value;
 
                 var adSlot$$1 = this.adSlots.get(adSlotKey);
-                if (adSlot$$1.responsive) {
+                if (adSlot$$1.responsive && adSlot$$1.type !== adTypes.maavaron) {
                   if (adSlot$$1.lastResolvedWithBreakpoint !== currentBreakpoint && this.shouldSendRequestToDfp(adSlot$$1)) {
                     // console.log(`calling refresh for adSlot: ${adSlot.id}`);
                     adSlot$$1.refresh();
@@ -1839,7 +1871,7 @@ $__System.register("1", ["2"], function (_export, _context) {
               }
               return false;
             });
-            // adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
+            // adSlotPlaceholders = adSlotPlaceholders.sort((a, b) => a.offsetTop - b.offsetTop);
             adSlotPlaceholders.forEach(function (adSlot$$1) {
               var adSlotPriority = adSlotConfig[adSlot$$1.id] ? adSlotConfig[adSlot$$1.id].priority || adPriorities.normal : undefined;
               if (adSlotConfig[adSlot$$1.id] && adSlots.has(adSlot$$1.id) === false && adSlotPriority === filteredPriority) {

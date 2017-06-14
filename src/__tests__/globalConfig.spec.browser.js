@@ -447,6 +447,7 @@ describe('globalConfig - unit tests for browser', () => {
       breakpoints.push(breakpointsConfig.breakpoints1[key]);
       breakpoints.push(breakpointsConfig.breakpoints2[key]);
       breakpoints.push(breakpointsConfig.breakpoints3[key]);
+      breakpoints.push(breakpointsConfig.breakpoints4[key]);
       it(`${key} breakpoint should be equal to one of: ${breakpoints}`, () => {
         expect(breakpointsConfig.breakpoints[key]).to.be.oneOf(breakpoints);
       });
@@ -514,7 +515,7 @@ describe('globalConfig - unit tests for browser', () => {
     });
 
     it('breakpointType should be a string', () => {
-      expect(googleGlobalSettings.breakpointType).to.be.oneOf(['type1', 'type2', 'type3']);
+      expect(googleGlobalSettings.breakpointType).to.be.oneOf(['type1', 'type2', 'type3', 'type4']);
     });
   });
 
