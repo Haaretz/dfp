@@ -36,12 +36,12 @@ const dfpConfigMock = {
       blacklistReferrers: '',
       whitelistReferrers: '',
     },
-    'haaretz.co.il.web.marketing.promotional_madrid.left_text3': {
-      id: 'haaretz.co.il.web.marketing.promotional_madrid.left_text3',
+    'haaretz.co.il.web.popunder': {
+      id: 'haaretz.co.il.web.popunder',
       responsive: false,
       fluid: false,
-      priority: 'low',
-      adSizeMapping: [[375, 102]],
+      priority: 'normal',
+      adSizeMapping: [],
       responsiveAdSizeMapping: {
         xxs: [],
         xs: [],
@@ -54,12 +54,12 @@ const dfpConfigMock = {
       blacklistReferrers: '',
       whitelistReferrers: '',
     },
-    'haaretz.co.il.web.popunder': {
-      id: 'haaretz.co.il.web.popunder',
+    'haaretz.co.il.web.marketing.promotional_madrid.left_text3': {
+      id: 'haaretz.co.il.web.marketing.promotional_madrid.left_text3',
       responsive: false,
       fluid: false,
-      priority: 'normal',
-      adSizeMapping: [],
+      priority: 'low',
+      adSizeMapping: [[375, 102]],
       responsiveAdSizeMapping: {
         xxs: [],
         xs: [],

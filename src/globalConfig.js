@@ -193,6 +193,7 @@ const dfpConfig = Object.assign({
         case 'type1': breakpoints = this.breakpoints1; break;
         case 'type2': breakpoints = this.breakpoints2; break;
         case 'type3': breakpoints = this.breakpoints3; break;
+        case 'type4': breakpoints = this.breakpoints4; break;
         default: breakpoints = this.breakpoints1;
       }
       return breakpoints;
@@ -225,6 +226,16 @@ const dfpConfig = Object.assign({
       m: 768,
       l: 1024,
       xl: 1280,
+      xxl: 1900,
+    },
+    // Type 4
+    breakpoints4: {
+      xxs: 600,
+      xs: 768,
+      s: 1024,
+      m: 1280,
+      l: 1900,
+      xl: 1900,
       xxl: 1900,
     },
   },

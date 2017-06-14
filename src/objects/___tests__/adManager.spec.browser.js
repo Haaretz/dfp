@@ -1,5 +1,5 @@
 /* global googletag */
-import AdManager, { userTypes, adTargets, adTypes, adPriorities } from '../../objects/adManager';
+import AdManager, { userTypes, adTargets, adTypes } from '../../objects/adManager';
 import globalConfigMock from '../../__tests__/globalConfig.mock';
 import User from '../../objects/user';
 import AdSlot from '../../objects/adSlot';
@@ -82,10 +82,10 @@ describe('AdManager', () => {
 
       it('should have sorted the adSlots based on its selector\'s offsetTop ', () => {
         let adSlotsFromConfig = Object.keys(adManager.config.adSlotConfig);
-        // Only high priority will be initialized at first
-        adSlotsFromConfig = adSlotsFromConfig.filter(adSlotName =>
-          adManager.config.adSlotConfig[adSlotName].priority === adPriorities.high
-        );
+        // // Only high priority will be initialized at first
+        // adSlotsFromConfig = adSlotsFromConfig.filter(adSlotName =>
+        //   adManager.config.adSlotConfig[adSlotName].priority === adPriorities.high
+        // );
         function byOffsetTop(a, b) {
           const firstElement = document.getElementById(a.id);
           const secondElement = document.getElementById(b.id);
@@ -313,10 +313,10 @@ function definePromotionalMadridSlot(target) {
 function prepareMarkup() {
   const divs = `<div id="haaretz.co.il.web.plazma" class="js-dfp-ad js-dfp-resp-refresh h-dib"
  data-audtarget="section"></div>
-  <div id="haaretz.co.il.web.marketing.promotional_madrid.left_text3"
-  class="js-dfp-ad js-dfp-resp-refresh h-dib"
-   data-audtarget="homepage"></div>
   <div id="haaretz.co.il.web.popunder" class="js-dfp-ad js-dfp-resp-refresh h-dib"
-   data-audtarget="all"></div>`;
+   data-audtarget="all"></div>
+   <div id="haaretz.co.il.web.marketing.promotional_madrid.left_text3"
+  class="js-dfp-ad js-dfp-resp-refresh h-dib"
+   data-audtarget="homepage"></div>`;
   document.write(divs);
 }

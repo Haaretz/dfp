@@ -69,20 +69,38 @@ export default class AdManager {
         this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.high);
       });
       // Once DOM ready, add more adSlots.
-      document.addEventListener('DOMContentLoaded', () => {
-        googletag.cmd.push(() => {
-          this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.high);
+      const onDomLoaded = () => { // eslint-disable-line no-inner-declarations
+        try {
           googletag.cmd.push(() => {
-            this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.normal);
+            this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.high);
+            googletag.cmd.push(() => {
+              this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.normal);
+            });
           });
-        });
-      });
+        }
+        catch (err) {
+          console.log(err); // eslint-disable-line no-console
+        }
+      };
       // Once window was loaded, add the rest of the adSlots.
-      window.addEventListener('load', () => {
+      const onWindowLoaded = () => { // eslint-disable-line no-inner-declarations
         googletag.cmd.push(() => {
           this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.low);
         });
-      });
+      };
+      switch (document.readyState) {
+        case 'loading':
+          document.addEventListener('DOMContentLoaded', onDomLoaded);
+          window.addEventListener('load', onWindowLoaded);
+          break;
+        case 'interactive':
+          onDomLoaded();
+          window.addEventListener('load', onWindowLoaded);
+          break;
+        default: // 'complete' - no need for event listeners.
+          onDomLoaded();
+          onWindowLoaded();
+      }
     }
     catch (err) {
       console.error(err); // eslint-disable-line no-console
@@ -134,7 +152,7 @@ export default class AdManager {
     const currentBreakpoint = getBreakpoint();
     for (const adSlotKey of this.adSlots.keys()) {
       const adSlot = this.adSlots.get(adSlotKey);
-      if (adSlot.responsive) {
+      if (adSlot.responsive && adSlot.type !== adTypes.maavaron) {
         if (adSlot.lastResolvedWithBreakpoint !== currentBreakpoint &&
           this.shouldSendRequestToDfp(adSlot)) {
           // console.log(`calling refresh for adSlot: ${adSlot.id}`);
@@ -183,7 +201,7 @@ export default class AdManager {
       }
       return false;
     });
-    // adSlotPlaceholders = adSlotPlaceholders.sort((a,b) => a.offsetTop - b.offsetTop);
+    // adSlotPlaceholders = adSlotPlaceholders.sort((a, b) => a.offsetTop - b.offsetTop);
     adSlotPlaceholders.forEach(adSlot => {
       const adSlotPriority = adSlotConfig[adSlot.id] ?
       adSlotConfig[adSlot.id].priority || adPriorities.normal : undefined;
