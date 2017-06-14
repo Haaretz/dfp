@@ -1,7 +1,8 @@
-/* global dfpBaseConf */
+/* global dfpConfig */
 import getCookieAsMap, { ssoKey } from './utils/cookieUtils';
 // globalConfig for DFP
-const dfpConfig = Object.assign({
+// eslint-disable-next-line no-use-before-define
+const dfpConfig = Object.assign(dfpConfig || {}, {
   get referrer() {
     return document.referrer ? document.referrer : '';
   },
@@ -272,6 +273,6 @@ const dfpConfig = Object.assign({
   },
   sso: ssoKey,
 
-}, window.dfpConfig);
+});
 
 export default dfpConfig;

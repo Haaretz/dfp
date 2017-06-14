@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "2.2.1",
+    "version": "2.2.2",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -231,8 +231,9 @@ $__System.register("1", ["2"], function (_export, _context) {
     return map;
   }
 
-  /* global dfpBaseConf */
+  /* global dfpConfig */
   // globalConfig for DFP
+  // eslint-disable-next-line no-use-before-define
 
 
   /**
@@ -416,7 +417,7 @@ $__System.register("1", ["2"], function (_export, _context) {
       }();
 
       ssoKey = window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : 'tmsso';
-      dfpConfig = Object.assign({
+      dfpConfig = Object.assign(dfpConfig || {}, {
         get referrer() {
           return document.referrer ? document.referrer : '';
         },
@@ -679,7 +680,7 @@ $__System.register("1", ["2"], function (_export, _context) {
         },
         sso: ssoKey
 
-      }, window.dfpConfig);
+      });
       breakpoints = dfpConfig.breakpointsConfig.breakpoints;
       keys = {
         impressions: 'impressions',
