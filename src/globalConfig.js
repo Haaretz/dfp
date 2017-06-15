@@ -1,8 +1,14 @@
 /* global dfpConfig */
 import getCookieAsMap, { ssoKey } from './utils/cookieUtils';
 // globalConfig for DFP
-// eslint-disable-next-line no-use-before-define
-const dfpConfig = Object.assign(dfpConfig || {}, {
+let dfpBaseConf;
+try {
+  dfpBaseConf = window.JSON.parse(document.getElementById('dfpConfig').textContent);
+}
+catch (err) {
+  dfpBaseConf = window.dfpConfig;
+}
+const dfpConfig = Object.assign({
   get referrer() {
     return document.referrer ? document.referrer : '';
   },
@@ -273,6 +279,6 @@ const dfpConfig = Object.assign(dfpConfig || {}, {
   },
   sso: ssoKey,
 
-});
+}, dfpBaseConf);
 
 export default dfpConfig;

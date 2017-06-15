@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "2.2.2",
+    "version": "2.2.3",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -176,7 +176,7 @@ $__System.registerDynamic("2", [], false, function() {
 $__System.register("1", ["2"], function (_export, _context) {
   "use strict";
 
-  var version, _classCallCheck, _createClass, ssoKey, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, User, ConflictResolver, hiddenClass, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, resizeTimeout, DFP$1, config, version$1;
+  var version, _classCallCheck, _createClass, ssoKey, dfpBaseConf, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, User, ConflictResolver, hiddenClass, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, resizeTimeout, DFP$1, config, version$1;
 
   /**
    * Htz-cookie-util
@@ -233,7 +233,6 @@ $__System.register("1", ["2"], function (_export, _context) {
 
   /* global dfpConfig */
   // globalConfig for DFP
-  // eslint-disable-next-line no-use-before-define
 
 
   /**
@@ -417,7 +416,14 @@ $__System.register("1", ["2"], function (_export, _context) {
       }();
 
       ssoKey = window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : 'tmsso';
-      dfpConfig = Object.assign(dfpConfig || {}, {
+      dfpBaseConf = void 0;
+
+      try {
+        dfpBaseConf = window.JSON.parse(document.getElementById('dfpConfig').textContent);
+      } catch (err) {
+        dfpBaseConf = window.dfpConfig;
+      }
+      dfpConfig = Object.assign({
         get referrer() {
           return document.referrer ? document.referrer : '';
         },
@@ -680,7 +686,7 @@ $__System.register("1", ["2"], function (_export, _context) {
         },
         sso: ssoKey
 
-      });
+      }, dfpBaseConf);
       breakpoints = dfpConfig.breakpointsConfig.breakpoints;
       keys = {
         impressions: 'impressions',
