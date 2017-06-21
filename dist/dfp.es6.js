@@ -1891,13 +1891,29 @@ $__System.register("1", ["2"], function (_export, _context) {
           }
 
           /**
-           * Initializes adSlots based on the currently found slot markup (HTML page specific),
-           * and the predefined configuration for the slots.
-           * @param {Object} adSlotConfig - the AdSlots configuration object (see: globalConfig)
-           * @param {String} filteredPriority - filters out all adSlots that does not match
-           * a given adPriority. This is used to cherry pick the init process of ads.
-           * @returns {Map}
+           * Refreshes adSlot
            */
+
+        }, {
+          key: 'refreshSlot',
+          value: function refreshSlot(adUnitName) {
+            var adSlot$$1 = this.adSlots.get(adUnitName);
+            if (this.shouldSendRequestToDfp(adSlot$$1)) {
+              // console.log(`calling refresh for adSlot: ${adSlot.id}`);
+              adSlot$$1.refresh();
+            } else {
+              adSlot$$1.hide();
+            }
+          }
+
+          /**
+          * Initializes adSlots based on the currently found slot markup (HTML page specific),
+          * and the predefined configuration for the slots.
+          * @param {Object} adSlotConfig - the AdSlots configuration object (see: globalConfig)
+          * @param {String} filteredPriority - filters out all adSlots that does not match
+          * a given adPriority. This is used to cherry pick the init process of ads.
+          * @returns {Map}
+          */
 
         }, {
           key: 'initAdSlots',
