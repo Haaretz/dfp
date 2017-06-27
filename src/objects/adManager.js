@@ -505,6 +505,9 @@ export default class AdManager {
       if (this.config.wifiLocation) {
         pubads.setTargeting('wifi', [this.config.wifiLocation]);
       }
+      if (this.config.tags && Array.isArray(this.config.tags)) {
+        pubads.setTargeting('tags', [...this.config.tags]);
+      }
 
       // Ads Centering
       pubads.setCentering(true);

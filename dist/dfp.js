@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "2.2.3",
+    "version": "2.3.0",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -176,7 +176,7 @@ $__System.registerDynamic("2", [], false, function() {
 $__System.register("1", ["2"], function (_export, _context) {
   "use strict";
 
-  var version, _classCallCheck, _createClass, ssoKey, dfpBaseConf, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, User, ConflictResolver, hiddenClass, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, resizeTimeout, DFP$1, config, version$1;
+  var version, _classCallCheck, _createClass, _toConsumableArray, ssoKey, dfpBaseConf, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, User, ConflictResolver, hiddenClass, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, resizeTimeout, DFP$1, config, version$1;
 
   /**
    * Htz-cookie-util
@@ -414,6 +414,16 @@ $__System.register("1", ["2"], function (_export, _context) {
           return Constructor;
         };
       }();
+
+      _toConsumableArray = function (arr) {
+        if (Array.isArray(arr)) {
+          for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+            arr2[i] = arr[i];
+          }return arr2;
+        } else {
+          return Array.from(arr);
+        }
+      };
 
       ssoKey = window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : 'tmsso';
       dfpBaseConf = void 0;
@@ -2305,6 +2315,9 @@ $__System.register("1", ["2"], function (_export, _context) {
               // University targeting - triggered via cookie
               if (this.config.wifiLocation) {
                 pubads.setTargeting('wifi', [this.config.wifiLocation]);
+              }
+              if (this.config.tags && Array.isArray(this.config.tags)) {
+                pubads.setTargeting('tags', [].concat(_toConsumableArray(this.config.tags)));
               }
 
               // Ads Centering
