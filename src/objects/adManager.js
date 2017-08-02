@@ -296,6 +296,8 @@ export default class AdManager {
       // Not in referrer Blacklist
       adSlot.isBlacklisted() === false &&
       this.shouldDisplayAdAfterAdBlockRemoval(adSlot) &&
+      //  if a paywall pop-up is shown And the number is 12 or more - SHOW MAAVRON
+      this.shouldDisplayAdMaavaronAfterPayWallBanner(adSlot) &&
       // Responsive: breakpoint contains ad?
       this.doesBreakpointContainAd(adSlot) &&
       // Targeting check (userType vs. slotTargeting)
@@ -308,6 +310,24 @@ export default class AdManager {
     return !(this.config.adBlockRemoved === true &&
     (adSlot.type === adTypes.maavaron ||
     adSlot.type === adTypes.popunder));
+  }
+
+  shouldDisplayAdMaavaronAfterPayWallBanner(adSlot) {
+    let shouldDisplay = true;
+    if (this.config.site === 'haaretz' && adSlot.type === adTypes.maavaron) {
+      try {
+        const paywallBanner = JSON.parse(window.localStorage.getItem('_cobj'));
+        shouldDisplay = !paywallBanner || ((paywallBanner.mc && paywallBanner.mc >= 12) ||
+                          (paywallBanner.nextslotLocation &&
+                          !paywallBanner.nextslotLocation.includes('pop')));
+      }
+      catch (err) {
+        /* eslint-disable no-console*/
+        console.error('ERROR ON shouldDisplayAdMaavaronAfterPayWallBanner');
+        /* eslint-enable no-console*/
+      }
+    }
+    return shouldDisplay;
   }
 
   /**

@@ -2020,6 +2020,8 @@ $__System.register("1", ["2"], function (_export, _context) {
             adSlot$$1.isWhitelisted() &&
             // Not in referrer Blacklist
             adSlot$$1.isBlacklisted() === false && this.shouldDisplayAdAfterAdBlockRemoval(adSlot$$1) &&
+            //f a paywall pop-up is shown And the number is 12 or more - SHOW MAAVRON
+            this.shouldDisplayAdMaavaronAfterPayWallBanner(adSlot$$1) &&
             // Responsive: breakpoint contains ad?
             this.doesBreakpointContainAd(adSlot$$1) &&
             // Targeting check (userType vs. slotTargeting)
@@ -2031,6 +2033,18 @@ $__System.register("1", ["2"], function (_export, _context) {
           key: 'shouldDisplayAdAfterAdBlockRemoval',
           value: function shouldDisplayAdAfterAdBlockRemoval(adSlot$$1) {
             return !(this.config.adBlockRemoved === true && (adSlot$$1.type === adTypes.maavaron || adSlot$$1.type === adTypes.popunder));
+          }
+        }, {
+          key: 'shouldDisplayAdMaavaronAfterPayWallBanner',
+          value: function shouldDisplayAdMaavaronAfterPayWallBanner(adSlot$$1) {
+            var shouldDisplay = true;
+            if (this.config.site === 'haaretz' && adSlot$$1.type == adTypes.maavaron) {
+              try {
+                var paywallBanner = JSON.parse(window.localStorage.getItem("_cobj"));
+                shouldDisplay = !paywallBanner || paywallBanner.mc && paywallBanner.mc >= 12 || paywallBanner.nextslotLocation && !paywallBanner.nextslotLocation.includes('pop');
+              } catch (e) {}
+            }
+            return shouldDisplay;
           }
 
           /**
