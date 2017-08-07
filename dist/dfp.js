@@ -582,6 +582,17 @@ $__System.register("1", ["2"], function (_export, _context) {
           }
           return gstatCampaign ? gstatCampaign.CampaignNumber : undefined;
         },
+        get proposalNumber() {
+          var proposal = void 0;
+          try {
+            proposal = localStorage.getItem('proposaltype') ? localStorage.getItem('proposaltype') : undefined;
+          } catch (err) {
+            /* In case of thrown 'SecurityError' or 'QuotaExceededError',
+             the variable should be undefined */
+            proposal = undefined;
+          }
+          return proposal ? proposal : undefined;
+        },
         adSlotConfig: {
           'haaretz.co.il.example.slot': {
             id: 'slotId',
@@ -2020,7 +2031,7 @@ $__System.register("1", ["2"], function (_export, _context) {
             adSlot$$1.isWhitelisted() &&
             // Not in referrer Blacklist
             adSlot$$1.isBlacklisted() === false && this.shouldDisplayAdAfterAdBlockRemoval(adSlot$$1) &&
-            //f a paywall pop-up is shown And the number is 12 or more - SHOW MAAVRON
+            //  if a paywall pop-up is shown And the number is 12 or more - SHOW MAAVRON
             this.shouldDisplayAdMaavaronAfterPayWallBanner(adSlot$$1) &&
             // Responsive: breakpoint contains ad?
             this.doesBreakpointContainAd(adSlot$$1) &&
@@ -2038,11 +2049,15 @@ $__System.register("1", ["2"], function (_export, _context) {
           key: 'shouldDisplayAdMaavaronAfterPayWallBanner',
           value: function shouldDisplayAdMaavaronAfterPayWallBanner(adSlot$$1) {
             var shouldDisplay = true;
-            if (this.config.site === 'haaretz' && adSlot$$1.type == adTypes.maavaron) {
+            if (this.config.site === 'haaretz' && adSlot$$1.type === adTypes.maavaron) {
               try {
-                var paywallBanner = JSON.parse(window.localStorage.getItem("_cobj"));
+                var paywallBanner = JSON.parse(window.localStorage.getItem('_cobj'));
                 shouldDisplay = !paywallBanner || paywallBanner.mc && paywallBanner.mc >= 12 || paywallBanner.nextslotLocation && !paywallBanner.nextslotLocation.includes('pop');
-              } catch (e) {}
+              } catch (err) {
+                /* eslint-disable no-console*/
+                console.error('ERROR ON shouldDisplayAdMaavaronAfterPayWallBanner');
+                /* eslint-enable no-console*/
+              }
             }
             return shouldDisplay;
           }
@@ -2303,6 +2318,9 @@ $__System.register("1", ["2"], function (_export, _context) {
               }
               if (this.config.gStatCampaignNumber && this.config.gStatCampaignNumber !== -1) {
                 pubads.setTargeting('gstat_campaign_id', [this.config.gStatCampaignNumber]);
+              }
+              if (this.config.proposalNumber) {
+                pubads.setTargeting('proposaltype', [this.config.proposalNumber]);
               }
               if (this.config.isWriterAlerts) {
                 pubads.setTargeting('WriterAlerts', ['true']);

@@ -167,6 +167,19 @@ const dfpConfig = Object.assign({
     }
     return gstatCampaign ? gstatCampaign.CampaignNumber : undefined;
   },
+  get proposalNumber() {
+    let proposal;
+    try {
+      proposal = localStorage.getItem('proposaltype') ?
+        localStorage.getItem('proposaltype') : undefined;
+    }
+    catch (err) {
+      /* In case of thrown 'SecurityError' or 'QuotaExceededError',
+       the variable should be undefined */
+      proposal = undefined;
+    }
+    return proposal;
+  },
   adSlotConfig: {
     'haaretz.co.il.example.slot': {
       id: 'slotId',

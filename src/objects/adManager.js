@@ -499,6 +499,9 @@ export default class AdManager {
       if (this.config.gStatCampaignNumber && this.config.gStatCampaignNumber !== -1) {
         pubads.setTargeting('gstat_campaign_id', [this.config.gStatCampaignNumber]);
       }
+      if (this.config.proposalNumber) {
+        pubads.setTargeting('proposaltype', [this.config.proposalNumber]);
+      }
       if (this.config.isWriterAlerts) {
         pubads.setTargeting('WriterAlerts', ['true']);
       }
