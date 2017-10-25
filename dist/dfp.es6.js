@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "2.3.0",
+    "version": "2.3.1",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -591,7 +591,7 @@ $__System.register("1", ["2"], function (_export, _context) {
              the variable should be undefined */
             proposal = undefined;
           }
-          return proposal ? proposal : undefined;
+          return proposal;
         },
         adSlotConfig: {
           'haaretz.co.il.example.slot': {
@@ -1722,6 +1722,35 @@ $__System.register("1", ["2"], function (_export, _context) {
               // eslint-disable-line no-inner-declarations
               googletag.cmd.push(function () {
                 _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.low);
+                // Clean blocking adSlots that are not defined on this page
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                  for (var _iterator = _this.conflictResolver.dependencyMap.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var blockingAdSlotKey = _step.value;
+
+                    if (!_this.adSlots.has(blockingAdSlotKey)) {
+                      _this.conflictResolver.dependencyMap.delete(blockingAdSlotKey);
+                    }
+                  }
+                } catch (err) {
+                  _didIteratorError = true;
+                  _iteratorError = err;
+                } finally {
+                  try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                      _iterator.return();
+                    }
+                  } finally {
+                    if (_didIteratorError) {
+                      throw _iteratorError;
+                    }
+                  }
+                }
+
+                _this.showAllDeferredSlots();
               });
             };
             switch (document.readyState) {
@@ -1750,13 +1779,13 @@ $__System.register("1", ["2"], function (_export, _context) {
         _createClass(AdManager, [{
           key: 'showAllSlots',
           value: function showAllSlots() {
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
 
             try {
-              for (var _iterator = this.adSlots.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var adSlotKey = _step.value;
+              for (var _iterator2 = this.adSlots.keys()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var adSlotKey = _step2.value;
 
                 var adSlot$$1 = this.adSlots.get(adSlotKey);
                 if (adSlot$$1.type !== adTypes.talkback && this.shouldSendRequestToDfp(adSlot$$1)) {
@@ -1764,16 +1793,16 @@ $__System.register("1", ["2"], function (_export, _context) {
                 }
               }
             } catch (err) {
-              _didIteratorError = true;
-              _iteratorError = err;
+              _didIteratorError2 = true;
+              _iteratorError2 = err;
             } finally {
               try {
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                  _iterator.return();
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                  _iterator2.return();
                 }
               } finally {
-                if (_didIteratorError) {
-                  throw _iteratorError;
+                if (_didIteratorError2) {
+                  throw _iteratorError2;
                 }
               }
             }
@@ -1797,13 +1826,13 @@ $__System.register("1", ["2"], function (_export, _context) {
         }, {
           key: 'showAllDeferredSlots',
           value: function showAllDeferredSlots() {
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
 
             try {
-              for (var _iterator2 = this.conflictResolver.deferredSlots[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var deferredSlotId = _step2.value;
+              for (var _iterator3 = this.conflictResolver.deferredSlots[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                var deferredSlotId = _step3.value;
 
                 if (this.adSlots.has(deferredSlotId)) {
                   if (!this.conflictResolver.isBlocked(deferredSlotId)) {
@@ -1811,48 +1840,6 @@ $__System.register("1", ["2"], function (_export, _context) {
                     if (this.shouldSendRequestToDfp(deferredAdSlot)) {
                       deferredAdSlot.show();
                     }
-                  }
-                }
-              }
-            } catch (err) {
-              _didIteratorError2 = true;
-              _iteratorError2 = err;
-            } finally {
-              try {
-                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                  _iterator2.return();
-                }
-              } finally {
-                if (_didIteratorError2) {
-                  throw _iteratorError2;
-                }
-              }
-            }
-          }
-
-          /**
-           * Refreshes all responsive adSlots
-           */
-
-        }, {
-          key: 'refreshAllSlots',
-          value: function refreshAllSlots() {
-            var currentBreakpoint = getBreakpoint();
-            var _iteratorNormalCompletion3 = true;
-            var _didIteratorError3 = false;
-            var _iteratorError3 = undefined;
-
-            try {
-              for (var _iterator3 = this.adSlots.keys()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                var adSlotKey = _step3.value;
-
-                var adSlot$$1 = this.adSlots.get(adSlotKey);
-                if (adSlot$$1.responsive && adSlot$$1.type !== adTypes.maavaron) {
-                  if (adSlot$$1.lastResolvedWithBreakpoint !== currentBreakpoint && this.shouldSendRequestToDfp(adSlot$$1)) {
-                    // console.log(`calling refresh for adSlot: ${adSlot.id}`);
-                    adSlot$$1.refresh();
-                  } else {
-                    adSlot$$1.hide();
                   }
                 }
               }
@@ -1873,12 +1860,13 @@ $__System.register("1", ["2"], function (_export, _context) {
           }
 
           /**
-           * Refreshes all adSlots
+           * Refreshes all responsive adSlots
            */
 
         }, {
-          key: 'refreshAllSlotsInPage',
-          value: function refreshAllSlotsInPage() {
+          key: 'refreshAllSlots',
+          value: function refreshAllSlots() {
+            var currentBreakpoint = getBreakpoint();
             var _iteratorNormalCompletion4 = true;
             var _didIteratorError4 = false;
             var _iteratorError4 = undefined;
@@ -1888,11 +1876,13 @@ $__System.register("1", ["2"], function (_export, _context) {
                 var adSlotKey = _step4.value;
 
                 var adSlot$$1 = this.adSlots.get(adSlotKey);
-                if (this.shouldSendRequestToDfp(adSlot$$1)) {
-                  // console.log(`calling refresh for adSlot: ${adSlot.id}`);
-                  adSlot$$1.refresh();
-                } else {
-                  adSlot$$1.hide();
+                if (adSlot$$1.responsive && adSlot$$1.type !== adTypes.maavaron) {
+                  if (adSlot$$1.lastResolvedWithBreakpoint !== currentBreakpoint && this.shouldSendRequestToDfp(adSlot$$1)) {
+                    // console.log(`calling refresh for adSlot: ${adSlot.id}`);
+                    adSlot$$1.refresh();
+                  } else {
+                    adSlot$$1.hide();
+                  }
                 }
               }
             } catch (err) {
@@ -1906,6 +1896,45 @@ $__System.register("1", ["2"], function (_export, _context) {
               } finally {
                 if (_didIteratorError4) {
                   throw _iteratorError4;
+                }
+              }
+            }
+          }
+
+          /**
+           * Refreshes all adSlots
+           */
+
+        }, {
+          key: 'refreshAllSlotsInPage',
+          value: function refreshAllSlotsInPage() {
+            var _iteratorNormalCompletion5 = true;
+            var _didIteratorError5 = false;
+            var _iteratorError5 = undefined;
+
+            try {
+              for (var _iterator5 = this.adSlots.keys()[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                var adSlotKey = _step5.value;
+
+                var adSlot$$1 = this.adSlots.get(adSlotKey);
+                if (this.shouldSendRequestToDfp(adSlot$$1)) {
+                  // console.log(`calling refresh for adSlot: ${adSlot.id}`);
+                  adSlot$$1.refresh();
+                } else {
+                  adSlot$$1.hide();
+                }
+              }
+            } catch (err) {
+              _didIteratorError5 = true;
+              _iteratorError5 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                  _iterator5.return();
+                }
+              } finally {
+                if (_didIteratorError5) {
+                  throw _iteratorError5;
                 }
               }
             }
@@ -2108,13 +2137,13 @@ $__System.register("1", ["2"], function (_export, _context) {
               throw new Error('Missing argument: a call to switchedToBreakpoint must have an breakpoint');
             }
             var count = 0;
-            var _iteratorNormalCompletion5 = true;
-            var _didIteratorError5 = false;
-            var _iteratorError5 = undefined;
+            var _iteratorNormalCompletion6 = true;
+            var _didIteratorError6 = false;
+            var _iteratorError6 = undefined;
 
             try {
-              for (var _iterator5 = this.adSlots.keys()[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                var adSlotKey = _step5.value;
+              for (var _iterator6 = this.adSlots.keys()[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                var adSlotKey = _step6.value;
 
                 var adSlot$$1 = this.adSlots.get(adSlotKey);
                 if (adSlot$$1.responsive === true && adSlot$$1.lastResolvedWithBreakpoint) {
@@ -2125,16 +2154,16 @@ $__System.register("1", ["2"], function (_export, _context) {
                 }
               }
             } catch (err) {
-              _didIteratorError5 = true;
-              _iteratorError5 = err;
+              _didIteratorError6 = true;
+              _iteratorError6 = err;
             } finally {
               try {
-                if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                  _iterator5.return();
+                if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                  _iterator6.return();
                 }
               } finally {
-                if (_didIteratorError5) {
-                  throw _iteratorError5;
+                if (_didIteratorError6) {
+                  throw _iteratorError6;
                 }
               }
             }
@@ -2193,10 +2222,10 @@ $__System.register("1", ["2"], function (_export, _context) {
                     adSlot$$1.hide();
                     _this3.releaseSlotDependencies(adSlot$$1);
                   } else {
-                    _this3.user.impressionManager.registerImpression('' + adSlot$$1.id + _this3.config.department);
-                    _this3.user.impressionManager.registerImpression(adSlot$$1.id + '_all');
                     _this3.releaseSlotDependencies(adSlot$$1, adSlot$$1.lastResolvedSize);
                   }
+                  _this3.user.impressionManager.registerImpression('' + adSlot$$1.id + _this3.config.department);
+                  _this3.user.impressionManager.registerImpression(adSlot$$1.id + '_all');
                 } else {
                   /*
                    console.error(`Cannot find an adSlot with id: ${id} - Ad Unit path is
@@ -2216,13 +2245,13 @@ $__System.register("1", ["2"], function (_export, _context) {
               this.conflictResolver.updateResolvedSlot(id, adSlot$$1.lastResolvedSize);
               if (this.conflictResolver.isBlocking(id)) {
                 // Hide all blocked adSlots
-                var _iteratorNormalCompletion6 = true;
-                var _didIteratorError6 = false;
-                var _iteratorError6 = undefined;
+                var _iteratorNormalCompletion7 = true;
+                var _didIteratorError7 = false;
+                var _iteratorError7 = undefined;
 
                 try {
-                  for (var _iterator6 = this.conflictResolver.getBlockedSlotsIds(id)[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                    var blockedSlot = _step6.value;
+                  for (var _iterator7 = this.conflictResolver.getBlockedSlotsIds(id)[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+                    var blockedSlot = _step7.value;
 
                     if (this.conflictResolver.isBlocked(blockedSlot)) {
                       if (this.adSlots.has(blockedSlot)) {
@@ -2232,27 +2261,27 @@ $__System.register("1", ["2"], function (_export, _context) {
                   }
                   // Show the non blocked
                 } catch (err) {
-                  _didIteratorError6 = true;
-                  _iteratorError6 = err;
+                  _didIteratorError7 = true;
+                  _iteratorError7 = err;
                 } finally {
                   try {
-                    if (!_iteratorNormalCompletion6 && _iterator6.return) {
-                      _iterator6.return();
+                    if (!_iteratorNormalCompletion7 && _iterator7.return) {
+                      _iterator7.return();
                     }
                   } finally {
-                    if (_didIteratorError6) {
-                      throw _iteratorError6;
+                    if (_didIteratorError7) {
+                      throw _iteratorError7;
                     }
                   }
                 }
 
-                var _iteratorNormalCompletion7 = true;
-                var _didIteratorError7 = false;
-                var _iteratorError7 = undefined;
+                var _iteratorNormalCompletion8 = true;
+                var _didIteratorError8 = false;
+                var _iteratorError8 = undefined;
 
                 try {
-                  for (var _iterator7 = this.conflictResolver.deferredSlots.keys()[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-                    var deferredSlotKey = _step7.value;
+                  for (var _iterator8 = this.conflictResolver.deferredSlots.keys()[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+                    var deferredSlotKey = _step8.value;
 
                     var deferredAdSlot = this.adSlots.get(deferredSlotKey);
                     if (deferredAdSlot && this.shouldSendRequestToDfp(deferredAdSlot)) {
@@ -2265,16 +2294,16 @@ $__System.register("1", ["2"], function (_export, _context) {
                     }
                   }
                 } catch (err) {
-                  _didIteratorError7 = true;
-                  _iteratorError7 = err;
+                  _didIteratorError8 = true;
+                  _iteratorError8 = err;
                 } finally {
                   try {
-                    if (!_iteratorNormalCompletion7 && _iterator7.return) {
-                      _iterator7.return();
+                    if (!_iteratorNormalCompletion8 && _iterator8.return) {
+                      _iterator8.return();
                     }
                   } finally {
-                    if (_didIteratorError7) {
-                      throw _iteratorError7;
+                    if (_didIteratorError8) {
+                      throw _iteratorError8;
                     }
                   }
                 }

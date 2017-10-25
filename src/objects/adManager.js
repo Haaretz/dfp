@@ -86,6 +86,13 @@ export default class AdManager {
       const onWindowLoaded = () => { // eslint-disable-line no-inner-declarations
         googletag.cmd.push(() => {
           this.adSlots = this.initAdSlots(config.adSlotConfig, adPriorities.low);
+          // Clean blocking adSlots that are not defined on this page
+          for (const blockingAdSlotKey of this.conflictResolver.dependencyMap.keys()) {
+            if (!this.adSlots.has(blockingAdSlotKey)) {
+              this.conflictResolver.dependencyMap.delete(blockingAdSlotKey);
+            }
+          }
+          this.showAllDeferredSlots();
         });
       };
       switch (document.readyState) {
@@ -417,10 +424,10 @@ export default class AdManager {
             this.releaseSlotDependencies(adSlot);
           }
           else {
-            this.user.impressionManager.registerImpression(`${adSlot.id}${this.config.department}`);
-            this.user.impressionManager.registerImpression(`${adSlot.id}_all`);
             this.releaseSlotDependencies(adSlot, adSlot.lastResolvedSize);
           }
+          this.user.impressionManager.registerImpression(`${adSlot.id}${this.config.department}`);
+          this.user.impressionManager.registerImpression(`${adSlot.id}_all`);
         }
         else {
           /*
