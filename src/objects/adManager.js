@@ -307,6 +307,8 @@ export default class AdManager {
       this.shouldDisplayAdMaavaronAfterPayWallBanner(adSlot) &&
       // Responsive: breakpoint contains ad?
       this.doesBreakpointContainAd(adSlot) &&
+      // check in case of Smartphoneapp
+      this.haveValidCookieForSmartphoneapp() &&
       // Targeting check (userType vs. slotTargeting)
       this.doesUserTypeMatchBannerTargeting(adSlot) &&
       // Impressions Manager check (limits number of impressions per slot)
@@ -335,6 +337,16 @@ export default class AdManager {
       }
     }
     return shouldDisplay;
+  }
+
+  /**
+   * Check whether or not an ad slot should appear for the current user type
+   * @param {String} adSlotOrTarget the adSlot to check or the target as a string
+   * @returns {boolean} true iff the slot should appear for the user type
+   */
+
+  haveValidCookieForSmartphoneapp() {
+    return this.config.isValidForsmartPhone;
   }
 
   /**

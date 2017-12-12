@@ -154,6 +154,23 @@ const dfpConfig = Object.assign({
     }
     return wifiLocation;
   },
+  get isValidForsmartPhone() {
+    let validForAds = true;
+    const PageUrl = window.location.href;
+    const isSmartphoneapp = PageUrl.match('haaretzsmartphoneapp');
+    const cookieMap = getCookieAsMap();
+    try {
+      if (isSmartphoneapp) {
+        if (!cookieMap || !(cookieMap.NotPayer || cookieMap.HtzPusr)) { // eslint-disable-line no-underscore-dangle
+          validForAds = false;
+        }
+      }
+    }
+    catch (err) {
+      // do nothing
+    }
+    return validForAds;
+  },
   get gStatCampaignNumber() {
     let gstatCampaign;
     try {

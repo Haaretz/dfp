@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "2.3.1",
+    "version": "2.3.2",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -570,6 +570,23 @@ $__System.register("1", ["2"], function (_export, _context) {
             // do nothing
           }
           return wifiLocation;
+        },
+        get isValidForsmartPhone() {
+          var validForAds = true;
+          var PageUrl = window.location.href;
+          var isSmartphoneapp = PageUrl.match('haaretzsmartphoneapp');
+          var cookieMap = getCookieAsMap();
+          try {
+            if (isSmartphoneapp) {
+              if (!cookieMap || !(cookieMap.NotPayer || cookieMap.HtzPusr)) {
+                // eslint-disable-line no-underscore-dangle
+                validForAds = false;
+              }
+            }
+          } catch (err) {
+            // do nothing
+          }
+          return validForAds;
         },
         get gStatCampaignNumber() {
           var gstatCampaign = void 0;
@@ -2064,6 +2081,8 @@ $__System.register("1", ["2"], function (_export, _context) {
             this.shouldDisplayAdMaavaronAfterPayWallBanner(adSlot$$1) &&
             // Responsive: breakpoint contains ad?
             this.doesBreakpointContainAd(adSlot$$1) &&
+            // check in case of Smartphoneapp
+            this.haveValidCookieForSmartphoneapp() &&
             // Targeting check (userType vs. slotTargeting)
             this.doesUserTypeMatchBannerTargeting(adSlot$$1) &&
             // Impressions Manager check (limits number of impressions per slot)
@@ -2089,6 +2108,18 @@ $__System.register("1", ["2"], function (_export, _context) {
               }
             }
             return shouldDisplay;
+          }
+
+          /**
+           * Check whether or not an ad slot should appear for the current user type
+           * @param {String} adSlotOrTarget the adSlot to check or the target as a string
+           * @returns {boolean} true iff the slot should appear for the user type
+           */
+
+        }, {
+          key: 'haveValidCookieForSmartphoneapp',
+          value: function haveValidCookieForSmartphoneapp() {
+            return this.config.isValidForsmartPhone;
           }
 
           /**
