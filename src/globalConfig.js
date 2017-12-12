@@ -161,7 +161,8 @@ const dfpConfig = Object.assign({
     const cookieMap = getCookieAsMap();
     try {
       if (isSmartphoneapp) {
-        if (!cookieMap || !(cookieMap.NotPayer || cookieMap.HtzPusr)) { // eslint-disable-line no-underscore-dangle
+        // eslint-disable-line no-underscore-dangle
+        if (!cookieMap || !(cookieMap.NotPayer || cookieMap.HtzPusr)) {
           validForAds = false;
         }
       }
