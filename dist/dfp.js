@@ -6,7 +6,7 @@ $__System.registerDynamic("2", [], false, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "2.3.2",
+    "version": "2.3.3",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -578,8 +578,8 @@ $__System.register("1", ["2"], function (_export, _context) {
           var cookieMap = getCookieAsMap();
           try {
             if (isSmartphoneapp) {
+              // eslint-disable-line no-underscore-dangle
               if (!cookieMap || !(cookieMap.NotPayer || cookieMap.HtzPusr)) {
-                // eslint-disable-line no-underscore-dangle
                 validForAds = false;
               }
             }
