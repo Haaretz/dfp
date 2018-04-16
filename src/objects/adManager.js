@@ -501,8 +501,14 @@ export default class AdManager {
       }
 
       // User targeting
-      if (this.user.type) {
-        pubads.setTargeting('UserType', [this.user.type]);
+      if (this.user.htz_type) {
+        pubads.setTargeting('htz_user_type', [this.user.htz_type]);
+      }
+      if (this.user.tm_type) {
+        pubads.setTargeting('tm_user_type', [this.user.tm_type]);
+      }
+      if (this.user.hdc_type) {
+        pubads.setTargeting('hdc_user_type', [this.user.hdc_type]);
       }
       if (this.user.age) {
         pubads.setTargeting('age', [this.user.age]);
@@ -517,9 +523,6 @@ export default class AdManager {
       }
       if (this.config.gStatCampaignNumber && this.config.gStatCampaignNumber !== -1) {
         pubads.setTargeting('gstat_campaign_id', [this.config.gStatCampaignNumber]);
-      }
-      if (this.config.proposalNumber) {
-        pubads.setTargeting('proposaltype', [this.config.proposalNumber]);
       }
       if (this.config.isWriterAlerts) {
         pubads.setTargeting('WriterAlerts', ['true']);
