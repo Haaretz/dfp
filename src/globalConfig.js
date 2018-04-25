@@ -89,6 +89,7 @@ const dfpConfig = Object.assign({
     return window.location.port === '8080' ? env.dev :
       (window.location.hostname.indexOf('pre.haaretz.co.il') > -1
       || window.location.hostname.indexOf('tmtest.themarker.com') > -1
+      || window.location.hostname.indexOf('pre.haaretz.com') > -1
       || window.location.hostname.indexOf('prodmouse.mouse.co.il') > -1) ? env.test :
         (window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1
         || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1
