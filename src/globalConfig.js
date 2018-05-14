@@ -89,6 +89,7 @@ const dfpConfig = Object.assign({
     return window.location.port === '8080' ? env.dev :
       (window.location.hostname.indexOf('pre.haaretz.co.il') > -1
       || window.location.hostname.indexOf('tmtest.themarker.com') > -1
+      || window.location.hostname.indexOf('pre.haaretz.com') > -1
       || window.location.hostname.indexOf('prodmouse.mouse.co.il') > -1) ? env.test :
         (window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1
         || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1
@@ -141,12 +142,17 @@ const dfpConfig = Object.assign({
     return (location.search.indexOf('writerAlerts=true') > -1);
   },
   get wifiLocation() {
-    let wifiLocation = '';
+    let wifiLocation;
+    const cookieName = '_htzwif'; // eslint-disable-line no-underscore-dangle
     const cookieMap = getCookieAsMap();
     try {
-      if (cookieMap && cookieMap._htzwif) { // eslint-disable-line no-underscore-dangle
-        wifiLocation = (cookieMap._htzwif === 'arcaffe') // eslint-disable-line no-underscore-dangle
-          ? 'ArCafe' : 'university';
+      if (cookieMap && cookieMap[cookieName]) {
+        if (cookieMap[cookieName].toLowerCase() === 'arcaffe') {
+          wifiLocation = 'ArCafe';
+        }
+        if (cookieMap[cookieName].toLowerCase() === 'university') {
+          wifiLocation = 'university';
+        }
       }
     }
     catch (err) {

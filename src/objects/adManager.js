@@ -504,6 +504,15 @@ export default class AdManager {
       if (this.user.type) {
         pubads.setTargeting('UserType', [this.user.type]);
       }
+      if (this.user.htz_type) {
+        pubads.setTargeting('htz_user_type', [this.user.htz_type]);
+      }
+      if (this.user.tm_type) {
+        pubads.setTargeting('tm_user_type', [this.user.tm_type]);
+      }
+      if (this.user.hdc_type) {
+        pubads.setTargeting('hdc_user_type', [this.user.hdc_type]);
+      }
       if (this.user.age) {
         pubads.setTargeting('age', [this.user.age]);
       }
