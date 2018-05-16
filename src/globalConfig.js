@@ -138,7 +138,7 @@ const dfpConfig = Object.assign({
     }
     return adBlockRemoved;
   },
-  get ssoGroupKey(){
+  get ssoGroupKey() {
     return window.localStorage.getItem('_ssoGroupKey');
   },
   get isWriterAlerts() {

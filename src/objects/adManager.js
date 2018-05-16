@@ -339,9 +339,6 @@ export default class AdManager {
     return shouldDisplay;
   }
 
-
-
-
   /**
    * Check whether or not an ad slot should appear for the current user type
    * @param {String} adSlotOrTarget the adSlot to check or the target as a string
@@ -563,7 +560,7 @@ export default class AdManager {
         pubads.setTargeting('tags', [...this.config.tags]);
       }
 
-      if(this.user.sso && this.config.ssoGroupKey){
+      if (this.user.sso && this.config.ssoGroupKey) {
         pubads.setTargeting(this.config.ssoGroupKey, this.user.sso);
       }
 
