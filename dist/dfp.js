@@ -556,6 +556,15 @@ $__System.register("a", ["b"], function (_export, _context) {
         get ssoGroupKey() {
           return window.localStorage.getItem('_ssoGroupKey');
         },
+        get anonymousId() {
+          var cookieName = 'anonymousId';
+          var cookieMap = getCookieAsMap();
+          var anonymousId = '';
+          if (cookieMap && cookieMap[cookieName]) {
+            anonymousId = cookieMap[cookieName];
+          }
+          return anonymousId;
+        },
         get isWriterAlerts() {
           return location.search.indexOf('writerAlerts=true') > -1;
         },
@@ -2491,7 +2500,10 @@ $__System.register("a", ["b"], function (_export, _context) {
               if (this.user.sso && this.config.ssoGroupKey) {
                 pubads.setTargeting(this.config.ssoGroupKey, this.user.sso);
               }
-
+              if (this.config.anonymousId) {
+                var anonymousIdKeyName = 'anonymousIdKey';
+                pubads.setTargeting(anonymousIdKeyName, this.config.anonymousId);
+              }
               // Ads Centering
               pubads.setCentering(true);
             } else {
