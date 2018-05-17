@@ -32,6 +32,7 @@ export default class User {
     this.impressionManager = new ImpressionManager(config.impressionManagerConfig);
     this.age = this.getUserAge(cookieMap);
     this.gender = this.getUserGender(cookieMap);
+    this.sso = this.getUserSSO(cookieMap, this.ssoKey);
   }
 
   getUserType(cookieMap) {
@@ -115,5 +116,9 @@ export default class User {
       gender = gender === 2 || gender === 1 ? gender : undefined;
     }
     return gender;
+  }
+
+  getUserSSO(cookieMap, ssoKey) {
+    return cookieMap[ssoKey];
   }
 }

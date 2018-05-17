@@ -560,6 +560,10 @@ export default class AdManager {
         pubads.setTargeting('tags', [...this.config.tags]);
       }
 
+      if (this.user.sso && this.config.ssoGroupKey) {
+        pubads.setTargeting(this.config.ssoGroupKey, this.user.sso);
+      }
+
       // Ads Centering
       pubads.setCentering(true);
     }
