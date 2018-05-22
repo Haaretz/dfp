@@ -38,9 +38,8 @@ export default class User {
   getUserType(cookieMap) {
     let userType;
     if (cookieMap && cookieMap[this.ssoKey]) {
-      const payerProp = window.location.hostname.indexOf('haaretz.com') > -1 ?
-        'HdcPusr' : 'HtzPusr';
-      userType = cookieMap[payerProp] ? userTypes.payer : userTypes.registered;
+      userType = (cookieMap.HtzPusr || cookieMap.TmPusr || cookieMap.HdcPusr) ?
+        userTypes.payer : userTypes.registered;
     }
     else {
       userType = userTypes.anonymous;
