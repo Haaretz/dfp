@@ -563,7 +563,10 @@ export default class AdManager {
       if (this.user.sso && this.config.ssoGroupKey) {
         pubads.setTargeting(this.config.ssoGroupKey, this.user.sso);
       }
-
+      if (this.config.anonymousId) {
+        const anonymousIdKeyName = 'anonymousIdKey';
+        pubads.setTargeting(anonymousIdKeyName, this.config.anonymousId);
+      }
       // Ads Centering
       pubads.setCentering(true);
     }

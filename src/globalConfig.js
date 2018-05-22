@@ -141,6 +141,15 @@ const dfpConfig = Object.assign({
   get ssoGroupKey() {
     return window.localStorage.getItem('_ssoGroupKey');
   },
+  get anonymousId() {
+    const cookieName = 'anonymousId';
+    const cookieMap = getCookieAsMap();
+    let anonymousId = '';
+    if (cookieMap && cookieMap[cookieName]) {
+      anonymousId = cookieMap[cookieName];
+    }
+    return anonymousId;
+  },
   get isWriterAlerts() {
     return (location.search.indexOf('writerAlerts=true') > -1);
   },
