@@ -560,8 +560,8 @@ export default class AdManager {
         pubads.setTargeting('tags', [...this.config.tags]);
       }
 
-      if (this.user.sso && this.config.ssoGroupKey) {
-        pubads.setTargeting(this.config.ssoGroupKey, this.user.sso);
+      if (this.user.sso && this.user.sso.userId && this.config.ssoGroupKey) {
+        pubads.setTargeting(this.config.ssoGroupKey, this.user.sso.userId);
       }
       if (this.config.anonymousId) {
         const anonymousIdKeyName = 'anonymousIdKey';
