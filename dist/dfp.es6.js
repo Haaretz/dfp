@@ -2497,8 +2497,8 @@ $__System.register("a", ["b"], function (_export, _context) {
                 pubads.setTargeting('tags', [].concat(_toConsumableArray(this.config.tags)));
               }
 
-              if (this.user.sso && this.config.ssoGroupKey) {
-                pubads.setTargeting(this.config.ssoGroupKey, this.user.sso);
+              if (this.user.sso && this.user.sso.userId && this.config.ssoGroupKey) {
+                pubads.setTargeting(this.config.ssoGroupKey, this.user.sso.userId);
               }
               if (this.config.anonymousId) {
                 var anonymousIdKeyName = 'anonymousIdKey';
