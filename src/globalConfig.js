@@ -139,7 +139,7 @@ const dfpConfig = Object.assign({
     return adBlockRemoved;
   },
   get ssoGroupKey() {
-    return window.localStorage.getItem('_ssoGroupKey');
+    return window.localStorage.getItem('_SsoGroupKey');
   },
   get anonymousId() {
     const cookieName = 'anonymousId';
