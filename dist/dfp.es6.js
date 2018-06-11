@@ -6,7 +6,7 @@ $__System.registerDynamic("b", [], true, function() {
   return {
     "name": "DFP",
     "description": "A DoubleClick for Publishers Implementation",
-    "version": "2.4.1",
+    "version": "2.4.3",
     "license": "MIT",
     "author": {
       "name": "Elia Grady",
@@ -176,7 +176,7 @@ $__System.registerDynamic("b", [], true, function() {
 $__System.register("a", ["b"], function (_export, _context) {
   "use strict";
 
-  var version, _classCallCheck, _createClass, _toConsumableArray, ssoKey, dfpBaseConf, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes, productTypes, User, ConflictResolver, hiddenClass, adSlot, adPriorities, adTargets, userTypes$1, adTypes, AdManager, defaultConfig, resizeTimeout, DFP, config, version$1;
+  var version, _classCallCheck, _createClass, _toConsumableArray, ssoKey, dfpBaseConf, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, productTypes, User, ConflictResolver, hiddenClass, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, resizeTimeout, DFP$1, config, version$1;
 
   /**
    * Htz-cookie-util
@@ -370,14 +370,14 @@ $__System.register("a", ["b"], function (_export, _context) {
    * @param {Array} b - the second array to check
    * @returns {Boolean} true iff both a and b are arrays, with equal values
    */
-  function arraysEqual(a, b) {
+  function arraysEqual$1(a, b) {
     if (!a || !b) return false;
     if (!Array.isArray(a) || !Array.isArray(b)) return false;
     if (a === b) return true;
     if (a.length !== b.length) return false;
     for (var i = 0; i < a.length; ++i) {
       if (Array.isArray(a[i]) && Array.isArray(b[i])) {
-        if (!arraysEqual(a[i], b[i])) return false;
+        if (!arraysEqual$1(a[i], b[i])) return false;
       } else if (a[i] !== b[i]) {
         return false;
       }
@@ -385,6 +385,7 @@ $__System.register("a", ["b"], function (_export, _context) {
     return true;
   }
 
+  /* global googletag */
   return {
     setters: [function (_b) {
       version = _b.version;
@@ -554,7 +555,7 @@ $__System.register("a", ["b"], function (_export, _context) {
           return adBlockRemoved;
         },
         get ssoGroupKey() {
-          return window.localStorage.getItem('_ssoGroupKey');
+          return window.localStorage.getItem('_SsoGroupKey');
         },
         get anonymousId() {
           var cookieName = 'anonymousId';
@@ -613,6 +614,30 @@ $__System.register("a", ["b"], function (_export, _context) {
             gstatCampaign = undefined;
           }
           return gstatCampaign ? gstatCampaign.CampaignNumber : undefined;
+        },
+        get pageType() {
+          var type = '';
+          try {
+            var htmlclassList = document.querySelector('html').classList;
+            switch (true) {
+              case /mouse_location/.test(htmlclassList):
+                type = 'mouse_location';
+                break;
+              case /mouse_event/.test(htmlclassList):
+                type = 'mouse_event';
+                break;
+              case /contentType-story/.test(htmlclassList):
+                type = 'mouse_article';
+                break;
+              default:
+                type = '';
+            }
+          } catch (err) {
+            /* In case of thrown 'SecurityError' or 'QuotaExceededError',
+             the variable should be undefined */
+            type = '';
+          }
+          return type;
         },
         get proposalNumber() {
           var proposal = void 0;
@@ -1040,7 +1065,7 @@ $__System.register("a", ["b"], function (_export, _context) {
         return ImpressionsManager;
       }();
 
-      userTypes = {
+      userTypes$1 = {
         payer: 'payer',
         registered: 'registered',
         anonymous: 'anonymous',
@@ -1079,17 +1104,16 @@ $__System.register("a", ["b"], function (_export, _context) {
           value: function getUserType(cookieMap) {
             var userType = void 0;
             if (cookieMap && cookieMap[this.ssoKey]) {
-              var payerProp = window.location.hostname.indexOf('haaretz.com') > -1 ? 'HdcPusr' : 'HtzPusr';
-              userType = cookieMap[payerProp] ? userTypes.payer : userTypes.registered;
+              userType = cookieMap.HtzPusr || cookieMap.TmPusr || cookieMap.HdcPusr ? userTypes$1.payer : userTypes$1.registered;
             } else {
-              userType = userTypes.anonymous;
+              userType = userTypes$1.anonymous;
             }
             return userType;
           }
         }, {
           key: 'getUserTypeByProduct',
           value: function getUserTypeByProduct(cookieMap, productType) {
-            var userType = userTypes.anonymous;
+            var userType = userTypes$1.anonymous;
             if (cookieMap && cookieMap[this.ssoKey]) {
               if (cookieMap.userProducts) {
                 var userProducts = decodeURIComponent(cookieMap.userProducts);
@@ -1108,26 +1132,26 @@ $__System.register("a", ["b"], function (_export, _context) {
           value: function getHdcUserType(userProducts) {
             // user has hdc paying product
             if (this.userHasProduct(userProducts, productTypes.hdc, false)) {
-              return userTypes.payer;
+              return userTypes$1.payer;
             }
             // user has hdc trial product
             else if (this.userHasProduct(userProducts, productTypes.hdc, true)) {
-                return userTypes.trial;
+                return userTypes$1.trial;
               }
-            return userTypes.registered;
+            return userTypes$1.registered;
           }
         }, {
           key: 'getHtzTmUserType',
           value: function getHtzTmUserType(userProducts, productType) {
             // user has htz/tm paying product
             if (this.userHasProduct(userProducts, productType, false) || this.userHasProduct(userProducts, productTypes.htz_tm, false)) {
-              return userTypes.payer;
+              return userTypes$1.payer;
             }
             // user has htz/tm trial product
             else if (this.userHasProduct(userProducts, productType, true) || this.userHasProduct(userProducts, productTypes.htz_tm, true)) {
-                return userTypes.trial;
+                return userTypes$1.trial;
               }
-            return userTypes.registered;
+            return userTypes$1.registered;
           }
         }, {
           key: 'userHasProduct',
@@ -1643,7 +1667,7 @@ $__System.register("a", ["b"], function (_export, _context) {
                     var key = _step3.value;
                     // ['xxs','xs',...]
                     responsiveSlotSizeMapping.addSize([breakpoints[key], 100], // 100 is a default height, since it is height agnostic
-                    !arraysEqual(this.responsiveAdSizeMapping[key], [[0, 0]]) ? this.responsiveAdSizeMapping[key] : []);
+                    !arraysEqual$1(this.responsiveAdSizeMapping[key], [[0, 0]]) ? this.responsiveAdSizeMapping[key] : []);
                   }
                 } catch (err) {
                   _didIteratorError3 = true;
@@ -1757,7 +1781,7 @@ $__System.register("a", ["b"], function (_export, _context) {
         digitalOnly: 'digitalOnly',
         digitalAndPrint: 'digitalAndPrint'
       };
-      userTypes$1 = {
+      userTypes$$1 = {
         anonymous: 'anonymous',
         registered: 'registered',
         payer: 'payer'
@@ -2219,17 +2243,17 @@ $__System.register("a", ["b"], function (_export, _context) {
               case adTargets.all:
                 return true;
               case adTargets.nonPaying:
-                return userType === userTypes$1.anonymous || userType === userTypes$1.registered;
+                return userType === userTypes$$1.anonymous || userType === userTypes$$1.registered;
               case adTargets.anonymous:
-                return userType === userTypes$1.anonymous;
+                return userType === userTypes$$1.anonymous;
               case adTargets.registered:
-                return userType === userTypes$1.registered;
+                return userType === userTypes$$1.registered;
               case adTargets.paying:
-                return userType === userTypes$1.payer;
+                return userType === userTypes$$1.payer;
               case adTargets.digitalOnly:
-                return userType === userTypes$1.payer;
+                return userType === userTypes$$1.payer;
               case adTargets.digitalAndPrint:
-                return userType === userTypes$1.payer;
+                return userType === userTypes$$1.payer;
               default:
                 return false;
             }
@@ -2304,7 +2328,7 @@ $__System.register("a", ["b"], function (_export, _context) {
               if (Array.isArray(mapping) === false) {
                 throw new Error('Invalid argument: breakpoint:' + breakpoint + ' doesn\'t exist!', this);
               }
-              containsBreakpoint = mapping.length > 0 && !arraysEqual(mapping, [[0, 0]]);
+              containsBreakpoint = mapping.length > 0 && !arraysEqual$1(mapping, [[0, 0]]);
             }
             return containsBreakpoint;
           }
@@ -2338,6 +2362,11 @@ $__System.register("a", ["b"], function (_export, _context) {
                   }
                   _this3.user.impressionManager.registerImpression('' + adSlot$$1.id + _this3.config.department);
                   _this3.user.impressionManager.registerImpression(adSlot$$1.id + '_all');
+                } else {
+                  /*
+                   console.error(`Cannot find an adSlot with id: ${id} - Ad Unit path is
+                   ${event.slot.getAdUnitPath()}`);
+                   */
                 }
               });
             } else {
@@ -2467,6 +2496,9 @@ $__System.register("a", ["b"], function (_export, _context) {
               if (this.config.proposalNumber) {
                 pubads.setTargeting('proposaltype', [this.config.proposalNumber]);
               }
+              if (this.config.pageType) {
+                pubads.setTargeting('pageType', [this.config.pageType]);
+              }
               if (this.config.isWriterAlerts) {
                 pubads.setTargeting('WriterAlerts', ['true']);
               }
@@ -2561,7 +2593,7 @@ $__System.register("a", ["b"], function (_export, _context) {
       defaultConfig = dfpConfig || {};
       resizeTimeout = 250;
 
-      DFP = function () {
+      DFP$1 = function () {
         function DFP(config) {
           _classCallCheck(this, DFP);
 
@@ -2683,7 +2715,7 @@ $__System.register("a", ["b"], function (_export, _context) {
       // const pkg = require('./../package.json');
 
       // DFP version is based on the package.json
-      DFP.version = version || 'VERSION';
+      DFP$1.version = version || 'VERSION';
 
       /*
        // Only for development mode
@@ -2694,13 +2726,13 @@ $__System.register("a", ["b"], function (_export, _context) {
 
       _export("config", config = dfpConfig);
 
-      _export("version", version$1 = DFP.version);
-
-      _export("default", DFP);
+      _export("version", version$1 = DFP$1.version);
 
       _export("config", config);
 
       _export("version", version$1);
+
+      _export("default", DFP$1);
     }
   };
 });

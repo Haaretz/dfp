@@ -203,6 +203,31 @@ const dfpConfig = Object.assign({
     }
     return gstatCampaign ? gstatCampaign.CampaignNumber : undefined;
   },
+  get pageType() {
+    let type = '';
+    try {
+      const htmlclassList = document.querySelector('html').classList;
+      switch (true) {
+        case /mouse_location/.test(htmlclassList):
+          type = 'mouse_location';
+          break;
+        case /mouse_event/.test(htmlclassList):
+          type = 'mouse_event';
+          break;
+        case /contentType-story/.test(htmlclassList):
+          type = 'mouse_article';
+          break;
+        default:
+          type = '';
+      }
+    }
+    catch (err) {
+      /* In case of thrown 'SecurityError' or 'QuotaExceededError',
+       the variable should be undefined */
+      type = '';
+    }
+    return type;
+  },
   get proposalNumber() {
     let proposal;
     try {
