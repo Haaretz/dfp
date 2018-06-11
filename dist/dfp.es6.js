@@ -1,2745 +1,2558 @@
-!function(e){function t(e){Object.defineProperty(this,e,{enumerable:!0,get:function(){return this[v][e]}})}function r(e){if("undefined"!=typeof System&&System.isModule?System.isModule(e):"[object Module]"===Object.prototype.toString.call(e))return e;var t={default:e,__useDefault:e};if(e&&e.__esModule)for(var r in e)Object.hasOwnProperty.call(e,r)&&(t[r]=e[r]);return new o(t)}function o(e){Object.defineProperty(this,v,{value:e}),Object.keys(e).forEach(t,this)}function n(e){return"@node/"===e.substr(0,6)?c(e,r(m(e.substr(6))),{}):p[e]}function u(e){var t=n(e);if(!t)throw new Error('Module "'+e+'" expected, but not contained in build.');if(t.module)return t.module;var r=t.linkRecord;return i(t,r),a(t,r,[]),t.module}function i(e,t){if(!t.depLoads){t.declare&&d(e,t),t.depLoads=[];for(var r=0;r<t.deps.length;r++){var o=n(t.deps[r]);t.depLoads.push(o),o.linkRecord&&i(o,o.linkRecord);var u=t.setters&&t.setters[r];u&&(u(o.module||o.linkRecord.moduleObj),o.importerSetters.push(u))}return e}}function d(t,r){var o=r.moduleObj,n=t.importerSetters,u=!1,i=r.declare.call(e,function(e,t){if(!u){if("object"==typeof e)for(var r in e)"__useDefault"!==r&&(o[r]=e[r]);else o[e]=t;u=!0;for(var i=0;i<n.length;i++)n[i](o);return u=!1,t}},{id:t.key});"function"!=typeof i?(r.setters=i.setters,r.execute=i.execute):(r.setters=[],r.execute=i)}function l(e,t,r){return p[e]={key:e,module:void 0,importerSetters:[],linkRecord:{deps:t,depLoads:void 0,declare:r,setters:void 0,execute:void 0,moduleObj:{}}}}function f(e,t,r,o){var n={};return p[e]={key:e,module:void 0,importerSetters:[],linkRecord:{deps:t,depLoads:void 0,declare:void 0,execute:o,executingRequire:r,moduleObj:{default:n,__useDefault:n},setters:void 0}}}function s(e,t,r){return function(o){for(var n=0;n<e.length;n++)if(e[n]===o){var u,i=t[n],d=i.linkRecord;return u=d?-1===r.indexOf(i)?a(i,d,r):d.moduleObj:i.module,"__useDefault"in u?u.__useDefault:u}}}function a(t,r,n){if(n.push(t),t.module)return t.module;var u;if(r.setters){for(var i=0;i<r.deps.length;i++){var d=r.depLoads[i],l=d.linkRecord;l&&-1===n.indexOf(d)&&(u=a(d,l,l.setters?n:[]))}r.execute.call(y)}else{var f={id:t.key},c=r.moduleObj;Object.defineProperty(f,"exports",{configurable:!0,set:function(e){c.default=c.__useDefault=e},get:function(){return c.__useDefault}});var p=s(r.deps,r.depLoads,n);if(!r.executingRequire)for(var i=0;i<r.deps.length;i++)p(r.deps[i]);var v=r.execute.call(e,p,c.__useDefault,f);void 0!==v?c.default=c.__useDefault=v:f.exports!==c.__useDefault&&(c.default=c.__useDefault=f.exports);var m=c.__useDefault;if(m&&m.__esModule)for(var b in m)Object.hasOwnProperty.call(m,b)&&(c[b]=m[b])}var f=t.module=new o(r.moduleObj);if(!r.setters)for(var i=0;i<t.importerSetters.length;i++)t.importerSetters[i](f);return f}function c(e,t){return p[e]={key:e,module:t,importerSetters:[],linkRecord:void 0}}var p={},v="undefined"!=typeof Symbol?Symbol():"@@baseObject";o.prototype=Object.create(null),"undefined"!=typeof Symbol&&Symbol.toStringTag&&(o.prototype[Symbol.toStringTag]="Module");var m="undefined"!=typeof System&&System._nodeRequire||"undefined"!=typeof require&&"undefined"!=typeof require.resolve&&"undefined"!=typeof process&&process.platform&&require,y={};return Object.freeze&&Object.freeze(y),function(e,t,n,i){return function(d){d(function(d){var s={_nodeRequire:m,register:l,registerDynamic:f,registry:{get:function(e){return p[e].module},set:c},newModule:function(e){return new o(e)}};c("@empty",new o({}));for(var a=0;a<t.length;a++)c(t[a],r(arguments[a],{}));i(s);var v=u(e[0]);if(e.length>1)for(var a=1;a<e.length;a++)u(e[a]);return n?v.__useDefault:(v instanceof o&&Object.defineProperty(v,"__esModule",{value:!0}),v)})}}}("undefined"!=typeof self?self:"undefined"!=typeof global?global:this)
-
-(["a"], [], false, function($__System) {
-var require = this.require, exports = this.exports, module = this.module;
-$__System.registerDynamic("b", [], true, function() {
-  return {
-    "name": "DFP",
-    "description": "A DoubleClick for Publishers Implementation",
-    "version": "2.4.3",
-    "license": "MIT",
-    "author": {
-      "name": "Elia Grady",
-      "email": "admin@eliagrady.com"
-    },
-    "bugs": {
-      "url": "https://github.com/haaretz/dfp/issues"
-    },
-    "devDependencies": {
-      "babel-cli": "^6.6.0",
-      "babel-core": "^6.6.0",
-      "babel-eslint": "^6.1.2",
-      "babel-loader": "^6.2.4",
-      "babel-plugin-external-helpers": "^6.8.0",
-      "babel-plugin-external-helpers-2": "^6.3.13",
-      "babel-plugin-syntax-jsx": "^6.5.0-1",
-      "babel-plugin-syntax-object-rest-spread": "^6.5.0-1",
-      "babel-plugin-transform-es2015-modules-commonjs": "^6.14.0",
-      "babel-plugin-transform-object-rest-spread": "^6.5.0-1",
-      "babel-plugin-transform-runtime": "^6.15.0",
-      "babel-polyfill": "^6.13.0",
-      "babel-preset-es2015": "^6.14.0",
-      "babel-preset-es2015-rollup": "^1.2.0",
-      "babel-preset-stage-0": "^6.5.0-1",
-      "babel-register": "^6.6.0",
-      "babelrc-rollup": "^3.0.0",
-      "chai": "^3.5.0",
-      "dirty-chai": "^1.2.2",
-      "eslint": "^3.2.0",
-      "eslint-config-airbnb": "^10.0.1",
-      "eslint-plugin-import": "^1.8.1",
-      "glob": "^7.0.0",
-      "isparta": "^4.0.0",
-      "isparta-instrumenter-loader": "^1.0.0",
-      "isparta-loader": "^2.0.0",
-      "json-loader": "^0.5.4",
-      "jspm": "^0.17.0-beta.31",
-      "karma": "1.2.0",
-      "karma-browserstack-launcher": "^1.0.1",
-      "karma-chrome-launcher": "^2.0.0",
-      "karma-coverage": "douglasduteil/karma-coverage#next",
-      "karma-coveralls": "^1.1.2",
-      "karma-dirty-chai": "^1.0.2",
-      "karma-firefox-launcher": "^1.0.0",
-      "karma-ie-launcher": "^1.0.0",
-      "karma-mocha": "^1.1.1",
-      "karma-mocha-reporter": "^2.0.0",
-      "karma-phantomjs-launcher": "^1.0.0",
-      "karma-sauce-launcher": "^1.0.0",
-      "karma-sinon-chai": "^1.2.0",
-      "karma-sourcemap-loader": "^0.3.7",
-      "karma-webpack": "^1.7.0",
-      "mkdirp": "^0.5.1",
-      "mocha": "^3.0.0",
-      "mocha-jsdom": "^1.1.0",
-      "mocha-lcov-reporter": "^1.2.0",
-      "mock-browser": "^0.92.10",
-      "npm-check-updates": "^2.5.8",
-      "phantomjs": "^2.1.3",
-      "phantomjs-prebuilt": "^2.1.4",
-      "pre-commit": "^1.1.2",
-      "rimraf": "^2.5.2",
-      "rollup": "^0.34.1",
-      "rollup-plugin-babel": "^2.6.1",
-      "rollup-plugin-commonjs": "^4.0.1",
-      "rollup-plugin-eslint": "^2.0.0",
-      "rollup-plugin-filesize": "^0.5.5",
-      "rollup-plugin-json": "^2.0.2",
-      "rollup-plugin-node-resolve": "^2.0.0",
-      "rollup-plugin-replace": "^1.1.0",
-      "rollup-plugin-sourcemaps": "^0.3.7",
-      "rollup-plugin-uglify": "^1.0.1",
-      "sinon": "^1.17.3",
-      "sinon-chai": "^2.8.0",
-      "uglify-js": "latest",
-      "webpack": "^2.1.0-beta.4",
-      "webpack-dev-server": "^1.14.1"
-    },
-    "peerDependencies": {
-      "lolex": "^1.4.0"
-    },
-    "homepage": "https://github.com/haaretz/dfp#readme",
-    "jsnext:main": "src/index.js",
-    "keywords": [
-      "boilerplate",
-      "es2015",
-      "rollup",
-      "karma",
-      "mocha",
-      "workflow",
-      "babel",
-      "es",
-      "isparta",
-      "rimraf",
-      "chai",
-      "sinon",
-      "webpack",
-      "eslint",
-      "bundle",
-      "DFP"
-    ],
-    "main": "dist/dfp.min.js",
-    "jspm": {
-      "name": "DFP",
-      "main": "dfp.js",
-      "dependencies": {
-        "json": "github:systemjs/plugin-json@^0.1.2"
-      },
-      "devDependencies": {
-        "plugin-babel": "npm:systemjs-plugin-babel@^0.0.17"
-      },
-      "peerDependencies": {}
-    },
-    "repository": {
-      "type": "git",
-      "url": "git@github.com:haaretz/dfp"
-    },
-    "scripts": {
-      "clean": "rimraf coverage/ dist/",
-      "build:dev": "babel-node config/rollup.config.js dev",
-      "build:prod": "babel-node config/rollup.config.js prod",
-      "build:es6": "babel-node config/rollup.config.js dev es6",
-      "build:jspm:dev": "jspm build src/index.js dist/dfp.js --format global --global-name DFP --source-map-contents",
-      "build:jspm:prod": "jspm build src/index.js dist/dfp.min.js --format global --global-name DFP --minify --source-map-contents",
-      "build:jspm:es6": "jspm build src/index.js dist/dfp.es6.js --format esm --source-map-contents",
-      "build": "npm run build:jspm",
-      "build:rollup": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es6",
-      "build:jspm": "npm run clean && mkdirp dist && npm run build:jspm:dev && npm run build:jspm:prod && npm run build:jspm:es6",
-      "browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
-      "test:server": "mocha --opts config/mocha.opts",
-      "test:browser": "karma start config/karma.conf.js --no-auto-watch",
-      "karma:phantom": "karma start config/karma.conf.js --single-run --no-auto-watch --browsers=PhantomJS",
-      "karma:chrome": "karma start config/karma.conf.js --single-run --no-auto-watch --browsers=Chrome",
-      "karma:firefox": "karma start config/karma.conf.js --single-run --no-auto-watch --browsers=Firefox",
-      "karma:ie": "karma start config/karma.conf.js --single-run --no-auto-watch --browsers=IE",
-      "test": "npm run test:browser",
-      "lint": "eslint ./src/**/*.js",
-      "lint:tests": "eslint ./src/**/*__tests__*/**/*.js",
-      "lint:source": "eslint src/",
-      "watch:server": "npm run test:server -- --watch",
-      "watch:browser": "./node_modules/.bin/karma start config/karma.conf.js --auto-watch --no-single-run",
-      "packages": "npm list --depth=0",
-      "package:purge": "rm -rf node_modules",
-      "package:reinstall": "npm run package:purge && npm install",
-      "package:check": "./node_modules/.bin/ncu",
-      "package:upgrade": "./node_modules/.bin/ncu -u",
-      "package:prod": "./node_modules/.bin/ncu -u",
-      "package:dev": "./node_modules/.bin/ncu -p -u",
-      "preversion": "[[ -z $(git status --porcelain) ]] && npm run build:jspm && git add -A dist && git commit -m 'Build lib'",
-      "postpublish": "git push origin master --follow-tags",
-      "commit": "git-cz"
-    },
-    "pre-commit": [
-      "test",
-      "lint:source"
-    ],
-    "engines": {
-      "node": "<6",
-      "npm": "~2.5"
-    },
-    "dependencies": {
-      "babel-runtime": "^6.11.6"
-    }
-  };
+var _classCallCheck = (function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
 });
 
-$__System.register("a", ["b"], function (_export, _context) {
-  "use strict";
+var _createClass = (function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
 
-  var version, _classCallCheck, _createClass, _toConsumableArray, ssoKey, dfpBaseConf, dfpConfig, breakpoints, keys, ImpressionsManager, userTypes$1, productTypes, User, ConflictResolver, hiddenClass, adSlot, adPriorities, adTargets, userTypes$$1, adTypes, AdManager, defaultConfig, resizeTimeout, DFP$1, config, version$1;
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+})();
 
-  /**
-   * Htz-cookie-util
-   * @module htzCookieUtil
-   * @author Elia Grady elia.grady@haaretz.co.il
-   * @license MIT
-   */
+var _toConsumableArray = (function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }return arr2;
+  } else {
+    return Array.from(arr);
+  }
+});
 
-  /**
-   * Translates Key-Value string into a convenient map.
-   * @param {String} string String in format of "key<operator>value<separator>....."
-   * @param {object} options object for overriding defaults:
-   * options.separator is a String or regExp that separates between each key value pairs
-   * (default is ';'). options.operator is a String or regExp that separates between each key
-   * and value within a pair (default is '=').
-   * @returns {object} a map object, with key-value mapping according to the passed configuration.
-   */
-  function stringToMap(string) {
-    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        _ref$separator = _ref.separator,
-        separator = _ref$separator === undefined ? ';' : _ref$separator,
-        _ref$operator = _ref.operator,
-        operator = _ref$operator === undefined ? '=' : _ref$operator;
+/**
+ * Htz-cookie-util
+ * @module htzCookieUtil
+ * @author Elia Grady elia.grady@haaretz.co.il
+ * @license MIT
+ */
 
-    var map = {};
-    var itemsArr = string.split(separator);
-    itemsArr.forEach(function (element) {
-      if (typeof element === 'string') {
-        var keyValue = element.split(operator);
-        if (keyValue.length === 2) {
-          try {
-            map[keyValue[0]] = decodeURIComponent(keyValue[1]);
-          } catch (e) {
-            // Do nothing, malformed URI
-          }
+/**
+ * Translates Key-Value string into a convenient map.
+ * @param {String} string String in format of "key<operator>value<separator>....."
+ * @param {object} options object for overriding defaults:
+ * options.separator is a String or regExp that separates between each key value pairs
+ * (default is ';'). options.operator is a String or regExp that separates between each key
+ * and value within a pair (default is '=').
+ * @returns {object} a map object, with key-value mapping according to the passed configuration.
+ */
+function stringToMap(string) {
+  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+      _ref$separator = _ref.separator,
+      separator = _ref$separator === undefined ? ';' : _ref$separator,
+      _ref$operator = _ref.operator,
+      operator = _ref$operator === undefined ? '=' : _ref$operator;
+
+  var map = {};
+  var itemsArr = string.split(separator);
+  itemsArr.forEach(function (element) {
+    if (typeof element === 'string') {
+      var keyValue = element.split(operator);
+      if (keyValue.length === 2) {
+        try {
+          map[keyValue[0]] = decodeURIComponent(keyValue[1]);
+        } catch (e) {
+          // Do nothing, malformed URI
         }
       }
+    }
+  });
+  return map;
+}
+var ssoKey = window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : 'tmsso';
+
+// Translates Cookie string into a convenient map.
+function getCookieAsMap() {
+  var map = stringToMap(document.cookie, { separator: /;\s?/ });
+  if (typeof map.tmsso === 'string') {
+    map.tmsso = stringToMap(map.tmsso, { separator: ':' });
+  }
+  if (typeof map.engsso === 'string') {
+    map.engsso = stringToMap(map.engsso, { separator: ':' });
+  }
+  return map;
+}
+
+/* global dfpConfig */
+// globalConfig for DFP
+var dfpBaseConf = void 0;
+try {
+  dfpBaseConf = window.JSON.parse(document.getElementById('dfpConfig').textContent);
+} catch (err) {
+  dfpBaseConf = window.dfpConfig;
+}
+var dfpConfig = Object.assign({
+  get referrer() {
+    return document.referrer ? document.referrer : '';
+  },
+  get isMobile() {
+    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent || '')
+    );
+  },
+  /**
+   * Returns true iff the loaded page is the homepage (no inner path)
+   * @returns {boolean}
+   */
+  get isHomepage() {
+    return window.location.pathname === '/' || this.environment === 3; // 'prod'
+  },
+  get department() {
+    return this.isHomepage ? '_homepage' : '_section';
+  },
+  /**
+   * returns the domain the page was loaded to. i.e: 'haaretz.co.il', 'haaretz.com'
+   * @returns {string} the domain name from the windows's location hostname property
+   */
+  get domain() {
+    var regexMatch = /([\d|\w]+)(\.co\.il|\.com)(.*)?/.exec(window.location.hostname);
+    var result = regexMatch ? regexMatch[0] : window.location.hostname;
+    return result;
+  },
+  /**
+   * Returns an array of concatenated paths, separated by a dot.
+   * For example, for the URL:
+   * http://www.haaretz.co.il/news/world/america/us-election-2016/LIVE-1.2869045
+   * the path is '/news/world/america/us-election-2016/LIVE-1.2869045'.
+   * This function takes the directories ['news', 'world', 'america', 'us-election-2016']
+   * and converts it to the following format:
+   * ['.news', '.news.world', '.news.world.america', '.news.world.america.us-election-2016']
+   * This denotes the path configuration for the given adSlot
+   * non articles (sections) will be given a '0' - no articleId value for targeting purposes)
+   * @returns {Array.<T>} an array of path names
+   */
+  get path() {
+    var sectionArray = this.articleId && this.articleId !== '0' ? window.location.pathname.split('/').slice(1, -1) : window.location.pathname.split('/').slice(1);
+    sectionArray = sectionArray.filter(function (path) {
+      return path !== 'wwwMobileSite' && path !== 'whtzMobileSite';
     });
-    return map;
-  }
-
-
-  // Translates Cookie string into a convenient map.
-  function getCookieAsMap() {
-    var map = stringToMap(document.cookie, { separator: /;\s?/ });
-    if (typeof map.tmsso === 'string') {
-      map.tmsso = stringToMap(map.tmsso, { separator: ':' });
-    }
-    if (typeof map.engsso === 'string') {
-      map.engsso = stringToMap(map.engsso, { separator: ':' });
-    }
-    return map;
-  }
-
-  /* global dfpConfig */
-  // globalConfig for DFP
-
-
+    return sectionArray.map(function (section) {
+      return '.' + section;
+    }).map(function (section, index, arr) {
+      return arr.slice(0, index + 1).reduce(function (last, current) {
+        return last.concat(current);
+      });
+    });
+  },
   /**
-   * Helper function. Adds N hours to a given date object.
-   * @param {Date} date - the date to derive from
-   * @param {Number} hours - the amount of hours to add, in whole numbers
-   * @throws {SyntaxError} Will throw if the 'date' param is not provided
-   * @throws {SyntaxError} Will throw if the 'hours' param is not provided
-   * @throws {TypeError} Will throw if the 'hours' param is not a valid integer
-   * @returns {Date} date - the new date, derived from adding the given hours
+   * Returns a string representation for the name of the site
+   * @return {*|string}
    */
-  function addHours(date, hours) {
-    if (!date) {
-      throw new SyntaxError('addHours called without a required \'date\' parameter!');
+  get site() {
+    var site = void 0;
+    if (window.location.hostname.indexOf('haaretz.co.il') > -1) {
+      site = 'haaretz';
+    } else if (window.location.hostname.indexOf('themarker.com') > -1) {
+      site = 'themarker';
+    } else if (window.location.hostname.indexOf('mouse.co.il') > -1) {
+      site = 'mouse';
     }
-    if (!hours) {
-      throw new SyntaxError('addHours called without a required \'hours\' parameter!');
-    } else if (isNaN(parseInt(hours, 10))) {
-      throw new TypeError('addHours called with an invalid integer \'hours\' parameter!');
-    }
-    var result = new Date(date);
-    result.setHours(result.getHours() + parseInt(hours, 10));
-    return result;
-  }
-
+    return site || 'haaretz';
+  },
   /**
-   * Helper function. Adds N days to a given date object.
-   * @param {Date} date - the date to derive from
-   * @param {Integer} days - the amount of days to add
-   * @throws {SyntaxError} Will throw if the 'date' param is not provided
-   * @throws {SyntaxError} Will throw if the 'days' param is not provided
-   * @throws {TypeError} Will throw if the 'hours' param is not a valid integer
-   * @returns {Date} date - the new date, derived from adding the given days
+   * Returns the current environment targeting param, if such is defined.
+   * @returns {number} targeting param, 1 for local development, 2 for test servers and 3 for prod.
+   * May return undefined if no targeting is specified.
    */
-  function addDays(date, days) {
-    if (!date) {
-      throw new SyntaxError('addDays called without a required \'date\' parameter!');
-    }
-    if (!days) {
-      throw new SyntaxError('addDays called without a required \'days\' parameter!');
-    } else if (isNaN(parseInt(days, 10))) {
-      throw new TypeError('addDays called with an invalid integer \'days\' parameter!');
-    }
-    var result = new Date(date);
-    result.setDate(result.getDate() + parseInt(days, 10));
-    return result;
-  }
-
-  /**
-   * Returns a function, that, as long as it continues to be invoked, will not
-   * be triggered. The function will be called after it stops being called for
-   * N milliseconds. If `immediate` is passed, trigger the function on the
-   * leading edge, instead of the trailing.
-   * @param { function } func - the function to run
-   * @param { number } wait - the timeout period to avoid running the function
-   * @param { boolean } immediate - leading edge modifier
-   * @returns {function } the debounced function
-   */
-  function debounce(func) {
-    var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
-    var immediate = arguments[2];
-
-    var timeout = void 0;
-    return function debounced() {
-      var context = this;
-      var args = arguments; // eslint-disable-line prefer-rest-params
-      var later = function later() {
-        timeout = null;
-        if (!immediate) func.apply(context, args);
-      };
-      var callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      if (callNow) func.apply(context, args);
+  get environment() {
+    var env = {
+      dev: 1,
+      test: 2,
+      prod: 3
     };
-  }
-
+    return window.location.port === '8080' ? env.dev : window.location.hostname.indexOf('pre.haaretz.co.il') > -1 || window.location.hostname.indexOf('tmtest.themarker.com') > -1 || window.location.hostname.indexOf('pre.haaretz.com') > -1 || window.location.hostname.indexOf('prodmouse.mouse.co.il') > -1 ? env.test : window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/Mouse.HomePage') > -1 ? env.prod : undefined;
+  },
   /**
-   * Returns the current breakpoint that is closest to the window's width
-   * @returns {number} the break that the current width represents
+   * Returns the articleIf if on an article page, or null otherwise
+   * @returns {string} an articleId string from the pathname, or 0 if not found
    */
-  function getBreakpoint() {
-    var breakpoint = void 0;
-    var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    switch (true) {
-      case windowWidth < breakpoints.xs:
-        breakpoint = breakpoints.xxs;break;
-      case windowWidth < breakpoints.s:
-        breakpoint = breakpoints.xs;break;
-      case windowWidth < breakpoints.m:
-        breakpoint = breakpoints.s;break;
-      case windowWidth < breakpoints.l:
-        breakpoint = breakpoints.m;break;
-      case windowWidth < breakpoints.xl:
-        breakpoint = breakpoints.l;break;
-      case windowWidth < breakpoints.xxl:
-        breakpoint = breakpoints.xl;break;
-      default:
-        breakpoint = breakpoints.xxl;
+  get articleId() {
+    var articleIdMatch = /\d\.\d+/g.exec(window.location.pathname);
+    var articleId = '0';
+    if (articleIdMatch) {
+      articleId = articleIdMatch.pop(); // Converts ["1.23145"] to "1.23145"
     }
-    return breakpoint;
-  }
-  /**
-   * Returns the current breakpoint that is closest to the window's width
-   * @param {number} breakpoint - the breakpoint label enumerator that the current width represents
-   * (yield with a getBreakpoint() call or passed manually )
-   * @returns {string} breakpoint - the breakpoint label that the current width represents,
-   * as a string
-   */
-  function getBreakpointName(breakpoint) {
-    var resultBreakpoint = void 0;
-    var windowWidth = breakpoint || window.innerWidth;
-    switch (true) {
-      case windowWidth < breakpoints.xs:
-        resultBreakpoint = 'xxs';break;
-      case windowWidth < breakpoints.s:
-        resultBreakpoint = 'xs';break;
-      case windowWidth < breakpoints.m:
-        resultBreakpoint = 's';break;
-      case windowWidth < breakpoints.l:
-        resultBreakpoint = 'm';break;
-      case windowWidth < breakpoints.xl:
-        resultBreakpoint = 'l';break;
-      case windowWidth < breakpoints.xxl:
-        resultBreakpoint = 'xl';break;
-      default:
-        resultBreakpoint = 'xxl';
+    return articleId;
+  },
+  utm_: {
+    get content() {
+      return this.getUrlParam('utm_content');
+    },
+    get source() {
+      return this.getUrlParam('utm_source');
+    },
+    get medium() {
+      return this.getUrlParam('utm_medium');
+    },
+    get campaign() {
+      return this.getUrlParam('utm_campaign');
+    },
+    getUrlParam: function getUrlParam(key) {
+      var results = RegExp('(' + key + ')(=)([^&"]+)').exec(window.location.search);
+      return results && results[3] ? results[3] : undefined;
     }
-    return resultBreakpoint;
-  }
-
-  /**
-   * Checks whether two arrays are equal
-   * @param {Array} a - the first array to check
-   * @param {Array} b - the second array to check
-   * @returns {Boolean} true iff both a and b are arrays, with equal values
-   */
-  function arraysEqual$1(a, b) {
-    if (!a || !b) return false;
-    if (!Array.isArray(a) || !Array.isArray(b)) return false;
-    if (a === b) return true;
-    if (a.length !== b.length) return false;
-    for (var i = 0; i < a.length; ++i) {
-      if (Array.isArray(a[i]) && Array.isArray(b[i])) {
-        if (!arraysEqual$1(a[i], b[i])) return false;
-      } else if (a[i] !== b[i]) {
-        return false;
+  },
+  get adBlockRemoved() {
+    var adBlockRemoved = false;
+    try {
+      if (localStorage.getItem('adblock_removed')) {
+        adBlockRemoved = true;
       }
+    } catch (err) {
+      // do nothing
     }
-    return true;
+    return adBlockRemoved;
+  },
+  get ssoGroupKey() {
+    return window.localStorage.getItem('_SsoGroupKey');
+  },
+  get anonymousId() {
+    var cookieName = 'anonymousId';
+    var cookieMap = getCookieAsMap();
+    var anonymousId = '';
+    if (cookieMap && cookieMap[cookieName]) {
+      anonymousId = cookieMap[cookieName];
+    }
+    return anonymousId;
+  },
+  get isWriterAlerts() {
+    return location.search.indexOf('writerAlerts=true') > -1;
+  },
+  get wifiLocation() {
+    var wifiLocation = void 0;
+    var cookieName = '_htzwif'; // eslint-disable-line no-underscore-dangle
+    var cookieMap = getCookieAsMap();
+    try {
+      if (cookieMap && cookieMap[cookieName]) {
+        if (cookieMap[cookieName].toLowerCase() === 'arcaffe') {
+          wifiLocation = 'ArCafe';
+        }
+        if (cookieMap[cookieName].toLowerCase() === 'university') {
+          wifiLocation = 'university';
+        }
+      }
+    } catch (err) {
+      // do nothing
+    }
+    return wifiLocation;
+  },
+  get isValidForsmartPhone() {
+    var validForAds = true;
+    var PageUrl = window.location.href;
+    var isSmartphoneapp = PageUrl.match('haaretzsmartphoneapp');
+    var cookieMap = getCookieAsMap();
+    try {
+      if (isSmartphoneapp) {
+        // eslint-disable-line no-underscore-dangle
+        if (!cookieMap || !(cookieMap.NotPayer || cookieMap.HtzPusr)) {
+          validForAds = false;
+        }
+      }
+    } catch (err) {
+      // do nothing
+    }
+    return validForAds;
+  },
+  get gStatCampaignNumber() {
+    var gstatCampaign = void 0;
+    try {
+      gstatCampaign = localStorage.getItem('GstatCampaign') ? JSON.parse(localStorage.getItem('GstatCampaign')) : undefined;
+    } catch (err) {
+      /* In case of thrown 'SecurityError' or 'QuotaExceededError',
+       the variable should be undefined */
+      gstatCampaign = undefined;
+    }
+    return gstatCampaign ? gstatCampaign.CampaignNumber : undefined;
+  },
+  get pageType() {
+    var type = '';
+    try {
+      var htmlclassList = document.querySelector('html').classList;
+      switch (true) {
+        case /mouse_location/.test(htmlclassList):
+          type = 'mouse_location';
+          break;
+        case /mouse_event/.test(htmlclassList):
+          type = 'mouse_event';
+          break;
+        case /contentType-story/.test(htmlclassList):
+          type = 'mouse_article';
+          break;
+        default:
+          type = '';
+      }
+    } catch (err) {
+      /* In case of thrown 'SecurityError' or 'QuotaExceededError',
+       the variable should be undefined */
+      type = '';
+    }
+    return type;
+  },
+  get proposalNumber() {
+    var proposal = void 0;
+    try {
+      proposal = localStorage.getItem('proposaltype') ? localStorage.getItem('proposaltype') : undefined;
+    } catch (err) {
+      /* In case of thrown 'SecurityError' or 'QuotaExceededError',
+       the variable should be undefined */
+      proposal = undefined;
+    }
+    return proposal;
+  },
+  adSlotConfig: {
+    'haaretz.co.il.example.slot': {
+      id: 'slotId',
+      // path : "/network/base/slotId/slotId_subsection", Will be calculated from AdManager
+      responsive: true,
+      adSizeMapping: [['width1', 'height1']].concat(['widthN', 'heightN']),
+      priority: 'normal',
+      fluid: false,
+      responsiveAdSizeMapping: {
+        xxs: [['width1', 'height1']].concat(['widthN', 'heightN']),
+        xs: [['width1', 'height1']].concat(['widthN', 'heightN']),
+        s: [['width1', 'height1']].concat(['widthN', 'heightN']),
+        m: [['width1', 'height1']].concat(['widthN', 'heightN']),
+        l: [['width1', 'height1']].concat(['widthN', 'heightN']),
+        xl: [['width1', 'height1']].concat(['widthN', 'heightN']),
+        xxl: [['width1', 'height1']].concat(['widthN', 'heightN'])
+      },
+      blacklistReferrers: 'comma, delimited, blacklisted, referrer, list',
+      whitelistReferrers: 'comma, delimited, referrer, list'
+    }
+  },
+  adManagerConfig: {
+    network: '9401',
+    adUnitBase: 'haaretz.co.il_Web'
+  },
+  breakpointsConfig: {
+    get breakpoints() {
+      // Override in VM from backend to control this toggle.
+      var breakpoints = void 0;
+      switch (dfpConfig.googleGlobalSettings.breakpointType) {
+        case 'type1':
+          breakpoints = this.breakpoints1;break;
+        case 'type2':
+          breakpoints = this.breakpoints2;break;
+        case 'type3':
+          breakpoints = this.breakpoints3;break;
+        case 'type4':
+          breakpoints = this.breakpoints4;break;
+        default:
+          breakpoints = this.breakpoints1;
+      }
+      return breakpoints;
+    },
+    // Type 1
+    breakpoints1: {
+      xxs: 600,
+      xs: 761,
+      s: 993,
+      m: 1009,
+      l: 1291,
+      xl: 1600,
+      xxl: 1900
+    },
+    // Type 2
+    breakpoints2: {
+      xxs: 600,
+      xs: 1000,
+      s: 1150,
+      m: 1281,
+      l: 1600,
+      xl: 1920,
+      xxl: 1920
+    },
+    // Type 3
+    breakpoints3: {
+      xxs: 100,
+      xs: 480,
+      s: 600,
+      m: 768,
+      l: 1024,
+      xl: 1280,
+      xxl: 1900
+    },
+    // Type 4
+    breakpoints4: {
+      xxs: 600,
+      xs: 768,
+      s: 1024,
+      m: 1280,
+      l: 1900,
+      xl: 1900,
+      xxl: 1900
+    }
+  },
+  userConfig: {
+    type: undefined,
+    age: undefined,
+    gender: undefined
+  },
+  conflictManagementConfig: {
+    'blocking.ad.unit.name': [{
+      onsize: '1280x200,970x250,3x3',
+      avoid: 'blocked.ad.unit.name'
+    }, {
+      onsize: '1280x200,970x250,3x3',
+      avoid: 'blocked.ad.unit.name'
+    }]
+  },
+  impressionManagerConfig: {
+    'ad.unit.name': {
+      target: 'all|section|homepage',
+      frequency: '$1/$2(day|hour)',
+      exposed: 0,
+      expires: new Date().getTime()
+    }
+  },
+  googleGlobalSettings: {
+    enableSingleRequest: true,
+    enableAsyncRendering: true,
+    refreshIntervalTime: 1000,
+    breakpointType: 'type1'
+  },
+  sso: ssoKey
+
+}, dfpBaseConf);
+
+/**
+ * Helper function. Adds N hours to a given date object.
+ * @param {Date} date - the date to derive from
+ * @param {Number} hours - the amount of hours to add, in whole numbers
+ * @throws {SyntaxError} Will throw if the 'date' param is not provided
+ * @throws {SyntaxError} Will throw if the 'hours' param is not provided
+ * @throws {TypeError} Will throw if the 'hours' param is not a valid integer
+ * @returns {Date} date - the new date, derived from adding the given hours
+ */
+function addHours(date, hours) {
+  if (!date) {
+    throw new SyntaxError('addHours called without a required \'date\' parameter!');
+  }
+  if (!hours) {
+    throw new SyntaxError('addHours called without a required \'hours\' parameter!');
+  } else if (isNaN(parseInt(hours, 10))) {
+    throw new TypeError('addHours called with an invalid integer \'hours\' parameter!');
+  }
+  var result = new Date(date);
+  result.setHours(result.getHours() + parseInt(hours, 10));
+  return result;
+}
+
+/**
+ * Helper function. Adds N days to a given date object.
+ * @param {Date} date - the date to derive from
+ * @param {Integer} days - the amount of days to add
+ * @throws {SyntaxError} Will throw if the 'date' param is not provided
+ * @throws {SyntaxError} Will throw if the 'days' param is not provided
+ * @throws {TypeError} Will throw if the 'hours' param is not a valid integer
+ * @returns {Date} date - the new date, derived from adding the given days
+ */
+function addDays(date, days) {
+  if (!date) {
+    throw new SyntaxError('addDays called without a required \'date\' parameter!');
+  }
+  if (!days) {
+    throw new SyntaxError('addDays called without a required \'days\' parameter!');
+  } else if (isNaN(parseInt(days, 10))) {
+    throw new TypeError('addDays called with an invalid integer \'days\' parameter!');
+  }
+  var result = new Date(date);
+  result.setDate(result.getDate() + parseInt(days, 10));
+  return result;
+}
+
+var breakpoints = dfpConfig.breakpointsConfig.breakpoints;
+
+/**
+ * Returns a function, that, as long as it continues to be invoked, will not
+ * be triggered. The function will be called after it stops being called for
+ * N milliseconds. If `immediate` is passed, trigger the function on the
+ * leading edge, instead of the trailing.
+ * @param { function } func - the function to run
+ * @param { number } wait - the timeout period to avoid running the function
+ * @param { boolean } immediate - leading edge modifier
+ * @returns {function } the debounced function
+ */
+function debounce(func) {
+  var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
+  var immediate = arguments[2];
+
+  var timeout = void 0;
+  return function debounced() {
+    var context = this;
+    var args = arguments; // eslint-disable-line prefer-rest-params
+    var later = function later() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
+
+/**
+ * Returns the current breakpoint that is closest to the window's width
+ * @returns {number} the break that the current width represents
+ */
+function getBreakpoint() {
+  var breakpoint = void 0;
+  var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  switch (true) {
+    case windowWidth < breakpoints.xs:
+      breakpoint = breakpoints.xxs;break;
+    case windowWidth < breakpoints.s:
+      breakpoint = breakpoints.xs;break;
+    case windowWidth < breakpoints.m:
+      breakpoint = breakpoints.s;break;
+    case windowWidth < breakpoints.l:
+      breakpoint = breakpoints.m;break;
+    case windowWidth < breakpoints.xl:
+      breakpoint = breakpoints.l;break;
+    case windowWidth < breakpoints.xxl:
+      breakpoint = breakpoints.xl;break;
+    default:
+      breakpoint = breakpoints.xxl;
+  }
+  return breakpoint;
+}
+/**
+ * Returns the current breakpoint that is closest to the window's width
+ * @param {number} breakpoint - the breakpoint label enumerator that the current width represents
+ * (yield with a getBreakpoint() call or passed manually )
+ * @returns {string} breakpoint - the breakpoint label that the current width represents,
+ * as a string
+ */
+function getBreakpointName(breakpoint) {
+  var resultBreakpoint = void 0;
+  var windowWidth = breakpoint || window.innerWidth;
+  switch (true) {
+    case windowWidth < breakpoints.xs:
+      resultBreakpoint = 'xxs';break;
+    case windowWidth < breakpoints.s:
+      resultBreakpoint = 'xs';break;
+    case windowWidth < breakpoints.m:
+      resultBreakpoint = 's';break;
+    case windowWidth < breakpoints.l:
+      resultBreakpoint = 'm';break;
+    case windowWidth < breakpoints.xl:
+      resultBreakpoint = 'l';break;
+    case windowWidth < breakpoints.xxl:
+      resultBreakpoint = 'xl';break;
+    default:
+      resultBreakpoint = 'xxl';
+  }
+  return resultBreakpoint;
+}
+
+var keys = {
+  impressions: 'impressions',
+  frequency: 'frequency',
+  /**
+   * [0] - full match
+   * [1] - impression count i.e: "1" | "22"
+   * [2] - impression expiry range quantifier  i.e: "1" | "22"
+   * [3] - impression expiry range unit i.e: "day" | "hour"
+   */
+  frequencyRegex: /(\d+)\/(\d+)(day|hour)/,
+  expires: 'expires',
+  exposed: 'exposed',
+  target: 'target',
+  maxImpressions: 'maxImpressions',
+  hours: 'hour',
+  days: 'day',
+  adSlotId: 'id'
+};
+
+var ImpressionsManager = function () {
+  function ImpressionsManager(impressionManagerConfig) {
+    _classCallCheck(this, ImpressionsManager);
+
+    this.now = new Date().getTime(); // this date is used for comparisons only
+    this.config = Object.assign({}, impressionManagerConfig);
+    this.impressions = this.retrieveImpressionsData();
+    this.initImpressionMap();
   }
 
-  /* global googletag */
-  return {
-    setters: [function (_b) {
-      version = _b.version;
-    }],
-    execute: function () {
-      _classCallCheck = function (instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-          throw new TypeError("Cannot call a class as a function");
-        }
-      };
+  _createClass(ImpressionsManager, [{
+    key: 'retrieveImpressionsData',
+    value: function retrieveImpressionsData() {
+      var _this = this;
 
-      _createClass = function () {
-        function defineProperties(target, props) {
-          for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
+      var impressions = this.migrateImpressionsData();
+      /*
+       Merge migrated data with new data
+       console.log('Migrated: ',impressions);
+       */
+      Object.keys(impressions).map(function (key, index) {
+        impressions[key] = Object.assign({}, impressions[key], _this.config[key]);
+        return _this;
+      });
+      /*
+       console.log('Merged: ',impressions);
+       Filter out entries without frequency
+       */
+      for (var key in impressions) {
+        if ({}.hasOwnProperty.call(impressions, key)) {
+          if (!impressions[key][keys.frequency]) {
+            // console.log(`Removing ${key} - since it does not have a frequency`,impressions[key]);
+            delete impressions[key];
           }
         }
+      }
+      // console.log('Filtered: ',impressions);
+      return impressions;
+    }
+  }, {
+    key: 'migrateImpressionsData',
+    value: function migrateImpressionsData() {
+      var _this2 = this;
 
-        return function (Constructor, protoProps, staticProps) {
-          if (protoProps) defineProperties(Constructor.prototype, protoProps);
-          if (staticProps) defineProperties(Constructor, staticProps);
-          return Constructor;
-        };
-      }();
-
-      _toConsumableArray = function (arr) {
-        if (Array.isArray(arr)) {
-          for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-            arr2[i] = arr[i];
-          }return arr2;
-        } else {
-          return Array.from(arr);
-        }
-      };
-
-      ssoKey = window.location.hostname.indexOf('haaretz.com') > -1 ? 'engsso' : 'tmsso';
-      dfpBaseConf = void 0;
-
+      var impressions = void 0;
+      var impressionsData = void 0;
       try {
-        dfpBaseConf = window.JSON.parse(document.getElementById('dfpConfig').textContent);
+        impressionsData = window.localStorage.getItem(keys.impressions);
       } catch (err) {
-        dfpBaseConf = window.dfpConfig;
+        // In case of thrown 'SecurityError' or 'QuotaExceededError', the variable should be undefined
+        impressionsData = undefined;
       }
-      dfpConfig = Object.assign({
-        get referrer() {
-          return document.referrer ? document.referrer : '';
-        },
-        get isMobile() {
-          return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent || '')
-          );
-        },
-        /**
-         * Returns true iff the loaded page is the homepage (no inner path)
-         * @returns {boolean}
-         */
-        get isHomepage() {
-          return window.location.pathname === '/' || this.environment === 3; // 'prod'
-        },
-        get department() {
-          return this.isHomepage ? '_homepage' : '_section';
-        },
-        /**
-         * returns the domain the page was loaded to. i.e: 'haaretz.co.il', 'haaretz.com'
-         * @returns {string} the domain name from the windows's location hostname property
-         */
-        get domain() {
-          var regexMatch = /([\d|\w]+)(\.co\.il|\.com)(.*)?/.exec(window.location.hostname);
-          var result = regexMatch ? regexMatch[0] : window.location.hostname;
-          return result;
-        },
-        /**
-         * Returns an array of concatenated paths, separated by a dot.
-         * For example, for the URL:
-         * http://www.haaretz.co.il/news/world/america/us-election-2016/LIVE-1.2869045
-         * the path is '/news/world/america/us-election-2016/LIVE-1.2869045'.
-         * This function takes the directories ['news', 'world', 'america', 'us-election-2016']
-         * and converts it to the following format:
-         * ['.news', '.news.world', '.news.world.america', '.news.world.america.us-election-2016']
-         * This denotes the path configuration for the given adSlot
-         * non articles (sections) will be given a '0' - no articleId value for targeting purposes)
-         * @returns {Array.<T>} an array of path names
-         */
-        get path() {
-          var sectionArray = this.articleId && this.articleId !== '0' ? window.location.pathname.split('/').slice(1, -1) : window.location.pathname.split('/').slice(1);
-          sectionArray = sectionArray.filter(function (path) {
-            return path !== 'wwwMobileSite' && path !== 'whtzMobileSite';
-          });
-          return sectionArray.map(function (section) {
-            return '.' + section;
-          }).map(function (section, index, arr) {
-            return arr.slice(0, index + 1).reduce(function (last, current) {
-              return last.concat(current);
-            });
-          });
-        },
-        /**
-         * Returns a string representation for the name of the site
-         * @return {*|string}
-         */
-        get site() {
-          var site = void 0;
-          if (window.location.hostname.indexOf('haaretz.co.il') > -1) {
-            site = 'haaretz';
-          } else if (window.location.hostname.indexOf('themarker.com') > -1) {
-            site = 'themarker';
-          } else if (window.location.hostname.indexOf('mouse.co.il') > -1) {
-            site = 'mouse';
-          }
-          return site || 'haaretz';
-        },
-        /**
-         * Returns the current environment targeting param, if such is defined.
-         * @returns {number} targeting param, 1 for local development, 2 for test servers and 3 for prod.
-         * May return undefined if no targeting is specified.
-         */
-        get environment() {
-          var env = {
-            dev: 1,
-            test: 2,
-            prod: 3
-          };
-          return window.location.port === '8080' ? env.dev : window.location.hostname.indexOf('pre.haaretz.co.il') > -1 || window.location.hostname.indexOf('tmtest.themarker.com') > -1 || window.location.hostname.indexOf('pre.haaretz.com') > -1 || window.location.hostname.indexOf('prodmouse.mouse.co.il') > -1 ? env.test : window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1 || window.location.pathname.indexOf('/cmlink/Mouse.HomePage') > -1 ? env.prod : undefined;
-        },
-        /**
-         * Returns the articleIf if on an article page, or null otherwise
-         * @returns {string} an articleId string from the pathname, or 0 if not found
-         */
-        get articleId() {
-          var articleIdMatch = /\d\.\d+/g.exec(window.location.pathname);
-          var articleId = '0';
-          if (articleIdMatch) {
-            articleId = articleIdMatch.pop(); // Converts ["1.23145"] to "1.23145"
-          }
-          return articleId;
-        },
-        utm_: {
-          get content() {
-            return this.getUrlParam('utm_content');
-          },
-          get source() {
-            return this.getUrlParam('utm_source');
-          },
-          get medium() {
-            return this.getUrlParam('utm_medium');
-          },
-          get campaign() {
-            return this.getUrlParam('utm_campaign');
-          },
-          getUrlParam: function getUrlParam(key) {
-            var results = RegExp('(' + key + ')(=)([^&"]+)').exec(window.location.search);
-            return results && results[3] ? results[3] : undefined;
-          }
-        },
-        get adBlockRemoved() {
-          var adBlockRemoved = false;
-          try {
-            if (localStorage.getItem('adblock_removed')) {
-              adBlockRemoved = true;
-            }
-          } catch (err) {
-            // do nothing
-          }
-          return adBlockRemoved;
-        },
-        get ssoGroupKey() {
-          return window.localStorage.getItem('_SsoGroupKey');
-        },
-        get anonymousId() {
-          var cookieName = 'anonymousId';
-          var cookieMap = getCookieAsMap();
-          var anonymousId = '';
-          if (cookieMap && cookieMap[cookieName]) {
-            anonymousId = cookieMap[cookieName];
-          }
-          return anonymousId;
-        },
-        get isWriterAlerts() {
-          return location.search.indexOf('writerAlerts=true') > -1;
-        },
-        get wifiLocation() {
-          var wifiLocation = void 0;
-          var cookieName = '_htzwif'; // eslint-disable-line no-underscore-dangle
-          var cookieMap = getCookieAsMap();
-          try {
-            if (cookieMap && cookieMap[cookieName]) {
-              if (cookieMap[cookieName].toLowerCase() === 'arcaffe') {
-                wifiLocation = 'ArCafe';
-              }
-              if (cookieMap[cookieName].toLowerCase() === 'university') {
-                wifiLocation = 'university';
-              }
-            }
-          } catch (err) {
-            // do nothing
-          }
-          return wifiLocation;
-        },
-        get isValidForsmartPhone() {
-          var validForAds = true;
-          var PageUrl = window.location.href;
-          var isSmartphoneapp = PageUrl.match('haaretzsmartphoneapp');
-          var cookieMap = getCookieAsMap();
-          try {
-            if (isSmartphoneapp) {
-              // eslint-disable-line no-underscore-dangle
-              if (!cookieMap || !(cookieMap.NotPayer || cookieMap.HtzPusr)) {
-                validForAds = false;
-              }
-            }
-          } catch (err) {
-            // do nothing
-          }
-          return validForAds;
-        },
-        get gStatCampaignNumber() {
-          var gstatCampaign = void 0;
-          try {
-            gstatCampaign = localStorage.getItem('GstatCampaign') ? JSON.parse(localStorage.getItem('GstatCampaign')) : undefined;
-          } catch (err) {
-            /* In case of thrown 'SecurityError' or 'QuotaExceededError',
-             the variable should be undefined */
-            gstatCampaign = undefined;
-          }
-          return gstatCampaign ? gstatCampaign.CampaignNumber : undefined;
-        },
-        get pageType() {
-          var type = '';
-          try {
-            var htmlclassList = document.querySelector('html').classList;
-            switch (true) {
-              case /mouse_location/.test(htmlclassList):
-                type = 'mouse_location';
-                break;
-              case /mouse_event/.test(htmlclassList):
-                type = 'mouse_event';
-                break;
-              case /contentType-story/.test(htmlclassList):
-                type = 'mouse_article';
-                break;
-              default:
-                type = '';
-            }
-          } catch (err) {
-            /* In case of thrown 'SecurityError' or 'QuotaExceededError',
-             the variable should be undefined */
-            type = '';
-          }
-          return type;
-        },
-        get proposalNumber() {
-          var proposal = void 0;
-          try {
-            proposal = localStorage.getItem('proposaltype') ? localStorage.getItem('proposaltype') : undefined;
-          } catch (err) {
-            /* In case of thrown 'SecurityError' or 'QuotaExceededError',
-             the variable should be undefined */
-            proposal = undefined;
-          }
-          return proposal;
-        },
-        adSlotConfig: {
-          'haaretz.co.il.example.slot': {
-            id: 'slotId',
-            // path : "/network/base/slotId/slotId_subsection", Will be calculated from AdManager
-            responsive: true,
-            adSizeMapping: [['width1', 'height1']].concat(['widthN', 'heightN']),
-            priority: 'normal',
-            fluid: false,
-            responsiveAdSizeMapping: {
-              xxs: [['width1', 'height1']].concat(['widthN', 'heightN']),
-              xs: [['width1', 'height1']].concat(['widthN', 'heightN']),
-              s: [['width1', 'height1']].concat(['widthN', 'heightN']),
-              m: [['width1', 'height1']].concat(['widthN', 'heightN']),
-              l: [['width1', 'height1']].concat(['widthN', 'heightN']),
-              xl: [['width1', 'height1']].concat(['widthN', 'heightN']),
-              xxl: [['width1', 'height1']].concat(['widthN', 'heightN'])
-            },
-            blacklistReferrers: 'comma, delimited, blacklisted, referrer, list',
-            whitelistReferrers: 'comma, delimited, referrer, list'
-          }
-        },
-        adManagerConfig: {
-          network: '9401',
-          adUnitBase: 'haaretz.co.il_Web'
-        },
-        breakpointsConfig: {
-          get breakpoints() {
-            // Override in VM from backend to control this toggle.
-            var breakpoints = void 0;
-            switch (dfpConfig.googleGlobalSettings.breakpointType) {
-              case 'type1':
-                breakpoints = this.breakpoints1;break;
-              case 'type2':
-                breakpoints = this.breakpoints2;break;
-              case 'type3':
-                breakpoints = this.breakpoints3;break;
-              case 'type4':
-                breakpoints = this.breakpoints4;break;
-              default:
-                breakpoints = this.breakpoints1;
-            }
-            return breakpoints;
-          },
-          // Type 1
-          breakpoints1: {
-            xxs: 600,
-            xs: 761,
-            s: 993,
-            m: 1009,
-            l: 1291,
-            xl: 1600,
-            xxl: 1900
-          },
-          // Type 2
-          breakpoints2: {
-            xxs: 600,
-            xs: 1000,
-            s: 1150,
-            m: 1281,
-            l: 1600,
-            xl: 1920,
-            xxl: 1920
-          },
-          // Type 3
-          breakpoints3: {
-            xxs: 100,
-            xs: 480,
-            s: 600,
-            m: 768,
-            l: 1024,
-            xl: 1280,
-            xxl: 1900
-          },
-          // Type 4
-          breakpoints4: {
-            xxs: 600,
-            xs: 768,
-            s: 1024,
-            m: 1280,
-            l: 1900,
-            xl: 1900,
-            xxl: 1900
-          }
-        },
-        userConfig: {
-          type: undefined,
-          age: undefined,
-          gender: undefined
-        },
-        conflictManagementConfig: {
-          'blocking.ad.unit.name': [{
-            onsize: '1280x200,970x250,3x3',
-            avoid: 'blocked.ad.unit.name'
-          }, {
-            onsize: '1280x200,970x250,3x3',
-            avoid: 'blocked.ad.unit.name'
-          }]
-        },
-        impressionManagerConfig: {
-          'ad.unit.name': {
-            target: 'all|section|homepage',
-            frequency: '$1/$2(day|hour)',
-            exposed: 0,
-            expires: new Date().getTime()
-          }
-        },
-        googleGlobalSettings: {
-          enableSingleRequest: true,
-          enableAsyncRendering: true,
-          refreshIntervalTime: 1000,
-          breakpointType: 'type1'
-        },
-        sso: ssoKey
+      try {
+        impressions = JSON.parse(impressionsData);
+      } catch (err) {
+        // Here is where old impression data is converted to new format
+        impressions = {};
+        var oldImpressionsArray = impressionsData.split(';').filter(function (e) {
+          return e;
+        });
 
-      }, dfpBaseConf);
-      breakpoints = dfpConfig.breakpointsConfig.breakpoints;
-      keys = {
-        impressions: 'impressions',
-        frequency: 'frequency',
-        /**
-         * [0] - full match
-         * [1] - impression count i.e: "1" | "22"
-         * [2] - impression expiry range quantifier  i.e: "1" | "22"
-         * [3] - impression expiry range unit i.e: "day" | "hour"
-         */
-        frequencyRegex: /(\d+)\/(\d+)(day|hour)/,
-        expires: 'expires',
-        exposed: 'exposed',
-        target: 'target',
-        maxImpressions: 'maxImpressions',
-        hours: 'hour',
-        days: 'day',
-        adSlotId: 'id'
-      };
+        oldImpressionsArray.forEach(function (impression) {
+          try {
+            var adUnitImpression = impression.split(' = ');
+            var name = adUnitImpression[0];
+            var data = adUnitImpression[1];
+            var tmp = name.split('.');
+            var target = tmp.pop();
+            if (target && target === 'hp') {
+              target = 'homepage';
+            }
+            var slotId = tmp.join('.');
+            var id = slotId + '_' + target;
+            var exposed = parseInt(data.split('/')[0], 10) || 0;
+            var expires = parseInt(data.split('/')[1], 10) || _this2.now;
+            impressions[id] = {};
+            impressions[id][keys.adSlotId] = slotId;
+            impressions[id][keys.target] = target;
+            impressions[id][keys.exposed] = exposed;
+            impressions[id][keys.expires] = expires;
+          } catch (err1) {
+            // console.log(`Failed converting impression: ${impression}`, err1);
+          }
+        });
+      }
+      return impressions || {};
+    }
 
-      ImpressionsManager = function () {
-        function ImpressionsManager(impressionManagerConfig) {
-          _classCallCheck(this, ImpressionsManager);
+    /**
+     * Define the debounced version of the local storage save
+     */
 
-          this.now = new Date().getTime(); // this date is used for comparisons only
-          this.config = Object.assign({}, impressionManagerConfig);
-          this.impressions = this.retrieveImpressionsData();
-          this.initImpressionMap();
+  }, {
+    key: 'saveImpressionsToLocalStorage',
+    value: function saveImpressionsToLocalStorage() {
+      if (this.debouncedSave && typeof this.debouncedSave === 'function') {
+        this.debouncedSave();
+      } else {
+        this.debouncedSave = debounce(this.saveImpressionsToLocalStorageImpl, 250, false);
+        this.debouncedSave();
+      }
+    }
+
+    /**
+     * Implementation of saving the impression map to localstorage
+     */
+
+  }, {
+    key: 'saveImpressionsToLocalStorageImpl',
+    value: function saveImpressionsToLocalStorageImpl() {
+      try {
+        localStorage.setItem(keys.impressions, JSON.stringify(this.impressions));
+      } catch (err) {
+        /* In case of thrown 'SecurityError' or 'QuotaExceededError',
+         the operation should not break*/
+        console.error('localStorage isn\'t available:', err); // eslint-disable-line no-console
+      }
+    }
+
+    /**
+     * Initializes the impression map based on the retrieved impressions and the global
+     * configuration.
+     */
+
+  }, {
+    key: 'initImpressionMap',
+    value: function initImpressionMap() {
+      var _this3 = this;
+
+      Object.keys(this.config).map(function (key, index) {
+        var adSlotId = key;
+        var slot = _this3.impressions[adSlotId];
+        var shouldUpdateExpiryDate = false;
+        // Case I: Existing slot (update)
+        if (slot) {
+          // Case I.I Existing slot, frequency has changed
+          if (_this3.config[adSlotId][keys.frequency] !== slot[keys.frequency]) {
+            // Updating the frequency will trigger a new expiry date
+            shouldUpdateExpiryDate = true;
+            _this3.impressions[adSlotId][keys.frequency] = _this3.config[adSlotId][keys.frequency];
+          } // Case I.II Existing slot, old expiry date
+          else if (_this3.now > slot[keys.expires]) {
+              // Old value that should trigger a new expiry date
+              shouldUpdateExpiryDate = true;
+            }
+        } // Case II: Non-existing slot (create new slot)
+        else {
+            _this3.initSlotFromConfig(adSlotId);
+          } // Finally, updates the expiry date (cases I.I and I.II)
+        if (shouldUpdateExpiryDate) {
+          _this3.updateExpiryDate(adSlotId);
         }
+        return _this3;
+      });
+    }
 
-        _createClass(ImpressionsManager, [{
-          key: 'retrieveImpressionsData',
-          value: function retrieveImpressionsData() {
-            var _this = this;
+    /**
+     * Updates the expiry date of a slotName based on the configured slot frequency
+     * @param {String} slotName - the slotName to update.
+     */
 
-            var impressions = this.migrateImpressionsData();
-            /*
-             Merge migrated data with new data
-             console.log('Migrated: ',impressions);
-             */
-            Object.keys(impressions).map(function (key, index) {
-              impressions[key] = Object.assign({}, impressions[key], _this.config[key]);
-              return _this;
-            });
-            /*
-             console.log('Merged: ',impressions);
-             Filter out entries without frequency
-             */
-            for (var key in impressions) {
-              if ({}.hasOwnProperty.call(impressions, key)) {
-                if (!impressions[key][keys.frequency]) {
-                  // console.log(`Removing ${key} - since it does not have a frequency`,impressions[key]);
-                  delete impressions[key];
-                }
-              }
-            }
-            // console.log('Filtered: ',impressions);
-            return impressions;
-          }
-        }, {
-          key: 'migrateImpressionsData',
-          value: function migrateImpressionsData() {
-            var _this2 = this;
+  }, {
+    key: 'updateExpiryDate',
+    value: function updateExpiryDate(slotName) {
+      var now = new Date();
+      if (!(this.impressions[slotName] && this.impressions[slotName][keys.frequency])) {
+        throw new Error('Unable to update expiry date for slot: ' + slotName + '\n      - this.impressions[slotName]:', this.impressions[slotName]);
+      }
+      var frequencyMap = this.impressions[slotName][keys.frequency].match(keys.frequencyRegex);
+      now.setMilliseconds(0);
+      now.setSeconds(0);
+      now.setMinutes(0);
+      if (frequencyMap.indexOf(keys.days) > -1) {
+        now.setHours(0);
+      }
+      this.impressions[slotName][keys.expires] = (frequencyMap.indexOf(keys.days) > -1 ? addDays(now, frequencyMap[2]) : addHours(now, frequencyMap[2])).getTime();
 
-            var impressions = void 0;
-            var impressionsData = void 0;
+      // Set max impressions:
+      this.impressions[slotName][keys.maxImpressions] = parseInt(frequencyMap[1], 10);
+      // Reset exposed
+      this.impressions[slotName][keys.exposed] = 0;
+    }
+
+    /**
+     * Initializes a non-existing slot from the passed global configuration for the slot
+     * @param {String} slotName - the name of the slot to create
+     */
+
+  }, {
+    key: 'initSlotFromConfig',
+    value: function initSlotFromConfig(slotName) {
+      var slot = this.impressions[slotName] || {};
+      slot[keys.frequency] = this.config[slotName][keys.frequency];
+      slot[keys.target] = this.config[slotName][keys.target];
+      slot[keys.exposed] = 0;
+      this.impressions[slotName] = slot;
+      this.updateExpiryDate(slotName);
+    }
+
+    /**
+     * Registers an impression for a given adSlot.
+     * @param {String} adSlotId - the adSlot id to register an impression for
+     * @returns {boolean} returns true iff the impression has been registered
+     */
+
+  }, {
+    key: 'registerImpression',
+    value: function registerImpression(adSlotId) {
+      if (adSlotId) {
+        var slot = this.impressions[adSlotId];
+        if (slot) {
+          var exposed = slot[keys.exposed];
+          if (isNaN(parseInt(exposed, 10)) === false) {
+            this.impressions[adSlotId][keys.exposed] += 1;
             try {
-              impressionsData = window.localStorage.getItem(keys.impressions);
+              this.saveImpressionsToLocalStorage();
             } catch (err) {
-              // In case of thrown 'SecurityError' or 'QuotaExceededError', the variable should be undefined
-              impressionsData = undefined;
-            }
-            try {
-              impressions = JSON.parse(impressionsData);
-            } catch (err) {
-              // Here is where old impression data is converted to new format
-              impressions = {};
-              var oldImpressionsArray = impressionsData.split(';').filter(function (e) {
-                return e;
-              });
-
-              oldImpressionsArray.forEach(function (impression) {
-                try {
-                  var adUnitImpression = impression.split(' = ');
-                  var name = adUnitImpression[0];
-                  var data = adUnitImpression[1];
-                  var tmp = name.split('.');
-                  var target = tmp.pop();
-                  if (target && target === 'hp') {
-                    target = 'homepage';
-                  }
-                  var slotId = tmp.join('.');
-                  var id = slotId + '_' + target;
-                  var exposed = parseInt(data.split('/')[0], 10) || 0;
-                  var expires = parseInt(data.split('/')[1], 10) || _this2.now;
-                  impressions[id] = {};
-                  impressions[id][keys.adSlotId] = slotId;
-                  impressions[id][keys.target] = target;
-                  impressions[id][keys.exposed] = exposed;
-                  impressions[id][keys.expires] = expires;
-                } catch (err1) {
-                  // console.log(`Failed converting impression: ${impression}`, err1);
-                }
-              });
-            }
-            return impressions || {};
-          }
-
-          /**
-           * Define the debounced version of the local storage save
-           */
-
-        }, {
-          key: 'saveImpressionsToLocalStorage',
-          value: function saveImpressionsToLocalStorage() {
-            if (this.debouncedSave && typeof this.debouncedSave === 'function') {
-              this.debouncedSave();
-            } else {
-              this.debouncedSave = debounce(this.saveImpressionsToLocalStorageImpl, 250, false);
-              this.debouncedSave();
-            }
-          }
-
-          /**
-           * Implementation of saving the impression map to localstorage
-           */
-
-        }, {
-          key: 'saveImpressionsToLocalStorageImpl',
-          value: function saveImpressionsToLocalStorageImpl() {
-            try {
-              localStorage.setItem(keys.impressions, JSON.stringify(this.impressions));
-            } catch (err) {
-              /* In case of thrown 'SecurityError' or 'QuotaExceededError',
-               the operation should not break*/
-              console.error('localStorage isn\'t available:', err); // eslint-disable-line no-console
-            }
-          }
-
-          /**
-           * Initializes the impression map based on the retrieved impressions and the global
-           * configuration.
-           */
-
-        }, {
-          key: 'initImpressionMap',
-          value: function initImpressionMap() {
-            var _this3 = this;
-
-            Object.keys(this.config).map(function (key, index) {
-              var adSlotId = key;
-              var slot = _this3.impressions[adSlotId];
-              var shouldUpdateExpiryDate = false;
-              // Case I: Existing slot (update)
-              if (slot) {
-                // Case I.I Existing slot, frequency has changed
-                if (_this3.config[adSlotId][keys.frequency] !== slot[keys.frequency]) {
-                  // Updating the frequency will trigger a new expiry date
-                  shouldUpdateExpiryDate = true;
-                  _this3.impressions[adSlotId][keys.frequency] = _this3.config[adSlotId][keys.frequency];
-                } // Case I.II Existing slot, old expiry date
-                else if (_this3.now > slot[keys.expires]) {
-                    // Old value that should trigger a new expiry date
-                    shouldUpdateExpiryDate = true;
-                  }
-              } // Case II: Non-existing slot (create new slot)
-              else {
-                  _this3.initSlotFromConfig(adSlotId);
-                } // Finally, updates the expiry date (cases I.I and I.II)
-              if (shouldUpdateExpiryDate) {
-                _this3.updateExpiryDate(adSlotId);
-              }
-              return _this3;
-            });
-          }
-
-          /**
-           * Updates the expiry date of a slotName based on the configured slot frequency
-           * @param {String} slotName - the slotName to update.
-           */
-
-        }, {
-          key: 'updateExpiryDate',
-          value: function updateExpiryDate(slotName) {
-            var now = new Date();
-            if (!(this.impressions[slotName] && this.impressions[slotName][keys.frequency])) {
-              throw new Error('Unable to update expiry date for slot: ' + slotName + '\n      - this.impressions[slotName]:', this.impressions[slotName]);
-            }
-            var frequencyMap = this.impressions[slotName][keys.frequency].match(keys.frequencyRegex);
-            now.setMilliseconds(0);
-            now.setSeconds(0);
-            now.setMinutes(0);
-            if (frequencyMap.indexOf(keys.days) > -1) {
-              now.setHours(0);
-            }
-            this.impressions[slotName][keys.expires] = (frequencyMap.indexOf(keys.days) > -1 ? addDays(now, frequencyMap[2]) : addHours(now, frequencyMap[2])).getTime();
-
-            // Set max impressions:
-            this.impressions[slotName][keys.maxImpressions] = parseInt(frequencyMap[1], 10);
-            // Reset exposed
-            this.impressions[slotName][keys.exposed] = 0;
-          }
-
-          /**
-           * Initializes a non-existing slot from the passed global configuration for the slot
-           * @param {String} slotName - the name of the slot to create
-           */
-
-        }, {
-          key: 'initSlotFromConfig',
-          value: function initSlotFromConfig(slotName) {
-            var slot = this.impressions[slotName] || {};
-            slot[keys.frequency] = this.config[slotName][keys.frequency];
-            slot[keys.target] = this.config[slotName][keys.target];
-            slot[keys.exposed] = 0;
-            this.impressions[slotName] = slot;
-            this.updateExpiryDate(slotName);
-          }
-
-          /**
-           * Registers an impression for a given adSlot.
-           * @param {String} adSlotId - the adSlot id to register an impression for
-           * @returns {boolean} returns true iff the impression has been registered
-           */
-
-        }, {
-          key: 'registerImpression',
-          value: function registerImpression(adSlotId) {
-            if (adSlotId) {
-              var slot = this.impressions[adSlotId];
-              if (slot) {
-                var exposed = slot[keys.exposed];
-                if (isNaN(parseInt(exposed, 10)) === false) {
-                  this.impressions[adSlotId][keys.exposed] += 1;
-                  try {
-                    this.saveImpressionsToLocalStorage();
-                  } catch (err) {
-                    // console.log('Error saving ad impressions to localStorage!', err);
-                  }
-                  return true;
-                }
-              }
-            }
-            return false;
-          }
-
-          /**
-           * Checks whether an adSlot has reached it's allocated impressions count.
-           * @param {String} adSlotId - the adSlot to check
-           * @returns {boolean} true iff there is a quota for the adSlot, and it has been reached
-           */
-
-        }, {
-          key: 'reachedQuota',
-          value: function reachedQuota(adSlotId) {
-            // An adSlotId is suffixed with _homepage | _section if it's targeting is different
-            // between the two. If there is no difference, an _all suffix can be used.
-            var slotName = this.impressions['' + adSlotId + dfpConfig.department] ? '' + adSlotId + dfpConfig.department : adSlotId + '_all';
-
-            var slot = this.impressions[slotName];
-            var atQuota = false;
-            if (slot) {
-              var now = new Date().getTime();
-              // Second element of 2/4day matches '2'
-              var expires = this.impressions[slotName][keys.expires];
-              if (expires < now) {
-                this.updateExpiryDate(slotName);
-              } else {
-                var maxImpressions = this.impressions[slotName][keys.maxImpressions];
-                // Not expired, did reach max impressions?
-                if (maxImpressions) {
-                  atQuota = this.impressions[slotName][keys.exposed] >= maxImpressions;
-                }
-              }
-            }
-            return atQuota;
-          }
-
-          /**
-           * Clears the impression map from 'exposed' impressions
-           */
-
-        }, {
-          key: 'resetImpressions',
-          value: function resetImpressions() {
-            var impressions = this.impressions;
-            for (var key in impressions) {
-              if ({}.hasOwnProperty.call(impressions, key)) {
-                if (impressions[key][keys.exposed]) {
-                  impressions[key][keys.exposed] = 0;
-                }
-              }
-            }
-            this.saveImpressionsToLocalStorage();
-          }
-        }]);
-
-        return ImpressionsManager;
-      }();
-
-      userTypes$1 = {
-        payer: 'payer',
-        registered: 'registered',
-        anonymous: 'anonymous',
-        trial: 'trial'
-      };
-      productTypes = {
-        htz: 243,
-        tm: 273,
-        hdc: 239,
-        htz_tm: 274
-      };
-
-      User = function () {
-        function User(config) {
-          _classCallCheck(this, User);
-
-          this.config = Object.assign({}, config.userConfig);
-          var cookieMap = getCookieAsMap();
-          this.ssoKey = dfpConfig.sso;
-          if (!cookieMap[this.ssoKey]) {
-            // Flips the ssoKey, since cookieMap.ssoKey cannot be used to retrieve data
-            this.ssoKey = this.ssoKey === 'tmsso' ? 'engsso' : 'tmsso';
-          }
-          this.type = this.getUserType(cookieMap);
-          this.htz_type = this.getUserTypeByProduct(cookieMap, productTypes.htz);
-          this.tm_type = this.getUserTypeByProduct(cookieMap, productTypes.tm);
-          this.hdc_type = this.getUserTypeByProduct(cookieMap, productTypes.hdc);
-          this.impressionManager = new ImpressionsManager(config.impressionManagerConfig);
-          this.age = this.getUserAge(cookieMap);
-          this.gender = this.getUserGender(cookieMap);
-          this.sso = this.getUserSSO(cookieMap, this.ssoKey);
-        }
-
-        _createClass(User, [{
-          key: 'getUserType',
-          value: function getUserType(cookieMap) {
-            var userType = void 0;
-            if (cookieMap && cookieMap[this.ssoKey]) {
-              userType = cookieMap.HtzPusr || cookieMap.TmPusr || cookieMap.HdcPusr ? userTypes$1.payer : userTypes$1.registered;
-            } else {
-              userType = userTypes$1.anonymous;
-            }
-            return userType;
-          }
-        }, {
-          key: 'getUserTypeByProduct',
-          value: function getUserTypeByProduct(cookieMap, productType) {
-            var userType = userTypes$1.anonymous;
-            if (cookieMap && cookieMap[this.ssoKey]) {
-              if (cookieMap.userProducts) {
-                var userProducts = decodeURIComponent(cookieMap.userProducts);
-                userProducts = JSON.parse(userProducts);
-                if (productType === productTypes.hdc) {
-                  userType = this.getHdcUserType(userProducts);
-                } else {
-                  userType = this.getHtzTmUserType(userProducts, productType);
-                }
-              }
-            }
-            return userType;
-          }
-        }, {
-          key: 'getHdcUserType',
-          value: function getHdcUserType(userProducts) {
-            // user has hdc paying product
-            if (this.userHasProduct(userProducts, productTypes.hdc, false)) {
-              return userTypes$1.payer;
-            }
-            // user has hdc trial product
-            else if (this.userHasProduct(userProducts, productTypes.hdc, true)) {
-                return userTypes$1.trial;
-              }
-            return userTypes$1.registered;
-          }
-        }, {
-          key: 'getHtzTmUserType',
-          value: function getHtzTmUserType(userProducts, productType) {
-            // user has htz/tm paying product
-            if (this.userHasProduct(userProducts, productType, false) || this.userHasProduct(userProducts, productTypes.htz_tm, false)) {
-              return userTypes$1.payer;
-            }
-            // user has htz/tm trial product
-            else if (this.userHasProduct(userProducts, productType, true) || this.userHasProduct(userProducts, productTypes.htz_tm, true)) {
-                return userTypes$1.trial;
-              }
-            return userTypes$1.registered;
-          }
-        }, {
-          key: 'userHasProduct',
-          value: function userHasProduct(userProducts, productType, trial) {
-            return userProducts.products.filter(function (product) {
-              return product.prodNum === productType && product.trial === trial;
-            }).length > 0;
-          }
-        }, {
-          key: 'getUserAge',
-          value: function getUserAge(cookieMap) {
-            var age = void 0;
-            var usrae = cookieMap[this.ssoKey] && cookieMap[this.ssoKey].usrae;
-            if (usrae) {
-              age = parseInt(cookieMap[this.ssoKey].usrae, 10);
-              age = age > 0 ? age : undefined;
-            }
-            return age;
-          }
-        }, {
-          key: 'getUserGender',
-          value: function getUserGender(cookieMap) {
-            var gender = void 0;
-            var urgdr = cookieMap[this.ssoKey] && cookieMap[this.ssoKey].urgdr;
-            if (urgdr) {
-              gender = parseInt(cookieMap[this.ssoKey].urgdr, 10);
-              gender = gender === 2 || gender === 1 ? gender : undefined;
-            }
-            return gender;
-          }
-        }, {
-          key: 'getUserSSO',
-          value: function getUserSSO(cookieMap, ssoKey$$1) {
-            return cookieMap[ssoKey$$1];
-          }
-        }]);
-
-        return User;
-      }();
-
-      ConflictResolver = function () {
-        function ConflictResolver(conflictManagementConfig) {
-          _classCallCheck(this, ConflictResolver);
-
-          this.dependencyMap = this.initializeDependencyMap(conflictManagementConfig);
-          this.deferredSlots = new Set();
-        }
-
-        _createClass(ConflictResolver, [{
-          key: 'initializeDependencyMap',
-          value: function initializeDependencyMap(conflictManagementJson) {
-            var _this = this;
-
-            var queue = new Map();
-            Object.keys(conflictManagementJson).map(function (key, value) {
-              var rules = conflictManagementJson[key];
-              if (rules) {
-                rules = rules.filter(function (item) {
-                  return item.onsize && item.avoid;
-                });
-              }
-              queue.set(key, {
-                id: key,
-                rules: rules,
-                resolvedWith: null
-              });
-              return _this;
-            });
-            return queue;
-          }
-        }, {
-          key: 'updateResolvedSlot',
-          value: function updateResolvedSlot(adSlotId, resolvedSize) {
-            if (!adSlotId) {
-              throw new Error('updateResolvedSlot must be called with an adSlotId!');
-            }
-            if (!resolvedSize) {
-              throw new Error('updateResolvedSlot must be called with a resolved size!');
-            }
-            if (this.dependencyMap.has(adSlotId)) {
-              this.dependencyMap.get(adSlotId).resolvedWith = resolvedSize;
-            }
-          }
-        }, {
-          key: 'isBlocked',
-          value: function isBlocked(adSlotId) {
-            var _this2 = this;
-
-            if (!adSlotId) {
-              throw new Error('isBlocked must be called with an adSlotId!');
-            }
-            var isBlocked = false;
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-              for (var _iterator = this.dependencyMap.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var adSlotKey = _step.value;
-
-                var adSlot = this.dependencyMap.get(adSlotKey);
-                var _iteratorNormalCompletion2 = true;
-                var _didIteratorError2 = false;
-                var _iteratorError2 = undefined;
-
-                try {
-                  for (var _iterator2 = adSlot.rules[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                    var adSlotRule = _step2.value;
-
-                    // Found rule specific to our target
-                    if (adSlotRule.avoid === adSlotId) {
-                      (function () {
-                        var parentResolvedWith = adSlot.resolvedWith;
-                        // Fail fast: parent is not resolved yet - unknown returned size.
-                        if (!parentResolvedWith) {
-                          isBlocked = true;
-                          _this2.deferredSlots.add(adSlotId);
-                        }
-                        if (adSlotRule.onsize.split(',').find(function (sizeString) {
-                          // eslint-disable-line
-                          var size = sizeString.split('x').map(function (numberStr) {
-                            return parseInt(numberStr, 10);
-                          });
-                          return _this2.arraysEqual(size, parentResolvedWith);
-                        })) {
-                          // Block found
-                          _this2.deferredSlots.add(adSlotId);
-                          isBlocked = true;
-                        }
-                      })();
-                    }
-                  }
-                } catch (err) {
-                  _didIteratorError2 = true;
-                  _iteratorError2 = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                      _iterator2.return();
-                    }
-                  } finally {
-                    if (_didIteratorError2) {
-                      throw _iteratorError2;
-                    }
-                  }
-                }
-              }
-            } catch (err) {
-              _didIteratorError = true;
-              _iteratorError = err;
-            } finally {
-              try {
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                  _iterator.return();
-                }
-              } finally {
-                if (_didIteratorError) {
-                  throw _iteratorError;
-                }
-              }
-            }
-
-            return isBlocked;
-          }
-        }, {
-          key: 'isBlocking',
-          value: function isBlocking(adSlotId) {
-            if (!adSlotId) {
-              throw new Error('isBlocking must be called with an adSlotId!');
-            }
-            var isBlocking = false;
-            var _iteratorNormalCompletion3 = true;
-            var _didIteratorError3 = false;
-            var _iteratorError3 = undefined;
-
-            try {
-              for (var _iterator3 = this.dependencyMap.keys()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                var adSlotKey = _step3.value;
-
-                if (adSlotKey === adSlotId) {
-                  isBlocking = true;
-                }
-              }
-            } catch (err) {
-              _didIteratorError3 = true;
-              _iteratorError3 = err;
-            } finally {
-              try {
-                if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                  _iterator3.return();
-                }
-              } finally {
-                if (_didIteratorError3) {
-                  throw _iteratorError3;
-                }
-              }
-            }
-
-            return isBlocking;
-          }
-
-          /**
-           * Gets an array of adSlot Ids for a given adSlotId, that are dependent on (blocked by)
-           * @param {String} adSlotId - the blocking slot id
-           * @return {Array} an array of blocked slot, that has a dependency on the given slot
-           */
-
-        }, {
-          key: 'getBlockedSlotsIds',
-          value: function getBlockedSlotsIds(adSlotId) {
-            var result = void 0;
-            if (this.dependencyMap.has(adSlotId)) {
-              result = Array.from(this.dependencyMap.get(adSlotId).rules.map(function (adSlot) {
-                return adSlot.avoid;
-              }));
-            }
-            return result || [];
-          }
-        }, {
-          key: 'arraysEqual',
-          value: function arraysEqual(a, b) {
-            if (a === b) return true;
-            if (a === null || b === null) return false;
-            if (a.length !== b.length) return false;
-            for (var i = 0; i < a.length; ++i) {
-              if (a[i] !== b[i]) return false;
+              // console.log('Error saving ad impressions to localStorage!', err);
             }
             return true;
           }
-        }]);
+        }
+      }
+      return false;
+    }
 
-        return ConflictResolver;
-      }();
+    /**
+     * Checks whether an adSlot has reached it's allocated impressions count.
+     * @param {String} adSlotId - the adSlot to check
+     * @returns {boolean} true iff there is a quota for the adSlot, and it has been reached
+     */
 
-      ConflictResolver.EMPTY_SIZE = [];hiddenClass = dfpConfig.site.indexOf('mouse') > -1 ? 'u-is-hidden' : 'h-hidden';
+  }, {
+    key: 'reachedQuota',
+    value: function reachedQuota(adSlotId) {
+      // An adSlotId is suffixed with _homepage | _section if it's targeting is different
+      // between the two. If there is no difference, an _all suffix can be used.
+      var slotName = this.impressions['' + adSlotId + dfpConfig.department] ? '' + adSlotId + dfpConfig.department : adSlotId + '_all';
 
-      adSlot = function () {
-        function adSlot(adSlotConfig) {
-          _classCallCheck(this, adSlot);
-
-          this.config = Object.assign({}, adSlotConfig);
-
-          // Part I : Markup configuration - passed from AdManager
-          this.id = this.config.id;
-          if (!this.config.id) {
-            throw new Error('an adSlot requires an id!');
-          }
-          this.target = this.config.target;
-          this.type = this.config.type;
-          this.responsive = this.config.responsive;
-          this.fluid = this.config.fluid;
-          this.user = this.config.user;
-          this.adManager = this.config.adManager;
-          this.htmlElement = this.config.htmlElement;
-          this.priority = this.config.priority;
-          this.deferredSlot = this.config.deferredSlot;
-
-          // Part II : Global, general ad configuration - passed from AdManager
-          this.department = this.config.department;
-          this.network = this.config.network;
-          this.adUnitBase = this.config.adUnitBase;
-
-          // Part III : ad specific configuration - passed from globalConfig.adSlotConfig
-          this.adSizeMapping = this.config.adSizeMapping;
-          this.responsiveAdSizeMapping = this.config.responsiveAdSizeMapping;
-          this.blacklistReferrers = this.config.blacklistReferrers ? this.config.blacklistReferrers.split(',') : [];
-          this.whitelistReferrers = this.config.whitelistReferrers ? this.config.whitelistReferrers.split(',') : [];
-
-          // Part IV : Runtime configuration - calculated data - only present in runtime
-          this.lastResolvedSize = undefined; // Initialized in 'slotRenderEnded' callback
-          this.lastResolvedWithBreakpoint = undefined; // Initialized in 'slotRenderEnded' callback
-          this.slot = undefined; // Holds a googletag.Slot object
-          // [https://developers.google.com/doubleclick-gpt/reference#googletag.Slot]
-          try {
-            if (!this.deferredSlot) {
-              this.slot = this.defineSlot();
-            }
-          } catch (err) {
-            console.error(err); // eslint-disable-line no-console
+      var slot = this.impressions[slotName];
+      var atQuota = false;
+      if (slot) {
+        var now = new Date().getTime();
+        // Second element of 2/4day matches '2'
+        var expires = this.impressions[slotName][keys.expires];
+        if (expires < now) {
+          this.updateExpiryDate(slotName);
+        } else {
+          var maxImpressions = this.impressions[slotName][keys.maxImpressions];
+          // Not expired, did reach max impressions?
+          if (maxImpressions) {
+            atQuota = this.impressions[slotName][keys.exposed] >= maxImpressions;
           }
         }
+      }
+      return atQuota;
+    }
 
-        /**
-         * Checks whether this adSlot is an 'Out-of-page' slot or not.
-         * An Out-of-page slot is a slot that is not embedded in the page 'normally'.
-         * @returns {boolean} true iff this adSlot is one of the predefined 'out-of-page' slots.
-         */
+    /**
+     * Clears the impression map from 'exposed' impressions
+     */
 
-        _createClass(adSlot, [{
-          key: 'isOutOfPage',
-          value: function isOutOfPage() {
-            if (typeof this.type !== 'string') {
-              throw new Error('An adSlot cannot by typeless!', this);
-            }
-            if (this.isMobile() === true) {
-              return false;
-            }
-            switch (this.type) {
-              case adTypes.maavaron:
-                return false;
-              case adTypes.popunder:
-                return true;
-              case adTypes.talkback:
-                return false;
-              case adTypes.regular:
-                return false;
-              default:
-                return false;
-            }
+  }, {
+    key: 'resetImpressions',
+    value: function resetImpressions() {
+      var impressions = this.impressions;
+      for (var key in impressions) {
+        if ({}.hasOwnProperty.call(impressions, key)) {
+          if (impressions[key][keys.exposed]) {
+            impressions[key][keys.exposed] = 0;
           }
+        }
+      }
+      this.saveImpressionsToLocalStorage();
+    }
+  }]);
 
-          /**
-           * Checks whether this adSlot is a 'maavaron' slot or not.
-           * An Out-of-page slot is a slot that is not embedded in the page 'normally'.
-           * @returns {boolean} true iff this adSlot is one of the predefined 'out-of-page' slots.
-           */
+  return ImpressionsManager;
+}();
 
-        }, {
-          key: 'isMaavaron',
-          value: function isMaavaron() {
-            if (typeof this.type !== 'string') {
-              throw new Error('An adSlot cannot by typeless!', this);
-            }
-            if (this.isMobile() === true) {
-              return false;
-            }
-            switch (this.type) {
-              case adTypes.maavaron:
-                return false;
-              default:
-                return false;
-            }
+var userTypes$1 = {
+  payer: 'payer',
+  registered: 'registered',
+  anonymous: 'anonymous',
+  trial: 'trial'
+};
+
+var productTypes = {
+  htz: 243,
+  tm: 273,
+  hdc: 239,
+  htz_tm: 274
+};
+
+var User = function () {
+  function User(config) {
+    _classCallCheck(this, User);
+
+    this.config = Object.assign({}, config.userConfig);
+    var cookieMap = getCookieAsMap();
+    this.ssoKey = dfpConfig.sso;
+    if (!cookieMap[this.ssoKey]) {
+      // Flips the ssoKey, since cookieMap.ssoKey cannot be used to retrieve data
+      this.ssoKey = this.ssoKey === 'tmsso' ? 'engsso' : 'tmsso';
+    }
+    this.type = this.getUserType(cookieMap);
+    this.htz_type = this.getUserTypeByProduct(cookieMap, productTypes.htz);
+    this.tm_type = this.getUserTypeByProduct(cookieMap, productTypes.tm);
+    this.hdc_type = this.getUserTypeByProduct(cookieMap, productTypes.hdc);
+    this.impressionManager = new ImpressionsManager(config.impressionManagerConfig);
+    this.age = this.getUserAge(cookieMap);
+    this.gender = this.getUserGender(cookieMap);
+    this.sso = this.getUserSSO(cookieMap, this.ssoKey);
+  }
+
+  _createClass(User, [{
+    key: 'getUserType',
+    value: function getUserType(cookieMap) {
+      var userType = void 0;
+      if (cookieMap && cookieMap[this.ssoKey]) {
+        userType = cookieMap.HtzPusr || cookieMap.TmPusr || cookieMap.HdcPusr ? userTypes$1.payer : userTypes$1.registered;
+      } else {
+        userType = userTypes$1.anonymous;
+      }
+      return userType;
+    }
+  }, {
+    key: 'getUserTypeByProduct',
+    value: function getUserTypeByProduct(cookieMap, productType) {
+      var userType = userTypes$1.anonymous;
+      if (cookieMap && cookieMap[this.ssoKey]) {
+        if (cookieMap.userProducts) {
+          var userProducts = decodeURIComponent(cookieMap.userProducts);
+          userProducts = JSON.parse(userProducts);
+          if (productType === productTypes.hdc) {
+            userType = this.getHdcUserType(userProducts);
+          } else {
+            userType = this.getHtzTmUserType(userProducts, productType);
           }
-        }, {
-          key: 'isMobile',
-          value: function isMobile() {
-            return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent || '')
-            );
-          }
-          /**
-           * Checks whether or not this adSlot has a non-empty whitelist, and if so, that the current
-           * referrer appears in the whitelist.
-           * Should return false iff there is a whitelist for the current adSlot, but the referrer is not
-           * mentioned in the whitelist.
-           * @returns {boolean} true iff the ad can be displayed.
-           */
+        }
+      }
+      return userType;
+    }
+  }, {
+    key: 'getHdcUserType',
+    value: function getHdcUserType(userProducts) {
+      // user has hdc paying product
+      if (this.userHasProduct(userProducts, productTypes.hdc, false)) {
+        return userTypes$1.payer;
+      }
+      // user has hdc trial product
+      else if (this.userHasProduct(userProducts, productTypes.hdc, true)) {
+          return userTypes$1.trial;
+        }
+      return userTypes$1.registered;
+    }
+  }, {
+    key: 'getHtzTmUserType',
+    value: function getHtzTmUserType(userProducts, productType) {
+      // user has htz/tm paying product
+      if (this.userHasProduct(userProducts, productType, false) || this.userHasProduct(userProducts, productTypes.htz_tm, false)) {
+        return userTypes$1.payer;
+      }
+      // user has htz/tm trial product
+      else if (this.userHasProduct(userProducts, productType, true) || this.userHasProduct(userProducts, productTypes.htz_tm, true)) {
+          return userTypes$1.trial;
+        }
+      return userTypes$1.registered;
+    }
+  }, {
+    key: 'userHasProduct',
+    value: function userHasProduct(userProducts, productType, trial) {
+      return userProducts.products.filter(function (product) {
+        return product.prodNum === productType && product.trial === trial;
+      }).length > 0;
+    }
+  }, {
+    key: 'getUserAge',
+    value: function getUserAge(cookieMap) {
+      var age = void 0;
+      var usrae = cookieMap[this.ssoKey] && cookieMap[this.ssoKey].usrae;
+      if (usrae) {
+        age = parseInt(cookieMap[this.ssoKey].usrae, 10);
+        age = age > 0 ? age : undefined;
+      }
+      return age;
+    }
+  }, {
+    key: 'getUserGender',
+    value: function getUserGender(cookieMap) {
+      var gender = void 0;
+      var urgdr = cookieMap[this.ssoKey] && cookieMap[this.ssoKey].urgdr;
+      if (urgdr) {
+        gender = parseInt(cookieMap[this.ssoKey].urgdr, 10);
+        gender = gender === 2 || gender === 1 ? gender : undefined;
+      }
+      return gender;
+    }
+  }, {
+    key: 'getUserSSO',
+    value: function getUserSSO(cookieMap, ssoKey$$1) {
+      return cookieMap[ssoKey$$1];
+    }
+  }]);
 
-        }, {
-          key: 'isWhitelisted',
-          value: function isWhitelisted() {
-            var whitelisted = false;
-            if (this.whitelistReferrers.length !== 0) {
-              var _iteratorNormalCompletion = true;
-              var _didIteratorError = false;
-              var _iteratorError = undefined;
+  return User;
+}();
 
-              try {
-                for (var _iterator = this.whitelistReferrers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                  var referrer = _step.value;
+var ConflictResolver = function () {
+  function ConflictResolver(conflictManagementConfig) {
+    _classCallCheck(this, ConflictResolver);
 
-                  if (dfpConfig.referrer.indexOf(referrer) > -1) {
-                    whitelisted = true;
-                    break;
+    this.dependencyMap = this.initializeDependencyMap(conflictManagementConfig);
+    this.deferredSlots = new Set();
+  }
+
+  _createClass(ConflictResolver, [{
+    key: 'initializeDependencyMap',
+    value: function initializeDependencyMap(conflictManagementJson) {
+      var _this = this;
+
+      var queue = new Map();
+      Object.keys(conflictManagementJson).map(function (key, value) {
+        var rules = conflictManagementJson[key];
+        if (rules) {
+          rules = rules.filter(function (item) {
+            return item.onsize && item.avoid;
+          });
+        }
+        queue.set(key, {
+          id: key,
+          rules: rules,
+          resolvedWith: null
+        });
+        return _this;
+      });
+      return queue;
+    }
+  }, {
+    key: 'updateResolvedSlot',
+    value: function updateResolvedSlot(adSlotId, resolvedSize) {
+      if (!adSlotId) {
+        throw new Error('updateResolvedSlot must be called with an adSlotId!');
+      }
+      if (!resolvedSize) {
+        throw new Error('updateResolvedSlot must be called with a resolved size!');
+      }
+      if (this.dependencyMap.has(adSlotId)) {
+        this.dependencyMap.get(adSlotId).resolvedWith = resolvedSize;
+      }
+    }
+  }, {
+    key: 'isBlocked',
+    value: function isBlocked(adSlotId) {
+      var _this2 = this;
+
+      if (!adSlotId) {
+        throw new Error('isBlocked must be called with an adSlotId!');
+      }
+      var isBlocked = false;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = this.dependencyMap.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var adSlotKey = _step.value;
+
+          var adSlot = this.dependencyMap.get(adSlotKey);
+          var _iteratorNormalCompletion2 = true;
+          var _didIteratorError2 = false;
+          var _iteratorError2 = undefined;
+
+          try {
+            for (var _iterator2 = adSlot.rules[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+              var adSlotRule = _step2.value;
+
+              // Found rule specific to our target
+              if (adSlotRule.avoid === adSlotId) {
+                (function () {
+                  var parentResolvedWith = adSlot.resolvedWith;
+                  // Fail fast: parent is not resolved yet - unknown returned size.
+                  if (!parentResolvedWith) {
+                    isBlocked = true;
+                    _this2.deferredSlots.add(adSlotId);
                   }
-                }
-              } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion && _iterator.return) {
-                    _iterator.return();
+                  if (adSlotRule.onsize.split(',').find(function (sizeString) {
+                    // eslint-disable-line
+                    var size = sizeString.split('x').map(function (numberStr) {
+                      return parseInt(numberStr, 10);
+                    });
+                    return _this2.arraysEqual(size, parentResolvedWith);
+                  })) {
+                    // Block found
+                    _this2.deferredSlots.add(adSlotId);
+                    isBlocked = true;
                   }
-                } finally {
-                  if (_didIteratorError) {
-                    throw _iteratorError;
-                  }
-                }
+                })();
               }
-            } else {
+            }
+          } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
+              }
+            } finally {
+              if (_didIteratorError2) {
+                throw _iteratorError2;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      return isBlocked;
+    }
+  }, {
+    key: 'isBlocking',
+    value: function isBlocking(adSlotId) {
+      if (!adSlotId) {
+        throw new Error('isBlocking must be called with an adSlotId!');
+      }
+      var isBlocking = false;
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = this.dependencyMap.keys()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var adSlotKey = _step3.value;
+
+          if (adSlotKey === adSlotId) {
+            isBlocking = true;
+          }
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+
+      return isBlocking;
+    }
+
+    /**
+     * Gets an array of adSlot Ids for a given adSlotId, that are dependent on (blocked by)
+     * @param {String} adSlotId - the blocking slot id
+     * @return {Array} an array of blocked slot, that has a dependency on the given slot
+     */
+
+  }, {
+    key: 'getBlockedSlotsIds',
+    value: function getBlockedSlotsIds(adSlotId) {
+      var result = void 0;
+      if (this.dependencyMap.has(adSlotId)) {
+        result = Array.from(this.dependencyMap.get(adSlotId).rules.map(function (adSlot) {
+          return adSlot.avoid;
+        }));
+      }
+      return result || [];
+    }
+  }, {
+    key: 'arraysEqual',
+    value: function arraysEqual(a, b) {
+      if (a === b) return true;
+      if (a === null || b === null) return false;
+      if (a.length !== b.length) return false;
+      for (var i = 0; i < a.length; ++i) {
+        if (a[i] !== b[i]) return false;
+      }
+      return true;
+    }
+  }]);
+
+  return ConflictResolver;
+}();
+
+ConflictResolver.EMPTY_SIZE = [];
+
+/**
+ * Checks whether two arrays are equal
+ * @param {Array} a - the first array to check
+ * @param {Array} b - the second array to check
+ * @returns {Boolean} true iff both a and b are arrays, with equal values
+ */
+function arraysEqual$1(a, b) {
+  if (!a || !b) return false;
+  if (!Array.isArray(a) || !Array.isArray(b)) return false;
+  if (a === b) return true;
+  if (a.length !== b.length) return false;
+  for (var i = 0; i < a.length; ++i) {
+    if (Array.isArray(a[i]) && Array.isArray(b[i])) {
+      if (!arraysEqual$1(a[i], b[i])) return false;
+    } else if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/* global googletag */
+var hiddenClass = dfpConfig.site.indexOf('mouse') > -1 ? 'u-is-hidden' : 'h-hidden';
+
+var adSlot = function () {
+  function adSlot(adSlotConfig) {
+    _classCallCheck(this, adSlot);
+
+    this.config = Object.assign({}, adSlotConfig);
+
+    // Part I : Markup configuration - passed from AdManager
+    this.id = this.config.id;
+    if (!this.config.id) {
+      throw new Error('an adSlot requires an id!');
+    }
+    this.target = this.config.target;
+    this.type = this.config.type;
+    this.responsive = this.config.responsive;
+    this.fluid = this.config.fluid;
+    this.user = this.config.user;
+    this.adManager = this.config.adManager;
+    this.htmlElement = this.config.htmlElement;
+    this.priority = this.config.priority;
+    this.deferredSlot = this.config.deferredSlot;
+
+    // Part II : Global, general ad configuration - passed from AdManager
+    this.department = this.config.department;
+    this.network = this.config.network;
+    this.adUnitBase = this.config.adUnitBase;
+
+    // Part III : ad specific configuration - passed from globalConfig.adSlotConfig
+    this.adSizeMapping = this.config.adSizeMapping;
+    this.responsiveAdSizeMapping = this.config.responsiveAdSizeMapping;
+    this.blacklistReferrers = this.config.blacklistReferrers ? this.config.blacklistReferrers.split(',') : [];
+    this.whitelistReferrers = this.config.whitelistReferrers ? this.config.whitelistReferrers.split(',') : [];
+
+    // Part IV : Runtime configuration - calculated data - only present in runtime
+    this.lastResolvedSize = undefined; // Initialized in 'slotRenderEnded' callback
+    this.lastResolvedWithBreakpoint = undefined; // Initialized in 'slotRenderEnded' callback
+    this.slot = undefined; // Holds a googletag.Slot object
+    // [https://developers.google.com/doubleclick-gpt/reference#googletag.Slot]
+    try {
+      if (!this.deferredSlot) {
+        this.slot = this.defineSlot();
+      }
+    } catch (err) {
+      console.error(err); // eslint-disable-line no-console
+    }
+  }
+
+  /**
+   * Checks whether this adSlot is an 'Out-of-page' slot or not.
+   * An Out-of-page slot is a slot that is not embedded in the page 'normally'.
+   * @returns {boolean} true iff this adSlot is one of the predefined 'out-of-page' slots.
+   */
+
+  _createClass(adSlot, [{
+    key: 'isOutOfPage',
+    value: function isOutOfPage() {
+      if (typeof this.type !== 'string') {
+        throw new Error('An adSlot cannot by typeless!', this);
+      }
+      if (this.isMobile() === true) {
+        return false;
+      }
+      switch (this.type) {
+        case adTypes.maavaron:
+          return false;
+        case adTypes.popunder:
+          return true;
+        case adTypes.talkback:
+          return false;
+        case adTypes.regular:
+          return false;
+        default:
+          return false;
+      }
+    }
+
+    /**
+     * Checks whether this adSlot is a 'maavaron' slot or not.
+     * An Out-of-page slot is a slot that is not embedded in the page 'normally'.
+     * @returns {boolean} true iff this adSlot is one of the predefined 'out-of-page' slots.
+     */
+
+  }, {
+    key: 'isMaavaron',
+    value: function isMaavaron() {
+      if (typeof this.type !== 'string') {
+        throw new Error('An adSlot cannot by typeless!', this);
+      }
+      if (this.isMobile() === true) {
+        return false;
+      }
+      switch (this.type) {
+        case adTypes.maavaron:
+          return false;
+        default:
+          return false;
+      }
+    }
+  }, {
+    key: 'isMobile',
+    value: function isMobile() {
+      return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent || '')
+      );
+    }
+    /**
+     * Checks whether or not this adSlot has a non-empty whitelist, and if so, that the current
+     * referrer appears in the whitelist.
+     * Should return false iff there is a whitelist for the current adSlot, but the referrer is not
+     * mentioned in the whitelist.
+     * @returns {boolean} true iff the ad can be displayed.
+     */
+
+  }, {
+    key: 'isWhitelisted',
+    value: function isWhitelisted() {
+      var whitelisted = false;
+      if (this.whitelistReferrers.length !== 0) {
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = this.whitelistReferrers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var referrer = _step.value;
+
+            if (dfpConfig.referrer.indexOf(referrer) > -1) {
               whitelisted = true;
-            }
-            return whitelisted;
-          }
-
-          /**
-           * Checks whether or not this adSlot has a non-empty blacklist, and if so, that the current
-           * referrer does not appear in the blacklist.
-           * Should return true iff there is a blacklist for the current adSlot, and the referrer is
-           * mentioned in the blacklist - to indicate that the adSlot is 'blocked'.
-           * @returns {boolean} true iff the ad cannot be displayed.
-           */
-
-        }, {
-          key: 'isBlacklisted',
-          value: function isBlacklisted() {
-            var blacklisted = false;
-            if (this.blacklistReferrers.length !== 0) {
-              var _iteratorNormalCompletion2 = true;
-              var _didIteratorError2 = false;
-              var _iteratorError2 = undefined;
-
-              try {
-                for (var _iterator2 = this.blacklistReferrers[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                  var referrer = _step2.value;
-
-                  if (dfpConfig.referrer.indexOf(referrer) > -1) {
-                    blacklisted = true;
-                    break;
-                  }
-                }
-              } catch (err) {
-                _didIteratorError2 = true;
-                _iteratorError2 = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                    _iterator2.return();
-                  }
-                } finally {
-                  if (_didIteratorError2) {
-                    throw _iteratorError2;
-                  }
-                }
-              }
-            }
-            return blacklisted;
-          }
-
-          /**
-           * Shows the current adSlot.
-           * It assumes a markup is available for this slot (any tag with an id attribute = this.id)
-           */
-
-        }, {
-          key: 'show',
-          value: function show() {
-            var _this = this;
-
-            if (!this.shown === true) {
-              this.shown = true; // Ensure show will be called once per adSlot
-              googletag.cmd.push(function () {
-                if (_this.deferredSlot) {
-                  _this.slot = _this.defineSlot();
-                }
-                // console.log('calling show for slot',this.id,' called @',window.performance.now());
-                document.getElementById(_this.id).classList.remove(hiddenClass);
-                googletag.display(_this.id);
-              });
+              break;
             }
           }
-
-          /**
-           * Shows the current adSlot.
-           * It assumes a markup is available for this slot (any tag with an id attribute = this.id)
-           */
-
-        }, {
-          key: 'hide',
-          value: function hide() {
-            var _this2 = this;
-
-            googletag.cmd.push(function () {
-              document.getElementById(_this2.id).classList.add(hiddenClass);
-            });
-          }
-
-          /**
-           * Initializes page-level slot definition for the current slot
-           * @return {Slot} slot - the Google Slot that was defined from this AdSlot configuration
-           */
-
-        }, {
-          key: 'defineSlot',
-          value: function defineSlot() {
-            if (this.isMaavaron()) {
-              var maavaronSlot = this.defineMaavaron();
-              if (this.adManager.shouldSendRequestToDfp(this)) {
-                if (!this.shown) {
-                  this.shown = true; // Ensure show will be called once
-                  maavaronSlot.display();
-                }
-              }
-              return maavaronSlot;
-            }
-            var googletag = window.googletag;
-            var pubads = googletag.pubads();
-            var args = [];
-            var defineFn = this.isOutOfPage() ? googletag.defineOutOfPageSlot : googletag.defineSlot;
-            // 3 or 2 params according to the function that we want to activate.
-            args.push(this.getPath());
-            if (this.isOutOfPage() === false) {
-              if (this.fluid) {
-                args.push('fluid');
-              } else {
-                args.push(this.adSizeMapping);
-              }
-            }
-            args.push(this.id);
-            var slot = defineFn.apply(defineFn, args);
-            if (slot) {
-              // Responsive size Mapping
-              if (this.responsive) {
-                var responsiveSlotSizeMapping = googletag.sizeMapping();
-                var breakpoints = dfpConfig.breakpointsConfig.breakpoints;
-                var keys = Object.keys(this.responsiveAdSizeMapping);
-                var _iteratorNormalCompletion3 = true;
-                var _didIteratorError3 = false;
-                var _iteratorError3 = undefined;
-
-                try {
-                  for (var _iterator3 = keys[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var key = _step3.value;
-                    // ['xxs','xs',...]
-                    responsiveSlotSizeMapping.addSize([breakpoints[key], 100], // 100 is a default height, since it is height agnostic
-                    !arraysEqual$1(this.responsiveAdSizeMapping[key], [[0, 0]]) ? this.responsiveAdSizeMapping[key] : []);
-                  }
-                } catch (err) {
-                  _didIteratorError3 = true;
-                  _iteratorError3 = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                      _iterator3.return();
-                    }
-                  } finally {
-                    if (_didIteratorError3) {
-                      throw _iteratorError3;
-                    }
-                  }
-                }
-
-                responsiveSlotSizeMapping = responsiveSlotSizeMapping.build();
-                slot = slot.defineSizeMapping(responsiveSlotSizeMapping);
-              }
-              slot = slot.addService(pubads);
-              if (this.isOutOfPage() === false) {
-                slot.setCollapseEmptyDiv(true);
-              }
-            }
-            return slot;
-          }
-
-          /**
-           * Returns the current path calculated for the adSlot
-           * @returns {String} a formatted string that represent the path for the slot definition
-           */
-
-        }, {
-          key: 'getPath',
-          value: function getPath() {
-            var _this3 = this;
-
-            /* eslint-disable no-shadow */
-            var path = dfpConfig.path || [];
-            path = path.filter(function (path) {
-              return path !== '.';
-            });
-            path = path.map(function (section) {
-              return '' + _this3.id + _this3.department + section;
-            }).join('/');
-            // If a path exist, it will be preceded with a forward slash
-            path = path && this.config.department !== '_homepage' ? '/' + path : '';
-            /* eslint-enable no-shadow */
-            var calculatedPath = '/' + this.config.network + '/' + this.config.adUnitBase + '/' + this.id + '/' + this.id + this.department + path; // eslint-disable-line max-len
-            return calculatedPath.toLowerCase();
-          }
-
-          /* eslint-disable */
-
-        }, {
-          key: 'slotRendered',
-          value: function slotRendered(event) {
-            var id = event.slot.getAdUnitPath().split('/')[3]; // Convention: [0]/[1]network/[2]base/[3]id
-            var isEmpty = event.isEmpty; // Did the ad return as empty?
-            var resolvedSize = event.size; // What 'creative' size did the ad return with?
-            // Empty or onload callback should be called next?
-          }
-          /* eslint-enable */
-
-          /**
-           * Refresh this adSlot
-           */
-
-        }, {
-          key: 'refresh',
-          value: function refresh() {
-            var _this4 = this;
-
-            googletag.cmd.push(function () {
-              googletag.pubads().refresh([_this4.slot]);
-            });
-          }
-
-          /**
-           * Shows 'Maavaron' type adSlot using Passback definition
-           * @return {Slot} slot - the Google Slot that was defined for Maavaron
-           */
-
-        }, {
-          key: 'defineMaavaron',
-          value: function defineMaavaron() {
-            if (!document.referrer.match('loc.haaretz')) {
-              var adUnitMaavaronPath = this.getPath();
-              var adUnitMaavaronSize = [[2, 1]];
-              var slot = googletag.pubads().definePassback(adUnitMaavaronPath, adUnitMaavaronSize).setTargeting('UserType', [this.user.type]).setTargeting('age', [this.user.age]).setTargeting('urgdr', [this.user.gender]).setTargeting('articleId', [dfpConfig.articleId]).setTargeting('stg', [dfpConfig.environment]);
-              return slot;
-            }
-            return null;
-          }
-        }]);
-
-        return adSlot;
-      }();
-
-      adPriorities = {
-        high: 'high',
-        normal: 'normal',
-        low: 'low'
-      };
-      adTargets = {
-        all: 'all',
-        nonPaying: 'nonPaying',
-        anonymous: 'anonymous',
-        registered: 'registered',
-        paying: 'paying',
-        digitalOnly: 'digitalOnly',
-        digitalAndPrint: 'digitalAndPrint'
-      };
-      userTypes$$1 = {
-        anonymous: 'anonymous',
-        registered: 'registered',
-        payer: 'payer'
-      };
-      adTypes = {
-        maavaron: '.maavaron',
-        popunder: '.popunder',
-        talkback: '.talkback',
-        regular: ''
-      };
-
-      AdManager = function () {
-        function AdManager(config) {
-          var _this = this;
-
-          _classCallCheck(this, AdManager);
-
-          this.config = Object.assign({}, config);
-          this.user = new User(config);
-          this.conflictResolver = new ConflictResolver(config.conflictManagementConfig);
-          /**
-           * Avoid race conditions by making sure to respect the usual timing of GPT.
-           * This DFP implementation uses Enable-Define-Display:
-           * Define page-level settings
-           * enableServices()
-           * Define slots
-           * Display slots
-           */
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
           try {
-            googletag.cmd.push(function () {
-              _this.initGoogleTargetingParams(); //  Define page-level settings
-              _this.initGoogleGlobalSettings(); //  enableServices()
-              _this.initSlotRenderedCallback(); //  Define callbacks
-            });
-            // Mouse special treatment to base path on mobile breakpoints
-            var currentBreakpointName = getBreakpointName(getBreakpoint());
-            if (this.config.adManagerConfig.adUnitBase.indexOf('mouse.co.il') > -1 && currentBreakpointName.indexOf('xs') > -1) {
-              this.config.adManagerConfig.adUnitBase = 'mouse.co.il.mobile_web';
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
             }
-            // Holds adSlot objects as soon as possible.
-            googletag.cmd.push(function () {
-              _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.high);
-            });
-            // Once DOM ready, add more adSlots.
-            var onDomLoaded = function onDomLoaded() {
-              // eslint-disable-line no-inner-declarations
-              try {
-                googletag.cmd.push(function () {
-                  _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.high);
-                  googletag.cmd.push(function () {
-                    _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.normal);
-                  });
-                });
-              } catch (err) {
-                console.log(err); // eslint-disable-line no-console
-              }
-            };
-            // Once window was loaded, add the rest of the adSlots.
-            var onWindowLoaded = function onWindowLoaded() {
-              // eslint-disable-line no-inner-declarations
-              googletag.cmd.push(function () {
-                _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.low);
-                // Clean blocking adSlots that are not defined on this page
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
-
-                try {
-                  for (var _iterator = _this.conflictResolver.dependencyMap.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var blockingAdSlotKey = _step.value;
-
-                    if (!_this.adSlots.has(blockingAdSlotKey)) {
-                      _this.conflictResolver.dependencyMap.delete(blockingAdSlotKey);
-                    }
-                  }
-                } catch (err) {
-                  _didIteratorError = true;
-                  _iteratorError = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                      _iterator.return();
-                    }
-                  } finally {
-                    if (_didIteratorError) {
-                      throw _iteratorError;
-                    }
-                  }
-                }
-
-                _this.showAllDeferredSlots();
-              });
-            };
-            switch (document.readyState) {
-              case 'loading':
-                document.addEventListener('DOMContentLoaded', onDomLoaded);
-                window.addEventListener('load', onWindowLoaded);
-                break;
-              case 'interactive':
-                onDomLoaded();
-                window.addEventListener('load', onWindowLoaded);
-                break;
-              default:
-                // 'complete' - no need for event listeners.
-                onDomLoaded();
-                onWindowLoaded();
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
             }
-          } catch (err) {
-            console.error(err); // eslint-disable-line no-console
           }
         }
+      } else {
+        whitelisted = true;
+      }
+      return whitelisted;
+    }
 
-        /**
-         * Shows all of the adSlots that can be displayed.
-         */
+    /**
+     * Checks whether or not this adSlot has a non-empty blacklist, and if so, that the current
+     * referrer does not appear in the blacklist.
+     * Should return true iff there is a blacklist for the current adSlot, and the referrer is
+     * mentioned in the blacklist - to indicate that the adSlot is 'blocked'.
+     * @returns {boolean} true iff the ad cannot be displayed.
+     */
 
-        _createClass(AdManager, [{
-          key: 'showAllSlots',
-          value: function showAllSlots() {
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
+  }, {
+    key: 'isBlacklisted',
+    value: function isBlacklisted() {
+      var blacklisted = false;
+      if (this.blacklistReferrers.length !== 0) {
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
 
+        try {
+          for (var _iterator2 = this.blacklistReferrers[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var referrer = _step2.value;
+
+            if (dfpConfig.referrer.indexOf(referrer) > -1) {
+              blacklisted = true;
+              break;
+            }
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+              _iterator2.return();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+      }
+      return blacklisted;
+    }
+
+    /**
+     * Shows the current adSlot.
+     * It assumes a markup is available for this slot (any tag with an id attribute = this.id)
+     */
+
+  }, {
+    key: 'show',
+    value: function show() {
+      var _this = this;
+
+      if (!this.shown === true) {
+        this.shown = true; // Ensure show will be called once per adSlot
+        googletag.cmd.push(function () {
+          if (_this.deferredSlot) {
+            _this.slot = _this.defineSlot();
+          }
+          // console.log('calling show for slot',this.id,' called @',window.performance.now());
+          document.getElementById(_this.id).classList.remove(hiddenClass);
+          googletag.display(_this.id);
+        });
+      }
+    }
+
+    /**
+     * Shows the current adSlot.
+     * It assumes a markup is available for this slot (any tag with an id attribute = this.id)
+     */
+
+  }, {
+    key: 'hide',
+    value: function hide() {
+      var _this2 = this;
+
+      googletag.cmd.push(function () {
+        document.getElementById(_this2.id).classList.add(hiddenClass);
+      });
+    }
+
+    /**
+     * Initializes page-level slot definition for the current slot
+     * @return {Slot} slot - the Google Slot that was defined from this AdSlot configuration
+     */
+
+  }, {
+    key: 'defineSlot',
+    value: function defineSlot() {
+      if (this.isMaavaron()) {
+        var maavaronSlot = this.defineMaavaron();
+        if (this.adManager.shouldSendRequestToDfp(this)) {
+          if (!this.shown) {
+            this.shown = true; // Ensure show will be called once
+            maavaronSlot.display();
+          }
+        }
+        return maavaronSlot;
+      }
+      var googletag = window.googletag;
+      var pubads = googletag.pubads();
+      var args = [];
+      var defineFn = this.isOutOfPage() ? googletag.defineOutOfPageSlot : googletag.defineSlot;
+      // 3 or 2 params according to the function that we want to activate.
+      args.push(this.getPath());
+      if (this.isOutOfPage() === false) {
+        if (this.fluid) {
+          args.push('fluid');
+        } else {
+          args.push(this.adSizeMapping);
+        }
+      }
+      args.push(this.id);
+      var slot = defineFn.apply(defineFn, args);
+      if (slot) {
+        // Responsive size Mapping
+        if (this.responsive) {
+          var responsiveSlotSizeMapping = googletag.sizeMapping();
+          var breakpoints = dfpConfig.breakpointsConfig.breakpoints;
+          var keys = Object.keys(this.responsiveAdSizeMapping);
+          var _iteratorNormalCompletion3 = true;
+          var _didIteratorError3 = false;
+          var _iteratorError3 = undefined;
+
+          try {
+            for (var _iterator3 = keys[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+              var key = _step3.value;
+              // ['xxs','xs',...]
+              responsiveSlotSizeMapping.addSize([breakpoints[key], 100], // 100 is a default height, since it is height agnostic
+              !arraysEqual$1(this.responsiveAdSizeMapping[key], [[0, 0]]) ? this.responsiveAdSizeMapping[key] : []);
+            }
+          } catch (err) {
+            _didIteratorError3 = true;
+            _iteratorError3 = err;
+          } finally {
             try {
-              for (var _iterator2 = this.adSlots.keys()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var adSlotKey = _step2.value;
-
-                var adSlot$$1 = this.adSlots.get(adSlotKey);
-                if (adSlot$$1.type !== adTypes.talkback && this.shouldSendRequestToDfp(adSlot$$1)) {
-                  adSlot$$1.show();
-                }
+              if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                _iterator3.return();
               }
-            } catch (err) {
-              _didIteratorError2 = true;
-              _iteratorError2 = err;
             } finally {
-              try {
-                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                  _iterator2.return();
-                }
-              } finally {
-                if (_didIteratorError2) {
-                  throw _iteratorError2;
-                }
+              if (_didIteratorError3) {
+                throw _iteratorError3;
               }
             }
           }
 
-          /**
-           * Gets all adSlots that has a certain priority
-           * @param {adPriority} priority - the priority of the ad {high, normal, low}
-           * @return {Array<AdSlot>} adSlots - all of the defined adSlots that matches
-           * the given priority
-           */
+          responsiveSlotSizeMapping = responsiveSlotSizeMapping.build();
+          slot = slot.defineSizeMapping(responsiveSlotSizeMapping);
+        }
+        slot = slot.addService(pubads);
+        if (this.isOutOfPage() === false) {
+          slot.setCollapseEmptyDiv(true);
+        }
+      }
+      return slot;
+    }
 
-        }, {
-          key: 'getAdSlotsByPriority',
-          value: function getAdSlotsByPriority(priority) {
-            function priorityFilter(adSlot$$1) {
-              return adSlot$$1.priority === priority;
+    /**
+     * Returns the current path calculated for the adSlot
+     * @returns {String} a formatted string that represent the path for the slot definition
+     */
+
+  }, {
+    key: 'getPath',
+    value: function getPath() {
+      var _this3 = this;
+
+      /* eslint-disable no-shadow */
+      var path = dfpConfig.path || [];
+      path = path.filter(function (path) {
+        return path !== '.';
+      });
+      path = path.map(function (section) {
+        return '' + _this3.id + _this3.department + section;
+      }).join('/');
+      // If a path exist, it will be preceded with a forward slash
+      path = path && this.config.department !== '_homepage' ? '/' + path : '';
+      /* eslint-enable no-shadow */
+      var calculatedPath = '/' + this.config.network + '/' + this.config.adUnitBase + '/' + this.id + '/' + this.id + this.department + path; // eslint-disable-line max-len
+      return calculatedPath.toLowerCase();
+    }
+
+    /* eslint-disable */
+
+  }, {
+    key: 'slotRendered',
+    value: function slotRendered(event) {
+      var id = event.slot.getAdUnitPath().split('/')[3]; // Convention: [0]/[1]network/[2]base/[3]id
+      var isEmpty = event.isEmpty; // Did the ad return as empty?
+      var resolvedSize = event.size; // What 'creative' size did the ad return with?
+      // Empty or onload callback should be called next?
+    }
+    /* eslint-enable */
+
+    /**
+     * Refresh this adSlot
+     */
+
+  }, {
+    key: 'refresh',
+    value: function refresh() {
+      var _this4 = this;
+
+      googletag.cmd.push(function () {
+        googletag.pubads().refresh([_this4.slot]);
+      });
+    }
+
+    /**
+     * Shows 'Maavaron' type adSlot using Passback definition
+     * @return {Slot} slot - the Google Slot that was defined for Maavaron
+     */
+
+  }, {
+    key: 'defineMaavaron',
+    value: function defineMaavaron() {
+      if (!document.referrer.match('loc.haaretz')) {
+        var adUnitMaavaronPath = this.getPath();
+        var adUnitMaavaronSize = [[2, 1]];
+        var slot = googletag.pubads().definePassback(adUnitMaavaronPath, adUnitMaavaronSize).setTargeting('UserType', [this.user.type]).setTargeting('age', [this.user.age]).setTargeting('urgdr', [this.user.gender]).setTargeting('articleId', [dfpConfig.articleId]).setTargeting('stg', [dfpConfig.environment]);
+        return slot;
+      }
+      return null;
+    }
+  }]);
+
+  return adSlot;
+}();
+
+/* global googletag */
+// There are a total of 7 adTargets:
+// "all","nonPaying","anonymous","registered","paying","digitalOnly" and "digitalAndPrint"
+var adPriorities = {
+  high: 'high',
+  normal: 'normal',
+  low: 'low'
+};
+
+var adTargets = {
+  all: 'all',
+  nonPaying: 'nonPaying',
+  anonymous: 'anonymous',
+  registered: 'registered',
+  paying: 'paying',
+  digitalOnly: 'digitalOnly',
+  digitalAndPrint: 'digitalAndPrint'
+};
+
+// There are a total of 3 userTypes: "anonymous", "registered" and "payer"
+var userTypes$$1 = {
+  anonymous: 'anonymous',
+  registered: 'registered',
+  payer: 'payer'
+};
+
+var adTypes = {
+  maavaron: '.maavaron',
+  popunder: '.popunder',
+  talkback: '.talkback',
+  regular: ''
+};
+
+var AdManager = function () {
+  function AdManager(config) {
+    var _this = this;
+
+    _classCallCheck(this, AdManager);
+
+    this.config = Object.assign({}, config);
+    this.user = new User(config);
+    this.conflictResolver = new ConflictResolver(config.conflictManagementConfig);
+    /**
+     * Avoid race conditions by making sure to respect the usual timing of GPT.
+     * This DFP implementation uses Enable-Define-Display:
+     * Define page-level settings
+     * enableServices()
+     * Define slots
+     * Display slots
+     */
+    try {
+      googletag.cmd.push(function () {
+        _this.initGoogleTargetingParams(); //  Define page-level settings
+        _this.initGoogleGlobalSettings(); //  enableServices()
+        _this.initSlotRenderedCallback(); //  Define callbacks
+      });
+      // Mouse special treatment to base path on mobile breakpoints
+      var currentBreakpointName = getBreakpointName(getBreakpoint());
+      if (this.config.adManagerConfig.adUnitBase.indexOf('mouse.co.il') > -1 && currentBreakpointName.indexOf('xs') > -1) {
+        this.config.adManagerConfig.adUnitBase = 'mouse.co.il.mobile_web';
+      }
+      // Holds adSlot objects as soon as possible.
+      googletag.cmd.push(function () {
+        _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.high);
+      });
+      // Once DOM ready, add more adSlots.
+      var onDomLoaded = function onDomLoaded() {
+        // eslint-disable-line no-inner-declarations
+        try {
+          googletag.cmd.push(function () {
+            _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.high);
+            googletag.cmd.push(function () {
+              _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.normal);
+            });
+          });
+        } catch (err) {
+          console.log(err); // eslint-disable-line no-console
+        }
+      };
+      // Once window was loaded, add the rest of the adSlots.
+      var onWindowLoaded = function onWindowLoaded() {
+        // eslint-disable-line no-inner-declarations
+        googletag.cmd.push(function () {
+          _this.adSlots = _this.initAdSlots(config.adSlotConfig, adPriorities.low);
+          // Clean blocking adSlots that are not defined on this page
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
+
+          try {
+            for (var _iterator = _this.conflictResolver.dependencyMap.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var blockingAdSlotKey = _step.value;
+
+              if (!_this.adSlots.has(blockingAdSlotKey)) {
+                _this.conflictResolver.dependencyMap.delete(blockingAdSlotKey);
+              }
             }
-            return Array.from(this.adSlots.values()).filter(priorityFilter);
-          }
-        }, {
-          key: 'showAllDeferredSlots',
-          value: function showAllDeferredSlots() {
-            var _iteratorNormalCompletion3 = true;
-            var _didIteratorError3 = false;
-            var _iteratorError3 = undefined;
-
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+          } finally {
             try {
-              for (var _iterator3 = this.conflictResolver.deferredSlots[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                var deferredSlotId = _step3.value;
-
-                if (this.adSlots.has(deferredSlotId)) {
-                  if (!this.conflictResolver.isBlocked(deferredSlotId)) {
-                    var deferredAdSlot = this.adSlots.get(deferredSlotId);
-                    if (this.shouldSendRequestToDfp(deferredAdSlot)) {
-                      deferredAdSlot.show();
-                    }
-                  }
-                }
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
               }
-            } catch (err) {
-              _didIteratorError3 = true;
-              _iteratorError3 = err;
             } finally {
-              try {
-                if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                  _iterator3.return();
-                }
-              } finally {
-                if (_didIteratorError3) {
-                  throw _iteratorError3;
-                }
+              if (_didIteratorError) {
+                throw _iteratorError;
               }
             }
           }
 
-          /**
-           * Refreshes all responsive adSlots
-           */
+          _this.showAllDeferredSlots();
+        });
+      };
+      switch (document.readyState) {
+        case 'loading':
+          document.addEventListener('DOMContentLoaded', onDomLoaded);
+          window.addEventListener('load', onWindowLoaded);
+          break;
+        case 'interactive':
+          onDomLoaded();
+          window.addEventListener('load', onWindowLoaded);
+          break;
+        default:
+          // 'complete' - no need for event listeners.
+          onDomLoaded();
+          onWindowLoaded();
+      }
+    } catch (err) {
+      console.error(err); // eslint-disable-line no-console
+    }
+  }
 
-        }, {
-          key: 'refreshAllSlots',
-          value: function refreshAllSlots() {
-            var currentBreakpoint = getBreakpoint();
-            var _iteratorNormalCompletion4 = true;
-            var _didIteratorError4 = false;
-            var _iteratorError4 = undefined;
+  /**
+   * Shows all of the adSlots that can be displayed.
+   */
 
-            try {
-              for (var _iterator4 = this.adSlots.keys()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                var adSlotKey = _step4.value;
+  _createClass(AdManager, [{
+    key: 'showAllSlots',
+    value: function showAllSlots() {
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
 
-                var adSlot$$1 = this.adSlots.get(adSlotKey);
-                if (adSlot$$1.responsive && adSlot$$1.type !== adTypes.maavaron) {
-                  if (adSlot$$1.lastResolvedWithBreakpoint !== currentBreakpoint && this.shouldSendRequestToDfp(adSlot$$1)) {
-                    // console.log(`calling refresh for adSlot: ${adSlot.id}`);
-                    adSlot$$1.refresh();
-                  } else {
-                    adSlot$$1.hide();
-                  }
-                }
-              }
-            } catch (err) {
-              _didIteratorError4 = true;
-              _iteratorError4 = err;
-            } finally {
-              try {
-                if (!_iteratorNormalCompletion4 && _iterator4.return) {
-                  _iterator4.return();
-                }
-              } finally {
-                if (_didIteratorError4) {
-                  throw _iteratorError4;
-                }
+      try {
+        for (var _iterator2 = this.adSlots.keys()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var adSlotKey = _step2.value;
+
+          var adSlot$$1 = this.adSlots.get(adSlotKey);
+          if (adSlot$$1.type !== adTypes.talkback && this.shouldSendRequestToDfp(adSlot$$1)) {
+            adSlot$$1.show();
+          }
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+    }
+
+    /**
+     * Gets all adSlots that has a certain priority
+     * @param {adPriority} priority - the priority of the ad {high, normal, low}
+     * @return {Array<AdSlot>} adSlots - all of the defined adSlots that matches
+     * the given priority
+     */
+
+  }, {
+    key: 'getAdSlotsByPriority',
+    value: function getAdSlotsByPriority(priority) {
+      function priorityFilter(adSlot$$1) {
+        return adSlot$$1.priority === priority;
+      }
+      return Array.from(this.adSlots.values()).filter(priorityFilter);
+    }
+  }, {
+    key: 'showAllDeferredSlots',
+    value: function showAllDeferredSlots() {
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = this.conflictResolver.deferredSlots[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var deferredSlotId = _step3.value;
+
+          if (this.adSlots.has(deferredSlotId)) {
+            if (!this.conflictResolver.isBlocked(deferredSlotId)) {
+              var deferredAdSlot = this.adSlots.get(deferredSlotId);
+              if (this.shouldSendRequestToDfp(deferredAdSlot)) {
+                deferredAdSlot.show();
               }
             }
           }
-
-          /**
-           * Refreshes all adSlots
-           */
-
-        }, {
-          key: 'refreshAllSlotsInPage',
-          value: function refreshAllSlotsInPage() {
-            var _iteratorNormalCompletion5 = true;
-            var _didIteratorError5 = false;
-            var _iteratorError5 = undefined;
-
-            try {
-              for (var _iterator5 = this.adSlots.keys()[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                var adSlotKey = _step5.value;
-
-                var adSlot$$1 = this.adSlots.get(adSlotKey);
-                if (this.shouldSendRequestToDfp(adSlot$$1)) {
-                  // console.log(`calling refresh for adSlot: ${adSlot.id}`);
-                  adSlot$$1.refresh();
-                } else {
-                  adSlot$$1.hide();
-                }
-              }
-            } catch (err) {
-              _didIteratorError5 = true;
-              _iteratorError5 = err;
-            } finally {
-              try {
-                if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                  _iterator5.return();
-                }
-              } finally {
-                if (_didIteratorError5) {
-                  throw _iteratorError5;
-                }
-              }
-            }
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
           }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+    }
 
-          /**
-           * Refreshes adSlot
-           */
+    /**
+     * Refreshes all responsive adSlots
+     */
 
-        }, {
-          key: 'refreshSlot',
-          value: function refreshSlot(adUnitName) {
-            var adSlot$$1 = this.adSlots.get(adUnitName);
-            if (this.shouldSendRequestToDfp(adSlot$$1)) {
+  }, {
+    key: 'refreshAllSlots',
+    value: function refreshAllSlots() {
+      var currentBreakpoint = getBreakpoint();
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
+
+      try {
+        for (var _iterator4 = this.adSlots.keys()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var adSlotKey = _step4.value;
+
+          var adSlot$$1 = this.adSlots.get(adSlotKey);
+          if (adSlot$$1.responsive && adSlot$$1.type !== adTypes.maavaron) {
+            if (adSlot$$1.lastResolvedWithBreakpoint !== currentBreakpoint && this.shouldSendRequestToDfp(adSlot$$1)) {
               // console.log(`calling refresh for adSlot: ${adSlot.id}`);
               adSlot$$1.refresh();
             } else {
               adSlot$$1.hide();
             }
           }
+        }
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
+          }
+        }
+      }
+    }
 
-          /**
-          * Initializes adSlots based on the currently found slot markup (HTML page specific),
-          * and the predefined configuration for the slots.
-          * @param {Object} adSlotConfig - the AdSlots configuration object (see: globalConfig)
-          * @param {String} filteredPriority - filters out all adSlots that does not match
-          * a given adPriority. This is used to cherry pick the init process of ads.
-          * @returns {Map}
-          */
+    /**
+     * Refreshes all adSlots
+     */
 
-        }, {
-          key: 'initAdSlots',
-          value: function initAdSlots(adSlotConfig, filteredPriority) {
-            var _this2 = this;
+  }, {
+    key: 'refreshAllSlotsInPage',
+    value: function refreshAllSlotsInPage() {
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
 
-            var adSlots = new Map(this.adSlots);
-            var adSlotPlaceholders = Array.from(document.getElementsByClassName('js-dfp-ad'));
-            adSlotPlaceholders = adSlotPlaceholders.filter(function (node) {
-              return node.id;
-            }); // only nodes with an id
-            var adSlotNodeSet = new Set();
-            adSlotPlaceholders = Array.prototype.filter.call(adSlotPlaceholders, function (node) {
-              if (adSlotNodeSet.has(node.id) === false) {
-                // first occurrence of Node
-                adSlotNodeSet.add(node.id);
-                return true;
-              }
-              return false;
+      try {
+        for (var _iterator5 = this.adSlots.keys()[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var adSlotKey = _step5.value;
+
+          var adSlot$$1 = this.adSlots.get(adSlotKey);
+          if (this.shouldSendRequestToDfp(adSlot$$1)) {
+            // console.log(`calling refresh for adSlot: ${adSlot.id}`);
+            adSlot$$1.refresh();
+          } else {
+            adSlot$$1.hide();
+          }
+        }
+      } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion5 && _iterator5.return) {
+            _iterator5.return();
+          }
+        } finally {
+          if (_didIteratorError5) {
+            throw _iteratorError5;
+          }
+        }
+      }
+    }
+
+    /**
+     * Refreshes adSlot
+     */
+
+  }, {
+    key: 'refreshSlot',
+    value: function refreshSlot(adUnitName) {
+      var adSlot$$1 = this.adSlots.get(adUnitName);
+      if (this.shouldSendRequestToDfp(adSlot$$1)) {
+        // console.log(`calling refresh for adSlot: ${adSlot.id}`);
+        adSlot$$1.refresh();
+      } else {
+        adSlot$$1.hide();
+      }
+    }
+
+    /**
+    * Initializes adSlots based on the currently found slot markup (HTML page specific),
+    * and the predefined configuration for the slots.
+    * @param {Object} adSlotConfig - the AdSlots configuration object (see: globalConfig)
+    * @param {String} filteredPriority - filters out all adSlots that does not match
+    * a given adPriority. This is used to cherry pick the init process of ads.
+    * @returns {Map}
+    */
+
+  }, {
+    key: 'initAdSlots',
+    value: function initAdSlots(adSlotConfig, filteredPriority) {
+      var _this2 = this;
+
+      var adSlots = new Map(this.adSlots);
+      var adSlotPlaceholders = Array.from(document.getElementsByClassName('js-dfp-ad'));
+      adSlotPlaceholders = adSlotPlaceholders.filter(function (node) {
+        return node.id;
+      }); // only nodes with an id
+      var adSlotNodeSet = new Set();
+      adSlotPlaceholders = Array.prototype.filter.call(adSlotPlaceholders, function (node) {
+        if (adSlotNodeSet.has(node.id) === false) {
+          // first occurrence of Node
+          adSlotNodeSet.add(node.id);
+          return true;
+        }
+        return false;
+      });
+      // adSlotPlaceholders = adSlotPlaceholders.sort((a, b) => a.offsetTop - b.offsetTop);
+      adSlotPlaceholders.forEach(function (adSlot$$1) {
+        var adSlotPriority = adSlotConfig[adSlot$$1.id] ? adSlotConfig[adSlot$$1.id].priority || adPriorities.normal : undefined;
+        if (adSlotConfig[adSlot$$1.id] && adSlots.has(adSlot$$1.id) === false && adSlotPriority === filteredPriority) {
+          // The markup has a matching configuration from adSlotConfig AND was not already defined
+          try {
+            // adSlotConfig is built from globalConfig, but can be overridden by markup
+            var computedAdSlotConfig = Object.assign({}, adSlotConfig[adSlot$$1.id], {
+              id: adSlot$$1.id,
+              target: adSlot$$1.attributes['data-audtarget'] ? adSlot$$1.attributes['data-audtarget'].value : adTargets.all,
+              type: _this2.getAdType(adSlot$$1.id),
+              responsive: adSlotConfig[adSlot$$1.id].responsive,
+              fluid: adSlotConfig[adSlot$$1.id].fluid || false,
+              user: _this2.user,
+              adManager: _this2,
+              htmlElement: adSlot$$1,
+              department: _this2.config.department,
+              network: _this2.config.adManagerConfig.network,
+              adUnitBase: _this2.config.adManagerConfig.adUnitBase,
+              deferredSlot: _this2.conflictResolver.isBlocked(adSlot$$1.id),
+              priority: adSlotPriority
             });
-            // adSlotPlaceholders = adSlotPlaceholders.sort((a, b) => a.offsetTop - b.offsetTop);
-            adSlotPlaceholders.forEach(function (adSlot$$1) {
-              var adSlotPriority = adSlotConfig[adSlot$$1.id] ? adSlotConfig[adSlot$$1.id].priority || adPriorities.normal : undefined;
-              if (adSlotConfig[adSlot$$1.id] && adSlots.has(adSlot$$1.id) === false && adSlotPriority === filteredPriority) {
-                // The markup has a matching configuration from adSlotConfig AND was not already defined
-                try {
-                  // adSlotConfig is built from globalConfig, but can be overridden by markup
-                  var computedAdSlotConfig = Object.assign({}, adSlotConfig[adSlot$$1.id], {
-                    id: adSlot$$1.id,
-                    target: adSlot$$1.attributes['data-audtarget'] ? adSlot$$1.attributes['data-audtarget'].value : adTargets.all,
-                    type: _this2.getAdType(adSlot$$1.id),
-                    responsive: adSlotConfig[adSlot$$1.id].responsive,
-                    fluid: adSlotConfig[adSlot$$1.id].fluid || false,
-                    user: _this2.user,
-                    adManager: _this2,
-                    htmlElement: adSlot$$1,
-                    department: _this2.config.department,
-                    network: _this2.config.adManagerConfig.network,
-                    adUnitBase: _this2.config.adManagerConfig.adUnitBase,
-                    deferredSlot: _this2.conflictResolver.isBlocked(adSlot$$1.id),
-                    priority: adSlotPriority
-                  });
-                  var adSlotInstance = new adSlot(computedAdSlotConfig);
-                  adSlots.set(adSlot$$1.id, adSlotInstance);
-                  if (adSlotInstance.type !== adTypes.talkback && adSlotInstance.priority === adPriorities.high && _this2.shouldSendRequestToDfp(adSlotInstance)) {
-                    /*
-                     console.log('calling show for high priority slot', adSlotInstance.id, ' called @',
-                     window.performance.now());
-                     */
-                    adSlotInstance.show();
-                  }
-                } catch (err) {
-                  console.error(err); // eslint-disable-line no-console
+            var adSlotInstance = new adSlot(computedAdSlotConfig);
+            adSlots.set(adSlot$$1.id, adSlotInstance);
+            if (adSlotInstance.type !== adTypes.talkback && adSlotInstance.priority === adPriorities.high && _this2.shouldSendRequestToDfp(adSlotInstance)) {
+              /*
+               console.log('calling show for high priority slot', adSlotInstance.id, ' called @',
+               window.performance.now());
+               */
+              adSlotInstance.show();
+            }
+          } catch (err) {
+            console.error(err); // eslint-disable-line no-console
+          }
+        }
+      });
+      return adSlots;
+    }
+  }, {
+    key: 'isPriority',
+    value: function isPriority(adSlotId) {
+      return typeof adSlotId === 'string' && (adSlotId.indexOf('plazma') > 0 || adSlotId.indexOf('maavaron') > 0 || adSlotId.indexOf('popunder') > 0);
+    }
+
+    /**
+     * Returns the adType based on the adSlot name.
+     * @param {String} adSlotId - the adSlot's identifier.
+     * @returns {*} enumerated export 'adTypes'
+     */
+
+  }, {
+    key: 'getAdType',
+    value: function getAdType(adSlotId) {
+      if (!adSlotId) {
+        throw new Error('Missing argument: a call to getAdType must have an adSlotId');
+      }
+      if (adSlotId.indexOf(adTypes.maavaron) > -1) return adTypes.maavaron;
+      if (adSlotId.indexOf(adTypes.popunder) > -1) return adTypes.popunder;
+      if (adSlotId.indexOf(adTypes.talkback) > -1) return adTypes.talkback;
+      return adTypes.regular;
+    }
+
+    /**
+     * @param {object} adSlot the AdSlot
+     * @returns {boolean|*}
+     */
+
+  }, {
+    key: 'shouldSendRequestToDfp',
+    value: function shouldSendRequestToDfp(adSlot$$1) {
+      // Conflict management check
+      return this.conflictResolver.isBlocked(adSlot$$1.id) === false &&
+      // Valid Referrer check
+      adSlot$$1.isWhitelisted() &&
+      // Not in referrer Blacklist
+      adSlot$$1.isBlacklisted() === false && this.shouldDisplayAdAfterAdBlockRemoval(adSlot$$1) &&
+      //  if a paywall pop-up is shown And the number is 12 or more - SHOW MAAVRON
+      this.shouldDisplayAdMaavaronAfterPayWallBanner(adSlot$$1) &&
+      // Responsive: breakpoint contains ad?
+      this.doesBreakpointContainAd(adSlot$$1) &&
+      // check in case of Smartphoneapp
+      this.haveValidCookieForSmartphoneapp() &&
+      // Targeting check (userType vs. slotTargeting)
+      this.doesUserTypeMatchBannerTargeting(adSlot$$1) &&
+      // Impressions Manager check (limits number of impressions per slot)
+      this.user.impressionManager.reachedQuota(adSlot$$1.id) === false;
+    }
+  }, {
+    key: 'shouldDisplayAdAfterAdBlockRemoval',
+    value: function shouldDisplayAdAfterAdBlockRemoval(adSlot$$1) {
+      return !(this.config.adBlockRemoved === true && (adSlot$$1.type === adTypes.maavaron || adSlot$$1.type === adTypes.popunder));
+    }
+  }, {
+    key: 'shouldDisplayAdMaavaronAfterPayWallBanner',
+    value: function shouldDisplayAdMaavaronAfterPayWallBanner(adSlot$$1) {
+      var shouldDisplay = true;
+      if (this.config.site === 'haaretz' && adSlot$$1.type === adTypes.maavaron) {
+        try {
+          var paywallBanner = JSON.parse(window.localStorage.getItem('_cobj'));
+          shouldDisplay = !paywallBanner || paywallBanner.mc && paywallBanner.mc >= 12 || paywallBanner.nextslotLocation && !paywallBanner.nextslotLocation.includes('pop');
+        } catch (err) {
+          /* eslint-disable no-console*/
+          console.error('ERROR ON shouldDisplayAdMaavaronAfterPayWallBanner');
+          /* eslint-enable no-console*/
+        }
+      }
+      return shouldDisplay;
+    }
+
+    /**
+     * Check whether or not an ad slot should appear for the current user type
+     * @param {String} adSlotOrTarget the adSlot to check or the target as a string
+     * @returns {boolean} true iff the slot should appear for the user type
+     */
+
+  }, {
+    key: 'haveValidCookieForSmartphoneapp',
+    value: function haveValidCookieForSmartphoneapp() {
+      return this.config.isValidForsmartPhone;
+    }
+
+    /**
+     * Check whether or not an ad slot should appear for the current user type
+     * @param {String} adSlotOrTarget the adSlot to check or the target as a string
+     * @returns {boolean} true iff the slot should appear for the user type
+     */
+
+  }, {
+    key: 'doesUserTypeMatchBannerTargeting',
+    value: function doesUserTypeMatchBannerTargeting(adSlotOrTarget) {
+      var userType = this.user.type;
+      var adTarget = typeof adSlotOrTarget === 'string' ? adSlotOrTarget : adSlotOrTarget.target;
+
+      switch (adTarget) {
+        case adTargets.all:
+          return true;
+        case adTargets.nonPaying:
+          return userType === userTypes$$1.anonymous || userType === userTypes$$1.registered;
+        case adTargets.anonymous:
+          return userType === userTypes$$1.anonymous;
+        case adTargets.registered:
+          return userType === userTypes$$1.registered;
+        case adTargets.paying:
+          return userType === userTypes$$1.payer;
+        case adTargets.digitalOnly:
+          return userType === userTypes$$1.payer;
+        case adTargets.digitalAndPrint:
+          return userType === userTypes$$1.payer;
+        default:
+          return false;
+      }
+    }
+
+    /**
+     * Report to the AdManager that a breakpoint has been switched (passed from one break to
+     * another). Should there be a responsive slot with a
+     * @param {Breakpoint} breakpoint - the breakpoint that is currently being displayed
+     * @returns {Integer} affected - the number of adSlots affected by the change
+     */
+
+  }, {
+    key: 'switchedToBreakpoint',
+    value: function switchedToBreakpoint(breakpoint) {
+      if (!breakpoint) {
+        throw new Error('Missing argument: a call to switchedToBreakpoint must have an breakpoint');
+      }
+      var count = 0;
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = this.adSlots.keys()[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var adSlotKey = _step6.value;
+
+          var adSlot$$1 = this.adSlots.get(adSlotKey);
+          if (adSlot$$1.responsive === true && adSlot$$1.lastResolvedWithBreakpoint) {
+            if (adSlot$$1.lastResolvedWithBreakpoint !== breakpoint) {
+              adSlot$$1.refresh();
+              count++;
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6.return) {
+            _iterator6.return();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
+          }
+        }
+      }
+
+      return count;
+    }
+
+    /**
+     * Checks whether an adSlot is defined for a given breakpoint (Default: current breakpoint)
+     * @param {AdSlot} adSlot - the adSlot to check.
+     * @param {Breakpoint} [breakpoint=currentBreakpoint] - the breakpoint to check this ad in.
+     * @returns {boolean} true iff the adSlot is defined for the given breakpoint.
+     */
+
+  }, {
+    key: 'doesBreakpointContainAd',
+    value: function doesBreakpointContainAd(adSlot$$1) {
+      var breakpoint = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : getBreakpoint();
+
+      if (!adSlot$$1) {
+        throw new Error('Missing argument: a call to doesBreakpointContainAd must have an adSlot');
+      }
+      var containsBreakpoint = true;
+      if (adSlot$$1.responsive === true) {
+        var mapping = adSlot$$1.responsiveAdSizeMapping[getBreakpointName(breakpoint)];
+        if (Array.isArray(mapping) === false) {
+          throw new Error('Invalid argument: breakpoint:' + breakpoint + ' doesn\'t exist!', this);
+        }
+        containsBreakpoint = mapping.length > 0 && !arraysEqual$1(mapping, [[0, 0]]);
+      }
+      return containsBreakpoint;
+    }
+
+    /**
+     * Initializes the callback from the 'slotRenderEnded' event for each slot
+     */
+
+  }, {
+    key: 'initSlotRenderedCallback',
+    value: function initSlotRenderedCallback() {
+      var _this3 = this;
+
+      if (window.googletag && window.googletag.apiReady) {
+        var pubads = window.googletag.pubads();
+        pubads.addEventListener('slotRenderEnded', function (event) {
+          var id = event.slot.getAdUnitPath().split('/')[3];
+          var isEmpty = event.isEmpty;
+          var resolvedSize = event.size;
+          // console.log('slotRenderEnded for slot',id,' called @',window.performance.now());
+          if (_this3.adSlots.has(id)) {
+            var adSlot$$1 = _this3.adSlots.get(id);
+            adSlot$$1.lastResolvedSize = resolvedSize;
+            adSlot$$1.lastResolvedWithBreakpoint = getBreakpoint();
+            if (isEmpty) {
+              adSlot$$1.lastResolvedSize = ConflictResolver.EMPTY_SIZE;
+              adSlot$$1.hide();
+              _this3.releaseSlotDependencies(adSlot$$1);
+            } else {
+              _this3.releaseSlotDependencies(adSlot$$1, adSlot$$1.lastResolvedSize);
+            }
+            _this3.user.impressionManager.registerImpression('' + adSlot$$1.id + _this3.config.department);
+            _this3.user.impressionManager.registerImpression(adSlot$$1.id + '_all');
+          } else {
+            /*
+             console.error(`Cannot find an adSlot with id: ${id} - Ad Unit path is
+             ${event.slot.getAdUnitPath()}`);
+             */
+          }
+        });
+      } else {
+        throw new Error('googletag api was not ready when \'initSlotRenderedCallback\' was called!');
+      }
+    }
+  }, {
+    key: 'releaseSlotDependencies',
+    value: function releaseSlotDependencies(adSlot$$1) {
+      try {
+        var id = adSlot$$1.id;
+        this.conflictResolver.updateResolvedSlot(id, adSlot$$1.lastResolvedSize);
+        if (this.conflictResolver.isBlocking(id)) {
+          // Hide all blocked adSlots
+          var _iteratorNormalCompletion7 = true;
+          var _didIteratorError7 = false;
+          var _iteratorError7 = undefined;
+
+          try {
+            for (var _iterator7 = this.conflictResolver.getBlockedSlotsIds(id)[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+              var blockedSlot = _step7.value;
+
+              if (this.conflictResolver.isBlocked(blockedSlot)) {
+                if (this.adSlots.has(blockedSlot)) {
+                  this.adSlots.get(blockedSlot).hide();
                 }
               }
-            });
-            return adSlots;
-          }
-        }, {
-          key: 'isPriority',
-          value: function isPriority(adSlotId) {
-            return typeof adSlotId === 'string' && (adSlotId.indexOf('plazma') > 0 || adSlotId.indexOf('maavaron') > 0 || adSlotId.indexOf('popunder') > 0);
-          }
-
-          /**
-           * Returns the adType based on the adSlot name.
-           * @param {String} adSlotId - the adSlot's identifier.
-           * @returns {*} enumerated export 'adTypes'
-           */
-
-        }, {
-          key: 'getAdType',
-          value: function getAdType(adSlotId) {
-            if (!adSlotId) {
-              throw new Error('Missing argument: a call to getAdType must have an adSlotId');
             }
-            if (adSlotId.indexOf(adTypes.maavaron) > -1) return adTypes.maavaron;
-            if (adSlotId.indexOf(adTypes.popunder) > -1) return adTypes.popunder;
-            if (adSlotId.indexOf(adTypes.talkback) > -1) return adTypes.talkback;
-            return adTypes.regular;
-          }
-
-          /**
-           * @param {object} adSlot the AdSlot
-           * @returns {boolean|*}
-           */
-
-        }, {
-          key: 'shouldSendRequestToDfp',
-          value: function shouldSendRequestToDfp(adSlot$$1) {
-            // Conflict management check
-            return this.conflictResolver.isBlocked(adSlot$$1.id) === false &&
-            // Valid Referrer check
-            adSlot$$1.isWhitelisted() &&
-            // Not in referrer Blacklist
-            adSlot$$1.isBlacklisted() === false && this.shouldDisplayAdAfterAdBlockRemoval(adSlot$$1) &&
-            //  if a paywall pop-up is shown And the number is 12 or more - SHOW MAAVRON
-            this.shouldDisplayAdMaavaronAfterPayWallBanner(adSlot$$1) &&
-            // Responsive: breakpoint contains ad?
-            this.doesBreakpointContainAd(adSlot$$1) &&
-            // check in case of Smartphoneapp
-            this.haveValidCookieForSmartphoneapp() &&
-            // Targeting check (userType vs. slotTargeting)
-            this.doesUserTypeMatchBannerTargeting(adSlot$$1) &&
-            // Impressions Manager check (limits number of impressions per slot)
-            this.user.impressionManager.reachedQuota(adSlot$$1.id) === false;
-          }
-        }, {
-          key: 'shouldDisplayAdAfterAdBlockRemoval',
-          value: function shouldDisplayAdAfterAdBlockRemoval(adSlot$$1) {
-            return !(this.config.adBlockRemoved === true && (adSlot$$1.type === adTypes.maavaron || adSlot$$1.type === adTypes.popunder));
-          }
-        }, {
-          key: 'shouldDisplayAdMaavaronAfterPayWallBanner',
-          value: function shouldDisplayAdMaavaronAfterPayWallBanner(adSlot$$1) {
-            var shouldDisplay = true;
-            if (this.config.site === 'haaretz' && adSlot$$1.type === adTypes.maavaron) {
-              try {
-                var paywallBanner = JSON.parse(window.localStorage.getItem('_cobj'));
-                shouldDisplay = !paywallBanner || paywallBanner.mc && paywallBanner.mc >= 12 || paywallBanner.nextslotLocation && !paywallBanner.nextslotLocation.includes('pop');
-              } catch (err) {
-                /* eslint-disable no-console*/
-                console.error('ERROR ON shouldDisplayAdMaavaronAfterPayWallBanner');
-                /* eslint-enable no-console*/
-              }
-            }
-            return shouldDisplay;
-          }
-
-          /**
-           * Check whether or not an ad slot should appear for the current user type
-           * @param {String} adSlotOrTarget the adSlot to check or the target as a string
-           * @returns {boolean} true iff the slot should appear for the user type
-           */
-
-        }, {
-          key: 'haveValidCookieForSmartphoneapp',
-          value: function haveValidCookieForSmartphoneapp() {
-            return this.config.isValidForsmartPhone;
-          }
-
-          /**
-           * Check whether or not an ad slot should appear for the current user type
-           * @param {String} adSlotOrTarget the adSlot to check or the target as a string
-           * @returns {boolean} true iff the slot should appear for the user type
-           */
-
-        }, {
-          key: 'doesUserTypeMatchBannerTargeting',
-          value: function doesUserTypeMatchBannerTargeting(adSlotOrTarget) {
-            var userType = this.user.type;
-            var adTarget = typeof adSlotOrTarget === 'string' ? adSlotOrTarget : adSlotOrTarget.target;
-
-            switch (adTarget) {
-              case adTargets.all:
-                return true;
-              case adTargets.nonPaying:
-                return userType === userTypes$$1.anonymous || userType === userTypes$$1.registered;
-              case adTargets.anonymous:
-                return userType === userTypes$$1.anonymous;
-              case adTargets.registered:
-                return userType === userTypes$$1.registered;
-              case adTargets.paying:
-                return userType === userTypes$$1.payer;
-              case adTargets.digitalOnly:
-                return userType === userTypes$$1.payer;
-              case adTargets.digitalAndPrint:
-                return userType === userTypes$$1.payer;
-              default:
-                return false;
-            }
-          }
-
-          /**
-           * Report to the AdManager that a breakpoint has been switched (passed from one break to
-           * another). Should there be a responsive slot with a
-           * @param {Breakpoint} breakpoint - the breakpoint that is currently being displayed
-           * @returns {Integer} affected - the number of adSlots affected by the change
-           */
-
-        }, {
-          key: 'switchedToBreakpoint',
-          value: function switchedToBreakpoint(breakpoint) {
-            if (!breakpoint) {
-              throw new Error('Missing argument: a call to switchedToBreakpoint must have an breakpoint');
-            }
-            var count = 0;
-            var _iteratorNormalCompletion6 = true;
-            var _didIteratorError6 = false;
-            var _iteratorError6 = undefined;
-
+            // Show the non blocked
+          } catch (err) {
+            _didIteratorError7 = true;
+            _iteratorError7 = err;
+          } finally {
             try {
-              for (var _iterator6 = this.adSlots.keys()[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                var adSlotKey = _step6.value;
-
-                var adSlot$$1 = this.adSlots.get(adSlotKey);
-                if (adSlot$$1.responsive === true && adSlot$$1.lastResolvedWithBreakpoint) {
-                  if (adSlot$$1.lastResolvedWithBreakpoint !== breakpoint) {
-                    adSlot$$1.refresh();
-                    count++;
-                  }
-                }
+              if (!_iteratorNormalCompletion7 && _iterator7.return) {
+                _iterator7.return();
               }
-            } catch (err) {
-              _didIteratorError6 = true;
-              _iteratorError6 = err;
             } finally {
-              try {
-                if (!_iteratorNormalCompletion6 && _iterator6.return) {
-                  _iterator6.return();
-                }
-              } finally {
-                if (_didIteratorError6) {
-                  throw _iteratorError6;
-                }
+              if (_didIteratorError7) {
+                throw _iteratorError7;
               }
             }
-
-            return count;
           }
 
-          /**
-           * Checks whether an adSlot is defined for a given breakpoint (Default: current breakpoint)
-           * @param {AdSlot} adSlot - the adSlot to check.
-           * @param {Breakpoint} [breakpoint=currentBreakpoint] - the breakpoint to check this ad in.
-           * @returns {boolean} true iff the adSlot is defined for the given breakpoint.
-           */
+          var _iteratorNormalCompletion8 = true;
+          var _didIteratorError8 = false;
+          var _iteratorError8 = undefined;
 
-        }, {
-          key: 'doesBreakpointContainAd',
-          value: function doesBreakpointContainAd(adSlot$$1) {
-            var breakpoint = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : getBreakpoint();
+          try {
+            for (var _iterator8 = this.conflictResolver.deferredSlots.keys()[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+              var deferredSlotKey = _step8.value;
 
-            if (!adSlot$$1) {
-              throw new Error('Missing argument: a call to doesBreakpointContainAd must have an adSlot');
-            }
-            var containsBreakpoint = true;
-            if (adSlot$$1.responsive === true) {
-              var mapping = adSlot$$1.responsiveAdSizeMapping[getBreakpointName(breakpoint)];
-              if (Array.isArray(mapping) === false) {
-                throw new Error('Invalid argument: breakpoint:' + breakpoint + ' doesn\'t exist!', this);
-              }
-              containsBreakpoint = mapping.length > 0 && !arraysEqual$1(mapping, [[0, 0]]);
-            }
-            return containsBreakpoint;
-          }
-
-          /**
-           * Initializes the callback from the 'slotRenderEnded' event for each slot
-           */
-
-        }, {
-          key: 'initSlotRenderedCallback',
-          value: function initSlotRenderedCallback() {
-            var _this3 = this;
-
-            if (window.googletag && window.googletag.apiReady) {
-              var pubads = window.googletag.pubads();
-              pubads.addEventListener('slotRenderEnded', function (event) {
-                var id = event.slot.getAdUnitPath().split('/')[3];
-                var isEmpty = event.isEmpty;
-                var resolvedSize = event.size;
-                // console.log('slotRenderEnded for slot',id,' called @',window.performance.now());
-                if (_this3.adSlots.has(id)) {
-                  var adSlot$$1 = _this3.adSlots.get(id);
-                  adSlot$$1.lastResolvedSize = resolvedSize;
-                  adSlot$$1.lastResolvedWithBreakpoint = getBreakpoint();
-                  if (isEmpty) {
-                    adSlot$$1.lastResolvedSize = ConflictResolver.EMPTY_SIZE;
-                    adSlot$$1.hide();
-                    _this3.releaseSlotDependencies(adSlot$$1);
-                  } else {
-                    _this3.releaseSlotDependencies(adSlot$$1, adSlot$$1.lastResolvedSize);
-                  }
-                  _this3.user.impressionManager.registerImpression('' + adSlot$$1.id + _this3.config.department);
-                  _this3.user.impressionManager.registerImpression(adSlot$$1.id + '_all');
-                } else {
-                  /*
-                   console.error(`Cannot find an adSlot with id: ${id} - Ad Unit path is
-                   ${event.slot.getAdUnitPath()}`);
-                   */
+              var deferredAdSlot = this.adSlots.get(deferredSlotKey);
+              if (deferredAdSlot && this.shouldSendRequestToDfp(deferredAdSlot)) {
+                this.conflictResolver.deferredSlots.delete(deferredSlotKey);
+                if (deferredAdSlot.deferredSlot) {
+                  deferredAdSlot.defineSlot();
+                  deferredAdSlot.deferredSlot = false;
                 }
-              });
-            } else {
-              throw new Error('googletag api was not ready when \'initSlotRenderedCallback\' was called!');
+                deferredAdSlot.show();
+              }
             }
-          }
-        }, {
-          key: 'releaseSlotDependencies',
-          value: function releaseSlotDependencies(adSlot$$1) {
+          } catch (err) {
+            _didIteratorError8 = true;
+            _iteratorError8 = err;
+          } finally {
             try {
-              var id = adSlot$$1.id;
-              this.conflictResolver.updateResolvedSlot(id, adSlot$$1.lastResolvedSize);
-              if (this.conflictResolver.isBlocking(id)) {
-                // Hide all blocked adSlots
-                var _iteratorNormalCompletion7 = true;
-                var _didIteratorError7 = false;
-                var _iteratorError7 = undefined;
-
-                try {
-                  for (var _iterator7 = this.conflictResolver.getBlockedSlotsIds(id)[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-                    var blockedSlot = _step7.value;
-
-                    if (this.conflictResolver.isBlocked(blockedSlot)) {
-                      if (this.adSlots.has(blockedSlot)) {
-                        this.adSlots.get(blockedSlot).hide();
-                      }
-                    }
-                  }
-                  // Show the non blocked
-                } catch (err) {
-                  _didIteratorError7 = true;
-                  _iteratorError7 = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion7 && _iterator7.return) {
-                      _iterator7.return();
-                    }
-                  } finally {
-                    if (_didIteratorError7) {
-                      throw _iteratorError7;
-                    }
-                  }
-                }
-
-                var _iteratorNormalCompletion8 = true;
-                var _didIteratorError8 = false;
-                var _iteratorError8 = undefined;
-
-                try {
-                  for (var _iterator8 = this.conflictResolver.deferredSlots.keys()[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-                    var deferredSlotKey = _step8.value;
-
-                    var deferredAdSlot = this.adSlots.get(deferredSlotKey);
-                    if (deferredAdSlot && this.shouldSendRequestToDfp(deferredAdSlot)) {
-                      this.conflictResolver.deferredSlots.delete(deferredSlotKey);
-                      if (deferredAdSlot.deferredSlot) {
-                        deferredAdSlot.defineSlot();
-                        deferredAdSlot.deferredSlot = false;
-                      }
-                      deferredAdSlot.show();
-                    }
-                  }
-                } catch (err) {
-                  _didIteratorError8 = true;
-                  _iteratorError8 = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion8 && _iterator8.return) {
-                      _iterator8.return();
-                    }
-                  } finally {
-                    if (_didIteratorError8) {
-                      throw _iteratorError8;
-                    }
-                  }
-                }
+              if (!_iteratorNormalCompletion8 && _iterator8.return) {
+                _iterator8.return();
               }
-            } catch (err) {
-              /* eslint-disable no-console*/
-              console.error('Cannot updateSlotDependencies for adSlot: ' + adSlot$$1.id);
-              /* eslint-enable no-console*/
+            } finally {
+              if (_didIteratorError8) {
+                throw _iteratorError8;
+              }
             }
           }
+        }
+      } catch (err) {
+        /* eslint-disable no-console*/
+        console.error('Cannot updateSlotDependencies for adSlot: ' + adSlot$$1.id);
+        /* eslint-enable no-console*/
+      }
+    }
 
-          /**
-           * Initializes page-level targeting params.
-           */
+    /**
+     * Initializes page-level targeting params.
+     */
 
-        }, {
-          key: 'initGoogleTargetingParams',
-          value: function initGoogleTargetingParams() {
-            if (window.googletag && window.googletag.apiReady) {
-              // Returns a reference to the pubads service.
-              var pubads = googletag.pubads();
-              // Environment targeting (dev, test, prod)
-              if (this.config.environment) {
-                pubads.setTargeting('stg', [this.config.environment]);
-              }
-
-              // User targeting
-              if (this.user.type) {
-                pubads.setTargeting('UserType', [this.user.type]);
-              }
-              if (this.user.htz_type) {
-                pubads.setTargeting('htz_user_type', [this.user.htz_type]);
-              }
-              if (this.user.tm_type) {
-                pubads.setTargeting('tm_user_type', [this.user.tm_type]);
-              }
-              if (this.user.hdc_type) {
-                pubads.setTargeting('hdc_user_type', [this.user.hdc_type]);
-              }
-              if (this.user.age) {
-                pubads.setTargeting('age', [this.user.age]);
-              }
-              if (this.user.gender) {
-                pubads.setTargeting('urgdr', [this.user.gender]);
-              }
-
-              // Context targeting
-              if (this.config.articleId) {
-                pubads.setTargeting('articleId', [this.config.articleId]);
-              }
-              if (this.config.gStatCampaignNumber && this.config.gStatCampaignNumber !== -1) {
-                pubads.setTargeting('gstat_campaign_id', [this.config.gStatCampaignNumber]);
-              }
-              if (this.config.proposalNumber) {
-                pubads.setTargeting('proposaltype', [this.config.proposalNumber]);
-              }
-              if (this.config.pageType) {
-                pubads.setTargeting('pageType', [this.config.pageType]);
-              }
-              if (this.config.isWriterAlerts) {
-                pubads.setTargeting('WriterAlerts', ['true']);
-              }
-              // UTM targeting
-              /* eslint-disable no-underscore-dangle */
-              if (this.config.utm_.content) {
-                pubads.setTargeting('utm_content', [this.config.utm_.content]);
-              }
-              if (this.config.utm_.source) {
-                pubads.setTargeting('utm_source', [this.config.utm_.source]);
-              }
-              if (this.config.utm_.medium) {
-                pubads.setTargeting('utm_medium', [this.config.utm_.medium]);
-              }
-              if (this.config.utm_.campaign) {
-                pubads.setTargeting('utm_campaign', [this.config.utm_.campaign]);
-              }
-              /* eslint-enable no-underscore-dangle */
-              // AdBlock removal
-              if (this.config.adBlockRemoved) {
-                pubads.setTargeting('adblock_removed', [this.config.adBlockRemoved]);
-              }
-              // University targeting - triggered via cookie
-              if (this.config.wifiLocation) {
-                pubads.setTargeting('wifi', [this.config.wifiLocation]);
-              }
-              if (this.config.tags && Array.isArray(this.config.tags)) {
-                pubads.setTargeting('tags', [].concat(_toConsumableArray(this.config.tags)));
-              }
-
-              if (this.user.sso && this.user.sso.userId && this.config.ssoGroupKey) {
-                pubads.setTargeting(this.config.ssoGroupKey, this.user.sso.userId);
-              }
-              if (this.config.anonymousId) {
-                var anonymousIdKeyName = 'anonymousIdKey';
-                pubads.setTargeting(anonymousIdKeyName, this.config.anonymousId);
-              }
-              // Ads Centering
-              pubads.setCentering(true);
-            } else {
-              throw new Error('googletag api was not ready when \'initGoogleTargetingParams\' was called!');
-            }
-          }
-
-          /**
-           * Initializes googletag services.
-           */
-
-        }, {
-          key: 'initGoogleGlobalSettings',
-          value: function initGoogleGlobalSettings() {
-            if (window.googletag && window.googletag.apiReady) {
-              var googleGlobalSettings = this.config.googleGlobalSettings;
-              // Enable GET parameter overrides
-              if (window.location.search) {
-                var search = window.location.search;
-                if (search.indexOf('sraon') > 0) {
-                  console.log('Single Request Mode: active'); // eslint-disable-line no-console
-                  googleGlobalSettings.enableSingleRequest = true;
-                } else if (search.indexOf('sraoff') > 0) {
-                  console.log('Single Request Mode: disabled'); // eslint-disable-line no-console
-                  googleGlobalSettings.enableSingleRequest = false;
-                }
-                if (search.indexOf('asyncrenderingon') > 0) {
-                  console.log('Async rendering mode: active'); // eslint-disable-line no-console
-                  googleGlobalSettings.enableAsyncRendering = true;
-                } else if (search.indexOf('asyncrenderingonoff') > 0) {
-                  console.log('Sync rendering mode: active'); // eslint-disable-line no-console
-                  googleGlobalSettings.enableAsyncRendering = false;
-                }
-              }
-              // Google services activation
-              if (googleGlobalSettings.enableSingleRequest === true) {
-                googletag.pubads().enableSingleRequest();
-              }
-              if (googleGlobalSettings.enableAsyncRendering === true) {
-                googletag.pubads().enableAsyncRendering();
-              } else {
-                googletag.pubads().enableSyncRendering();
-              }
-              // Enables all GPT services that have been defined for ad slots on the page.
-              googletag.enableServices();
-            } else {
-              throw new Error('googletag api wasn\'t ready when \'initGoogleGlobalSettings\' was called!');
-            }
-          }
-        }]);
-
-        return AdManager;
-      }();
-
-      defaultConfig = dfpConfig || {};
-      resizeTimeout = 250;
-
-      DFP$1 = function () {
-        function DFP(config) {
-          _classCallCheck(this, DFP);
-
-          this.config = Object.assign({}, defaultConfig, config);
-          this.wasInitialized = false;
-          this.initStarted = false;
-          this.breakpoint = getBreakpoint();
-          this.initWindowResizeListener();
+  }, {
+    key: 'initGoogleTargetingParams',
+    value: function initGoogleTargetingParams() {
+      if (window.googletag && window.googletag.apiReady) {
+        // Returns a reference to the pubads service.
+        var pubads = googletag.pubads();
+        // Environment targeting (dev, test, prod)
+        if (this.config.environment) {
+          pubads.setTargeting('stg', [this.config.environment]);
         }
 
-        /**
-         * This part of the object's construction is dependent on the call to 'init'
-         */
+        // User targeting
+        if (this.user.type) {
+          pubads.setTargeting('UserType', [this.user.type]);
+        }
+        if (this.user.htz_type) {
+          pubads.setTargeting('htz_user_type', [this.user.htz_type]);
+        }
+        if (this.user.tm_type) {
+          pubads.setTargeting('tm_user_type', [this.user.tm_type]);
+        }
+        if (this.user.hdc_type) {
+          pubads.setTargeting('hdc_user_type', [this.user.hdc_type]);
+        }
+        if (this.user.age) {
+          pubads.setTargeting('age', [this.user.age]);
+        }
+        if (this.user.gender) {
+          pubads.setTargeting('urgdr', [this.user.gender]);
+        }
 
-        _createClass(DFP, [{
-          key: 'resumeInit',
-          value: function resumeInit() {
-            try {
-              this.adManager = this.adManager || new AdManager(this.config);
-            } catch (err) {
-              console.error(err); // eslint-disable-line no-console
-            }
-          }
+        // Context targeting
+        if (this.config.articleId) {
+          pubads.setTargeting('articleId', [this.config.articleId]);
+        }
+        if (this.config.gStatCampaignNumber && this.config.gStatCampaignNumber !== -1) {
+          pubads.setTargeting('gstat_campaign_id', [this.config.gStatCampaignNumber]);
+        }
+        if (this.config.proposalNumber) {
+          pubads.setTargeting('proposaltype', [this.config.proposalNumber]);
+        }
+        if (this.config.pageType) {
+          pubads.setTargeting('pageType', [this.config.pageType]);
+        }
+        if (this.config.isWriterAlerts) {
+          pubads.setTargeting('WriterAlerts', ['true']);
+        }
+        // UTM targeting
+        /* eslint-disable no-underscore-dangle */
+        if (this.config.utm_.content) {
+          pubads.setTargeting('utm_content', [this.config.utm_.content]);
+        }
+        if (this.config.utm_.source) {
+          pubads.setTargeting('utm_source', [this.config.utm_.source]);
+        }
+        if (this.config.utm_.medium) {
+          pubads.setTargeting('utm_medium', [this.config.utm_.medium]);
+        }
+        if (this.config.utm_.campaign) {
+          pubads.setTargeting('utm_campaign', [this.config.utm_.campaign]);
+        }
+        /* eslint-enable no-underscore-dangle */
+        // AdBlock removal
+        if (this.config.adBlockRemoved) {
+          pubads.setTargeting('adblock_removed', [this.config.adBlockRemoved]);
+        }
+        // University targeting - triggered via cookie
+        if (this.config.wifiLocation) {
+          pubads.setTargeting('wifi', [this.config.wifiLocation]);
+        }
+        if (this.config.tags && Array.isArray(this.config.tags)) {
+          pubads.setTargeting('tags', [].concat(_toConsumableArray(this.config.tags)));
+        }
 
-          /**
-           * initializes the 'googletag' global namespace and add the
-           * google publish tags library to the page
-           * @returns {Promise} that resolves to true once the googletag api is ready to use
-           * (googletag.apiReady = true)
-           */
-
-        }, {
-          key: 'initGoogleTag',
-          value: function initGoogleTag() {
-            var _this = this;
-
-            var dfpThis = this;
-            return new Promise(function (resolve, reject) {
-              if (dfpThis.initStarted === true) {
-                googletag.cmd.push(function () {
-                  dfpThis.wasInitialized = true;
-                  resolve(dfpThis);
-                });
-              } else {
-                dfpThis.initStarted = true;
-                // set up a place holder for the gpt code downloaded from google
-                window.googletag = window.googletag || {};
-
-                // this is a command queue used by GPT any methods added to it will be
-                // executed when GPT code is available, if GPT is already available they
-                // will be executed immediately
-                window.googletag.cmd = window.googletag.cmd || [];
-                // load google tag services JavaScript
-                (function () {
-                  var tag = window.document.createElement('script');
-                  tag.async = true;
-                  tag.type = 'text/javascript';
-                  // Supports both https and http
-                  tag.setAttribute('src', '//www.googletagservices.com/tag/js/gpt.js');
-                  var node = window.document.getElementsByTagName('script')[0];
-                  tag.addEventListener('load', function () {
-                    dfpThis.resumeInit();
-                    googletag.cmd.push(function () {
-                      dfpThis.wasInitialized = true;
-                      resolve(_this);
-                    });
-                  });
-                  tag.addEventListener('error', function (error) {
-                    dfpThis.wasInitialized = false;
-                    reject(error);
-                  });
-                  node.parentNode.insertBefore(tag, node);
-                })();
-              }
-            });
-          }
-
-          /**
-           *  Returns true iff googletag was properly initialized on the page
-           * @returns {boolean}
-           */
-
-        }, {
-          key: 'isGoogleTagReady',
-          value: function isGoogleTagReady() {
-            if (this.wasInitialized === true || window.googletag && window.googletag.apiReady) {
-              this.wasInitialized = true;
-            }
-            return this.wasInitialized;
-          }
-
-          /**
-           * Initializes the window resize listener to support responsive ad refreshes
-           */
-
-        }, {
-          key: 'initWindowResizeListener',
-          value: function initWindowResizeListener() {
-            var dfpThis = this;
-            function onResize() {
-              var currentBreakpoint = getBreakpoint();
-              if (dfpThis.breakpoint !== currentBreakpoint) {
-                dfpThis.breakpoint = currentBreakpoint;
-                if (dfpThis.adManager) {
-                  dfpThis.adManager.refreshAllSlots();
-                } else {
-                  throw new Error('initWindowResizeListener error - adManager instance is not available');
-                }
-              }
-            }
-            var debouncedFunction = debounce(onResize, resizeTimeout);
-            window.onresize = debouncedFunction;
-          }
-        }]);
-
-        return DFP;
-      }();
-
-      // const pkg = require('./../package.json');
-
-      // DFP version is based on the package.json
-      DFP$1.version = version || 'VERSION';
-
-      /*
-       // Only for development mode
-       if ( process.env.NODE_ENV !== 'production' ) {
-       DFP.dev = '123';
-       }
-       */
-
-      _export("config", config = dfpConfig);
-
-      _export("version", version$1 = DFP$1.version);
-
-      _export("config", config);
-
-      _export("version", version$1);
-
-      _export("default", DFP$1);
+        if (this.user.sso && this.user.sso.userId && this.config.ssoGroupKey) {
+          pubads.setTargeting(this.config.ssoGroupKey, this.user.sso.userId);
+        }
+        if (this.config.anonymousId) {
+          var anonymousIdKeyName = 'anonymousIdKey';
+          pubads.setTargeting(anonymousIdKeyName, this.config.anonymousId);
+        }
+        // Ads Centering
+        pubads.setCentering(true);
+      } else {
+        throw new Error('googletag api was not ready when \'initGoogleTargetingParams\' was called!');
+      }
     }
-  };
-});
-})
-(function(factory) {
-  main = factory();
-});
 
-export default main;
+    /**
+     * Initializes googletag services.
+     */
+
+  }, {
+    key: 'initGoogleGlobalSettings',
+    value: function initGoogleGlobalSettings() {
+      if (window.googletag && window.googletag.apiReady) {
+        var googleGlobalSettings = this.config.googleGlobalSettings;
+        // Enable GET parameter overrides
+        if (window.location.search) {
+          var search = window.location.search;
+          if (search.indexOf('sraon') > 0) {
+            console.log('Single Request Mode: active'); // eslint-disable-line no-console
+            googleGlobalSettings.enableSingleRequest = true;
+          } else if (search.indexOf('sraoff') > 0) {
+            console.log('Single Request Mode: disabled'); // eslint-disable-line no-console
+            googleGlobalSettings.enableSingleRequest = false;
+          }
+          if (search.indexOf('asyncrenderingon') > 0) {
+            console.log('Async rendering mode: active'); // eslint-disable-line no-console
+            googleGlobalSettings.enableAsyncRendering = true;
+          } else if (search.indexOf('asyncrenderingonoff') > 0) {
+            console.log('Sync rendering mode: active'); // eslint-disable-line no-console
+            googleGlobalSettings.enableAsyncRendering = false;
+          }
+        }
+        // Google services activation
+        if (googleGlobalSettings.enableSingleRequest === true) {
+          googletag.pubads().enableSingleRequest();
+        }
+        if (googleGlobalSettings.enableAsyncRendering === true) {
+          googletag.pubads().enableAsyncRendering();
+        } else {
+          googletag.pubads().enableSyncRendering();
+        }
+        // Enables all GPT services that have been defined for ad slots on the page.
+        googletag.enableServices();
+      } else {
+        throw new Error('googletag api wasn\'t ready when \'initGoogleGlobalSettings\' was called!');
+      }
+    }
+  }]);
+
+  return AdManager;
+}();
+
+/* globals googletag */
+var defaultConfig = dfpConfig || {};
+var resizeTimeout = 250;
+
+var DFP$1 = function () {
+  function DFP(config) {
+    _classCallCheck(this, DFP);
+
+    this.config = Object.assign({}, defaultConfig, config);
+    this.wasInitialized = false;
+    this.initStarted = false;
+    this.breakpoint = getBreakpoint();
+    this.initWindowResizeListener();
+  }
+
+  /**
+   * This part of the object's construction is dependent on the call to 'init'
+   */
+
+  _createClass(DFP, [{
+    key: 'resumeInit',
+    value: function resumeInit() {
+      try {
+        this.adManager = this.adManager || new AdManager(this.config);
+      } catch (err) {
+        console.error(err); // eslint-disable-line no-console
+      }
+    }
+
+    /**
+     * initializes the 'googletag' global namespace and add the
+     * google publish tags library to the page
+     * @returns {Promise} that resolves to true once the googletag api is ready to use
+     * (googletag.apiReady = true)
+     */
+
+  }, {
+    key: 'initGoogleTag',
+    value: function initGoogleTag() {
+      var _this = this;
+
+      var dfpThis = this;
+      return new Promise(function (resolve, reject) {
+        if (dfpThis.initStarted === true) {
+          googletag.cmd.push(function () {
+            dfpThis.wasInitialized = true;
+            resolve(dfpThis);
+          });
+        } else {
+          dfpThis.initStarted = true;
+          // set up a place holder for the gpt code downloaded from google
+          window.googletag = window.googletag || {};
+
+          // this is a command queue used by GPT any methods added to it will be
+          // executed when GPT code is available, if GPT is already available they
+          // will be executed immediately
+          window.googletag.cmd = window.googletag.cmd || [];
+          // load google tag services JavaScript
+          (function () {
+            var tag = window.document.createElement('script');
+            tag.async = true;
+            tag.type = 'text/javascript';
+            // Supports both https and http
+            tag.setAttribute('src', '//www.googletagservices.com/tag/js/gpt.js');
+            var node = window.document.getElementsByTagName('script')[0];
+            tag.addEventListener('load', function () {
+              dfpThis.resumeInit();
+              googletag.cmd.push(function () {
+                dfpThis.wasInitialized = true;
+                resolve(_this);
+              });
+            });
+            tag.addEventListener('error', function (error) {
+              dfpThis.wasInitialized = false;
+              reject(error);
+            });
+            node.parentNode.insertBefore(tag, node);
+          })();
+        }
+      });
+    }
+
+    /**
+     *  Returns true iff googletag was properly initialized on the page
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isGoogleTagReady',
+    value: function isGoogleTagReady() {
+      if (this.wasInitialized === true || window.googletag && window.googletag.apiReady) {
+        this.wasInitialized = true;
+      }
+      return this.wasInitialized;
+    }
+
+    /**
+     * Initializes the window resize listener to support responsive ad refreshes
+     */
+
+  }, {
+    key: 'initWindowResizeListener',
+    value: function initWindowResizeListener() {
+      var dfpThis = this;
+      function onResize() {
+        var currentBreakpoint = getBreakpoint();
+        if (dfpThis.breakpoint !== currentBreakpoint) {
+          dfpThis.breakpoint = currentBreakpoint;
+          if (dfpThis.adManager) {
+            dfpThis.adManager.refreshAllSlots();
+          } else {
+            throw new Error('initWindowResizeListener error - adManager instance is not available');
+          }
+        }
+      }
+      var debouncedFunction = debounce(onResize, resizeTimeout);
+      window.onresize = debouncedFunction;
+    }
+  }]);
+
+  return DFP;
+}();
+
+// import { version as v } from './version';
+
+var v = require('./version');
+
+// DFP version is based on the package.json
+DFP$1.version = v || 'VERSION';
+
+/*
+ // Only for development mode
+ if ( process.env.NODE_ENV !== 'production' ) {
+ DFP.dev = '123';
+ }
+ */
+
+var config = dfpConfig;
+var version = DFP$1.version;
+
+export { config, version };export default DFP$1;
+
 //# sourceMappingURL=dfp.es6.js.map

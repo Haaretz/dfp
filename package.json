@@ -1,7 +1,7 @@
 {
   "name": "DFP",
   "description": "A DoubleClick for Publishers Implementation",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "license": "MIT",
   "author": {
     "name": "Elia Grady",
@@ -33,6 +33,7 @@
     "eslint": "^3.2.0",
     "eslint-config-airbnb": "^10.0.1",
     "eslint-plugin-import": "^1.8.1",
+    "genversion": "^2.1.0",
     "glob": "^7.0.0",
     "isparta": "^4.0.0",
     "isparta-instrumenter-loader": "^1.0.0",
@@ -127,9 +128,10 @@
     "build:jspm:dev": "jspm build src/index.js dist/dfp.js --format global --global-name DFP --source-map-contents",
     "build:jspm:prod": "jspm build src/index.js dist/dfp.min.js --format global --global-name DFP --minify --source-map-contents",
     "build:jspm:es6": "jspm build src/index.js dist/dfp.es6.js --format esm --source-map-contents",
-    "build": "npm run build:jspm",
+    "build": "npm run genversion && npm run build:jspm",
     "build:rollup": "npm run clean && mkdirp dist && npm run build:dev && npm run build:prod && npm run build:es6",
     "build:jspm": "npm run clean && mkdirp dist && npm run build:jspm:dev && npm run build:jspm:prod && npm run build:jspm:es6",
+    "genversion": "genversion --semi --verbose src/version.js",
     "browser": "webpack-dev-server --quiet --config config/webpack.dev.conf.js --host 0.0.0.0",
     "test:server": "mocha --opts config/mocha.opts",
     "test:browser": "karma start config/karma.conf.js --no-auto-watch",
