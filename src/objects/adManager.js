@@ -530,6 +530,9 @@ export default class AdManager {
       if (this.config.proposalNumber) {
         pubads.setTargeting('proposaltype', [this.config.proposalNumber]);
       }
+      if (this.config.pageType) {
+        pubads.setTargeting('pageType', [this.config.pageType]);
+      }
       if (this.config.isWriterAlerts) {
         pubads.setTargeting('WriterAlerts', ['true']);
       }
