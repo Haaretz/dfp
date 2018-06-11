@@ -230,16 +230,12 @@ describe('globalConfig - unit tests for browser', () => {
       wifiLocation = config.wifiLocation;
     });
 
-    it('should not be undefined', () => {
-      expect(wifiLocation).to.not.be.an('undefined');
-    });
-
-    it('should be a string', () => {
-      expect(wifiLocation).to.be.a('string');
+    it('should either be a string or undefined', () => {
+      expect(typeof wifiLocation).to.be.oneOf(['string', 'undefined']);
     });
 
     it('should either be an empty string, \'ArCafe\' of \'university\'', () => {
-      expect(wifiLocation).to.be.oneOf(['', 'ArCafe', 'university']);
+      expect(wifiLocation).to.be.oneOf([undefined, 'ArCafe', 'university']);
     });
   });
 
