@@ -1,8 +1,6 @@
 import DFP from './dfp';
 import globalConfig from './globalConfig';
-// import { version as v } from './version';
-
-const v = require('./version');
+import { version as v } from './version';
 
 // DFP version is based on the package.json
 DFP.version = v || 'VERSION';
