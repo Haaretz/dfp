@@ -1,5 +1,6 @@
+/* eslint-disable prefer-destructuring */
 /* eslint no-shadow: 0, no-restricted-syntax:0 */
-import globalConfig from '../../src/globalConfig';
+import globalConfig from '../globalConfig';
 
 describe('globalConfig - unit tests for browser', () => {
   let config;
@@ -325,7 +326,7 @@ describe('globalConfig - unit tests for browser', () => {
           priority = adSlot.priority;
         });
 
-        it('should be one of: ${priorities}', () => {
+        it(`should be one of: ${priorities}`, () => {
           expect(priority).to.be.oneOf(priorities);
         });
       });
@@ -478,7 +479,7 @@ describe('globalConfig - unit tests for browser', () => {
         expect(blockingSlot).to.be.instanceof(Array);
       });
 
-      Array.prototype.forEach.call(blockingSlot, (blockedSlot) => {
+      Array.prototype.forEach.call(blockingSlot, blockedSlot => {
         it(`should have the following keys: ${keys}`, () => {
           expect(blockedSlot).to.contain.all.keys(keys);
         });

@@ -3,12 +3,13 @@ class ConflictResolver {
     this.dependencyMap = this.initializeDependencyMap(conflictManagementConfig);
     this.deferredSlots = new Set();
   }
+
   initializeDependencyMap(conflictManagementJson) {
     const queue = new Map();
     Object.keys(conflictManagementJson).map((key, value) => {
       let rules = conflictManagementJson[key];
       if (rules) {
-        rules = rules.filter((item) => item.onsize && item.avoid);
+        rules = rules.filter(item => item.onsize && item.avoid);
       }
       queue.set(key, {
         id: key,
@@ -89,11 +90,12 @@ class ConflictResolver {
     return result || [];
   }
 
+  // eslint-disable-next-line class-methods-use-this
   arraysEqual(a, b) {
     if (a === b) return true;
     if (a === null || b === null) return false;
     if (a.length !== b.length) return false;
-    for (let i = 0; i < a.length; ++i) {
+    for (let i = 0; i < a.length; ++i) { // eslint-disable-line no-plusplus
       if (a[i] !== b[i]) return false;
     }
     return true;

@@ -1,12 +1,11 @@
 /* global googletag */
-import { adTypes } from '../objects/adManager';
+import { adTypes } from './adManager'; // eslint-disable-line import/no-cycle
 import globalConfig from '../globalConfig';
 import { arraysEqual } from '../utils/arrays';
 
 const hiddenClass = globalConfig.site.indexOf('mouse') > -1 ? 'u-is-hidden' : 'h-hidden';
 
 export default class adSlot {
-
   constructor(adSlotConfig) {
     this.config = Object.assign({}, adSlotConfig);
 
@@ -33,10 +32,10 @@ export default class adSlot {
     // Part III : ad specific configuration - passed from globalConfig.adSlotConfig
     this.adSizeMapping = this.config.adSizeMapping;
     this.responsiveAdSizeMapping = this.config.responsiveAdSizeMapping;
-    this.blacklistReferrers = this.config.blacklistReferrers ?
-      this.config.blacklistReferrers.split(',') : [];
-    this.whitelistReferrers = this.config.whitelistReferrers ?
-      this.config.whitelistReferrers.split(',') : [];
+    this.blacklistReferrers = this.config.blacklistReferrers
+      ? this.config.blacklistReferrers.split(',') : [];
+    this.whitelistReferrers = this.config.whitelistReferrers
+      ? this.config.whitelistReferrers.split(',') : [];
 
 
     // Part IV : Runtime configuration - calculated data - only present in runtime
@@ -93,10 +92,12 @@ export default class adSlot {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   isMobile() {
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
       .test(window.navigator.userAgent || ''));
   }
+
   /**
    * Checks whether or not this adSlot has a non-empty whitelist, and if so, that the current
    * referrer appears in the whitelist.
@@ -184,7 +185,7 @@ export default class adSlot {
       }
       return maavaronSlot;
     }
-    const googletag = window.googletag;
+    const { googletag } = window;
     const pubads = googletag.pubads();
     const args = [];
     const defineFn = this.isOutOfPage() ? googletag.defineOutOfPageSlot : googletag.defineSlot;
@@ -204,13 +205,14 @@ export default class adSlot {
       // Responsive size Mapping
       if (this.responsive) {
         let responsiveSlotSizeMapping = googletag.sizeMapping();
-        const breakpoints = globalConfig.breakpointsConfig.breakpoints;
+        const { breakpoints } = globalConfig.breakpointsConfig;
         const keys = Object.keys(this.responsiveAdSizeMapping);
         for (const key of keys) { // ['xxs','xs',...]
           responsiveSlotSizeMapping.addSize(
             [breakpoints[key], 100], // 100 is a default height, since it is height agnostic
-            !arraysEqual(this.responsiveAdSizeMapping[key], [[0, 0]]) ?
-              this.responsiveAdSizeMapping[key] : []);
+            !arraysEqual(this.responsiveAdSizeMapping[key], [[0, 0]])
+              ? this.responsiveAdSizeMapping[key] : [],
+          );
         }
         responsiveSlotSizeMapping = responsiveSlotSizeMapping.build();
         slot = slot.defineSizeMapping(responsiveSlotSizeMapping);

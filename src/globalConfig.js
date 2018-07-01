@@ -48,11 +48,11 @@ const dfpConfig = Object.assign({
    * @returns {Array.<T>} an array of path names
    */
   get path() {
-    let sectionArray = this.articleId && this.articleId !== '0' ?
-      window.location.pathname.split('/').slice(1, -1) :
-      window.location.pathname.split('/').slice(1);
-    sectionArray = sectionArray.filter(path =>
-    path !== 'wwwMobileSite' && path !== 'whtzMobileSite');
+    let sectionArray = this.articleId && this.articleId !== '0'
+      ? window.location.pathname.split('/').slice(1, -1)
+      : window.location.pathname.split('/').slice(1);
+    sectionArray = sectionArray.filter(path => path !== 'wwwMobileSite'
+      && path !== 'whtzMobileSite');
     return sectionArray
       .map(section => `.${section}`)
       .map((section, index, arr) => arr.slice(0, index + 1)
@@ -86,14 +86,14 @@ const dfpConfig = Object.assign({
       test: 2,
       prod: 3,
     };
-    return window.location.port === '8080' ? env.dev :
-      (window.location.hostname.indexOf('pre.haaretz.co.il') > -1
-      || window.location.hostname.indexOf('tmtest.themarker.com') > -1
-      || window.location.hostname.indexOf('pre.haaretz.com') > -1
-      || window.location.hostname.indexOf('prodmouse.mouse.co.il') > -1) ? env.test :
-        (window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1
-        || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1
-        || window.location.pathname.indexOf('/cmlink/Mouse.HomePage') > -1)
+    return window.location.port === '8080' ? env.dev
+      : (window.location.hostname.indexOf('pre.haaretz.co.il') > -1
+        || window.location.hostname.indexOf('tmtest.themarker.com') > -1
+        || window.location.hostname.indexOf('pre.haaretz.com') > -1
+        || window.location.hostname.indexOf('prodmouse.mouse.co.il') > -1) ? env.test
+        : (window.location.pathname.indexOf('/cmlink/Haaretz.HomePage') > -1
+          || window.location.pathname.indexOf('/cmlink/TheMarker.HomePage') > -1
+          || window.location.pathname.indexOf('/cmlink/Mouse.HomePage') > -1)
           ? env.prod : undefined;
   },
   /**
@@ -151,7 +151,7 @@ const dfpConfig = Object.assign({
     return anonymousId;
   },
   get isWriterAlerts() {
-    return (location.search.indexOf('writerAlerts=true') > -1);
+    return (window.location.search.indexOf('writerAlerts=true') > -1);
   },
   get wifiLocation() {
     let wifiLocation;
@@ -193,8 +193,8 @@ const dfpConfig = Object.assign({
   get gStatCampaignNumber() {
     let gstatCampaign;
     try {
-      gstatCampaign = localStorage.getItem('GstatCampaign') ?
-        JSON.parse(localStorage.getItem('GstatCampaign')) : undefined;
+      gstatCampaign = localStorage.getItem('GstatCampaign')
+        ? JSON.parse(localStorage.getItem('GstatCampaign')) : undefined;
     }
     catch (err) {
       /* In case of thrown 'SecurityError' or 'QuotaExceededError',
@@ -231,8 +231,8 @@ const dfpConfig = Object.assign({
   get proposalNumber() {
     let proposal;
     try {
-      proposal = localStorage.getItem('proposaltype') ?
-        localStorage.getItem('proposaltype') : undefined;
+      proposal = localStorage.getItem('proposaltype')
+        ? localStorage.getItem('proposaltype') : undefined;
     }
     catch (err) {
       /* In case of thrown 'SecurityError' or 'QuotaExceededError',

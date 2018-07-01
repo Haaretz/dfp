@@ -22,7 +22,6 @@ export const keys = {
 };
 
 export default class ImpressionsManager {
-
   constructor(impressionManagerConfig) {
     this.now = (new Date()).getTime(); // this date is used for comparisons only
     this.config = Object.assign({}, impressionManagerConfig);
@@ -74,7 +73,7 @@ export default class ImpressionsManager {
       impressions = {};
       const oldImpressionsArray = impressionsData.split(';').filter(e => e);
 
-      oldImpressionsArray.forEach((impression) => {
+      oldImpressionsArray.forEach(impression => {
         try {
           const adUnitImpression = impression.split(' = ');
           const name = adUnitImpression[0];
@@ -123,8 +122,8 @@ export default class ImpressionsManager {
       localStorage.setItem(keys.impressions, JSON.stringify(this.impressions));
     }
     catch (err) {
-      /* In case of thrown 'SecurityError' or 'QuotaExceededError',
-       the operation should not break*/
+      // In case of thrown 'SecurityError' or 'QuotaExceededError',
+      // the operation should not break
       console.error('localStorage isn\'t available:', err); // eslint-disable-line no-console
     }
   }
@@ -178,8 +177,8 @@ export default class ImpressionsManager {
     if (frequencyMap.indexOf(keys.days) > -1) {
       now.setHours(0);
     }
-    this.impressions[slotName][keys.expires] = (frequencyMap.indexOf(keys.days) > -1 ?
-      addDays(now, frequencyMap[2]) : addHours(now, frequencyMap[2])).getTime();
+    this.impressions[slotName][keys.expires] = (frequencyMap.indexOf(keys.days) > -1
+      ? addDays(now, frequencyMap[2]) : addHours(now, frequencyMap[2])).getTime();
 
     // Set max impressions:
     this.impressions[slotName][keys.maxImpressions] = parseInt(frequencyMap[1], 10);
@@ -210,7 +209,7 @@ export default class ImpressionsManager {
       const slot = this.impressions[adSlotId];
       if (slot) {
         const exposed = slot[keys.exposed];
-        if (isNaN(parseInt(exposed, 10)) === false) {
+        if (Number.isNaN(parseInt(exposed, 10)) === false) {
           this.impressions[adSlotId][keys.exposed] += 1;
           try {
             this.saveImpressionsToLocalStorage();
@@ -233,8 +232,8 @@ export default class ImpressionsManager {
   reachedQuota(adSlotId) {
     // An adSlotId is suffixed with _homepage | _section if it's targeting is different
     // between the two. If there is no difference, an _all suffix can be used.
-    const slotName = this.impressions[`${adSlotId}${globalConfig.department}`] ?
-      `${adSlotId}${globalConfig.department}` : `${adSlotId}_all`;
+    const slotName = this.impressions[`${adSlotId}${globalConfig.department}`]
+      ? `${adSlotId}${globalConfig.department}` : `${adSlotId}_all`;
 
     const slot = this.impressions[slotName];
     let atQuota = false;
@@ -261,7 +260,7 @@ export default class ImpressionsManager {
    * Clears the impression map from 'exposed' impressions
    */
   resetImpressions() {
-    const impressions = this.impressions;
+    const { impressions } = this;
     for (const key in impressions) {
       if ({}.hasOwnProperty.call(impressions, key)) {
         if (impressions[key][keys.exposed]) {

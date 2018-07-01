@@ -13,5 +13,5 @@ DFP.version = v || 'VERSION';
  */
 
 export const config = globalConfig;
-export const version = DFP.version;
+export const { version } = DFP;
 export default DFP;

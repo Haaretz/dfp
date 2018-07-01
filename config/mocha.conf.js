@@ -25,8 +25,8 @@ var mock = new MockBrowser();
 //var mock = new AbstractBrowser( opts );
 
 
-global.window = mock.getWindow();
-global.document = mock.getDocument();
+global.window = mock.getWindow() || mock.createWindow();
+global.document = mock.getDocument() || mock.createDocument();
 global.location = mock.getLocation();
 ////global.localStorage = storage;// || mock.getLocalStorage();
 global.localStorage = global.window.localStorage = mock.getLocalStorage();

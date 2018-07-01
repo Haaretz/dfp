@@ -1,12 +1,12 @@
 /* eslint-disable no-return-assign */
-import User from '../../objects/user';
-import CookieData from './../../utils/__tests__/cookieData.mock.js';
+import User from '../user';
+import CookieData from '../../utils/__tests__/cookieData.mock';
 import globalConfigMock from '../../__tests__/globalConfig.mock';
 
 const globalConfig = globalConfigMock;
 
 function deleteAllCookies() {
-  document.cookie.split(';').forEach((c) => {
+  document.cookie.split(';').forEach(c => {
     document.cookie = c.replace(/^ +/, '')
       .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
   });

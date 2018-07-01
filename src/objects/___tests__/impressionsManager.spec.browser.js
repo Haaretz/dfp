@@ -1,4 +1,4 @@
-import ImpressionsManager, { keys } from '../../objects/impressionsManager';
+import ImpressionsManager, { keys } from '../impressionsManager';
 import globalConfigMock from '../../__tests__/globalConfig.mock';
 
 /*
@@ -21,19 +21,19 @@ import globalConfigMock from '../../__tests__/globalConfig.mock';
  */
 
 const mock = {
-  oldImpressions: 'haaretz.co.il.web.maavaron..all = 10/1457906399000;' +
-  'haaretz.co.il.web.popunder.all = 10/1457866799000;' +
-  'haaretz.co.il.web.ruler.section = 5/1457906399000;' +
-  'haaretz.co.il.web.halfpage.floating_x.hp = 7/1457906399000;' +
-  'haaretz.co.il.web.ruler.hp = 6/1457906399000;' +
-  'haaretz.co.il.web.inread.all = 3/1457906399000;' +
-  'haaretz.co.il.web.halfpage.floating_x.section = 2/1457906399000;' +
-  'haaretz.co.il.web.plazma.section = 1/1457279999000' +
-  ';haaretz.co.il.mobile_web.top.all = 1/1457024399000;' +
-  'haaretz.co.il.web.slideshow_hp_picday.hp = 1/1457456399000;',
+  oldImpressions: 'haaretz.co.il.web.maavaron..all = 10/1457906399000;'
+  + 'haaretz.co.il.web.popunder.all = 10/1457866799000;'
+  + 'haaretz.co.il.web.ruler.section = 5/1457906399000;'
+  + 'haaretz.co.il.web.halfpage.floating_x.hp = 7/1457906399000;'
+  + 'haaretz.co.il.web.ruler.hp = 6/1457906399000;'
+  + 'haaretz.co.il.web.inread.all = 3/1457906399000;'
+  + 'haaretz.co.il.web.halfpage.floating_x.section = 2/1457906399000;'
+  + 'haaretz.co.il.web.plazma.section = 1/1457279999000'
+  + ';haaretz.co.il.mobile_web.top.all = 1/1457024399000;'
+  + 'haaretz.co.il.web.slideshow_hp_picday.hp = 1/1457456399000;',
 };
 
-const impressionManagerConfig = globalConfigMock.impressionManagerConfig;
+const { impressionManagerConfig } = globalConfigMock;
 describe('impressionsManager', () => {
   let impressionsManager;
   before(() => {
@@ -120,10 +120,10 @@ describe('impressionsManager', () => {
       Object.keys(impressionManagerConfig)
         .map((key, index) => it(`should return a boolean for any attempt to register an impression.
          checking adSlotId: ${key}`,
-          () => {
-            const result = impressionsManager.registerImpression(key);
-            expect(result).to.be.a('boolean');
-          }));
+        () => {
+          const result = impressionsManager.registerImpression(key);
+          expect(result).to.be.a('boolean');
+        }));
 
       it('should return false in case adSlotId passed was undefined', () => {
         const result = impressionsManager.registerImpression(undefined);
@@ -210,10 +210,10 @@ describe('impressionsManager', () => {
       Object.keys(impressionManagerConfig)
         .map((key, index) => it(`should return a boolean for an attempt to register an impression.
          checking adSlotId: ${key}`,
-          () => {
-            const result = impressionsManager.registerImpression(key);
-            expect(result).to.be.a('boolean');
-          }));
+        () => {
+          const result = impressionsManager.registerImpression(key);
+          expect(result).to.be.a('boolean');
+        }));
 
       it('should return false in case adSlotId passed was undefined', () => {
         const result = impressionsManager.registerImpression(undefined);

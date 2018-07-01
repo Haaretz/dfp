@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import getCookieAsMap from '../../utils/cookieUtils';
+import getCookieAsMap from '../cookieUtils';
 import CookieData from './cookieData.mock';
 
 describe('cookieUtilModule', function initCookie() {
@@ -257,7 +257,7 @@ describe('cookieUtilModule', function initCookie() {
 
 // Delete all cookies helper for testing purposes
 export function deleteAllCookies() {
-  document.cookie.split(';').forEach((c) => {
+  document.cookie.split(';').forEach(c => {
     document.cookie = c.replace(/^ +/, '')
       .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
   });

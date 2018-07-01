@@ -1,5 +1,6 @@
 ./src/**/*__tests__*/**/*.spec.browser.js
 
+--require babel-polyfill
 --require ./config/mocha.conf.js
 --reporter spec
 --ui bdd

@@ -1,6 +1,7 @@
 import getCookieAsMap from '../utils/cookieUtils';
 import ImpressionManager from './impressionsManager';
 import globalConfig from '../globalConfig';
+import withTimeout from '../utils/withTimeout';
 
 export const userTypes = {
   payer: 'payer',
@@ -38,8 +39,8 @@ export default class User {
   getUserType(cookieMap) {
     let userType;
     if (cookieMap && cookieMap[this.ssoKey]) {
-      userType = (cookieMap.HtzPusr || cookieMap.TmPusr || cookieMap.HdcPusr) ?
-        userTypes.payer : userTypes.registered;
+      userType = (cookieMap.HtzPusr || cookieMap.TmPusr || cookieMap.HdcPusr)
+        ? userTypes.payer : userTypes.registered;
     }
     else {
       userType = userTypes.anonymous;
@@ -71,7 +72,7 @@ export default class User {
       return userTypes.payer;
     }
     // user has hdc trial product
-    else if (this.userHasProduct(userProducts, productTypes.hdc, true)) {
+    if (this.userHasProduct(userProducts, productTypes.hdc, true)) {
       return userTypes.trial;
     }
     return userTypes.registered;
@@ -79,22 +80,23 @@ export default class User {
 
   getHtzTmUserType(userProducts, productType) {
     // user has htz/tm paying product
-    if (this.userHasProduct(userProducts, productType, false) ||
-      this.userHasProduct(userProducts, productTypes.htz_tm, false)) {
+    if (this.userHasProduct(userProducts, productType, false)
+      || this.userHasProduct(userProducts, productTypes.htz_tm, false)) {
       return userTypes.payer;
     }
     // user has htz/tm trial product
-    else if (this.userHasProduct(userProducts, productType, true) ||
-      this.userHasProduct(userProducts, productTypes.htz_tm, true)) {
+    if (this.userHasProduct(userProducts, productType, true)
+      || this.userHasProduct(userProducts, productTypes.htz_tm, true)) {
       return userTypes.trial;
     }
     return userTypes.registered;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   userHasProduct(userProducts, productType, trial) {
     return userProducts.products
-        .filter(product => product.prodNum === productType && product.trial === trial)
-        .length > 0;
+      .filter(product => product.prodNum === productType && product.trial === trial)
+      .length > 0;
   }
 
   getUserAge(cookieMap) {
@@ -117,7 +119,35 @@ export default class User {
     return gender;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getUserSSO(cookieMap, ssoKey) {
     return cookieMap[ssoKey];
+  }
+
+  async getSsoGroupKey() {
+    let groupKey = null;
+    try {
+      groupKey = localStorage.getItem('_SsoGroupKey');
+      if (!groupKey) {
+        const response = await withTimeout(
+          window.fetch(`/ssoGroupKey?value=${this.user.sso.userId}`, {
+            method: 'GET',
+            cache: false,
+          }),
+        );
+        if (response && response.result
+          && response.result !== 'item not found' && response.result !== 'value is empty') {
+          groupKey = response.result;
+          localStorage.setItem('_SsoGroupKey', groupKey);
+        }
+        else {
+          groupKey = null;
+        }
+      }
+    }
+    catch (e) {
+      groupKey = null;
+    }
+    return groupKey;
   }
 }

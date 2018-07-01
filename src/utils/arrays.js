@@ -9,7 +9,7 @@ export function arraysEqual(a, b) {
   if (!Array.isArray(a) || !Array.isArray(b)) return false;
   if (a === b) return true;
   if (a.length !== b.length) return false;
-  for (let i = 0; i < a.length; ++i) {
+  for (let i = 0; i < a.length; ++i) { // eslint-disable-line no-plusplus
     if (Array.isArray(a[i]) && Array.isArray(b[i])) {
       if (!arraysEqual(a[i], b[i])) return false;
     }

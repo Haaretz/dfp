@@ -1,7 +1,7 @@
-import ConflictResolver from '../../objects/conflictResolver';
+import ConflictResolver from '../conflictResolver';
 import globalConfig from '../../__tests__/globalConfig.mock';
 
-const conflictManagementConfig = globalConfig.conflictManagementConfig;
+const { conflictManagementConfig } = globalConfig;
 
 describe('conflictResolver', () => {
   let conflictResolver;
@@ -161,8 +161,8 @@ describe('conflictResolver', () => {
       expect(conflictResolver.isBlocking('haaretz.co.il.web.plazma')).to.be.true();
     });
     it('should return \'isBlocked=false\' on an none blocking node', () => {
-      expect(conflictResolver.isBlocking('haaretz.co.il.web.ruler')).to.be.false() &&
-      expect(conflictResolver.isBlocking('haaretz.co.il.web.halfpage.floating_x')).to.be.false();
+      expect(conflictResolver.isBlocking('haaretz.co.il.web.ruler')).to.be.false()
+      && expect(conflictResolver.isBlocking('haaretz.co.il.web.halfpage.floating_x')).to.be.false();
     });
     it('should return \'isBlocked=false\' on an none existing node', () => {
       expect(conflictResolver.isBlocking('haaretz.co.il.web.promotional.big.box.2')).to.be.false();

@@ -1,11 +1,11 @@
 /* global googletag */
-import AdManager, { userTypes, adTargets, adTypes } from '../../objects/adManager';
+import AdManager, { userTypes, adTargets, adTypes } from '../adManager';
 import globalConfigMock from '../../__tests__/globalConfig.mock';
-import User from '../../objects/user';
-import AdSlot from '../../objects/adSlot';
+import User from '../user';
+import AdSlot from '../adSlot';
 import DFP from '../../index';
 
-const breakpoints = globalConfigMock.breakpointsConfig.breakpoints;
+const { breakpoints } = globalConfigMock.breakpointsConfig;
 
 prepareMarkup();
 describe('AdManager', () => {
@@ -14,7 +14,7 @@ describe('AdManager', () => {
   before(done => {
     dfp = new DFP(globalConfigMock);
     dfp.initGoogleTag().then(() => {
-      adManager = dfp.adManager;
+      adManager = dfp.adManager; // eslint-disable-line
       done();
     });
   });
@@ -89,8 +89,8 @@ describe('AdManager', () => {
         function byOffsetTop(a, b) {
           const firstElement = document.getElementById(a.id);
           const secondElement = document.getElementById(b.id);
-          return !firstElement || !secondElement ?
-            0 : firstElement.offsetTop - secondElement.offsetTop;
+          return !firstElement || !secondElement
+            ? 0 : firstElement.offsetTop - secondElement.offsetTop;
         }
         adSlotsFromConfig = adSlotsFromConfig.sort(byOffsetTop);
         const adSlotsKeys = Array.from(adManager.adSlots.keys()); // adSlot keys
@@ -180,14 +180,13 @@ describe('AdManager', () => {
         expect(adManager.doesUserTypeMatchBannerTargeting).to.be.a('function');
       });
 
-      Object.keys(userTypes).map((userType, index) =>
-        describe(`for user of type ${userType} `, () => {
+      Object.keys(userTypes).map((userType, index) => describe(`for user of type ${userType} `,
+        () => {
           let adSlot;
           const results = {
             anonymous: [adTargets.all, adTargets.anonymous, adTargets.nonPaying],
             registered: [adTargets.all, adTargets.registered, adTargets.nonPaying],
-            payer: [adTargets.all, adTargets.digitalOnly,
-              adTargets.digitalAndPrint, adTargets.paying],
+            payer: [adTargets.all, adTargets.digitalOnly, adTargets.digitalAndPrint, adTargets.paying], // eslint-disable-line max-len
           };
           before(() => {
             adManager.user.type = userType;
@@ -196,13 +195,12 @@ describe('AdManager', () => {
           afterEach(() => {
             googletag.destroySlots();
           });
-          Object.keys(adTargets).map(adTarget =>
-            it(` should display an adSlot targeted at: '${adTarget}'`, () => {
-              adSlot = definePromotionalMadridSlot(adTarget);
-              const match = adManager.doesUserTypeMatchBannerTargeting(adSlot);
-              const shouldMatch = results[userType].indexOf(adTarget) > -1;
-              expect(match).to.be.equal(shouldMatch);
-            }));
+          Object.keys(adTargets).map(adTarget => it(` should display an adSlot targeted at: '${adTarget}'`, () => { // eslint-disable-line max-len
+            adSlot = definePromotionalMadridSlot(adTarget);
+            const match = adManager.doesUserTypeMatchBannerTargeting(adSlot);
+            const shouldMatch = results[userType].indexOf(adTarget) > -1;
+            expect(match).to.be.equal(shouldMatch);
+          }));
         }));
     });
 

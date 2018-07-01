@@ -1,13 +1,12 @@
 /* globals googletag */
-import AdManager from '../src/objects/adManager';
+import AdManager from './objects/adManager';
 import globalConfig from './globalConfig';
-import { getBreakpoint, debounce } from '../src/utils/breakpoints';
+import { getBreakpoint, debounce } from './utils/breakpoints';
 
 const defaultConfig = globalConfig || {};
 const resizeTimeout = 250;
 
 export default class DFP {
-
   constructor(config) {
     this.config = Object.assign({}, defaultConfig, config);
     this.wasInitialized = false;
@@ -67,7 +66,7 @@ export default class DFP {
               resolve(this);
             });
           });
-          tag.addEventListener('error', (error) => {
+          tag.addEventListener('error', error => {
             dfpThis.wasInitialized = false;
             reject(error);
           });

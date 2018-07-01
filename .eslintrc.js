@@ -1,7 +1,7 @@
 module.exports = {
   /* Extend airbnb's style-guide enforcement */
   "extends": "eslint-config-airbnb/base",
-
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -18,10 +18,12 @@ module.exports = {
     "sinon": true
   },
   "rules": {
+    /* Arrow function rules */
+    "arrow-parens": ["error", "as-needed",],
     "import/no-unresolved": 0,
     "import/prefer-default-export": 1,
     "import/no-extraneous-dependencies": 0,
-    "brace-style": [2, "stroustrup", { "allowSingleLine": true  }],
+    "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
     /* Warn about long line */
     "max-len": [1, 100, 2],
     /* Warn about use of console */
@@ -39,10 +41,10 @@ module.exports = {
     /* Warn when referencing an undefined variable */
     "no-undef": [1],
     /* Forbid expressions that are never used */
-    "no-unused-expressions": [2, { allowShortCircuit: true, allowTernary: true  }],
+    "no-unused-expressions": [2, { allowShortCircuit: true, allowTernary: true }],
     /* Warn when declaring a variable without using it */
-    "no-unused-vars": [1, {"vars": "local", "args": "none"}],
-    "no-warning-comments": [1, {"terms": ["fixme", "todo"], "location": "start"}],
+    "no-unused-vars": [1, { "vars": "local", "args": "none" }],
+    "no-warning-comments": [1, { "terms": ["fixme", "todo"], "location": "start" }],
     "valid-jsdoc": [2, {
       "requireReturn": false,
       "requireParamDescription": false,

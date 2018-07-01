@@ -1,7 +1,7 @@
 /* global googletag */
-import AdSlot from '../../objects/adSlot';
-import { adTargets, adTypes } from '../../objects/adManager';
-import User from '../../objects/user';
+import AdSlot from '../adSlot';
+import { adTargets, adTypes } from '../adManager';
+import User from '../user';
 import globalConfigMock from '../../__tests__/globalConfig.mock';
 
 describe('adSlot', () => {
@@ -147,8 +147,8 @@ describe('adSlot', () => {
       });
 
       it('should return false for any other adSlotId ', () => {
-        expect(stub(adExamples.regular)).to.equal(false) &&
-        expect(stub('random.data.ad.id')).to.equal(false);
+        expect(stub(adExamples.regular)).to.equal(false)
+        && expect(stub('random.data.ad.id')).to.equal(false);
       });
     });
 
@@ -195,8 +195,8 @@ describe('adSlot', () => {
       });
 
       it('should return false for any other adSlotId ', () => {
-        expect(stub(adExamples.regular)).to.equal(false) &&
-        expect(stub('random.data.ad.id')).to.equal(false);
+        expect(stub(adExamples.regular)).to.equal(false)
+        && expect(stub('random.data.ad.id')).to.equal(false);
       });
     });
 
@@ -243,7 +243,8 @@ describe('adSlot', () => {
 
       it('should be a valid path ', () => {
         expect(adSlot.getPath()).to.equal(
-          '/9401/haaretz.co.il_web/haaretz.co.il.web.plazma/haaretz.co.il.web.plazma_homepage');
+          '/9401/haaretz.co.il_web/haaretz.co.il.web.plazma/haaretz.co.il.web.plazma_homepage',
+        );
       });
     });
 

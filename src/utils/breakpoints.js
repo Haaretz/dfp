@@ -1,6 +1,6 @@
 import globalConfig from '../globalConfig';
 
-const breakpoints = globalConfig.breakpointsConfig.breakpoints;
+const { breakpoints } = globalConfig.breakpointsConfig;
 
 /**
  * Returns a function, that, as long as it continues to be invoked, will not

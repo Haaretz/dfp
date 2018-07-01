@@ -14,7 +14,7 @@ export function addHours(date, hours) {
   if (!hours) {
     throw new SyntaxError('addHours called without a required \'hours\' parameter!');
   }
-  else if (isNaN(parseInt(hours, 10))) {
+  else if (Number.isNaN(parseInt(hours, 10))) {
     throw new TypeError('addHours called with an invalid integer \'hours\' parameter!');
   }
   const result = new Date(date);
@@ -38,7 +38,7 @@ export function addDays(date, days) {
   if (!days) {
     throw new SyntaxError('addDays called without a required \'days\' parameter!');
   }
-  else if (isNaN(parseInt(days, 10))) {
+  else if (Number.isNaN(parseInt(days, 10))) {
     throw new TypeError('addDays called with an invalid integer \'days\' parameter!');
   }
   const result = new Date(date);
