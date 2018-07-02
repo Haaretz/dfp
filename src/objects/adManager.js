@@ -489,10 +489,7 @@ export default class AdManager {
   }
 
   setSsoGroupKey() {
-    fetch(`/ssoGroupKey?value=${this.user.sso.userId}`, {
-      method: 'GET',
-      cache: false,
-    }).then(value => {
+    fetch(`/ssoGroupKey?value=${this.user.sso.userId}`).then(value => {
       if (value) {
         value.json().then(data => {
           if (data && data.result && data.result !== 'item not found' && data.result !== 'value is empty') {
