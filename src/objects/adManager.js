@@ -588,6 +588,10 @@ export default class AdManager {
         pubads.setTargeting('tags', [...this.config.tags]);
       }
 
+      if (this.config.sections && Array.isArray(this.config.sections)) {
+        pubads.setTargeting('sections', [...this.config.sections]);
+      }
+
       if (this.user.sso && this.user.sso.userId && SsoGroupKey) {
         pubads.setTargeting(SsoGroupKey, this.user.sso.userId);
       }
