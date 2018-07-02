@@ -488,12 +488,37 @@ export default class AdManager {
     }
   }
 
+  setSsoGroupKey() {
+    fetch(`/ssoGroupKey?value=${this.user.sso.userId}`, {
+      method: 'GET',
+      cache: false,
+    }).then(value => {
+      if (value) {
+        value.json().then(data => {
+          if (data && data.result && data.result !== 'item not found' && data.result !== 'value is empty') {
+            localStorage.setItem('_SsoGroupKey', data.result);
+          }
+        });
+      }
+    });
+  }
+
   /**
    * Initializes page-level targeting params.
    */
   initGoogleTargetingParams() {
     if (window.googletag && window.googletag.apiReady) {
       // Returns a reference to the pubads service.
+      let SsoGroupKey = null;
+      try {
+        SsoGroupKey = localStorage.getItem('_SsoGroupKey');
+        if (!SsoGroupKey && this.user.sso.userId) {
+          this.setSsoGroupKey();
+        }
+      }
+      catch (e) {
+        SsoGroupKey = null;
+      }
       const pubads = googletag.pubads();
       // Environment targeting (dev, test, prod)
       if (this.config.environment) {
@@ -563,8 +588,8 @@ export default class AdManager {
         pubads.setTargeting('tags', [...this.config.tags]);
       }
 
-      if (this.user.sso && this.user.sso.userId && this.config.ssoGroupKey) {
-        pubads.setTargeting(this.config.ssoGroupKey, this.user.sso.userId);
+      if (this.user.sso && this.user.sso.userId && SsoGroupKey) {
+        pubads.setTargeting(SsoGroupKey, this.user.sso.userId);
       }
       if (this.config.anonymousId) {
         const anonymousIdKeyName = 'anonymousIdKey';
