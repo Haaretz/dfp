@@ -546,6 +546,12 @@ export default class AdManager {
       }
 
       // Context targeting
+      if (this.config.section) {
+        pubads.setTargeting('section', [this.config.section]);
+      }
+      if (this.config.sub_section) {
+        pubads.setTargeting('sub_section', [this.config.sub_section]);
+      }
       if (this.config.articleId) {
         pubads.setTargeting('articleId', [this.config.articleId]);
       }
@@ -586,10 +592,6 @@ export default class AdManager {
       }
       if (this.config.tags && Array.isArray(this.config.tags)) {
         pubads.setTargeting('tags', [...this.config.tags]);
-      }
-
-      if (this.config.sections && Array.isArray(this.config.sections)) {
-        pubads.setTargeting('sections', [...this.config.sections]);
       }
 
       if (this.user.sso && this.user.sso.userId && SsoGroupKey) {
