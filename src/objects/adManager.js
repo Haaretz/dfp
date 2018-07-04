@@ -4,6 +4,7 @@ import ConflictResolver from '../objects/conflictResolver';
 import AdSlot from '../objects/adSlot';
 import { getBreakpoint, getBreakpointName } from '../utils/breakpoints';
 import { arraysEqual } from '../utils/arrays';
+import getCookieAsMap from '../utils/cookieUtils';
 
 // There are a total of 7 adTargets:
 // "all","nonPaying","anonymous","registered","paying","digitalOnly" and "digitalAndPrint"
@@ -355,6 +356,11 @@ export default class AdManager {
    * @returns {boolean} true iff the slot should appear for the user type
    */
   doesUserTypeMatchBannerTargeting(adSlotOrTarget) {
+    // if the user is smadar show her all the banners
+    const cookieMap = getCookieAsMap();
+    if (cookieMap.login === 'pilosmadar@gmail.com') {
+      return true;
+    }
     const userType = this.user.type;
     const adTarget = typeof adSlotOrTarget === 'string' ? adSlotOrTarget : adSlotOrTarget.target;
 
