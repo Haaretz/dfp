@@ -856,7 +856,7 @@ var ImpressionsManager = function () {
   return ImpressionsManager;
 }();
 
-var userTypes$1 = {
+var userTypes = {
   payer: 'payer',
   registered: 'registered',
   anonymous: 'anonymous',
@@ -896,16 +896,16 @@ var User = function () {
     value: function getUserType(cookieMap) {
       var userType = void 0;
       if (cookieMap && cookieMap[this.ssoKey]) {
-        userType = cookieMap.HtzPusr || cookieMap.TmPusr || cookieMap.HdcPusr ? userTypes$1.payer : userTypes$1.registered;
+        userType = cookieMap.HtzPusr || cookieMap.TmPusr || cookieMap.HdcPusr ? userTypes.payer : userTypes.registered;
       } else {
-        userType = userTypes$1.anonymous;
+        userType = userTypes.anonymous;
       }
       return userType;
     }
   }, {
     key: 'getUserTypeByProduct',
     value: function getUserTypeByProduct(cookieMap, productType) {
-      var userType = userTypes$1.anonymous;
+      var userType = userTypes.anonymous;
       if (cookieMap && cookieMap[this.ssoKey]) {
         if (cookieMap.userProducts) {
           var userProducts = decodeURIComponent(cookieMap.userProducts);
@@ -924,26 +924,26 @@ var User = function () {
     value: function getHdcUserType(userProducts) {
       // user has hdc paying product
       if (this.userHasProduct(userProducts, productTypes.hdc, false)) {
-        return userTypes$1.payer;
+        return userTypes.payer;
       }
       // user has hdc trial product
       else if (this.userHasProduct(userProducts, productTypes.hdc, true)) {
-          return userTypes$1.trial;
+          return userTypes.trial;
         }
-      return userTypes$1.registered;
+      return userTypes.registered;
     }
   }, {
     key: 'getHtzTmUserType',
     value: function getHtzTmUserType(userProducts, productType) {
       // user has htz/tm paying product
       if (this.userHasProduct(userProducts, productType, false) || this.userHasProduct(userProducts, productTypes.htz_tm, false)) {
-        return userTypes$1.payer;
+        return userTypes.payer;
       }
       // user has htz/tm trial product
       else if (this.userHasProduct(userProducts, productType, true) || this.userHasProduct(userProducts, productTypes.htz_tm, true)) {
-          return userTypes$1.trial;
+          return userTypes.trial;
         }
-      return userTypes$1.registered;
+      return userTypes.registered;
     }
   }, {
     key: 'userHasProduct',
@@ -1186,14 +1186,14 @@ ConflictResolver.EMPTY_SIZE = [];
  * @param {Array} b - the second array to check
  * @returns {Boolean} true iff both a and b are arrays, with equal values
  */
-function arraysEqual$1(a, b) {
+function arraysEqual(a, b) {
   if (!a || !b) return false;
   if (!Array.isArray(a) || !Array.isArray(b)) return false;
   if (a === b) return true;
   if (a.length !== b.length) return false;
   for (var i = 0; i < a.length; ++i) {
     if (Array.isArray(a[i]) && Array.isArray(b[i])) {
-      if (!arraysEqual$1(a[i], b[i])) return false;
+      if (!arraysEqual(a[i], b[i])) return false;
     } else if (a[i] !== b[i]) {
       return false;
     }
@@ -1201,7 +1201,6 @@ function arraysEqual$1(a, b) {
   return true;
 }
 
-/* global googletag */
 var hiddenClass = dfpConfig.site.indexOf('mouse') > -1 ? 'u-is-hidden' : 'h-hidden';
 
 var adSlot = function () {
@@ -1483,7 +1482,7 @@ var adSlot = function () {
               var key = _step3.value;
               // ['xxs','xs',...]
               responsiveSlotSizeMapping.addSize([breakpoints[key], 100], // 100 is a default height, since it is height agnostic
-              !arraysEqual$1(this.responsiveAdSizeMapping[key], [[0, 0]]) ? this.responsiveAdSizeMapping[key] : []);
+              !arraysEqual(this.responsiveAdSizeMapping[key], [[0, 0]]) ? this.responsiveAdSizeMapping[key] : []);
             }
           } catch (err) {
             _didIteratorError3 = true;
@@ -1583,7 +1582,6 @@ var adSlot = function () {
   return adSlot;
 }();
 
-/* global googletag */
 // There are a total of 7 adTargets:
 // "all","nonPaying","anonymous","registered","paying","digitalOnly" and "digitalAndPrint"
 var adPriorities = {
@@ -1603,7 +1601,7 @@ var adTargets = {
 };
 
 // There are a total of 3 userTypes: "anonymous", "registered" and "payer"
-var userTypes$$1 = {
+var userTypes$1 = {
   anonymous: 'anonymous',
   registered: 'registered',
   payer: 'payer'
@@ -2071,17 +2069,17 @@ var AdManager = function () {
         case adTargets.all:
           return true;
         case adTargets.nonPaying:
-          return userType === userTypes$$1.anonymous || userType === userTypes$$1.registered;
+          return userType === userTypes$1.anonymous || userType === userTypes$1.registered;
         case adTargets.anonymous:
-          return userType === userTypes$$1.anonymous;
+          return userType === userTypes$1.anonymous;
         case adTargets.registered:
-          return userType === userTypes$$1.registered;
+          return userType === userTypes$1.registered;
         case adTargets.paying:
-          return userType === userTypes$$1.payer;
+          return userType === userTypes$1.payer;
         case adTargets.digitalOnly:
-          return userType === userTypes$$1.payer;
+          return userType === userTypes$1.payer;
         case adTargets.digitalAndPrint:
-          return userType === userTypes$$1.payer;
+          return userType === userTypes$1.payer;
         default:
           return false;
       }
@@ -2156,7 +2154,7 @@ var AdManager = function () {
         if (Array.isArray(mapping) === false) {
           throw new Error('Invalid argument: breakpoint:' + breakpoint + ' doesn\'t exist!', this);
         }
-        containsBreakpoint = mapping.length > 0 && !arraysEqual$1(mapping, [[0, 0]]);
+        containsBreakpoint = mapping.length > 0 && !arraysEqual(mapping, [[0, 0]]);
       }
       return containsBreakpoint;
     }
@@ -2190,11 +2188,6 @@ var AdManager = function () {
             }
             _this3.user.impressionManager.registerImpression('' + adSlot$$1.id + _this3.config.department);
             _this3.user.impressionManager.registerImpression(adSlot$$1.id + '_all');
-          } else {
-            /*
-             console.error(`Cannot find an adSlot with id: ${id} - Ad Unit path is
-             ${event.slot.getAdUnitPath()}`);
-             */
           }
         });
       } else {
@@ -2283,7 +2276,7 @@ var AdManager = function () {
     value: function setSsoGroupKey() {
       fetch('/ssoGroupKey?value=' + this.user.sso.userId, {
         method: 'GET',
-        cache: false
+        cache: 'no-cache'
       }).then(function (value) {
         if (value) {
           value.json().then(function (data) {
@@ -2449,11 +2442,10 @@ var AdManager = function () {
   return AdManager;
 }();
 
-/* globals googletag */
 var defaultConfig = dfpConfig || {};
 var resizeTimeout = 250;
 
-var DFP$1 = function () {
+var DFP = function () {
   function DFP(config) {
     _classCallCheck(this, DFP);
 
@@ -2573,10 +2565,10 @@ var DFP$1 = function () {
 }();
 
 // generated by genversion
-var version$1 = '2.4.7';
+var version = '2.4.7';
 
 // DFP version is based on the package.json
-DFP$1.version = version$1 || 'VERSION';
+DFP.version = version || 'VERSION';
 
 /*
  // Only for development mode
@@ -2586,8 +2578,9 @@ DFP$1.version = version$1 || 'VERSION';
  */
 
 var config = dfpConfig;
-var version$$1 = DFP$1.version;
+var version$1 = DFP.version;
 
-export { config, version$$1 as version };export default DFP$1;
+export default DFP;
+export { config, version$1 as version };
 
 //# sourceMappingURL=dfp.es6.js.map

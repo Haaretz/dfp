@@ -497,7 +497,7 @@ export default class AdManager {
   setSsoGroupKey() {
     fetch(`/ssoGroupKey?value=${this.user.sso.userId}`, {
       method: 'GET',
-      cache: false,
+      cache: 'no-cache',
     }).then(value => {
       if (value) {
         value.json().then(data => {
