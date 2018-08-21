@@ -44,12 +44,7 @@ class ConflictResolver {
         // Found rule specific to our target
         if (adSlotRule.avoid === adSlotId) {
           const parentResolvedWith = adSlot.resolvedWith;
-          // Fail fast: parent is not resolved yet - unknown returned size.
-          if (!parentResolvedWith) {
-            isBlocked = true;
-            this.deferredSlots.add(adSlotId);
-          }
-          if (adSlotRule.onsize.split(',').find(sizeString => { // eslint-disable-line
+          if (parentResolvedWith && adSlotRule.onsize.split(',').find(sizeString => { // eslint-disable-line
             const size = sizeString.split('x').map(numberStr => parseInt(numberStr, 10));
             return this.arraysEqual(size, parentResolvedWith);
           })) {
