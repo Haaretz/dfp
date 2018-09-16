@@ -607,6 +607,12 @@ export default class AdManager {
         const anonymousIdKeyName = 'anonymousIdKey';
         pubads.setTargeting(anonymousIdKeyName, this.config.anonymousId);
       }
+
+      const cityNames = this.getCityNames();
+      if (cityNames) {
+        pubads.setTargeting('cityName', [...cityNames]);
+      }
+
       // Ads Centering
       pubads.setCentering(true);
     }
@@ -658,4 +664,16 @@ export default class AdManager {
       throw new Error('googletag api wasn\'t ready when \'initGoogleGlobalSettings\' was called!');
     }
   }
+
+
+  getCityNames() {
+    const cityNames = [];
+    document.querySelectorAll('[data-location-city-name]').forEach((element) => {
+      if (!cityNames.includes(element.dataset.locationCityName)) {
+        cityNames.push(element.dataset.locationCityName);
+      }
+    });
+    return cityNames.length > 0 ? cityNames : null;
+  }
+
 }
