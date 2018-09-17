@@ -2316,7 +2316,8 @@ var AdManager = function () {
         if (this.config.environment) {
           pubads.setTargeting('stg', [this.config.environment]);
         }
-
+        // App targeting
+        pubads.setTargeting('react', [true]);
         // User targeting
         if (this.user.type) {
           pubads.setTargeting('UserType', [this.user.type]);
