@@ -180,7 +180,7 @@ const dfpConfig = Object.assign({
     try {
       if (isSmartphoneapp) {
         // eslint-disable-line no-underscore-dangle
-        if (!cookieMap || !(cookieMap.NotPayer || cookieMap.HtzPusr)) {
+        if (cookieMap && cookieMap.HtzPusr) {
           validForAds = false;
         }
       }
