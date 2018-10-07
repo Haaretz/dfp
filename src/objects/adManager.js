@@ -317,6 +317,9 @@ export default class AdManager {
   }
 
   testShouldSendRequestToDfp(id) {
+    if (!this.adSlots.has(id)) {
+      return `id not exist: ${id}`;
+    }
     const a = this.adSlots.get(id);
     let res = '';
     res += this.conflictResolver.isBlocked(a.id) === !1 ? '' : 'isBlocked,';
@@ -331,7 +334,9 @@ export default class AdManager {
     let cookieMap = getCookieAsMap();
     cookieMap = JSON.stringify(cookieMap);
     cookieMap = cookieMap.replace(/,/g, '<br>');
-    res = `<div>${id}<br>${res}<br>${cookieMap}<br><br></div>`;
+    res = `<div>${id}<br>${res}<br><br>${cookieMap}<br><br></div>`;
+    document.write(res);
+    return 'success!!!';
   }
 
   shouldDisplayAdAfterAdBlockRemoval(adSlot) {
