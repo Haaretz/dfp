@@ -556,9 +556,6 @@ export default class AdManager {
       // App targeting
       pubads.setTargeting('react', [false]);
       // User targeting
-      if (this.user.type) {
-        pubads.setTargeting('UserType', [this.user.type]);
-      }
       if (this.user.htz_type) {
         pubads.setTargeting('htz_user_type', [this.user.htz_type]);
       }
