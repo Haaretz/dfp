@@ -7,6 +7,7 @@ export const userTypes = {
   registered: 'registered',
   anonymous: 'anonymous',
   trial: 'trial',
+  guest: 'reg_guest',
 };
 
 export const productTypes = {
@@ -59,6 +60,11 @@ export default class User {
         }
         else {
           userType = this.getHtzTmUserType(userProducts, productType);
+        }
+        if (userType === userTypes.registered &&
+          cookieMap[this.ssoKey].firstName === 'guest' &&
+          cookieMap[this.ssoKey].lastName === 'guest') {
+          userType = userTypes.guest;
         }
       }
     }
@@ -120,4 +126,6 @@ export default class User {
   getUserSSO(cookieMap, ssoKey) {
     return cookieMap[ssoKey];
   }
+
+
 }
