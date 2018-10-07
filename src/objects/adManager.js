@@ -316,27 +316,35 @@ export default class AdManager {
       this.user.impressionManager.reachedQuota(adSlot.id) === false;
   }
 
-  testShouldSendRequestToDfp(id) {
-    if (!this.adSlots.has(id)) {
-      return `id not exist: ${id}`;
-    }
-    const a = this.adSlots.get(id);
+  printShouldSendRequestToDfp(id) {
     let res = '';
-    res += this.conflictResolver.isBlocked(a.id) === !1 ? '' : 'isBlocked,';
-    res += a.isWhitelisted() ? '' : 'isWhitelisted,';
-    res += a.isBlacklisted() === !1 ? '' : 'isBlacklisted,';
-    res += this.shouldDisplayAdAfterAdBlockRemoval(a) ? '' : 'AdBlockRemoval,';
-    res += this.shouldDisplayAdMaavaronAfterPayWallBanner(a) ? '' : 'PayWallBanner,';
-    res += this.doesBreakpointContainAd(a) ? '' : 'Breakpoint,';
-    res += this.haveValidCookieForSmartphoneapp() ? '' : 'Smartphoneapp,';
-    res += this.doesUserTypeMatchBannerTargeting(a) ? '' : 'Targeting,';
-    res += this.user.impressionManager.reachedQuota(a.id) === !1 ? '' : 'reachedQuota,';
+    if (!this.adSlots.has(id)) {
+      res = `id not exist: ${id}`;
+    }
+    else {
+      const a = this.adSlots.get(id);
+      res += this.conflictResolver.isBlocked(a.id) === !1 ? '' : 'isBlocked,';
+      res += a.isWhitelisted() ? '' : 'isWhitelisted,';
+      res += a.isBlacklisted() === !1 ? '' : 'isBlacklisted,';
+      res += this.shouldDisplayAdAfterAdBlockRemoval(a) ? '' : 'AdBlockRemoval,';
+      res += this.shouldDisplayAdMaavaronAfterPayWallBanner(a) ? '' : 'PayWallBanner,';
+      res += this.doesBreakpointContainAd(a) ? '' : 'Breakpoint,';
+      res += this.haveValidCookieForSmartphoneapp() ? '' : 'Smartphoneapp,';
+      res += this.doesUserTypeMatchBannerTargeting(a) ? '' : 'Targeting,';
+      res += this.user.impressionManager.reachedQuota(a.id) === !1 ? '' : 'reachedQuota,';
+      res = `<div>${id}<br>${res}</div>`;
+    }
+    document.write(res);
+    return res;
+  }
+
+  printCookieMap() {
     let cookieMap = getCookieAsMap();
     cookieMap = JSON.stringify(cookieMap);
     cookieMap = cookieMap.replace(/,/g, '<br>');
-    res = `<div>${id}<br>${res}<br><br>${cookieMap}<br><br></div>`;
+    const res = `<div>${cookieMap}</div>`;
     document.write(res);
-    return 'success!!!';
+    return res;
   }
 
   shouldDisplayAdAfterAdBlockRemoval(adSlot) {
