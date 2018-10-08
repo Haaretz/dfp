@@ -2370,7 +2370,7 @@ var AdManager = function () {
         }
         if (this.config.articleId) {
           pubads.setTargeting('articleId', [this.config.articleId]);
-          pubads.setTargeting('react', [false]);
+          pubads.setTargeting('react', ['false']);
         }
         if (this.config.gStatCampaignNumber && this.config.gStatCampaignNumber !== -1) {
           pubads.setTargeting('gstat_campaign_id', [this.config.gStatCampaignNumber]);
