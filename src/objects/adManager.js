@@ -338,7 +338,8 @@ export default class AdManager {
     return res;
   }
 
-  printCookieMap() {
+  testShouldSendRequestToDfp(id) {
+    // leave the old name for ios legacy
     let cookieMap = getCookieAsMap();
     cookieMap = JSON.stringify(cookieMap);
     cookieMap = cookieMap.replace(/,/g, '<br>');
@@ -532,7 +533,8 @@ export default class AdManager {
     }).then(value => {
       if (value) {
         value.json().then(data => {
-          if (data && data.result && data.result !== 'item not found' && data.result !== 'value is empty') {
+          if (data && data.result && data.result !== 'item not found'
+            && data.result !== 'value is empty') {
             localStorage.setItem('_SsoGroupKey', data.result);
           }
         });
@@ -562,7 +564,6 @@ export default class AdManager {
         pubads.setTargeting('stg', [this.config.environment]);
       }
       // App targeting
-      pubads.setTargeting('react', [false]);
       // User targeting
       if (this.user.htz_type) {
         pubads.setTargeting('htz_user_type', [this.user.htz_type]);
@@ -573,13 +574,6 @@ export default class AdManager {
       if (this.user.hdc_type) {
         pubads.setTargeting('hdc_user_type', [this.user.hdc_type]);
       }
-      if (this.user.age) {
-        pubads.setTargeting('age', [this.user.age]);
-      }
-      if (this.user.gender) {
-        pubads.setTargeting('urgdr', [this.user.gender]);
-      }
-
       // Context targeting
       if (this.config.section) {
         pubads.setTargeting('section', [this.config.section]);
@@ -603,21 +597,6 @@ export default class AdManager {
       if (this.config.isWriterAlerts) {
         pubads.setTargeting('WriterAlerts', ['true']);
       }
-      // UTM targeting
-      /* eslint-disable no-underscore-dangle */
-      if (this.config.utm_.content) {
-        pubads.setTargeting('utm_content', [this.config.utm_.content]);
-      }
-      if (this.config.utm_.source) {
-        pubads.setTargeting('utm_source', [this.config.utm_.source]);
-      }
-      if (this.config.utm_.medium) {
-        pubads.setTargeting('utm_medium', [this.config.utm_.medium]);
-      }
-      if (this.config.utm_.campaign) {
-        pubads.setTargeting('utm_campaign', [this.config.utm_.campaign]);
-      }
-      /* eslint-enable no-underscore-dangle */
       // AdBlock removal
       if (this.config.adBlockRemoved) {
         pubads.setTargeting('adblock_removed', [this.config.adBlockRemoved]);
