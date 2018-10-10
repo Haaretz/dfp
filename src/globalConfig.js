@@ -166,6 +166,9 @@ const dfpConfig = Object.assign({
           wifiLocation = 'university';
         }
       }
+      if (cookieMap && cookieMap.fairs) {
+        wifiLocation = 'fairs';
+      }
     }
     catch (err) {
       // do nothing
@@ -218,7 +221,24 @@ const dfpConfig = Object.assign({
           type = 'mouse_article';
           break;
         default:
-          type = '';
+          if (this.articleId !== '0') {
+            switch (this.domain) {
+              case 'haaretz.co.il':
+                type = 'htz_article';
+                break;
+              case 'haaretz.com':
+                type = 'hdc_article';
+                break;
+              case 'themarker.com':
+                type = 'tm_article';
+                break;
+              default:
+                type = '';
+            }
+          }
+          else {
+            type = '';
+          }
       }
     }
     catch (err) {

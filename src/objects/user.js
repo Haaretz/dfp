@@ -27,9 +27,9 @@ export default class User {
       this.ssoKey = this.ssoKey === 'tmsso' ? 'engsso' : 'tmsso';
     }
     this.type = this.getUserType(cookieMap);
-    this.htz_type = this.getUserTypeByProduct(cookieMap, productTypes.htz);
-    this.tm_type = this.getUserTypeByProduct(cookieMap, productTypes.tm);
-    this.hdc_type = this.getUserTypeByProduct(cookieMap, productTypes.hdc);
+    this.htz_type = this.getUserTypeByProduct(cookieMap, productTypes.htz, 'tmsso');
+    this.tm_type = this.getUserTypeByProduct(cookieMap, productTypes.tm, 'tmsso');
+    this.hdc_type = this.getUserTypeByProduct(cookieMap, productTypes.hdc, 'engsso');
     this.impressionManager = new ImpressionManager(config.impressionManagerConfig);
     this.age = this.getUserAge(cookieMap);
     this.gender = this.getUserGender(cookieMap);
@@ -49,9 +49,9 @@ export default class User {
   }
 
 
-  getUserTypeByProduct(cookieMap, productType) {
+  getUserTypeByProduct(cookieMap, productType, ssoKey) {
     let userType = userTypes.anonymous;
-    if (cookieMap && cookieMap[this.ssoKey]) {
+    if (cookieMap && cookieMap[ssoKey]) {
       if (cookieMap.userProducts) {
         let userProducts = decodeURIComponent(cookieMap.userProducts);
         userProducts = JSON.parse(userProducts);
@@ -62,8 +62,8 @@ export default class User {
           userType = this.getHtzTmUserType(userProducts, productType);
         }
         if (userType === userTypes.registered &&
-          cookieMap[this.ssoKey].firstName === 'guest' &&
-          cookieMap[this.ssoKey].lastName === 'guest') {
+          cookieMap[ssoKey].firstName === 'guest' &&
+          cookieMap[ssoKey].lastName === 'guest') {
           userType = userTypes.guest;
         }
       }
