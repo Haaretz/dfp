@@ -242,8 +242,7 @@ var dfpConfig = Object.assign({
           wifiLocation = 'university';
         }
       }
-      cookieName = 'GA_Conference';
-      if (cookieMap && cookieMap[cookieName]) {
+      if (cookieMap && cookieMap.fairs) {
         wifiLocation = 'fairs';
       }
     } catch (err) {

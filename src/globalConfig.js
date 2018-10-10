@@ -155,7 +155,7 @@ const dfpConfig = Object.assign({
   },
   get wifiLocation() {
     let wifiLocation;
-    let cookieName = '_htzwif'; // eslint-disable-line no-underscore-dangle
+    const cookieName = '_htzwif'; // eslint-disable-line no-underscore-dangle
     const cookieMap = getCookieAsMap();
     try {
       if (cookieMap && cookieMap[cookieName]) {
@@ -166,8 +166,7 @@ const dfpConfig = Object.assign({
           wifiLocation = 'university';
         }
       }
-      cookieName = 'GA_Conference';
-      if (cookieMap && cookieMap[cookieName]) {
+      if (cookieMap && cookieMap.fairs) {
         wifiLocation = 'fairs';
       }
     }
