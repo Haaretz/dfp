@@ -155,7 +155,7 @@ const dfpConfig = Object.assign({
   },
   get wifiLocation() {
     let wifiLocation;
-    const cookieName = '_htzwif'; // eslint-disable-line no-underscore-dangle
+    let cookieName = '_htzwif'; // eslint-disable-line no-underscore-dangle
     const cookieMap = getCookieAsMap();
     try {
       if (cookieMap && cookieMap[cookieName]) {
@@ -165,6 +165,10 @@ const dfpConfig = Object.assign({
         if (cookieMap[cookieName].toLowerCase() === 'university') {
           wifiLocation = 'university';
         }
+      }
+      cookieName = 'GA_Conference';
+      if (cookieMap && cookieMap[cookieName]) {
+        wifiLocation = 'fairs';
       }
     }
     catch (err) {
@@ -218,7 +222,24 @@ const dfpConfig = Object.assign({
           type = 'mouse_article';
           break;
         default:
-          type = '';
+          if (this.articleId !== '0') {
+            switch (this.domain) {
+              case 'haaretz.co.il':
+                type = 'htz_article';
+                break;
+              case 'haaretz.com':
+                type = 'hdc_article';
+                break;
+              case 'themarker.com':
+                type = 'tm_article';
+                break;
+              default:
+                type = '';
+            }
+          }
+          else {
+            type = '';
+          }
       }
     }
     catch (err) {
