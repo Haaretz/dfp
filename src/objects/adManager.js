@@ -616,6 +616,9 @@ export default class AdManager {
         const anonymousIdKeyName = 'anonymousIdKey';
         pubads.setTargeting(anonymousIdKeyName, this.config.anonymousId);
       }
+      if (this.user.country) {
+        pubads.setTargeting('country', this.user.sso.country);
+      }
 
       const cityNames = this.getCityNames();
       if (cityNames) {
