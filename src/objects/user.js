@@ -34,6 +34,7 @@ export default class User {
     this.age = this.getUserAge(cookieMap);
     this.gender = this.getUserGender(cookieMap);
     this.sso = this.getUserSSO(cookieMap, this.ssoKey);
+    this.country = this.getUserCountry();
   }
 
   getUserType(cookieMap) {
@@ -125,6 +126,25 @@ export default class User {
 
   getUserSSO(cookieMap, ssoKey) {
     return cookieMap[ssoKey];
+  }
+
+  getUserCountry() {
+    const country = window.localStorage.getItem('country');
+    if (!country) {
+      fetch('https://ipinfo.io', {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/jsonp',
+        },
+      }).then(
+        resp => resp.json().then(data => {
+          window.localStorage.setItem('country', data.country);
+        }),
+        err => console.error(err)
+      );
+      return null;
+    }
+    return country;
   }
 
 
