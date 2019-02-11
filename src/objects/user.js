@@ -131,21 +131,20 @@ export default class User {
   getUserCountry() {
     const country = window.localStorage.getItem('country');
     if (!country) {
-      fetch('https://ipinfo.io', {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/jsonp',
-        },
-      }).then(
-        resp => resp.json().then(data => {
-          window.localStorage.setItem('country', data.country);
-        }),
-        err => console.error(err)
-      );
+      // fetch('https://ipinfo.io', {
+      //   headers: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/jsonp',
+      //   },
+      // }).then(resp => resp.json())
+      //   .then(data => {
+      //     window.localStorage.setItem('country', data.country);
+      //   },
+      //   err => {}
+      // );
       return null;
     }
     return country;
   }
-
 
 }
