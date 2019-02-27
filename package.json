@@ -1,7 +1,7 @@
 {
   "name": "DFP",
   "description": "A DoubleClick for Publishers Implementation",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "license": "MIT",
   "author": {
     "name": "Elia Grady",

@@ -663,12 +663,12 @@ export default class AdManager {
       if (googleGlobalSettings.enableSingleRequest === true) {
         googletag.pubads().enableSingleRequest();
       }
-      if (googleGlobalSettings.enableAsyncRendering === true) {
-        googletag.pubads().enableAsyncRendering();
-      }
-      else {
-        googletag.pubads().enableSyncRendering();
-      }
+      // if (googleGlobalSettings.enableAsyncRendering === true) {
+      //   googletag.pubads().enableAsyncRendering();
+      // }
+      // else {
+      //   googletag.pubads().enableSyncRendering();
+      // }
       // Enables all GPT services that have been defined for ad slots on the page.
       googletag.enableServices();
     }
