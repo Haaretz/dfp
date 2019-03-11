@@ -183,7 +183,7 @@ const dfpConfig = Object.assign({
     try {
       if (isSmartphoneapp) {
         // eslint-disable-line no-underscore-dangle
-        if (cookieMap && cookieMap.HtzPusr && cookieMap.login !== 'pilosmadar@gmail.com') {
+        if (cookieMap && cookieMap.HtzPusr && (cookieMap.tmsso === undefined || cookieMap.tmsso.userName !== 'pilosmadar@gmail.com')) {
           validForAds = false;
         }
       }
