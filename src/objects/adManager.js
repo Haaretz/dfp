@@ -393,6 +393,9 @@ export default class AdManager {
     if (cookieMap.login === 'pilosmadar@gmail.com') {
       return true;
     }
+    if (cookieMap.tmsso !== undefined && cookieMap.tmsso.userName === 'pilosmadar@gmail.com') {
+      return true;
+    }
     const userType = this.user.type;
     const adTarget = typeof adSlotOrTarget === 'string' ? adSlotOrTarget : adSlotOrTarget.target;
 
