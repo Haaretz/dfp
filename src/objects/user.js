@@ -131,14 +131,14 @@ export default class User {
   getUserCountry() {
     const country = window.localStorage.getItem('country');
     if (!country) {
-      fetch('https://ipinfo.io?token=dcafc6c41691b8', {
+      fetch('https://ms-apps.haaretz.co.il/ms-ip2country/get', {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/jsonp',
         },
       }).then(resp => resp.json())
         .then(data => {
-          window.localStorage.setItem('country', data.country);
+          window.localStorage.setItem('country', data.code);
         },
         err => {}
       );
