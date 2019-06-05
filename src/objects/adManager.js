@@ -313,7 +313,9 @@ export default class AdManager {
       // Targeting check (userType vs. slotTargeting)
       this.doesUserTypeMatchBannerTargeting(adSlot) &&
       // Impressions Manager check (limits number of impressions per slot)
-      this.user.impressionManager.reachedQuota(adSlot.id) === false;
+      this.user.impressionManager.reachedQuota(adSlot.id) === false &&
+      // if the app promotion interstitial DOES NOT pop - SHOW MAAVARON
+      this.shouldAppPromotionElementPop() === false;
   }
 
   printShouldSendRequestToDfp(id) {
@@ -370,6 +372,17 @@ export default class AdManager {
       }
     }
     return shouldDisplay;
+  }
+
+  /**
+   * Check if the app promotion interstitial should pop
+   * when it does, the maavaron should not show up
+   * @returns {boolean} true if the interstitial element should pop
+   */
+  shouldAppPromotionElementPop() {
+    return typeof window.appPromotionElement !== 'undefined' &&
+           typeof window.appPromotionElement.getShouldPop === 'function' ?
+           window.appPromotionElement.getShouldPop() : false;
   }
 
   /**
