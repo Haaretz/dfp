@@ -261,6 +261,9 @@ export default class AdManager {
              */
             adSlotInstance.show();
           }
+          else if (adSlotInstance.type === adTypes.maavaron) {
+            window.stopWaitingForMaavaron = true;
+          }
         }
         catch (err) {
           console.error(err); // eslint-disable-line no-console
