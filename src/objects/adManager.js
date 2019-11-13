@@ -630,6 +630,9 @@ export default class AdManager {
       if (cityNames) {
         pubads.setTargeting('cityName', [...cityNames]);
       }
+      if (document.referrer.includes('facebook')) {
+        pubads.setTargeting('referrer', 'facebook');
+      }
 
       // Ads Centering
       pubads.setCentering(true);
